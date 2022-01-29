@@ -1,0 +1,118 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DragonEngineLibrary
+{
+    public struct Vector4
+    {
+        public float x;
+        public float y;
+        public float z;
+        public float w;
+
+        public Vector4(float x, float y, float z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            w = 0;
+        }
+
+        public Vector4(float x, float y, float z, float w)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+        }
+
+        /// <summary>
+        /// Vector4(0,0,0,0)
+        /// </summary>
+        public static Vector4 zero
+        {
+            get
+            {
+                return new Vector4();
+            }
+        }
+
+        /// <summary>
+        /// Vector4(1,1,1,1)
+        /// </summary>
+        public static Vector4 one
+        {
+            get
+            {
+                return new Vector4(1, 1, 1, 1);
+            }
+        }
+
+        /// <summary>
+        /// Up direction.
+        /// </summary>
+        public static Vector4 up
+        {
+            get
+            {
+                return new Vector4(0, 1, 0);
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"({x.ToString("0.00")} {y.ToString("0.00")} {z.ToString("0.00")} {w.ToString("0.00")})";
+        }
+
+        public static Vector4 operator+(Vector4 a, Vector4 b)
+        {
+            Vector4 outVec;
+
+            outVec.x = a.x + b.x;
+            outVec.y = a.y + b.y;
+            outVec.z = a.z + b.z;
+            outVec.w = a.w + b.w;
+
+            return outVec;
+        }
+
+        public static Vector4 operator -(Vector4 a, Vector4 b)
+        {
+            Vector4 outVec;
+
+            outVec.x = a.x - b.x;
+            outVec.y = a.y - b.y;
+            outVec.z = a.z - b.z;
+            outVec.w = a.w - b.w;
+
+            return outVec;
+        }
+
+        public static Vector4 operator *(Vector4 a, Vector4 b)
+        {
+            Vector4 outVec;
+
+            outVec.x = a.x * b.x;
+            outVec.y = a.y * b.y;
+            outVec.z = a.z * b.z;
+            outVec.w = a.w * b.w;
+
+            return outVec;
+        }
+
+        public static Vector4 operator *(Vector4 a, float f)
+        {
+            Vector4 outVec;
+
+            outVec.x = a.x * f;
+            outVec.y = a.y * f;
+            outVec.z = a.z * f;
+            outVec.w = a.w * f;
+
+            return outVec;
+        }
+    }
+}
