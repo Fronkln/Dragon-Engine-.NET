@@ -1,5 +1,6 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
+#include <iostream>
 #include "DotNetTest.h"
 
 
@@ -9,6 +10,8 @@ DWORD WINAPI NetThread(HMODULE hModule)
     AllocConsole();
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
+
+    std::cout << "Starting" << std::endl;
 
     Test();
 

@@ -161,7 +161,7 @@ int Test()
 
     //Change exe path to yours
     //I made this an absolute path because i didnt want to copy files around for each change to my own code tests
-    if (!readBinFile("C:/Users/orhan/source/repos/Y7Internal/DELibrary.NET/bin/Release/DELibrary.NET.exe", ptrBinary, lenBinary))
+    if (!readBinFile("C:/Users/orhan/source/repos/Y7Internal.NET/DELibrary.NET/bin/Release/DELibrary.NET.exe", ptrBinary, lenBinary))
         return -1;
 
     printf(" --- Try to Fetch .NET Framework v2.0 ---\n");

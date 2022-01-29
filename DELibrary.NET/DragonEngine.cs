@@ -28,6 +28,21 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_REGISTER_DE_JOB", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_RegisterJob(IntPtr deleg, DEJob type);
 
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
+
+
+        
+        public static bool IsKeyDown(int virtualKey)
+        {
+            return (GetAsyncKeyState(virtualKey)) == -32767;
+        }
+
+        public static bool IsKeyHeld(int virtualKey)
+        {
+            return (GetAsyncKeyState(virtualKey) & 0x8000) == 0x8000;
+        }
+
 
         //Couldnt figure out creating a console despite calling AllocConsole
         //I'll just print to the existing console i have through a very depressing PInvoke

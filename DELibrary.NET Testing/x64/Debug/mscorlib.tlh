@@ -1,9 +1,9 @@
-﻿// Created by Microsoft (R) C/C++ Compiler Version 14.16.27043.0 (a21ca5e4).
+﻿// Created by Microsoft (R) C/C++ Compiler Version 14.16.27043.0 (2384a232).
 //
-// c:\users\orhan\source\repos\y7internal.net\delibrary.net testing\x64\release\mscorlib.tlh
+// c:\users\orhan\source\repos\y7internal.net\delibrary.net testing\x64\debug\mscorlib.tlh
 //
 // C++ source equivalent of Win32 type library mscorlib.tlb
-// compiler-generated file created 01/30/22 at 01:39:09 - DO NOT EDIT!
+// compiler-generated file created 01/30/22 at 01:25:32 - DO NOT EDIT!
 
 #pragma once
 #pragma pack(push, 8)
@@ -20217,7 +20217,7 @@ ILease : IDispatch
 // Wrapper method implementations
 //
 
-#include "c:\users\orhan\source\repos\y7internal.net\delibrary.net testing\x64\release\mscorlib.tli"
+#include "c:\users\orhan\source\repos\y7internal.net\delibrary.net testing\x64\debug\mscorlib.tli"
 
 } // namespace mscorlib
 

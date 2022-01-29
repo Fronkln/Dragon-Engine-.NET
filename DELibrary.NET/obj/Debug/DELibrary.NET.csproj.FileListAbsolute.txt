@@ -1,0 +1,7 @@
+C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\bin\Debug\DELibrary.NET.exe.config
+C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\bin\Debug\DELibrary.NET.exe
+C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\bin\Debug\DELibrary.NET.pdb
+C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Debug\DELibrary.NET.csprojAssemblyReference.cache
+C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Debug\DELibrary.NET.csproj.CoreCompileInputs.cache
+C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Debug\DELibrary.NET.exe
+C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Debug\DELibrary.NET.pdb
