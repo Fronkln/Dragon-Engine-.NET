@@ -22,26 +22,26 @@ namespace DragonEngineLibrary
             //I will find a solution for it later.
             //You might want to use this function inside a while loop outside of a Update function for consistency
             //ThreadTest maybe?
-            bool isQKeyPressed = DragonEngine.IsKeyDown(81);
+            bool isQKeyPressed = DragonEngine.IsKeyDown(VirtualKey.Q);
 
             //This isn't inconsistent though!
-            bool isQKeyBeingHeld = DragonEngine.IsKeyHeld(81);
+            bool isQKeyBeingHeld = DragonEngine.IsKeyHeld(VirtualKey.Q);
         }
 
         //Do whatever you want here
         static void ThreadTest()
         {
-            DragonEngine.Log("Thread start");
+            DragonEngine.Log("Dragon Engine Library .NET Thread Start");
 
-            //Not doing this will crash the game if you try anything
-            DragonEngine.Initialize();
+            while (!DragonEngine.IsEngineInitialized())
+            {
+                continue;
+            }
 
-            //This function will execute every frame DE does!
-            DragonEngine.RegisterJob(Update, DEJob.Update);
+            DragonEngine.Log("Engine initialized");
+            DragonEngine.InitializeModLibrary("MyTestMod.dll");
+            //  DragonEngine.InitializeModLibrary("Yakuza 7 Online.dll");
 
-            //Create enemy at player position
-            Character player = DragonEngine.GetHumanPlayer();
-            FighterManager.GenerateEnemyFighter(new PoseInfo(player.GetPosCenter(), 31), 0x3C8C, CharacterID.m_kiryu);
         }
 
         // This method will be called by native code inside the target process…

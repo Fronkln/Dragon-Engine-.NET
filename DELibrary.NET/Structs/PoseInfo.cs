@@ -11,18 +11,14 @@ namespace DragonEngineLibrary
     public struct PoseInfo
     {
         [FieldOffset(0)]
-        Vector4 Position;
+        public Vector4 Position;
         [FieldOffset(0x10)]
-        float Angle;
-        //required for CPP matching
-       // private byte[] _padding0;
+        public float Angle;
 
         public PoseInfo(Vector4 pos, float angle)
         {
             Position = pos;
             Angle = angle;
-
-            //_padding0 = new byte[0xC];
         }
     }
 }

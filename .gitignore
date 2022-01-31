@@ -25,7 +25,6 @@
 *.a
 *.lib
 *.pdb
-*.config
 *.bat
 
 # Executables
@@ -37,3 +36,7 @@
 
 *.log
 *.tlog
+
+bin
+obj
+*.cache

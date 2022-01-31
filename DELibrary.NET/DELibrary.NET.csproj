@@ -8,9 +8,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DragonEngineLibrary</RootNamespace>
     <AssemblyName>DELibrary.NET</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,29 +48,63 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Character.cs" />
-    <Compile Include="CharacterBase.cs" />
+    <Compile Include="Attributes.cs" />
+    <Compile Include="Entity\Character.cs" />
+    <Compile Include="Entity\CharacterBase.cs" />
     <Compile Include="Components\ECCharaBaseComponent.cs" />
     <Compile Include="Components\ECGameComponent.cs" />
     <Compile Include="Components\ECMotion.cs" />
     <Compile Include="Components\ECRenderCharacter.cs" />
     <Compile Include="Components\ECRenderMesh.cs" />
     <Compile Include="Components\EntityComponent.cs" />
-    <Compile Include="CTask.cs" />
+    <Compile Include="Entity\CTask.cs" />
     <Compile Include="DEHandles.cs" />
     <Compile Include="DragonEngine.cs" />
-    <Compile Include="EntityBase.cs" />
+    <Compile Include="Entity\EntityBase.cs" />
+    <Compile Include="Entity\Fighter.cs" />
+    <Compile Include="Enums\AssetID.cs" />
+    <Compile Include="Enums\AttachmentCombinationID.cs" />
+    <Compile Include="Enums\AttachmentEquipTemplateID.cs" />
+    <Compile Include="Enums\AttachmentNodeID.cs" />
+    <Compile Include="Enums\BattleCommandSetID.cs" />
+    <Compile Include="Enums\BattleControlType.cs" />
+    <Compile Include="Enums\BattleRPGEnemyID.cs" />
+    <Compile Include="Enums\BehaviorActionID.cs" />
+    <Compile Include="Enums\BehaviorGroupID.cs" />
+    <Compile Include="Enums\BehaviorSetID.cs" />
+    <Compile Include="Enums\CabaretIslandCastID.cs" />
+    <Compile Include="Enums\CharacterAnimalKind.cs" />
+    <Compile Include="Enums\CharacterBagType.cs" />
+    <Compile Include="Enums\CharacterBoneType.cs" />
+    <Compile Include="Enums\CharacterClassID.cs" />
+    <Compile Include="Enums\CharacterHeightID.cs" />
     <Compile Include="Enums\CharacterID.cs" />
+    <Compile Include="Enums\CharacterModelD.cs" />
+    <Compile Include="Enums\CharacterNPCListID.cs" />
+    <Compile Include="Enums\CharacterNPCSetup.cs" />
+    <Compile Include="Enums\CharacterNPCSoldierPersonalDataID.cs" />
+    <Compile Include="Enums\CharacterNPCSpecialTypeID.cs" />
+    <Compile Include="Enums\CharacterNPCTagID.cs" />
+    <Compile Include="Enums\CharacterVoicerID.cs" />
     <Compile Include="Enums\DEJob.cs" />
+    <Compile Include="Enums\FilePortCategory.cs" />
+    <Compile Include="Enums\MissionKindID.cs" />
+    <Compile Include="Enums\MotionFacePattern.cs" />
     <Compile Include="Enums\MotionID.cs" />
+    <Compile Include="Enums\SoundShoeKind.cs" />
+    <Compile Include="Enums\SujimonID.cs" />
+    <Compile Include="Enums\VirtualKey.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="FighterManager.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Entity\FighterManager.cs" />
+    <Compile Include="Entity\GameObject.cs" />
+    <Compile Include="Entity\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneService.cs" />
+    <Compile Include="Structs\CharacterAttributes.cs" />
+    <Compile Include="Structs\EntityUID.cs" />
     <Compile Include="Structs\PoseInfo.cs" />
+    <Compile Include="Structs\PXD.cs" />
     <Compile Include="Structs\Quaternion.cs" />
     <Compile Include="Structs\Vector4.cs" />
   </ItemGroup>
