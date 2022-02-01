@@ -67,7 +67,7 @@ namespace DragonEngineLibrary
             return $"({x.ToString("0.00")} {y.ToString("0.00")} {z.ToString("0.00")} {w.ToString("0.00")})";
         }
 
-        public static Vector4 operator+(Vector4 a, Vector4 b)
+        public static Vector4 operator +(Vector4 a, Vector4 b)
         {
             Vector4 outVec;
 
@@ -113,6 +113,15 @@ namespace DragonEngineLibrary
             outVec.w = a.w * f;
 
             return outVec;
+        }
+
+        public static float Distance(Vector4 a, Vector4 b)
+        {
+            float diff_x = a.x - b.x;
+            float diff_y = a.y - b.y;
+            float diff_z = a.z - b.z;
+            float diff_w = a.w - b.w;
+            return (float)Math.Sqrt(diff_x * diff_x + diff_y * diff_y + diff_z * diff_z + diff_w * diff_w);
         }
     }
 }

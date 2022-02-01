@@ -11,10 +11,14 @@ namespace MyTestMod
         {
             while (true)
             {
-                if (DragonEngine.IsKeyDown(VirtualKey.F))
+                if (DragonEngine.IsKeyDown(VirtualKey.G))
                 {
-                    DragonEngine.Log(FighterManager.GetFighter(0).Character.Attributes.player_id);
-                    DragonEngine.Log(FighterManager.GetFighter(1).Character.Attributes.player_id);
+                    //based on party order
+                    Fighter ichi = FighterManager.GetFighter(0);
+                    Fighter saeko = FighterManager.GetFighter(2);
+
+                    ichi.Character.SetPosCenter(saeko.Character.GetPosCenter());
+                    DragonEngine.Log("Counter result" + BattleTurnManager.ForceCounterCommand(ichi, saeko, RPGSkillID.boss_kiryu_legend_skl_counter_act));
                 }
             }
         }

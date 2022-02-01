@@ -15,6 +15,30 @@ namespace DragonEngineLibrary
         internal static extern IntPtr DELib_EntityHandle_Dereference(uint handle);
     }
 
+    //Used on functions or structures that takes handles as parameters
+    //EntityHandle is a generic class and cannot be marshalled.
+    public class DEHandleMarshal
+    {
+        public uint uid;
+
+        public T ToHandle<T>() where T : CTask, new()
+        {
+            EntityHandle<T> handle = new EntityHandle<T>();
+            handle.UID = uid;
+
+            return handle;
+        }
+
+
+        public static implicit operator DEHandleMarshal(EntityHandle<CTask> handle)
+        {
+            DEHandleMarshal marshal = new DEHandleMarshal();
+            marshal.uid = handle.UID;
+
+            return marshal;
+        }
+    }
+
     public class EntityHandle<T> where T : CTask, new()
     {
         internal uint UID;

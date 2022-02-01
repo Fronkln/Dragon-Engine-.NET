@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
@@ -16,6 +17,9 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_GET_FIGHTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_FighterManager_GetFighter(uint index);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_GETNEARESTENEMY", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_FighterManager_GetNearestEnemy(IntPtr fighterID);
 
         /// <summary>
         /// Create an "enemy" fighter, appearance may only work after transformation is enabled, needs testing.
@@ -35,5 +39,35 @@ namespace DragonEngineLibrary
         {
             return GetFighter(0);
         }
+
+        public static Fighter[] GetAllEnemies()
+        {
+            List<Fighter> enemyFighters = new List<Fighter>();
+
+            //heuteristic, may not be accurate on extreme cases
+            for (uint i = 0; i < 64; i++)
+            {
+                Fighter fighter = GetFighter(i);
+
+                if (fighter.Character.IsValid())
+                    if (fighter.IsEnemy())
+                        enemyFighters.Add(fighter);
+            }
+
+            return enemyFighters.ToArray();
+        }
+
+        /*
+        public static Fighter GetNearestEnemy(FighterID id)
+        {
+            GCHandle idHandle = id.ToGcHandle();
+
+            IntPtr nearest = DELib_FighterManager_GetNearestEnemy((IntPtr)idHandle);
+            idHandle.Free();
+            DragonEngine.Log(nearest.ToString() + " da near");
+
+            return new Fighter(nearest);
+        }
+        */
     }
 }

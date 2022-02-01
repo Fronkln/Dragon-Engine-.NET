@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes.cs" />
+    <Compile Include="Entity\BattleTurnManager.cs" />
     <Compile Include="Entity\Character.cs" />
     <Compile Include="Entity\CharacterBase.cs" />
     <Compile Include="Components\ECCharaBaseComponent.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="DragonEngine.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Entity\Fighter.cs" />
+    <Compile Include="Entity\HActManager.cs" />
     <Compile Include="Enums\AssetID.cs" />
     <Compile Include="Enums\AttachmentCombinationID.cs" />
     <Compile Include="Enums\AttachmentEquipTemplateID.cs" />
@@ -88,9 +90,11 @@
     <Compile Include="Enums\CharacterVoicerID.cs" />
     <Compile Include="Enums\DEJob.cs" />
     <Compile Include="Enums\FilePortCategory.cs" />
+    <Compile Include="Enums\ItemID.cs" />
     <Compile Include="Enums\MissionKindID.cs" />
     <Compile Include="Enums\MotionFacePattern.cs" />
     <Compile Include="Enums\MotionID.cs" />
+    <Compile Include="Enums\RPGSkillID.cs" />
     <Compile Include="Enums\SoundShoeKind.cs" />
     <Compile Include="Enums\SujimonID.cs" />
     <Compile Include="Enums\VirtualKey.cs" />

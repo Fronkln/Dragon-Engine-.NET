@@ -10,13 +10,13 @@ namespace DragonEngineLibrary
     public class CharacterBase : GameObject
     {
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_GETTER_ATTRIBUTES", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr DELib_Character_Base_Getter_Attributes(IntPtr character_base);
+        internal static extern IntPtr DELib_Character_Base_Getter_Attributes(IntPtr character_base);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_GET_MOTION", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr DELib_Character_Base_Get_Motion(IntPtr character_base);
+        internal static extern IntPtr DELib_Character_Base_Get_Motion(IntPtr character_base);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_GET_RENDER", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr DELib_Character_Base_Get_Render(IntPtr character_base);
+        internal static extern IntPtr DELib_Character_Base_Get_Render(IntPtr character_base);
 
 
         /// <summary>
