@@ -39,6 +39,8 @@ namespace DragonEngineLibrary
             }
 
             DragonEngine.Log("Engine initialized");
+
+            //GameDir
             DragonEngine.InitializeModLibrary("MyTestMod.dll");
             //  DragonEngine.InitializeModLibrary("Yakuza 7 Online.dll");
 
