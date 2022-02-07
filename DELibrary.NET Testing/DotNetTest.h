@@ -161,12 +161,12 @@ int Test()
 
     //Change exe path to yours
     //I made this an absolute path because i didnt want to copy files around for each change to my own code tests
-    if (!readBinFile("C:/Users/orhan/source/repos/Y7Internal.NET/DELibrary.NET/bin/Release/DELibrary.NET.exe", ptrBinary, lenBinary))
+    if (!readBinFile("DELibrary.NET.dll", ptrBinary, lenBinary))
         return -1;
 
-    printf(" --- Try to Fetch .NET Framework v2.0 ---\n");
-    ICorRuntimeHost* pRuntimeHost = getCorRtHost_byVersion(L"v2.0.50727");
-    pRuntimeHost = 0;
+    printf(" --- Try to Fetch .NET Framework v4.0 ---\n");
+    ICorRuntimeHost* pRuntimeHost = getCorRtHost_byVersion(L"v4.0.30319");
+    std::cout << "\n Is RuntimeHost null: " << pRuntimeHost << std::endl;
 
     printf("\n --- Enumerate Available CLR Runtime ---\n");
     if (!pRuntimeHost) if ((pRuntimeHost = bruteforce_CLRhost()) == 0)

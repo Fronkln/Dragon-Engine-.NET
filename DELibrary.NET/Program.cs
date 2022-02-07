@@ -8,26 +8,10 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Input;
 
-
 namespace DragonEngineLibrary
 {
     public class MyClass
     {
-        static void Update()
-        {
-
-            //Warning: This function is inconsistent
-            //You might need to press the key a few times for it to work.
-            //This is a problem with attaching to the Update function of the game which does not execute as frequent as the key func
-            //I will find a solution for it later.
-            //You might want to use this function inside a while loop outside of a Update function for consistency
-            //ThreadTest maybe?
-            bool isQKeyPressed = DragonEngine.IsKeyDown(VirtualKey.Q);
-
-            //This isn't inconsistent though!
-            bool isQKeyBeingHeld = DragonEngine.IsKeyHeld(VirtualKey.Q);
-        }
-
         //Do whatever you want here
         static void ThreadTest()
         {
@@ -40,10 +24,24 @@ namespace DragonEngineLibrary
 
             DragonEngine.Log("Engine initialized");
 
-            //GameDir
-            DragonEngine.InitializeModLibrary("MyTestMod.dll");
-            //  DragonEngine.InitializeModLibrary("Yakuza 7 Online.dll");
 
+            if (Directory.Exists("mods"))
+            {
+                foreach (string directory in Directory.GetDirectories("mods"))
+                {
+                    foreach (string dllFile in Directory.GetFiles(directory, "*.dll"))
+                    {
+                        bool loadRes = DragonEngine.InitializeModLibrary(dllFile);
+
+                        if (loadRes)
+                            DragonEngine.Log("Successfully loaded DLL library in " + new DirectoryInfo(directory).Name);
+                    }
+                }
+            }
+
+            DragonEngine.Log("\n\nAll mods have been initialized.");
+
+            while (true) { }
         }
 
         // This method will be called by native code inside the target process…
@@ -57,6 +55,8 @@ namespace DragonEngineLibrary
             //Create seperate thread for our C# library
             Thread thread1 = new Thread(ThreadTest);
             thread1.Start();
+
+            DragonEngine.RegisterJob(DragonEngine.LibraryRenderUpdate, DEJob.Update);
         }
     }
 }

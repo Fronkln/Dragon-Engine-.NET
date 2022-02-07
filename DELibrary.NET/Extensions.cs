@@ -8,7 +8,10 @@ namespace DragonEngineLibrary
     {
         public static IntPtr ToIntPtr(this object target)
         {
-            return GCHandle.Alloc(target).ToIntPtr();
+            IntPtr allocedObj = Marshal.AllocHGlobal(Marshal.SizeOf(target));
+            Marshal.StructureToPtr(target, allocedObj, false);
+
+            return allocedObj;
         }
 
         public static GCHandle ToGcHandle(this object target)

@@ -15,8 +15,7 @@ namespace DragonEngineLibrary
         internal static MemoryStream _logStream;
 
         public delegate void RegisterJobDelegate();
-        internal static List<RegisterJobDelegate> _delegates = new List<RegisterJobDelegate>();
-
+        internal static List<RegisterJobDelegate> _jobDelegates = new List<RegisterJobDelegate>();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_INIT", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_Init();
@@ -65,7 +64,7 @@ namespace DragonEngineLibrary
         public static void RegisterJob(Action action, DEJob jobID)
         {
             RegisterJobDelegate del = new RegisterJobDelegate(action);
-            _delegates.Add(del);
+            _jobDelegates.Add(del);
 
             DELib_RegisterJob(Marshal.GetFunctionPointerForDelegate(del), jobID);
 
@@ -92,9 +91,16 @@ namespace DragonEngineLibrary
             }
         }
 
+        //Same as GetSceneEntity(SceneEntity.human_player)
         public static EntityHandle<Character> GetHumanPlayer()
         {
             return DELib_GetHumanPlayer();
+        }
+
+        public static void LibraryRenderUpdate()
+        {
+            if (Advanced.DXHook.DELibrary_DXHook_GetWantHook())
+                Advanced.ImGui.InitLib();
         }
 
         internal static bool InitializeModLibrary(string path)
@@ -103,7 +109,11 @@ namespace DragonEngineLibrary
                 return false;
 
             if (!File.Exists(path))
+            {
+                Log(Directory.GetCurrentDirectory());
+                Log(path + " does not exist.");
                 return false;
+            }
 
             try
             {
@@ -115,10 +125,10 @@ namespace DragonEngineLibrary
                     if (dat.AttributeType.FullName == typeof(DEModInfo).FullName) // type comparing didnt work. so we compare names
                     {
                         ProcessDEMod(dat.ConstructorArguments);
-                        break;
+                        return true;
                     }
 
-                return true;
+                return false;
             }
             catch (Exception ex)
             {

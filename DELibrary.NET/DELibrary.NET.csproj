@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DragonEngineLibrary</RootNamespace>
     <AssemblyName>DELibrary.NET</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -33,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>true</RegisterForComInterop>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -48,8 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Advanced\DXHook.cs" />
+    <Compile Include="Advanced\ImGui.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="Entity\AuthManager.cs" />
+    <Compile Include="Entity\AuthPlay.cs" />
+    <Compile Include="Entity\AuthPlayBase.cs" />
     <Compile Include="Entity\BattleTurnManager.cs" />
+    <Compile Include="Entity\BulletManager.cs" />
     <Compile Include="Entity\Character.cs" />
     <Compile Include="Entity\CharacterBase.cs" />
     <Compile Include="Components\ECCharaBaseComponent.cs" />
@@ -58,12 +65,24 @@
     <Compile Include="Components\ECRenderCharacter.cs" />
     <Compile Include="Components\ECRenderMesh.cs" />
     <Compile Include="Components\EntityComponent.cs" />
+    <Compile Include="Entity\CharacterManager.cs" />
     <Compile Include="Entity\CTask.cs" />
     <Compile Include="DEHandles.cs" />
     <Compile Include="DragonEngine.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Entity\Fighter.cs" />
     <Compile Include="Entity\HActManager.cs" />
+    <Compile Include="Entity\NPCFactory.cs" />
+    <Compile Include="Entity\SceneBase.cs" />
+    <Compile Include="Entity\Services\DEService.cs" />
+    <Compile Include="Entity\Services\SceneService.cs" />
+    <Compile Include="Enums\AIActGroupID.cs" />
+    <Compile Include="Enums\AIActKindID.cs" />
+    <Compile Include="Enums\AIBtlReactionPatternID.cs" />
+    <Compile Include="Enums\AICommandID.cs" />
+    <Compile Include="Enums\AIDisposeID.cs" />
+    <Compile Include="Enums\AIPackID.cs" />
+    <Compile Include="Enums\AIParamID.cs" />
     <Compile Include="Enums\AssetID.cs" />
     <Compile Include="Enums\AttachmentCombinationID.cs" />
     <Compile Include="Enums\AttachmentEquipTemplateID.cs" />
@@ -82,8 +101,12 @@
     <Compile Include="Enums\CharacterHeightID.cs" />
     <Compile Include="Enums\CharacterID.cs" />
     <Compile Include="Enums\CharacterModelD.cs" />
+    <Compile Include="Enums\CharacterNPCBehaviorTurnActionID.cs" />
+    <Compile Include="Enums\CharacterNPCFirstDisplayType.cs" />
     <Compile Include="Enums\CharacterNPCListID.cs" />
+    <Compile Include="Enums\CharacterNPCLookParamID.cs" />
     <Compile Include="Enums\CharacterNPCSetup.cs" />
+    <Compile Include="Enums\CharacterNPCSoldierPersonalDataGroupID.cs" />
     <Compile Include="Enums\CharacterNPCSoldierPersonalDataID.cs" />
     <Compile Include="Enums\CharacterNPCSpecialTypeID.cs" />
     <Compile Include="Enums\CharacterNPCTagID.cs" />
@@ -91,31 +114,41 @@
     <Compile Include="Enums\DEJob.cs" />
     <Compile Include="Enums\FilePortCategory.cs" />
     <Compile Include="Enums\ItemID.cs" />
+    <Compile Include="Enums\MapIconID.cs" />
     <Compile Include="Enums\MissionKindID.cs" />
     <Compile Include="Enums\MotionFacePattern.cs" />
     <Compile Include="Enums\MotionID.cs" />
+    <Compile Include="Enums\ParticleID.cs" />
     <Compile Include="Enums\RPGSkillID.cs" />
+    <Compile Include="Enums\SceneEntity.cs" />
     <Compile Include="Enums\SoundShoeKind.cs" />
     <Compile Include="Enums\SujimonID.cs" />
+    <Compile Include="Enums\TalkParamID.cs" />
+    <Compile Include="Enums\TriggerID.cs" />
     <Compile Include="Enums\VirtualKey.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Entity\FighterManager.cs" />
     <Compile Include="Entity\GameObject.cs" />
     <Compile Include="Entity\Player.cs" />
+    <Compile Include="MarshallingTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SceneService.cs" />
+    <Compile Include="Third Party\RMM.cs" />
+    <Compile Include="Structs\AIUtil.cs" />
     <Compile Include="Structs\CharacterAttributes.cs" />
     <Compile Include="Structs\EntityUID.cs" />
+    <Compile Include="Structs\NPCMaterial.cs" />
+    <Compile Include="Structs\NPCRequestMaterial.cs" />
     <Compile Include="Structs\PoseInfo.cs" />
     <Compile Include="Structs\PXD.cs" />
     <Compile Include="Structs\Quaternion.cs" />
+    <Compile Include="Structs\SceneHolder.cs" />
+    <Compile Include="Structs\Vector3.cs" />
     <Compile Include="Structs\Vector4.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Binary\Retail\Y7Internal.dll" />
     <Content Include="Binary\Special Build\Y7Internal.dll" />

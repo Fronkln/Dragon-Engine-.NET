@@ -44,6 +44,16 @@ namespace DragonEngineLibrary
             }
         }
 
+        /// <summary>
+        /// Advanced 
+        /// </summary>
+        public IntPtr Pointer
+        {
+            get
+            {
+                return _objectAddress;
+            }
+        }
 
         /// <summary>
         /// Is this object valid? (UID is not zero + UID dereferencing points to a valid memory address)

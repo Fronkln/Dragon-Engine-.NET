@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
 {
+    
+    [StructLayout(LayoutKind.Sequential, Size = 0x10)]
     public struct Vector4
     {
         public float x;
@@ -65,6 +64,21 @@ namespace DragonEngineLibrary
         public override string ToString()
         {
             return $"({x.ToString("0.00")} {y.ToString("0.00")} {z.ToString("0.00")} {w.ToString("0.00")})";
+        }
+
+        public static implicit operator Vector4(Vector3 vec3)
+        {
+            return new Vector4(vec3.x, vec3.y, vec3.z);
+        }
+
+        public static Vector4 Lerp(Vector4 a, Vector4 b, float t)
+        {
+            return new Vector4(
+                a.x + (b.x - a.x) * t,
+                a.y + (b.y - a.y) * t,
+                a.z + (b.z - a.z) * t,
+                a.w + (b.w - a.w) * t
+            );
         }
 
         public static Vector4 operator +(Vector4 a, Vector4 b)

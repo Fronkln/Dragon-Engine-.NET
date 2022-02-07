@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
 {
-    [StructLayout(LayoutKind.Explicit, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Pack = 8, Size = 16)]
     public struct EntityUID
     {
         [FieldOffset(0x0)]

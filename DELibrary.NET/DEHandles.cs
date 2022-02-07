@@ -17,8 +17,10 @@ namespace DragonEngineLibrary
 
     //Used on functions or structures that takes handles as parameters
     //EntityHandle is a generic class and cannot be marshalled.
+    [StructLayout(LayoutKind.Explicit, Size = 4)]
     public class DEHandleMarshal
     {
+        [FieldOffset(0x0)]
         public uint uid;
 
         public T ToHandle<T>() where T : CTask, new()
@@ -39,9 +41,12 @@ namespace DragonEngineLibrary
         }
     }
 
-    public class EntityHandle<T> where T : CTask, new()
+    public struct EntityHandle<T> where T : CTask, new()
     {
-        internal uint UID;
+        /// <summary>
+        /// Don't change if you don't know what you are doing
+        /// </summary>
+        public uint UID;
 
         /// <summary>
         /// Get the reference to the entity from this handle.
