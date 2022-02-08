@@ -23,8 +23,14 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_IS_ENGINE_INITIALIZED", CallingConvention = CallingConvention.Cdecl)]
         private static extern bool DELib_IsEngineInitialized();
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_REFRESH_OFFSETS", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void DELib_RefreshOffsets();
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_GET_DELTATIME", CallingConvention = CallingConvention.Cdecl)]
         private static extern float DELib_GetDeltaTime();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_SET_SPEED", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void DELib_SetSpeed(DESpeedType speedType, float speed);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_HUMAN_PLAYER", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_GetHumanPlayer();
@@ -91,6 +97,11 @@ namespace DragonEngineLibrary
             }
         }
 
+        public static void SetSpeed(DESpeedType speedType, float speed)
+        {
+            DELib_SetSpeed(speedType, speed);
+        }
+
         //Same as GetSceneEntity(SceneEntity.human_player)
         public static EntityHandle<Character> GetHumanPlayer()
         {
@@ -99,6 +110,8 @@ namespace DragonEngineLibrary
 
         public static void LibraryRenderUpdate()
         {
+            DELib_RefreshOffsets();
+
             if (Advanced.DXHook.DELibrary_DXHook_GetWantHook())
                 Advanced.ImGui.InitLib();
         }

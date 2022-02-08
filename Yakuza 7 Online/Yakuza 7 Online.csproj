@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DearImguiSharp, Version=1.83.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\DearImguiSharp-master\DearImguiSharp\bin\Release\net461\DearImguiSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Facepunch.Steamworks.Win64">
       <HintPath>Libraries\Facepunch.Steamworks.Win64.dll</HintPath>
     </Reference>

@@ -4,8 +4,6 @@ using System.Threading;
 using DragonEngineLibrary;
 using Steamworks;
 using Steamworks.Data;
-using DearImguiSharp;
-
 namespace Y7MP
 {
     public class Mod : DragonEngineMod
@@ -25,7 +23,8 @@ namespace Y7MP
 
                     if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
                     {
-                        DragonEngineLibrary.Advanced.ImGui.Init();
+                        DragonEngine.Log(DragonEngineLibrary.Service.SceneService.CurrentScene.Get().StageID);
+                        FighterManager.GetFighter(0).Character.SetVisible(false, false);
                     }
                 }
                 else
@@ -52,24 +51,8 @@ namespace Y7MP
             }
         }
 
-
-        public static void PresentTest()
-        {           
-            ImVec2 vec = new ImVec2();
-            vec.X = 339;
-            vec.Y = 221;
-
-            bool no = true;
-
-            ImGui.SetNextWindowSize(vec, 4);
-            ImGui.Begin("Yakuza 7: Multiplayer", ref no, 1024);
-            ImGui.End();
-        }
-
         public override void OnModInit()
         {
-
-            DragonEngine.Log(ImGui.GetVersion() + " imgui version");
 
             try
             {
@@ -96,7 +79,6 @@ namespace Y7MP
 
 
                 DragonEngineLibrary.Advanced.ImGui.Init();
-                DragonEngineLibrary.Advanced.ImGui.RegisterUIUpdate(PresentTest);
             }
             catch (Exception ex)
             {

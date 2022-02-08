@@ -8,8 +8,6 @@ namespace DragonEngineLibrary
 {
     public class ECCharaBaseComponent : ECGameComponent
     {
-        private IntPtr _owner;
-
         /// <summary>
         /// Return the owner as base character
         /// </summary>

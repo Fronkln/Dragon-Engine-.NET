@@ -58,6 +58,11 @@ namespace DragonEngineLibrary
             Character._objectAddress = DELib_Fighter_Getter_Character(_ptr);
         }
 
+        public ECBattleStatus GetStatus()
+        {
+            return Character.GetBattleStatus();
+        }
+
         public bool IsPlayer()
         {
             return Character.Attributes.is_player;

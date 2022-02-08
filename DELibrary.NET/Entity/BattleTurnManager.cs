@@ -8,6 +8,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_REQUESTRUNAWAY", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_BattleTurnManager_RequestRunAway(IntPtr fighterPtr, bool success);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_WARPFIGHTER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_BattleTurnManager_WarpFighter(IntPtr fighterPtr, ref PoseInfo inf);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_FORCECOUNTERCOMMAND", CallingConvention = CallingConvention.Cdecl)]
         [return:MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_BattleTurnManager_ForceCounterCommand(IntPtr counterFighter, IntPtr attacker, RPGSkillID skillID);
@@ -20,6 +23,11 @@ namespace DragonEngineLibrary
         public static bool ForceCounterCommand(Fighter counterFighter, Fighter attacker, RPGSkillID skillID)
         {
             return DELib_BattleTurnManager_ForceCounterCommand(counterFighter._ptr, attacker._ptr, skillID);
+        }
+
+        public static void WarpFighter(Fighter fighter, PoseInfo poseInf)
+        {
+            DELib_BattleTurnManager_WarpFighter(fighter._ptr, ref poseInf);
         }
     }
 }

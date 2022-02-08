@@ -8,24 +8,33 @@ namespace HActViewer
     public class Mod : DragonEngineMod
     {
 
+        static volatile AuthPlay currentHAct;
+
+
         public void InputThread()
         {
 
             //A while(true) loop is not dangerous here because it's a seperate thread.
             //It does not block any other functions
+                
             while (true)
             {
-                AuthPlay currentHAct = AuthManager.PlayingScene;
-
-                if (currentHAct.IsValid())
+          
+                if (currentHAct != null && currentHAct.IsValid())
                 {
                     if (DragonEngine.IsKeyHeld(VirtualKey.LeftShift))
                     {
                         if (DragonEngine.IsKeyDown(VirtualKey.P))
-                            currentHAct.SetSpeed(1);
+                        {
+                            DragonEngine.SetSpeed(DESpeedType.General, 0.0000001f);
+                            DragonEngine.SetSpeed(DESpeedType.Character, 0.0000001f);
+                        }
 
                         if (DragonEngine.IsKeyDown(VirtualKey.S))
-                            currentHAct.SetSpeed(0);
+                        {
+                            DragonEngine.SetSpeed(DESpeedType.General, 0.0000001f);
+                            DragonEngine.SetSpeed(DESpeedType.General, 0.0000001f);
+                        }
 
                         if (DragonEngine.IsKeyDown(VirtualKey.T))
                             currentHAct.Restart();
@@ -33,6 +42,7 @@ namespace HActViewer
                 }
 
             }
+            
         }
 
         public override void OnModInit()
@@ -53,10 +63,10 @@ namespace HActViewer
 
         public static void ModDrawUI()
         {
-            AuthPlay currentHAct = AuthManager.PlayingScene;
+            currentHAct = AuthManager.PlayingScene;
 
             //doesnt seem to change anything
-            bool open = currentHAct.IsValid();
+            bool open = AuthManager.PlayingScene.IsValid();
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(300, 300), ImGuiCond.FirstUseEver);
 
             if (open)
@@ -86,6 +96,7 @@ namespace HActViewer
 
         public static void ModUpdate()
         {
+           //currentHAct = AuthManager.PlayingScene;
         }
     }
 }

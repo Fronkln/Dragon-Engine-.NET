@@ -52,6 +52,8 @@
     <Compile Include="Advanced\DXHook.cs" />
     <Compile Include="Advanced\ImGui.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="Components\ECBattleStatus.cs" />
+    <Compile Include="Components\ECCharaComponent.cs" />
     <Compile Include="Entity\AuthManager.cs" />
     <Compile Include="Entity\AuthPlay.cs" />
     <Compile Include="Entity\AuthPlayBase.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Enums\AttachmentNodeID.cs" />
     <Compile Include="Enums\BattleCommandSetID.cs" />
     <Compile Include="Enums\BattleControlType.cs" />
+    <Compile Include="Enums\BattleGroupID.cs" />
     <Compile Include="Enums\BattleRPGEnemyID.cs" />
     <Compile Include="Enums\BehaviorActionID.cs" />
     <Compile Include="Enums\BehaviorGroupID.cs" />
@@ -112,6 +115,7 @@
     <Compile Include="Enums\CharacterNPCTagID.cs" />
     <Compile Include="Enums\CharacterVoicerID.cs" />
     <Compile Include="Enums\DEJob.cs" />
+    <Compile Include="Enums\DESpeedType.cs" />
     <Compile Include="Enums\FilePortCategory.cs" />
     <Compile Include="Enums\ItemID.cs" />
     <Compile Include="Enums\MapIconID.cs" />
@@ -122,6 +126,7 @@
     <Compile Include="Enums\RPGSkillID.cs" />
     <Compile Include="Enums\SceneEntity.cs" />
     <Compile Include="Enums\SoundShoeKind.cs" />
+    <Compile Include="Enums\StageID.cs" />
     <Compile Include="Enums\SujimonID.cs" />
     <Compile Include="Enums\TalkParamID.cs" />
     <Compile Include="Enums\TriggerID.cs" />

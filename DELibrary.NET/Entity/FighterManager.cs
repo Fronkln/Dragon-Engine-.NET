@@ -9,6 +9,9 @@ namespace DragonEngineLibrary
     //Therefore, it makes sense that we make it static
     public static class FighterManager
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_REGISTRATIONFIGHTER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_FighterManager_RegistrationFighter(uint charaUID, BattleGroupID id);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_GENERATEENEMYFIGHTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_FighterManager_GenerateEnemyFighter(ref PoseInfo poseAddr, uint soldier_id, CharacterID appearance);
 
@@ -55,6 +58,11 @@ namespace DragonEngineLibrary
             }
 
             return enemyFighters.ToArray();
+        }
+
+        public static void RegistrationFighter(EntityHandle<Character> chara, BattleGroupID group_id)
+        {
+            DELib_FighterManager_RegistrationFighter(chara.UID, group_id);
         }
 
         /*
