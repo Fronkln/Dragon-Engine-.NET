@@ -58,53 +58,72 @@ namespace DragonEngineLibrary
             Character._objectAddress = DELib_Fighter_Getter_Character(_ptr);
         }
 
+        /// <summary>
+        /// Get the battle component of this fighter.
+        /// </summary>
         public ECBattleStatus GetStatus()
         {
             return Character.GetBattleStatus();
         }
 
+        /// <summary>
+        /// Is the fighter a player?
+        /// </summary>
         public bool IsPlayer()
         {
             return Character.Attributes.is_player;
         }
 
 
-        
-        //TODO, do the calculations from C# instead of calling a native func
-        //When the time comes that is
+
+        /// <summary>
+        /// Is the fighter an enemy?
+        /// </summary>
         public bool IsEnemy()
         {
             return DELib_Fighter_IsEnemy(_ptr);
         }
 
         //might be incorrect?
+        /// <summary>
+        /// Is the fighter an ally?
+        /// </summary>
         public bool IsAlly()
         {
             return !IsPlayer() && !IsEnemy();
         }
         
+        /// <summary>
+        /// Get's the fighter ID of the fighter.
+        /// </summary>
         public FighterID GetID()
         {
 
             FighterID id = new FighterID();
-
-            DragonEngine.Log("CSharp: " + DELib_Fighter_GetID(_ptr));
-            
             id.Handle = DELib_Fighter_GetID(_ptr);
 
             return id;
         }
 
+        /// <summary>
+        /// Equip the specified weapon.
+        /// </summary>
         public bool Equip(AssetID assetid, AttachmentCombinationID combinationid, ItemID itemid, RPGSkillID skillid)
         {
             return DELib_Fighter_Equip(_ptr, assetid, combinationid, itemid, skillid);
         }
 
+        /// <summary>
+        /// Drop weapon if we have any.
+        /// </summary>
         public bool DropWeapon(DropWeaponOption opt)
         {
             return DELib_Fighter_DropWeapon(_ptr, ref opt);
         }
 
+        /// <summary>
+        /// Throw the weapon in our hands if we have any.
+        /// </summary>
         public void ThrowEquipAsset(bool leftHand, bool rightHand)
         {
             DELib_Fighter_ThrowEquipAsset(_ptr, leftHand, rightHand);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,26 @@ namespace DragonEngineLibrary
         internal static StreamWriter _logWriter;
         internal static MemoryStream _logStream;
 
-        public delegate void RegisterJobDelegate();
-        internal static List<RegisterJobDelegate> _jobDelegates = new List<RegisterJobDelegate>();
+        internal delegate void RegisterJobDelegate();
+
+        internal class JobRegisterInfo
+        {
+            public Action funcRaw;
+            public RegisterJobDelegate del;
+            public IntPtr delPointer;
+            public DEJob phase;
+            public bool after;
+
+            public JobRegisterInfo(Action func, RegisterJobDelegate del, IntPtr ptr, DEJob phase, bool after)
+            {
+                this.funcRaw = func;
+                this.del = del;
+                this.phase = phase;
+                delPointer = ptr;
+                this.after = after;
+            }
+        }
+        internal static List<JobRegisterInfo> _jobDelegates = new List<JobRegisterInfo>();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_INIT", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_Init();
@@ -36,7 +55,10 @@ namespace DragonEngineLibrary
         private static extern uint DELib_GetHumanPlayer();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_REGISTER_DE_JOB", CallingConvention = CallingConvention.Cdecl)]
-        private static extern uint DELib_RegisterJob(IntPtr deleg, DEJob type);
+        private static extern uint DELib_RegisterJob(IntPtr deleg, DEJob type, bool after);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UNREGISTER_DE_JOB", CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint DELib_UnregisterJob(IntPtr deleg, DEJob type);
 
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
@@ -46,6 +68,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_TEMP_CPP_COUT", CallingConvention = CallingConvention.Cdecl)]
         private static extern void DELib_TEMP_CPP_COUT(string text);
 
+        /// <summary>
+        /// Initialize Dragon Engine library. Important for it to properly function.
+        /// </summary>
         public static void Initialize()
         {
             DELib_Init();
@@ -64,18 +89,37 @@ namespace DragonEngineLibrary
             string valueStr = value.ToString();
 
             DELib_TEMP_CPP_COUT(valueStr + "\n");
-            File.AppendAllText("dotnetlog.txt", valueStr + "\n");
+           // File.AppendAllText("dotnetlog.txt", valueStr + "\n");
         }
 
-        public static void RegisterJob(Action action, DEJob jobID)
+        /// <summary>
+        /// Register a function that will be executed by Dragon Engine.
+        /// </summary>
+        /// <param name="after">If after is set to true, it will execute after main game functions.</param>
+        public static void RegisterJob(Action action, DEJob jobID, bool after = true)
         {
             RegisterJobDelegate del = new RegisterJobDelegate(action);
-            _jobDelegates.Add(del);
+            JobRegisterInfo inf = new JobRegisterInfo(action, del, Marshal.GetFunctionPointerForDelegate(del), jobID, after);
+            _jobDelegates.Add(inf);
 
-            DELib_RegisterJob(Marshal.GetFunctionPointerForDelegate(del), jobID);
+            DELib_RegisterJob(inf.delPointer, jobID, after);
 
 
             Log("Job for phase " + jobID.ToString() + " registered.");
+        }
+
+        /// <summary>
+        /// Unregister a job that was registered.
+        /// </summary>
+        public static void UnregisterJob(Action func, DEJob phase)
+        {
+           
+            foreach (JobRegisterInfo job in _jobDelegates.ToArray())
+                if (job.phase == phase)
+                    if (job.funcRaw == func)
+                    {
+                        DELib_UnregisterJob(job.delPointer, phase);
+                    }
         }
 
         public static bool IsKeyDown(VirtualKey virtualKey)

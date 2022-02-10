@@ -9,6 +9,9 @@ namespace DragonEngineLibrary
     //Therefore, it makes sense that we make it static
     public static class FighterManager
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_REQUESTREGISTRATIONFIGHTER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_FighterManager_RequestRegistrationFighter(uint charaUID, BattleGroupID id);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_REGISTRATIONFIGHTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_FighterManager_RegistrationFighter(uint charaUID, BattleGroupID id);
 
@@ -33,16 +36,25 @@ namespace DragonEngineLibrary
             return generatedEnemy;
         }
 
+        /// <summary>
+        /// Return the fighter from specified index.
+        /// </summary>
         public static Fighter GetFighter(uint index)
         {
             return new Fighter(DELib_FighterManager_GetFighter(index));
         }
 
+        /// <summary>
+        /// Get the player fighter.
+        /// </summary>
         public static Fighter GetPlayer()
         {
             return GetFighter(0);
         }
 
+        /// <summary>
+        /// Get all enemies.
+        /// </summary>
         public static Fighter[] GetAllEnemies()
         {
             List<Fighter> enemyFighters = new List<Fighter>();
@@ -60,6 +72,17 @@ namespace DragonEngineLibrary
             return enemyFighters.ToArray();
         }
 
+        /// <summary>
+        /// Request a character to be registered as a fighter.
+        /// </summary>
+        public static void RequestRegistrationFighter(EntityHandle<Character> chara, BattleGroupID group_id)
+        {
+            DELib_FighterManager_RequestRegistrationFighter(chara.UID, group_id);
+        }
+
+        /// <summary>
+        /// Use RequestRegistrationFighter instead
+        /// </summary>
         public static void RegistrationFighter(EntityHandle<Character> chara, BattleGroupID group_id)
         {
             DELib_FighterManager_RegistrationFighter(chara.UID, group_id);

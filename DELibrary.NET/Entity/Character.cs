@@ -5,6 +5,9 @@ namespace DragonEngineLibrary
 {
     public class Character : CharacterBase
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_COMPONENTS", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_Getter_Components(IntPtr chara);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GET_BATTLESTATUS", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Get_BattleStatus(IntPtr chara);
 
@@ -19,6 +22,18 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_REQUEST_WARP_POSE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Character_RequestWarpPose(IntPtr chara, ref PoseInfo inf);
+
+        /// <summary>
+        /// Common components of a character
+        /// </summary>
+        public CharacterComponents Components
+        {
+            get
+            {
+                return new CharacterComponents(DELib_Character_Getter_Components(_objectAddress));
+            }
+        }
+
 
         public float GetAngleY()
         {
@@ -35,11 +50,17 @@ namespace DragonEngineLibrary
             DELib_Character_RequestWarpPose(_objectAddress, ref inf);
         }
 
+        /// <summary>
+        /// Get the fighter object of this character if it's fighting.
+        /// </summary>
         public Fighter GetFighter()
         {
             return new Fighter(DELib_Character_GetFighter(_objectAddress));
         }
 
+        /// <summary>
+        /// Get the battle component of this character.
+        /// </summary>
         public ECBattleStatus GetBattleStatus()
         {
             IntPtr addr = DELib_Character_Get_BattleStatus(_objectAddress);

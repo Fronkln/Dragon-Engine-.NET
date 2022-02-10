@@ -48,11 +48,14 @@ namespace DragonEngineLibrary
         public static void Main(string[] args)
         {
             //Initialize logging file
-            File.Create("dotnetlog.txt").Close();
-            DragonEngine._logStream = new MemoryStream();
-            DragonEngine._logWriter = new StreamWriter(DragonEngine._logStream);
+            //File.Create("dotnetlog.txt").Close();
+            // DragonEngine._logStream = new MemoryStream();
+            // DragonEngine._logWriter = new StreamWriter(DragonEngine._logStream);
 
             //Create seperate thread for our C# library
+
+            DragonEngine.Log("DragonEngine Library .Net Main Start");
+
             Thread thread1 = new Thread(ThreadTest);
             thread1.Start();
 

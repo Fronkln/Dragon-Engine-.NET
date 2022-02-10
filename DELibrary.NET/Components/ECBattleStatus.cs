@@ -3,9 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
 {
-    /// <summary>
-    /// N
-    /// </summary>
     public class ECBattleStatus : ECCharaComponent
     {
 

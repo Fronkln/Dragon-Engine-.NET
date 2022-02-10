@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
 {
+    [StructLayout(LayoutKind.Sequential)]
     public struct Quaternion
     {
         public float x;
@@ -28,6 +25,11 @@ namespace DragonEngineLibrary
             this.y = y;
             this.z = z;
             this.w = w;
+        }
+
+        public override string ToString()
+        {
+            return $"({x.ToString("0.00")} {y.ToString("0.00")} {z.ToString("0.00")} {w.ToString("0.00")})";
         }
     }
 }

@@ -12,6 +12,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_RENDER_CHARACTER_RELOAD", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr DELib_ECRenderCharacter_Reload(IntPtr renderCharacter, CharacterID chara_id, byte bank_mask, bool is_preload, bool is_change_chara_id);
 
+
+        /// <summary>
+        /// Reload the mesh with specified character id.
+        /// </summary>
         public void Reload(CharacterID chara_id, byte bank_mask = 0x1, bool is_change_chara_id = true)
         {
             DELib_ECRenderCharacter_Reload(_objectAddress, chara_id, bank_mask, false, is_change_chara_id);

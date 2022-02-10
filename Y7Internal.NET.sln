@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HActViewer", "HActViewer\HA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImGui.NET", "ImGui.NET-master\ImGui.NET-master\src\ImGui.NET\ImGui.NET.csproj", "{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMod", "TestMod\TestMod.csproj", "{36D7C2C8-962C-4539-928B-49DF2A6899CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,18 @@ Global
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Release|x64.Build.0 = Release|Any CPU
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Release|x86.ActiveCfg = Release|Any CPU
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Release|x86.Build.0 = Release|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Debug|x64.Build.0 = Debug|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|x64.ActiveCfg = Release|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|x64.Build.0 = Release|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

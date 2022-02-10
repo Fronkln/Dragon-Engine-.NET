@@ -23,8 +23,7 @@ namespace Y7MP
 
                     if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
                     {
-                        DragonEngine.Log(DragonEngineLibrary.Service.SceneService.CurrentScene.Get().StageID);
-                        FighterManager.GetFighter(0).Character.SetVisible(false, false);
+
                     }
                 }
                 else

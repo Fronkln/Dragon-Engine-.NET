@@ -54,6 +54,7 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="Components\ECBattleStatus.cs" />
     <Compile Include="Components\ECCharaComponent.cs" />
+    <Compile Include="Components\ECCharacterEffectEvent.cs" />
     <Compile Include="Entity\AuthManager.cs" />
     <Compile Include="Entity\AuthPlay.cs" />
     <Compile Include="Entity\AuthPlayBase.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Enums\CharacterVoicerID.cs" />
     <Compile Include="Enums\DEJob.cs" />
     <Compile Include="Enums\DESpeedType.cs" />
+    <Compile Include="Enums\EffectEventCharaID.cs" />
     <Compile Include="Enums\FilePortCategory.cs" />
     <Compile Include="Enums\ItemID.cs" />
     <Compile Include="Enums\MapIconID.cs" />
@@ -138,6 +140,8 @@
     <Compile Include="MarshallingTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\CharacterComponents.cs" />
+    <Compile Include="Structs\Shapes.cs" />
     <Compile Include="Third Party\RMM.cs" />
     <Compile Include="Structs\AIUtil.cs" />
     <Compile Include="Structs\CharacterAttributes.cs" />

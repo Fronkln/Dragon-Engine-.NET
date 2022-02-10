@@ -20,7 +20,7 @@ namespace DragonEngineLibrary
 
 
         /// <summary>
-        /// Read only for now!
+        /// Read only for now. Returns character's creation information
         /// </summary>
         public CharacterAttributes Attributes
         {
