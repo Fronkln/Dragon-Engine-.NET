@@ -8,6 +8,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CTASK_GETTER_UID", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_CTask_UID_Getter(IntPtr ctask);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HANDLES_COMMON_VALIDITY_CHECK", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_CTask_Common_Validity_Check(uint UID);
+
         public enum Kind : ushort
         {
             Unknown,        // constant 0x0
@@ -42,7 +46,7 @@ namespace DragonEngineLibrary
             {
                 return DELib_CTask_UID_Getter(_objectAddress);
             }
-        }
+        }   
 
         /// <summary>
         /// Advanced 
@@ -60,7 +64,8 @@ namespace DragonEngineLibrary
         /// </summary>
         public virtual bool IsValid()
         {
-            return UID != 0 && ((EntityHandle<CTask>)UID).IsValid();
+            return DELib_CTask_Common_Validity_Check(UID);
+           // return UID != 0 && ((EntityHandle<CTask>)UID).IsValid();
         }
 
         /// <summary>

@@ -23,6 +23,6 @@ namespace DragonEngineLibrary
     public struct NPCRequestMaterial
     {
         public NPCMaterial Material;
-        public MaterialResult Result;
+        private MaterialResult Result;
     }
 }

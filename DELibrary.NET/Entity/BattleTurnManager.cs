@@ -5,6 +5,9 @@ namespace DragonEngineLibrary
 {
     public static class BattleTurnManager
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_TEST", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DELib_BattleTurnManager_Test();
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_REQUESTRUNAWAY", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_BattleTurnManager_RequestRunAway(IntPtr fighterPtr, bool success);
 

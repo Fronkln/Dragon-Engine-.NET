@@ -11,6 +11,7 @@ namespace DragonEngineLibrary
     /// </summary>
     public enum VirtualKey : int
     {
+        None = 0,
         LeftButton = 0x01,
         RightButton = 0x02,
         Cancel = 0x03,

@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImGui.NET", "ImGui.NET-mast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMod", "TestMod\TestMod.csproj", "{36D7C2C8-962C-4539-928B-49DF2A6899CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y7DebugTools", "Y7DebugTools\Y7DebugTools.csproj", "{4161B440-05F3-4409-96BC-242A69BCBE01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,18 @@ Global
 		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|x64.Build.0 = Release|Any CPU
 		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|x86.ActiveCfg = Release|Any CPU
 		{36D7C2C8-962C-4539-928B-49DF2A6899CA}.Release|x86.Build.0 = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|x64.Build.0 = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|x86.Build.0 = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|x64.ActiveCfg = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|x64.Build.0 = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|x86.ActiveCfg = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

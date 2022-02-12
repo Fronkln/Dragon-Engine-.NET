@@ -18,7 +18,7 @@ namespace DragonEngineLibrary
         /// <summary>
         /// Play BEPs on character.
         /// </summary>
-        public ECCharacterEffectEvent EffectEvent
+        public EntityComponentHandle<ECCharacterEffectEvent> EffectEvent
         {
             get
             {

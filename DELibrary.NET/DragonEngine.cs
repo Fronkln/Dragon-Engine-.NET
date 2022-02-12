@@ -96,7 +96,7 @@ namespace DragonEngineLibrary
         /// Register a function that will be executed by Dragon Engine.
         /// </summary>
         /// <param name="after">If after is set to true, it will execute after main game functions.</param>
-        public static void RegisterJob(Action action, DEJob jobID, bool after = true)
+        public static void RegisterJob(Action action, DEJob jobID, bool after = false)
         {
             RegisterJobDelegate del = new RegisterJobDelegate(action);
             JobRegisterInfo inf = new JobRegisterInfo(action, del, Marshal.GetFunctionPointerForDelegate(del), jobID, after);
@@ -189,7 +189,9 @@ namespace DragonEngineLibrary
             }
             catch (Exception ex)
             {
-                Log("Failed to load library, error: " + ex.Message);
+                if(ex as BadImageFormatException == null)
+                    Log("Failed to load library, error: " + ex.Message);
+
                 return false;
             }
         }
