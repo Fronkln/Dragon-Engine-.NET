@@ -68,7 +68,9 @@ namespace Y7DebugTools
             NPCRequestMaterial material = new NPCRequestMaterial();
             material.Material = new NPCMaterial();
 
-            material.Material.pos_ = DragonEngine.GetHumanPlayer().Get().GetPosCenter();
+            Character player = DragonEngine.GetHumanPlayer();
+
+            material.Material.pos_ = player.GetPosCenter() + player.forwardDirection * 1.5f;
             material.Material.character_id_ = (CharacterID)m_chosenCharaID;
             material.Material.height_scale_id_ = (CharacterHeightID)m_enumValues_HeightScale.GetValue(m_chosenHeightID);
             material.Material.behavior_set_id_ = (BehaviorSetID)m_enumValues_BehaviorSet.GetValue(m_chosenBehaviorID);

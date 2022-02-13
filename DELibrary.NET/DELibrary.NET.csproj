@@ -76,6 +76,7 @@
     <Compile Include="Entity\Fighter.cs" />
     <Compile Include="Entity\HActManager.cs" />
     <Compile Include="Entity\NPCFactory.cs" />
+    <Compile Include="Entity\ParticleManager.cs" />
     <Compile Include="Entity\SceneBase.cs" />
     <Compile Include="Entity\Services\DEService.cs" />
     <Compile Include="Entity\Services\SceneService.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structs\CharacterComponents.cs" />
+    <Compile Include="Structs\Matrix4x4.cs" />
     <Compile Include="Structs\Shapes.cs" />
     <Compile Include="Third Party\RMM.cs" />
     <Compile Include="Structs\AIUtil.cs" />

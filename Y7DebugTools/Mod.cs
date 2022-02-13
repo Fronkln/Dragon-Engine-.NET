@@ -12,17 +12,21 @@ namespace Y7DebugTools
         public static string[] m_enumNames_VirtualKey;
 
         private bool m_npcMenuEnabled;
+        private bool m_playerMenuEnabled;
         private bool m_fighterManagerMenuEnabled;
 
         public void ModUI()
         {
             ImGui.Begin("Debug");
+            ImGui.Checkbox("Player", ref m_playerMenuEnabled);
             ImGui.Checkbox("NPC", ref m_npcMenuEnabled);
             ImGui.Checkbox("FighterManager", ref m_fighterManagerMenuEnabled);
             ImGui.EndMenu();
             ImGui.End();
 
 
+            if (m_playerMenuEnabled)
+                PlayerMenu.Draw();
             if (m_npcMenuEnabled)
                 NPCMenu.Draw();
             if (m_fighterManagerMenuEnabled)

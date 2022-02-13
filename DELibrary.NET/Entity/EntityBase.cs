@@ -16,6 +16,14 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_SCENEROOT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_EntityBase_Getter_SceneRoot(IntPtr entity);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DELibrary_EntityBase_Getter_Orient(IntPtr entity, ref Quaternion res);
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_SET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DELibrary_EntityBase_Setter_Orient(IntPtr entity, IntPtr res);
+
+        //[DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
+        // public static extern Vector4 DELibrary_EntityBase_Getter_Orient(IntPtr entity);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_POS_CENTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern Vector4 DELibrary_EntityBase_GetPosCenter(IntPtr entity);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_SET_POS_CENTER", CallingConvention = CallingConvention.Cdecl)]
@@ -36,6 +44,31 @@ namespace DragonEngineLibrary
                 SetPosCenter(value);
             }
         }
+
+        public Quaternion Orient
+        {
+            get
+            {
+                Quaternion quat = new Quaternion();
+                DELibrary_EntityBase_Getter_Orient(Pointer, ref quat);
+
+                return quat;
+            }
+            set
+            {
+                IntPtr ptr = value.ToIntPtr();
+                DELibrary_EntityBase_Setter_Orient(Pointer, value.ToIntPtr());
+
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
+
+        /// <summary> Forward direction of this entity.</summary>
+        public Vector3 forwardDirection { get { return Orient * Vector3.forward; }}
+        /// <summary> Up direction of this entity.</summary>
+        public Vector3 upDirection { get { return Orient * Vector3.up; } }
+        /// <summary> Forward direction of this entity.</summary>
+        public Vector3 rightDirection { get { return Orient * Vector3.right; } }
 
         /// <summary>
         /// Get the scene entity this entity is part of.

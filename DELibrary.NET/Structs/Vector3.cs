@@ -50,6 +50,28 @@ namespace DragonEngineLibrary
             }
         }
 
+        /// <summary>
+        /// Up direction.
+        /// </summary>
+        public static Vector3 forward
+        {
+            get
+            {
+                return new Vector3(0, 0, 1);
+            }
+        }
+
+        /// <summary>
+        /// Right direction.
+        /// </summary>
+        public static Vector3 right
+        {
+            get
+            {
+                return new Vector3(1, 0, 0);
+            }
+        }
+
         public override string ToString()
         {
             return $"({x.ToString("0.00")} {y.ToString("0.00")} {z.ToString("0.00")})";

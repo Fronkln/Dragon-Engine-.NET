@@ -4,12 +4,16 @@ using System.Runtime.InteropServices;
 namespace DragonEngineLibrary
 {
     
-    [StructLayout(LayoutKind.Sequential, Size = 0x10)]
+    [StructLayout(LayoutKind.Explicit, Size = 0x10)]
     public struct Vector4
     {
+        [FieldOffset(0x0)]
         public float x;
+        [FieldOffset(0x4)]
         public float y;
+        [FieldOffset(0x8)]
         public float z;
+        [FieldOffset(0xC)]
         public float w;
 
         public Vector4(float x, float y, float z)

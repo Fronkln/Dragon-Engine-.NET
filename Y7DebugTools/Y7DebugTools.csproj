@@ -42,9 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharaRender.cs" />
     <Compile Include="FighterManagerMenu.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="NPCMenu.cs" />
+    <Compile Include="PlayerMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
