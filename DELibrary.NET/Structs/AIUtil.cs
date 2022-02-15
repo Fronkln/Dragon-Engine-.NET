@@ -44,14 +44,37 @@ namespace DragonEngineLibrary
     [StructLayout(LayoutKind.Explicit, Size = 0x90)]
     public struct AIUtilCommand
     {
+        public enum State : sbyte
+        {
+            invalid,      // constant 0x0
+            request,         // constant 0x1
+            receive,         // constant 0x2
+            finish,      // constant 0x3
+        }
+
+        public enum Commander : sbyte
+        {
+            invalid,       // constant 0x0
+            live,        // constant 0x1
+            auth,        // constant 0x2
+            dispose,         // constant 0x3
+            generate,        // constant 0x4
+            script,      // constant 0x5
+            ai,      // constant 0x6
+            scene,       // constant 0x7
+            encount,         // constant 0x8
+            player_control,      // constant 0x9
+            debug,       // constant 0xA
+        }
+
         [FieldOffset(0x0)] public AIUtilCommandElement element_;
         [FieldOffset(0x80)] public AIPackID pack_id_;
         [FieldOffset(0x84)] public AICommandID command_id_;
         /// <summary> EntityHandle EntityBase </summary>
         [FieldOffset(0x88)] public uint order_source_;
-        [FieldOffset(0x8C)] public byte state_;
-        [FieldOffset(0x8D)] public byte commander_;
-        [FieldOffset(0x8E)] public byte priority_;
+        [FieldOffset(0x8C)] public State state_;
+        [FieldOffset(0x8D)] public Commander commander_;
+        [FieldOffset(0x8E)] public sbyte priority_;
         [FieldOffset(0x8F)] [MarshalAs(UnmanagedType.U1)] public bool is_wish_save_request_;
     }
 }

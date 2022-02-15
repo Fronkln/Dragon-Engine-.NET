@@ -11,20 +11,11 @@ namespace TestMod
 
         public void InputThread()
         {
-            //A while(true) loop is not dangerous here because it's a seperate thread.
-            //It does not block any other functions
             while (true)
             {
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad7))
+                if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
                 {
-                    if (chara != null && chara.IsValid())
-                        chara.PosCenter += ((chara.Orient * Vector3.forward) * 3);
-                }
-
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad6))
-                {
-                    if (chara != null && chara.IsValid())
-                        chara.PosCenter += ((chara.Orient * Vector3.up) * 3);
+                    NakamaManager.RemoveAllPartyMembers();
                 }
             }
 

@@ -13,11 +13,8 @@ namespace DragonEngineLibrary
         {
             invalid,         // constant 0x0
             kiryu,       // constant 0x1
-#if !(Y6)
             yagami,      // constant 0x2
             majima,      // constant 0x3
-#endif
-#if YLAD
             kasuga,      // constant 0x4
             sakaida,         // constant 0x5
             adachi,      // constant 0x6
@@ -29,7 +26,6 @@ namespace DragonEngineLibrary
             chou,        // constant 0xC
             jyungi,      // constant 0xD
             woman_a,		 // constant 0xE
-#endif
         }
 
         //[DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]

@@ -27,6 +27,14 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_GETNEARESTENEMY", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_FighterManager_GetNearestEnemy(IntPtr fighterID);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_Y7_EXCLUSIVE_FIGHTER_MANAGER_FORCEBRAWLERMODE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_FighterManager_Y7_ForceBrawlerMode(bool brawler);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_Y7_EXCLUSIVE_FIGHTER_MANAGER_IS_BRAWLER", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_FighterManager_Y7_IsBrawlerMode();
+
         /// <summary>
         /// Create an "enemy" fighter, appearance may only work after transformation is enabled, needs testing.
         /// </summary>
@@ -86,6 +94,16 @@ namespace DragonEngineLibrary
         public static void RegistrationFighter(EntityHandle<Character> chara, BattleGroupID group_id)
         {
             DELib_FighterManager_RegistrationFighter(chara.UID, group_id);
+        }
+
+        public static void ForceBrawlerMode(bool brawler)
+        {
+            DELib_FighterManager_Y7_ForceBrawlerMode(brawler);
+        }
+
+        public static bool IsBrawlerMode()
+        {
+            return DELib_FighterManager_Y7_IsBrawlerMode();
         }
 
         /*

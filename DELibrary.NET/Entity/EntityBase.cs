@@ -13,6 +13,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_RELEASE_ENTITY", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_EntityBase_ReleaseEntity(IntPtr entity, uint level = 0, bool no_sweeper = false);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_TEST2", CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint DELibrary_EntityBase_Test2(ulong uid);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_ENTITY_UID", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern EntityUID DELibrary_EntityBase_Getter_EntityUID(IntPtr entity);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_SCENEROOT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_EntityBase_Getter_SceneRoot(IntPtr entity);
 
@@ -29,6 +35,8 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_SET_POS_CENTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_EntityBase_SetPosCenter(IntPtr entity, Vector4 pos);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_GLOBAL_ENTITY_FROM_UID", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_EntityBase_GetGlobalEntityFromUID(ulong uid);
 
         /// <summary>
         /// Entity's center position.
@@ -64,11 +72,19 @@ namespace DragonEngineLibrary
         }
 
         /// <summary> Forward direction of this entity.</summary>
-        public Vector3 forwardDirection { get { return Orient * Vector3.forward; }}
+        public Vector3 forwardDirection { get { return Orient * Vector3.forward; } }
         /// <summary> Up direction of this entity.</summary>
         public Vector3 upDirection { get { return Orient * Vector3.up; } }
         /// <summary> Forward direction of this entity.</summary>
         public Vector3 rightDirection { get { return Orient * Vector3.right; } }
+
+        public EntityUID EntityUID
+        {
+            get
+            {
+                return DELibrary_EntityBase_Getter_EntityUID(_objectAddress);
+            }
+        }
 
         /// <summary>
         /// Get the scene entity this entity is part of.
@@ -121,6 +137,19 @@ namespace DragonEngineLibrary
         {
             //Implicit operator automatically converts to handle
             return GetSceneEntity(sceneEnt).UID;
+        }
+
+
+        //Static functions
+
+        /// <summary>
+        /// Crashes dont use
+        /// </summary>
+        public static EntityHandle<EntityBase> GlobalEntityFromUID(EntityUID UID)
+        {
+
+            EntityHandle<EntityBase> handle = DELibrary_EntityBase_GetGlobalEntityFromUID(UID.UID);
+            return handle;
         }
     }
 }

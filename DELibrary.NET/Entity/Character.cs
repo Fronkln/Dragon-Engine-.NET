@@ -23,6 +23,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_REQUEST_WARP_POSE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Character_RequestWarpPose(IntPtr chara, ref PoseInfo inf);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GET_CONSTRUCTOR", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_GetConstructor(IntPtr chara);
+
         /// <summary>
         /// Common components of a character
         /// </summary>
@@ -69,6 +72,14 @@ namespace DragonEngineLibrary
             status._objectAddress = addr;
 
             return status;
+        }
+
+        public ECConstructorCharacter GetConstructor()
+        {
+            ECConstructorCharacter constructor = new ECConstructorCharacter();
+            constructor._objectAddress = DELib_Character_GetConstructor(_objectAddress);
+
+            return constructor;
         }
     }
 }
