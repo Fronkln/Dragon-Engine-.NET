@@ -14,6 +14,8 @@ namespace Y7DebugTools
         private bool m_npcMenuEnabled;
         private bool m_playerMenuEnabled;
         private bool m_fighterManagerMenuEnabled;
+        private bool m_battleTurnManagerMenuEnabled;
+        private bool m_effectMenuEnabled = false;
 
         public void ModUI()
         {
@@ -21,6 +23,8 @@ namespace Y7DebugTools
             ImGui.Checkbox("Player", ref m_playerMenuEnabled);
             ImGui.Checkbox("NPC", ref m_npcMenuEnabled);
             ImGui.Checkbox("FighterManager", ref m_fighterManagerMenuEnabled);
+            ImGui.Checkbox("BattleTurnManager", ref m_battleTurnManagerMenuEnabled);
+            ImGui.Checkbox("Effect", ref m_effectMenuEnabled);
             ImGui.EndMenu();
             ImGui.End();
 
@@ -31,6 +35,10 @@ namespace Y7DebugTools
                 NPCMenu.Draw();
             if (m_fighterManagerMenuEnabled)
                 FighterManagerMenu.Draw();
+            if (m_battleTurnManagerMenuEnabled)
+                BattleTurnManagerMenu.Draw();
+            if (m_effectMenuEnabled)
+                EffectEventMenu.Draw();
         }
 
         private static void InputThread()

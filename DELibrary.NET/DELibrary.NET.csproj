@@ -137,6 +137,7 @@
     <Compile Include="Enums\MotionFacePattern.cs" />
     <Compile Include="Enums\MotionID.cs" />
     <Compile Include="Enums\ParticleID.cs" />
+    <Compile Include="Enums\RPGJobID.cs" />
     <Compile Include="Enums\RPGSkillID.cs" />
     <Compile Include="Enums\SceneEntity.cs" />
     <Compile Include="Enums\SoundShoeKind.cs" />

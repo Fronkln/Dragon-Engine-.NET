@@ -73,6 +73,8 @@ namespace Y7MP
                 Thread inputThread = new Thread(InputThread);
                 inputThread.Start();
 
+               
+
                 //Register Dragon Engine callback
                 DragonEngine.RegisterJob(MPManager.Update, DEJob.Update);
 

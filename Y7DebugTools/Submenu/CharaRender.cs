@@ -15,9 +15,6 @@ namespace Y7DebugTools
             }
 
             ImGui.Text("Position: " + (Vector3)chara.PosCenter);
-            ImGui.Text("Up: " + chara.Orient * Vector3.up);
-            ImGui.Text("Forward: " + chara.Orient * Vector3.forward);
-            ImGui.Text("Right: " + chara.Orient * Vector3.right);
             ImGui.Text("Orientation: " + chara.Orient);
 
             if (ImGui.CollapsingHeader("Render Mesh"))

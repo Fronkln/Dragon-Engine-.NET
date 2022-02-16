@@ -28,7 +28,67 @@ namespace DragonEngineLibrary
             woman_a,		 // constant 0xE
         }
 
-        //[DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
-        //public extern static void SetLevel(uint level, ID playerID);
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void DELib_Player_SetLevel(uint level, ID playerID, IntPtr saveData = default(IntPtr));
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static uint DELib_Player_GetLevel(ID playerID);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_JOB_LEVEL", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static uint DELib_Player_SetJobLevel(RPGJobID job, uint level, ID player, bool levelUpFullRecover, bool adjustXP);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_JOB_LEVEL", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static uint DELib_Player_GetJobLevel(RPGJobID job, ID player);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_CURRENT_JOB", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static RPGJobID DELib_Player_GetCurrentJob(ID player);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_CURRENT_JOB", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void DELib_Player_SetCurrentJob(ID player, RPGJobID job, bool recoverHPMPDifference);
+
+        public static void SetLevel(uint level, ID playerID)
+        {
+            DELib_Player_SetLevel(level, playerID, IntPtr.Zero);
+        }
+
+        public static void SetLevel(uint level, ID playerID, IntPtr saveData)
+        {
+            DELib_Player_SetLevel(level, playerID, saveData);
+        }
+
+        public static uint GetLevel(ID player)
+        {
+            return DELib_Player_GetLevel(player);
+        }
+
+        public static void SetJobLevel(uint level, ID player, bool levelUpFullRecover = true, bool adjustXP = true)
+        {
+            DELib_Player_SetJobLevel(GetCurrentJob(player), level, player, levelUpFullRecover, adjustXP);
+        }
+
+        public static void SetJobLevel(RPGJobID job, uint level, ID player, bool levelUpFullRecover = true, bool adjustXP = true)
+        {
+            DELib_Player_SetJobLevel(job, level, player, levelUpFullRecover, adjustXP);
+        }
+
+        public static uint GetJobLevel(ID player)
+        {
+            return DELib_Player_GetJobLevel(GetCurrentJob(player), player);
+        }
+
+        public static uint GetJobLevel(RPGJobID job, ID player)
+        {
+            return DELib_Player_GetJobLevel(job, player);
+        }
+
+        public static RPGJobID GetCurrentJob(ID player)
+        {
+            return DELib_Player_GetCurrentJob(player);
+        }
+
+        public static void SetCurrentJob(ID player, RPGJobID job, bool recoverHPAndMPDifference = true)
+        {
+            DELib_Player_SetCurrentJob(player, job, recoverHPAndMPDifference);
+        }
     }
 }

@@ -17,6 +17,11 @@ namespace TestMod
                 {
                     NakamaManager.RemoveAllPartyMembers();
                 }
+
+                if (DragonEngine.IsKeyDown(VirtualKey.Numpad1))
+                {
+                    FighterManager.GetPlayer().Character.GetConstructor().StopAgent();
+                }
             }
 
         }

@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleTurnManagerMenu.cs" />
+    <Compile Include="EffectEventMenu.cs" />
     <Compile Include="Submenu\AgentCharacterRender.cs" />
     <Compile Include="Submenu\AIUtilCommandRender.cs" />
     <Compile Include="Submenu\CharaRender.cs" />

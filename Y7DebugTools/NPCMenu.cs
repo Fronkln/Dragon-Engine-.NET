@@ -14,7 +14,6 @@ namespace Y7DebugTools
         public static int SpawnBind = (int)VirtualKey.None;
 
         //Cached enum names and values
-        private static bool m_firstDraw = true;
         private static string[] m_enumNames_BehaviorSet;
         private static string[] m_enumNames_HeightScale;
         private static string[] m_enumNames_MapIcon;
@@ -44,7 +43,7 @@ namespace Y7DebugTools
         private static bool m_isEncounter = false;
         private static bool m_isEncounterBtlType = false;
 
-        private static void Cache()
+        static NPCMenu()
         {
             m_enumNames_BehaviorSet = Enum.GetNames(typeof(BehaviorSetID));
             m_enumNames_HeightScale = Enum.GetNames(typeof(CharacterHeightID));
@@ -97,12 +96,6 @@ namespace Y7DebugTools
 
         public static void Draw()
         {
-            if(m_firstDraw)
-            {
-                Cache();
-                m_firstDraw = false;
-            }
-
             if(ImGui.Begin("NPC Creator"))
             {
                 ImGui.InputInt("Character ID:", ref m_chosenCharaID);

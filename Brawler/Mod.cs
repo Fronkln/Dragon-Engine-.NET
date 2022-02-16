@@ -21,7 +21,6 @@ namespace Brawler
                     DragonEngine.Log("Brawler Mode: " + toggle);
                 }
 
-
                 Fighter kasuga = FighterManager.GetPlayer();
 
                 if (!kasuga.Character.IsValid())
@@ -32,16 +31,7 @@ namespace Brawler
                 if (enemies.Length <= 0)
                     continue;
 
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad5))
-                {
-                    FighterManager.GetPlayer().Character.GetConstructor().StartAgent();
-                }
-
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad6))
-                {
-                    FighterManager.GetPlayer().Character.GetConstructor().StopAgent();
-                }
-
+                /*
                 if (DragonEngine.IsKeyDown(VirtualKey.F))
                     BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_atk_c);
                 else
@@ -50,6 +40,7 @@ namespace Brawler
 
                 if (DragonEngine.IsKeyDown(VirtualKey.H))
                     BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_crash_atk_a);
+                    */
             }
         }
 
