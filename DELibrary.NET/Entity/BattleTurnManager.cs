@@ -8,6 +8,21 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_TEST", CallingConvention = CallingConvention.Cdecl)]
         public static extern void DELib_BattleTurnManager_Test();
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_SKIP_WAIT_TIME", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr DELib_BattleTurnManager_SkipWaitTime(bool readOnly, bool getNextFighter);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_CHANGE_ACTION_STEP", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DELib_BattleTurnManager_ChangeActionStep(ActionStep step);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_CHANGE_PHASE", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DELib_BattleTurnManager_ChangePhase(TurnPhase phase);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_SWITCH_ACTIVE_FIGHTER", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DELib_BattleTurnManager_SwitchActiveFighter(uint uid, bool no_ui_change);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_SWITCH_TURN", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DELib_BattleTurnManager_SwitchTurn();
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_REQUESTRUNAWAY", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_BattleTurnManager_RequestRunAway(IntPtr fighterPtr, bool success);
 
@@ -71,6 +86,46 @@ namespace DragonEngineLibrary
         public static ActionStep CurrentActionStep { get { return DELib_BattleTurnManager_Getter_CurrentActionStep(); } }
         public static ActionType CurrentActionType { get { return DELib_BattleTurnManager_Getter_ActionType(); } }
 
+        internal delegate IntPtr OverrideAttackerSelectionDelegate(IntPtr battleTurnManager, bool readOnly, bool getNextFighter);
+
+        internal static class OverrideAttackerSelectionInfo
+        {
+            internal static Func<bool, bool, Fighter> overrideFunc;
+            internal static OverrideAttackerSelectionDelegate deleg;
+            internal static IntPtr delegPtr;
+        }
+
+
+        internal static IntPtr ReturnManualAttackerSelectionResult(IntPtr battleTurnManager, bool readOnly, bool getNextFighter)
+        {
+            if(OverrideAttackerSelectionInfo.overrideFunc == null)
+            {
+                //no overrides, CPP library should jump to trampoline after getting 0
+                return IntPtr.Zero;
+            }
+            else
+            {
+                //CPP library will return what we returned
+                Fighter result = OverrideAttackerSelectionInfo.overrideFunc(readOnly, getNextFighter);
+                IntPtr ptr;
+
+                if (result == null)
+                    ptr = IntPtr.Zero;
+                else
+                    ptr = result._ptr;
+
+                return ptr;
+            }
+        }
+
+        /// <summary>
+        /// Manually decide who attacks when the game wants to pick an attacker.
+        /// </summary>
+        public static void OverrideAttackerSelection(Func<bool, bool, Fighter> function)
+        {
+            OverrideAttackerSelectionInfo.overrideFunc = function;
+        }
+
         /// <summary>
         /// Run away or not. Seems to end the battle either way? Weird function
         /// </summary>
@@ -99,6 +154,34 @@ namespace DragonEngineLibrary
         public static void ReleaseMenu()
         {
             DELib_BattleTurnManager_ReleaseMenu();
+        }
+
+        public static void SwitchTurn()
+        {
+            DELib_BattleTurnManager_SwitchTurn();
+        }
+
+        public static void SwitchActiveFighter(FighterID id, bool noUIChange)
+        {
+            DELib_BattleTurnManager_SwitchActiveFighter(id.Handle.UID, noUIChange);
+        }
+
+        public static void ChangePhase(TurnPhase phase)
+        {
+            DELib_BattleTurnManager_ChangePhase(phase);
+        }
+
+        public static void ChangeActionStep(ActionStep step)
+        {
+            DELib_BattleTurnManager_ChangeActionStep(step);
+        }
+
+        public static Fighter SkipWaitTime(bool readOnly, bool getNextFighter)
+        {
+            IntPtr next = DELib_BattleTurnManager_SkipWaitTime(readOnly, getNextFighter);
+            Fighter fighter = new Fighter(next);
+
+            return fighter;
         }
     }
 }

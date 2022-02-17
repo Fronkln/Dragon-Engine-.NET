@@ -12,7 +12,6 @@ namespace Brawler
         {
             while (true)
             {
-
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad7))
                 {
                     bool toggle = !FighterManager.IsBrawlerMode();
@@ -31,16 +30,22 @@ namespace Brawler
                 if (enemies.Length <= 0)
                     continue;
 
-                /*
-                if (DragonEngine.IsKeyDown(VirtualKey.F))
-                    BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_atk_c);
-                else
-                    if (DragonEngine.IsKeyDown(VirtualKey.G))
-                    BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_atk_a);
 
-                if (DragonEngine.IsKeyDown(VirtualKey.H))
-                    BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_crash_atk_a);
-                    */
+                if (!kasuga.IsDown())
+                {
+                    if (DragonEngine.IsKeyDown(VirtualKey.F))
+                        BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_atk_c);
+                    else
+                        if (DragonEngine.IsKeyDown(VirtualKey.G))
+                        BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_atk_a);
+
+                    if (DragonEngine.IsKeyDown(VirtualKey.H))
+                        BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_crash_atk_a);
+
+                    if (DragonEngine.IsKeyDown(VirtualKey.T))
+                        BattleTurnManager.ForceCounterCommand(kasuga, enemies[0], RPGSkillID.boss_kiryu_legend_atk_c);
+                }
+
             }
         }
 
@@ -48,6 +53,8 @@ namespace Brawler
         {
             DragonEngine.Initialize();
             DragonEngine.RegisterJob(Update, DEJob.Update);
+
+            BattleTurnManager.OverrideAttackerSelection(OnAttackerSelect);
 
             FighterManager.ForceBrawlerMode(true);
 
@@ -79,6 +86,22 @@ namespace Brawler
         public void BrawlerUpdate()
         {
            // BattleTurnManager.ReleaseMenu();
+        }
+
+
+        public static Fighter OnAttackerSelect(bool readOnly, bool getNextFighter)
+        {
+            if (!FighterManager.IsBrawlerMode())
+                return null;
+
+            Fighter[] allEnemies = FighterManager.GetAllEnemies();
+
+            if (allEnemies.Length <= 0)
+                return null;
+
+            Random rnd = new Random();
+
+            return allEnemies[rnd.Next(0, allEnemies.Length)];
         }
 
         public static void OnFightStart()

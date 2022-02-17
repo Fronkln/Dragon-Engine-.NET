@@ -6,6 +6,8 @@ namespace DragonEngineLibrary
     public class ECCharacterEffectEvent : EntityComponent
     {
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_CHARACTER_EFFECT_EVENT_STOP_EVENT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECCharacterEffectEvent_StopEvent(IntPtr eventPtr, EffectEventCharaID effectID, bool fadeOut);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_CHARACTER_EFFECT_EVENT_STOP_EVENT_ALL", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_ECCharacterEffectEvent_StopEventAll(IntPtr eventPtr);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_CHARACTER_EFFECT_EVENT_PLAY_EVENT1", CallingConvention = CallingConvention.Cdecl)]
@@ -56,6 +58,11 @@ namespace DragonEngineLibrary
         public void PlayEventOverride(EffectEventCharaID effectID)
         {
             DELibrary_ECCharacterEffectEvent_PlayEventOverride(_objectAddress, effectID);
+        }
+
+        public void StopEvent(EffectEventCharaID effectID, bool fadeOut)
+        {
+            DELibrary_ECCharacterEffectEvent_StopEvent(_objectAddress, effectID, fadeOut);
         }
     }
 }

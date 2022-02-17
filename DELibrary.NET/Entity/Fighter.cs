@@ -46,6 +46,10 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_IsEnemy(IntPtr fighterPtr);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_IS_DOWN", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Fighter_IsDown(IntPtr fighterPtr);
+
         public Character Character { get; internal set; }
         internal IntPtr _ptr;
 
@@ -64,6 +68,14 @@ namespace DragonEngineLibrary
         public ECBattleStatus GetStatus()
         {
             return Character.GetBattleStatus();
+        }
+
+        /// <summary>
+        /// Is the fighter knocked down?
+        /// </summary>
+        public bool IsDown()
+        {
+            return DELib_Fighter_IsDown(_ptr);
         }
 
         /// <summary>
