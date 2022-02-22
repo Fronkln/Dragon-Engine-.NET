@@ -13,6 +13,7 @@ namespace Y7MP
         public const float PLAYER_STATUS_UPDATE_RATE = 0.1f;
         public const float PLAYER_POS_LERP_RATE = 10f;
         public const float PLAYER_ROT_LERP_RATE = 6;
+        public const float PLAYER_TELEPORT_POS_DIST = 10;
 
         public struct MPPlayerInfo
         {
@@ -30,7 +31,7 @@ namespace Y7MP
             public int level;
         };
 
-        public Friend Owner;
+        public CSteamID Owner;
         public EntityHandle<Character> Character;
         //ec_handle<cui_entity_component_enemy_life_gauge> NameDisplay;
         public MPPlayerInfo PlayerInfo;
@@ -47,7 +48,7 @@ namespace Y7MP
             NetPacket coordUpdate = new NetPacket(false);
 
             coordUpdate.Writer.Write((byte)PacketMessage.CharacterPositionUpdate);
-            coordUpdate.Writer.Write((Vector3)playerEntity.PosCenter);
+            coordUpdate.Writer.Write((Vector3)playerEntity.Transform.Position);
             coordUpdate.Writer.Write(playerEntity.GetAngleY());
 
             MPManager.SendToEveryone(coordUpdate);
@@ -64,8 +65,18 @@ namespace Y7MP
                     m_nextPositionUpdate += PLAYER_STATUS_UPDATE_RATE;
                 }
 
-            chara.PosCenter = Vector4.Lerp(chara.PosCenter, PlayerInfo.last_position, PLAYER_POS_LERP_RATE * DragonEngine.deltaTime);
-            chara.SetAngleY(PlayerInfo.last_rot_y); //no lerp for rotation yet
+            float dist = Vector3.Distance((Vector3)chara.Transform.Position, PlayerInfo.last_position);
+
+            if (dist < PLAYER_TELEPORT_POS_DIST)
+            {
+                // chara.Transform.Position = Vector4.Lerp(chara.Transform.Position, PlayerInfo.last_position, 0.05f);
+                chara.Transform.Position = Vector4.Lerp(chara.Transform.Position, PlayerInfo.last_position, PLAYER_POS_LERP_RATE * DragonEngine.deltaTime);
+                chara.SetAngleY(PlayerInfo.last_rot_y); //no lerp for rotation yet
+            }
+            else
+            {
+                chara.RequestWarpPose(new PoseInfo(PlayerInfo.last_position, PlayerInfo.last_rot_y));
+            }
 
             // chara.SetPosCenter(DragonEngine.GetHumanPlayer().Get().GetPosCenter());
             //  Character.Get().SetAngleY(DragonEngine.GetHumanPlayer().Get().GetAngleY());
@@ -78,7 +89,7 @@ namespace Y7MP
 
             NPCRequestMaterial material = new NPCRequestMaterial();
             material.Material = new NPCMaterial();
-            material.Material.pos_ = DragonEngine.GetHumanPlayer().Get().GetPosCenter();
+            material.Material.pos_ = Vector4.zero;
             material.Material.character_id_ = CharacterID.w_sonhi;
             material.Material.collision_type_ = 0;
             material.Material.is_eternal_life_ = true;
@@ -96,7 +107,7 @@ namespace Y7MP
 
             Character = NPCFactory.RequestCreate(material);
 
-            DragonEngine.Log("Created character for " + Owner.Name);
+            DragonEngine.Log("Created character for " + Owner.Name());
         }
 
         public bool IsMasterClient()
@@ -104,12 +115,12 @@ namespace Y7MP
             if (!MPManager.Connected)
                 return false;
 
-            return MPManager.CurrentLobby.IsOwnedBy(Owner.Id);
+            return SteamMatchmaking.GetLobbyOwner(MPManager.CurrentLobby) == Owner;
         }
 
         bool IsLocalPlayer()
         {
-            return Owner.Id == SteamClient.SteamId;
+            return Owner == SteamUser.GetSteamID();
         }
     }
 }

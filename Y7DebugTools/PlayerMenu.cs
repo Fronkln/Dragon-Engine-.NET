@@ -16,6 +16,8 @@ namespace Y7DebugTools
         private static string[] m_enum_names_PlayerID;
         private static string[] m_enum_names_RPGJob;
 
+        private static bool m_noclipEnabled = false;
+
         static PlayerMenu()
         {
             m_enum_names_PlayerID = Enum.GetNames(typeof(Player.ID));
@@ -35,6 +37,9 @@ namespace Y7DebugTools
 
             if (ImGui.Begin("Player"))
             {
+                if (ImGui.Checkbox("Noclip", ref m_noclipEnabled))
+                    NoclipMode.Toggle(m_noclipEnabled);
+
                 if (ImGui.CollapsingHeader("Player Character"))
                     CharaRender.Draw(player);
 

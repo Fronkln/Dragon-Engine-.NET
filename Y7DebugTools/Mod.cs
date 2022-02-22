@@ -11,11 +11,13 @@ namespace Y7DebugTools
         public static Array m_enumValues_VirtualKey;
         public static string[] m_enumNames_VirtualKey;
 
-        private bool m_npcMenuEnabled;
-        private bool m_playerMenuEnabled;
-        private bool m_fighterManagerMenuEnabled;
-        private bool m_battleTurnManagerMenuEnabled;
+        private bool m_npcMenuEnabled = false;
+        private bool m_playerMenuEnabled = false;
+        private bool m_fighterManagerMenuEnabled = false;
+        private bool m_battleTurnManagerMenuEnabled = false;
         private bool m_effectMenuEnabled = false;
+        private bool m_hactPlayerMenuEnabled = false;
+        private bool m_jobMenuEnabled = false;
 
         public void ModUI()
         {
@@ -24,7 +26,12 @@ namespace Y7DebugTools
             ImGui.Checkbox("NPC", ref m_npcMenuEnabled);
             ImGui.Checkbox("FighterManager", ref m_fighterManagerMenuEnabled);
             ImGui.Checkbox("BattleTurnManager", ref m_battleTurnManagerMenuEnabled);
+            ImGui.Checkbox("HAct Player", ref m_hactPlayerMenuEnabled);
             ImGui.Checkbox("Effect", ref m_effectMenuEnabled);
+
+            if (ImGui.Checkbox("DE Job Count", ref m_jobMenuEnabled))
+                JobCounter.Toggle(m_jobMenuEnabled);
+
             ImGui.EndMenu();
             ImGui.End();
 
@@ -39,6 +46,17 @@ namespace Y7DebugTools
                 BattleTurnManagerMenu.Draw();
             if (m_effectMenuEnabled)
                 EffectEventMenu.Draw();
+            if (m_hactPlayerMenuEnabled)
+                HActPlayer.Draw();
+
+            if (m_jobMenuEnabled)
+            {
+                ImGui.Text("Average execution per second:");
+                for (int i = 0; i < (int)DEJob.Number; i++)
+                {
+                    ImGui.Text(((DEJob)i).ToString() + ": " + JobCounter.m_countAverage[i]);
+                }
+            }
         }
 
         private static void InputThread()

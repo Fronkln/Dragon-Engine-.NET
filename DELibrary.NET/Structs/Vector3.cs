@@ -68,7 +68,7 @@ namespace DragonEngineLibrary
         {
             get
             {
-                return new Vector3(1, 0, 0);
+                return new Vector3(-1, 0, 0);
             }
         }
 
@@ -82,7 +82,7 @@ namespace DragonEngineLibrary
             return new Vector3(vec4.x, vec4.y, vec4.z);
         }
 
-        static Vector3 Lerp(Vector3 a, Vector3 b, float t)
+        public static Vector3 Lerp(Vector3 a, Vector3 b, float t)
         {
             return new Vector3(
                 a.x + (b.x - a.x) * t,
@@ -109,6 +109,17 @@ namespace DragonEngineLibrary
             outVec.x = a.x - b.x;
             outVec.y = a.y - b.y;
             outVec.z = a.z - b.z;
+
+            return outVec;
+        }
+
+        public static Vector3 operator -(Vector3 a)
+        {
+            Vector3 outVec;
+
+            outVec.x = -a.x;
+            outVec.y = -a.y;
+            outVec.z = -a.z;
 
             return outVec;
         }

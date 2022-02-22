@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrawlerPlayer.cs" />
     <Compile Include="Mod.cs" />
+    <Compile Include="Moveset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Style.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DELibrary.NET\DELibrary.NET.csproj">

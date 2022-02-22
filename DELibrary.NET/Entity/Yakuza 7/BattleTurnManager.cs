@@ -6,22 +6,22 @@ namespace DragonEngineLibrary
     public static class BattleTurnManager
     {
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_TEST", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DELib_BattleTurnManager_Test();
+        internal static extern void DELib_BattleTurnManager_Test();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_SKIP_WAIT_TIME", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr DELib_BattleTurnManager_SkipWaitTime(bool readOnly, bool getNextFighter);
+        internal static extern IntPtr DELib_BattleTurnManager_SkipWaitTime(bool readOnly, bool getNextFighter);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_CHANGE_ACTION_STEP", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DELib_BattleTurnManager_ChangeActionStep(ActionStep step);
+        internal static extern void DELib_BattleTurnManager_ChangeActionStep(ActionStep step);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_CHANGE_PHASE", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DELib_BattleTurnManager_ChangePhase(TurnPhase phase);
+        internal static extern void DELib_BattleTurnManager_ChangePhase(TurnPhase phase);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_SWITCH_ACTIVE_FIGHTER", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DELib_BattleTurnManager_SwitchActiveFighter(uint uid, bool no_ui_change);
+        internal static extern void DELib_BattleTurnManager_SwitchActiveFighter(uint uid, bool no_ui_change);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_SWITCH_TURN", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DELib_BattleTurnManager_SwitchTurn();
+        internal static extern void DELib_BattleTurnManager_SwitchTurn();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_REQUESTRUNAWAY", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_BattleTurnManager_RequestRunAway(IntPtr fighterPtr, bool success);
@@ -44,6 +44,15 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_ACTIONTYPE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern ActionType DELib_BattleTurnManager_Getter_ActionType();
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_REQ_PLAY_START_HACT", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_BattleTurnManager_RequestPlayStartHact();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_REQUESTHACTEVENT", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_BattleTurnManager_RequestHactEvent(ref HActRequestOptions option);
 
         public enum TurnPhase
         {
@@ -98,7 +107,7 @@ namespace DragonEngineLibrary
 
         internal static IntPtr ReturnManualAttackerSelectionResult(IntPtr battleTurnManager, bool readOnly, bool getNextFighter)
         {
-            if(OverrideAttackerSelectionInfo.overrideFunc == null)
+            if (OverrideAttackerSelectionInfo.overrideFunc == null)
             {
                 //no overrides, CPP library should jump to trampoline after getting 0
                 return IntPtr.Zero;
@@ -182,6 +191,23 @@ namespace DragonEngineLibrary
             Fighter fighter = new Fighter(next);
 
             return fighter;
+        }
+
+        /// <summary>
+        /// Starts a hact in queue
+        /// </summary>
+        /// <returns></returns>
+        public static bool RequestPlayStartHact()
+        {
+            return DELib_BattleTurnManager_RequestPlayStartHact();
+        }
+
+        /// <summary>
+        /// Request a hact to be played, barely functional? 
+        /// </summary>
+        public static bool RequestHActEvent(HActRequestOptions hact)
+        {
+            return DELib_BattleTurnManager_RequestHactEvent(ref hact);
         }
     }
 }

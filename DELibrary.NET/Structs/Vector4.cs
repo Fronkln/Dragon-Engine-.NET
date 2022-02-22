@@ -97,6 +97,18 @@ namespace DragonEngineLibrary
             return outVec;
         }
 
+        public static Vector4 operator -(Vector4 a)
+        {
+            Vector4 outVec;
+
+            outVec.x = -a.x;
+            outVec.y = -a.y;
+            outVec.z = -a.z;
+            outVec.w = -a.w;
+
+            return outVec;
+        }
+
         public static Vector4 operator -(Vector4 a, Vector4 b)
         {
             Vector4 outVec;

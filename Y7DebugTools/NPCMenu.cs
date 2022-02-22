@@ -69,7 +69,7 @@ namespace Y7DebugTools
 
             Character player = DragonEngine.GetHumanPlayer();
 
-            material.Material.pos_ = player.GetPosCenter() + player.forwardDirection * 1.5f;
+            material.Material.pos_ = player.GetPosCenter() + player.Transform.forwardDirection * 1.5f;
             material.Material.character_id_ = (CharacterID)m_chosenCharaID;
             material.Material.height_scale_id_ = (CharacterHeightID)m_enumValues_HeightScale.GetValue(m_chosenHeightID);
             material.Material.behavior_set_id_ = (BehaviorSetID)m_enumValues_BehaviorSet.GetValue(m_chosenBehaviorID);

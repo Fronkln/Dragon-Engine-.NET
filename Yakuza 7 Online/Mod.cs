@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using DragonEngineLibrary;
 using Steamworks;
-using Steamworks.Data;
+
 namespace Y7MP
 {
     public class Mod : DragonEngineMod
     {
+        private List<object> m_callbacks = new List<object>();
+
         //Only used for keypress checks
         //Making this a thread and using while loop makes key functions consistent
         public void InputThread()
@@ -16,20 +19,20 @@ namespace Y7MP
             //It does not block any other functions
             while (true)
             {
+                SteamAPI.RunCallbacks();
+
                 if (!MPManager.Connected)
                 {
-                    if (DragonEngine.IsKeyDown(VirtualKey.Numpad1))
-                        SteamMatchmaking.CreateLobbyAsync(MPManager.MaxPlayers);
-
-                    if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
-                    {
-
-                    }
+                    if (DragonEngine.IsKeyDown(VirtualKey.Numpad5))
+                        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, MPManager.MaxPlayers);
                 }
                 else
                 {
                     if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
-                        MPManager.CurrentLobby.Leave();
+                    {
+                        MPManager.Leave();
+                        continue;
+                    }
 
                     if(DragonEngine.IsKeyDown(VirtualKey.Numpad3))
                     {
@@ -38,13 +41,7 @@ namespace Y7MP
                         packet.Writer.Write((byte)PacketMessage.CharacterPlayGMT);
                         packet.Writer.Write(454u);
 
-                        MPManager.SendToEveryone(packet, P2PSend.Unreliable);
-                    }
-
-                    if (DragonEngine.IsKeyDown(VirtualKey.Numpad4))
-                    {
-                        foreach (Friend friend in MPManager.CurrentLobby.Members)
-                            DragonEngine.Log("Lobby Member: " + friend.Name);
+                        MPManager.SendToEveryone(packet, EP2PSend.k_EP2PSendUnreliable);
                     }
                 }
             }
@@ -56,18 +53,13 @@ namespace Y7MP
             try
             {
                 DragonEngine.Initialize();
-
-                //Initialize Steam API
-                SteamClient.Init(1235140);
+                SteamAPI.Init();
 
                 //Initialize Steam API callbacks
-                SteamMatchmaking.OnLobbyCreated += MPManager.OnLobbyCreated;
-                SteamMatchmaking.OnLobbyEntered += MPManager.OnLobbyEnter;
-                SteamMatchmaking.OnLobbyInvite += MPManager.OnInvitedToLobby;
-                SteamNetworking.OnP2PSessionRequest += MPManager.OnP2PRequest;
-                SteamMatchmaking.OnLobbyMemberJoined += MPManager.LobbyBugTest;
-                SteamMatchmaking.OnLobbyMemberDisconnected += MPManager.LobbyBugTest;
-                SteamMatchmaking.OnLobbyMemberLeave += MPManager.LobbyBugTest;
+                m_callbacks.Add(Callback<LobbyCreated_t>.Create(MPManager.OnLobbyCreated));
+                m_callbacks.Add(Callback<LobbyEnter_t>.Create(MPManager.OnLobbyEnter));
+                m_callbacks.Add(Callback<LobbyInvite_t>.Create(MPManager.OnInvitedToLobby));
+                m_callbacks.Add(Callback<P2PSessionRequest_t>.Create(MPManager.OnP2PRequest));
 
                 //Start the input thread (reads keyboard input)
                 Thread inputThread = new Thread(InputThread);
@@ -76,10 +68,7 @@ namespace Y7MP
                
 
                 //Register Dragon Engine callback
-                DragonEngine.RegisterJob(MPManager.Update, DEJob.Update);
-
-
-                DragonEngineLibrary.Advanced.ImGui.Init();
+                DragonEngine.RegisterJob(MPManager.Update, DEJob.DrawSetup);
             }
             catch (Exception ex)
             {

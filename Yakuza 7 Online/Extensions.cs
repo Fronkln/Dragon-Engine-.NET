@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.IO;
 using DragonEngineLibrary;
+using Steamworks;
 
 namespace Y7MP
 {
@@ -10,6 +11,11 @@ namespace Y7MP
         public static int SizeOf(this object type)
         {
             return Marshal.SizeOf(type);
+        }
+
+        public static string Name(this CSteamID id)
+        {
+            return SteamFriends.GetFriendPersonaName(id);
         }
 
         #region BinaryWriter

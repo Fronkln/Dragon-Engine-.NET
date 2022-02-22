@@ -57,6 +57,7 @@ namespace DragonEngineLibrary
             {
                 return _objectAddress;
             }
+            internal set { _objectAddress = value; }
         }
 
         /// <summary>

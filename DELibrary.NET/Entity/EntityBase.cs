@@ -7,6 +7,41 @@ using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
 {
+    public struct Transform
+    {
+        internal EntityBase _owner;
+
+        public Vector4 Position
+        {
+            get{ return _owner.GetPosCenter(); }
+            set { _owner.SetPosCenter(value); }
+        }
+        public Quaternion Orient
+        {
+            get
+            {
+                Quaternion quat = new Quaternion();
+                EntityBase.DELibrary_EntityBase_Getter_Orient(_owner.Pointer, ref quat);
+
+                return quat;
+            }
+            set
+            {
+                IntPtr ptr = value.ToIntPtr();
+                EntityBase.DELibrary_EntityBase_Setter_Orient(_owner.Pointer, value.ToIntPtr());
+
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
+
+        /// <summary> Forward direction of this entity.</summary>
+        public Vector3 forwardDirection { get { return Orient * Vector3.forward; } }
+        /// <summary> Up direction of this entity.</summary>
+        public Vector3 upDirection { get { return Orient * Vector3.up; } }
+        /// <summary> Right direction of this entity.</summary>
+        public Vector3 rightDirection { get { return Orient * Vector3.right; } }
+    }
+
     public class EntityBase : CTask
     {
 
@@ -38,45 +73,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_GLOBAL_ENTITY_FROM_UID", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_EntityBase_GetGlobalEntityFromUID(ulong uid);
 
-        /// <summary>
-        /// Entity's center position.
-        /// </summary>
-        public Vector4 PosCenter
-        {
-            get
-            {
-                return GetPosCenter();
-            }
-            set
-            {
-                SetPosCenter(value);
-            }
-        }
-
-        public Quaternion Orient
-        {
-            get
-            {
-                Quaternion quat = new Quaternion();
-                DELibrary_EntityBase_Getter_Orient(Pointer, ref quat);
-
-                return quat;
-            }
-            set
-            {
-                IntPtr ptr = value.ToIntPtr();
-                DELibrary_EntityBase_Setter_Orient(Pointer, value.ToIntPtr());
-
-                Marshal.FreeHGlobal(ptr);
-            }
-        }
-
-        /// <summary> Forward direction of this entity.</summary>
-        public Vector3 forwardDirection { get { return Orient * Vector3.forward; } }
-        /// <summary> Up direction of this entity.</summary>
-        public Vector3 upDirection { get { return Orient * Vector3.up; } }
-        /// <summary> Forward direction of this entity.</summary>
-        public Vector3 rightDirection { get { return Orient * Vector3.right; } }
+        public Transform Transform;
 
         public EntityUID EntityUID
         {
@@ -95,6 +92,11 @@ namespace DragonEngineLibrary
             {
                 return DELibrary_EntityBase_Getter_SceneRoot(_objectAddress);
             }
+        }
+
+        public EntityBase()
+        {
+            Transform._owner = this;
         }
 
         /// <summary>

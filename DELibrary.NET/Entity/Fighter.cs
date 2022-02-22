@@ -25,6 +25,10 @@ namespace DragonEngineLibrary
     /// </summary>
     public class Fighter
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SCOMMANDAI", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Fighter_GetCommandAI(IntPtr fighterPtr);
+
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETTER_CHARACTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_Getter_Character(IntPtr fighterPtr);
 
@@ -52,6 +56,11 @@ namespace DragonEngineLibrary
 
         public Character Character { get; internal set; }
         internal IntPtr _ptr;
+
+        public bool IsValid()
+        {
+            return _ptr != IntPtr.Zero && Character.IsValid();
+        }
 
         internal Fighter(IntPtr pointer)
         {
@@ -139,6 +148,16 @@ namespace DragonEngineLibrary
         public void ThrowEquipAsset(bool leftHand, bool rightHand)
         {
             DELib_Fighter_ThrowEquipAsset(_ptr, leftHand, rightHand);
+        }
+
+        public BattleCommandAI GetBattleAI()
+        {
+            IntPtr addr = DELib_Fighter_GetCommandAI(_ptr);
+            BattleCommandAI ai = new BattleCommandAI();
+
+            ai.Pointer = addr;
+
+            return ai;
         }
     }
 

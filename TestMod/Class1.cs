@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 using DragonEngineLibrary;
+using DragonEngineLibrary.Service;
 
 namespace TestMod
 {
@@ -13,14 +15,41 @@ namespace TestMod
         {
             while (true)
             {
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
-                {
-                    NakamaManager.RemoveAllPartyMembers();
-                }
-
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad1))
                 {
-                    FighterManager.GetPlayer().Character.GetConstructor().StopAgent();
+                    //NakamaManager.RemoveAllPartyMembers();
+
+                    FighterManager.GenerateEnemyFighter(new PoseInfo(DragonEngine.GetHumanPlayer().Get().Transform.Position, 0), 0, CharacterID.m_masato);
+                }
+
+                if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
+                {
+                    //NakamaManager.RemoveAllPartyMembers();
+
+                    FighterManager.GenerateEnemyFighter(new PoseInfo(DragonEngine.GetHumanPlayer().Get().Transform.Position, 0), 0, CharacterID.s_masumi_44);
+                }
+
+                if (DragonEngine.IsKeyDown(VirtualKey.Numpad4))
+                    HActManager.DELib_HActManager_Test();
+                if (DragonEngine.IsKeyDown(VirtualKey.Numpad5))
+                {
+                    HActRequestOptions opts = new HActRequestOptions();
+
+                    opts.Init();
+                    opts.id = TalkParamID.h5040_shimano_throw;
+                    opts.is_force_play = false;
+                    opts.can_skip = false;
+
+
+                   // EntityHandle<CharacterBase> id = BattleResourceManager.CreateTempHActChara(CharacterID.w_saeko_haruka, Player.ID.saeko).UID; //DragonEngine.GetHumanPlayer().UID;
+                  //  EntityHandle<CharacterBase> id2 = BattleResourceManager.CreateTempHActChara(CharacterID.m_kiryu, Player.ID.kasuga).UID; //DragonEngine.GetHumanPlayer().UID;
+
+                    opts.Register(HActReplaceID.hu_player1, FighterManager.GetAllEnemies()[0].Character.UID);
+                    opts.Register(HActReplaceID.hu_enemy_00, FighterManager.GetAllEnemies()[1].Character.UID);
+                    //   opts.Register(HActReplaceID.hu_player1, id);
+
+                    BattleTurnManager.RequestHActEvent(opts);
+                   // BattleTurnManager.RequestPlayStartHact();
                 }
             }
 
