@@ -44,11 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimPlayer.cs" />
     <Compile Include="BattleTurnManagerMenu.cs" />
     <Compile Include="EffectEventMenu.cs" />
     <Compile Include="HActPlayer.cs" />
     <Compile Include="JobCounter.cs" />
     <Compile Include="NoclipMode.cs" />
+    <Compile Include="PlayermodelChanger.cs" />
     <Compile Include="Submenu\AgentCharacterRender.cs" />
     <Compile Include="Submenu\AIUtilCommandRender.cs" />
     <Compile Include="Submenu\CharaRender.cs" />

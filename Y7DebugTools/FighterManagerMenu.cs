@@ -13,7 +13,7 @@ namespace Y7DebugTools
         {
             Character player = DragonEngine.GetHumanPlayer();
 
-            FighterManager.GenerateEnemyFighter(new PoseInfo(player.GetPosCenter(), player.GetAngleY()), (uint)m_chosenCharaID, (CharacterID)m_chosenPersonalGroupID);
+            FighterManager.GenerateEnemyFighter(new PoseInfo(player.GetPosCenter(), player.GetAngleY()), (uint)m_chosenPersonalGroupID, (CharacterID)m_chosenCharaID);
         }
 
         public static void Draw()

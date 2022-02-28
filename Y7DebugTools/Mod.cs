@@ -13,6 +13,7 @@ namespace Y7DebugTools
 
         private bool m_npcMenuEnabled = false;
         private bool m_playerMenuEnabled = false;
+        private bool m_animPlayerMenuEnabled = false;
         private bool m_fighterManagerMenuEnabled = false;
         private bool m_battleTurnManagerMenuEnabled = false;
         private bool m_effectMenuEnabled = false;
@@ -23,6 +24,7 @@ namespace Y7DebugTools
         {
             ImGui.Begin("Debug");
             ImGui.Checkbox("Player", ref m_playerMenuEnabled);
+            ImGui.Checkbox("Animation", ref m_animPlayerMenuEnabled);
             ImGui.Checkbox("NPC", ref m_npcMenuEnabled);
             ImGui.Checkbox("FighterManager", ref m_fighterManagerMenuEnabled);
             ImGui.Checkbox("BattleTurnManager", ref m_battleTurnManagerMenuEnabled);
@@ -38,6 +40,8 @@ namespace Y7DebugTools
 
             if (m_playerMenuEnabled)
                 PlayerMenu.Draw();
+            if (m_animPlayerMenuEnabled)
+                AnimPlayer.Draw();
             if (m_npcMenuEnabled)
                 NPCMenu.Draw();
             if (m_fighterManagerMenuEnabled)

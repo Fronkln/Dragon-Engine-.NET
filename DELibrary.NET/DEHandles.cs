@@ -54,6 +54,11 @@ namespace DragonEngineLibrary
         /// </summary>
         public uint UID;
 
+        public EntityHandle(uint uid)
+        {
+            UID = uid;
+        }
+
         /// <summary>
         /// Get the reference to the entity from this handle.
         /// </summary>
@@ -69,6 +74,7 @@ namespace DragonEngineLibrary
         {
             return UID != 0 && Get()._objectAddress != IntPtr.Zero;
         }
+
 
         public static implicit operator T(EntityHandle<T> handle)
         {

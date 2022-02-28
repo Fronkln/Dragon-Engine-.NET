@@ -18,7 +18,6 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_GET_RENDER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Base_Get_Render(IntPtr character_base);
 
-
         /// <summary>
         /// Read only for now. Returns character's creation information
         /// </summary>

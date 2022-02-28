@@ -5,11 +5,18 @@ namespace DragonEngineLibrary
 {
     public class Character : CharacterBase
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_STATUS", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_Getter_Status(IntPtr chara);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_COMPONENTS", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Getter_Components(IntPtr chara);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GET_BATTLESTATUS", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Get_BattleStatus(IntPtr chara);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_IS_DEAD", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Character_IsDead(IntPtr chara);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETFIGHTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_GetFighter(IntPtr chara);
@@ -25,6 +32,26 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GET_CONSTRUCTOR", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_GetConstructor(IntPtr chara);
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_HUMANMODEMANAGER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_GetHumanModeManager(IntPtr chara);
+
+        /*
+        /// <summary>
+        /// Common information about the NPC
+        /// </summary>
+        public CharacterStatus Status
+        {
+            get
+            {
+                IntPtr result = DELib_Character_Getter_Status(Pointer);
+
+                if (result == null)
+                    return new CharacterStatus();
+                else
+                    return Marshal.PtrToStructure<CharacterStatus>(result);
+            }
+        }
+        */
 
         /// <summary>
         /// Common components of a character
@@ -37,6 +64,18 @@ namespace DragonEngineLibrary
             }
         }
 
+        public HumanModeManager HumanModeManager
+        {
+            get
+            {
+                IntPtr res = DELib_Character_GetHumanModeManager(Pointer);
+                HumanModeManager manager = new HumanModeManager();
+
+                manager.Pointer = res;
+
+                return manager;
+            }
+        }
 
         public float GetAngleY()
         {
@@ -51,6 +90,11 @@ namespace DragonEngineLibrary
         public void RequestWarpPose(PoseInfo inf)
         {
             DELib_Character_RequestWarpPose(_objectAddress, ref inf);
+        }
+
+        public bool IsDead()
+        {
+            return DELib_Character_IsDead(Pointer);
         }
 
         /// <summary>

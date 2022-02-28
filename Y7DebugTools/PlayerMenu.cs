@@ -41,7 +41,10 @@ namespace Y7DebugTools
                     NoclipMode.Toggle(m_noclipEnabled);
 
                 if (ImGui.CollapsingHeader("Player Character"))
+                {
+                    PlayermodelChanger.Draw();
                     CharaRender.Draw(player);
+                }
 
                 if (ImGui.CollapsingHeader("Player Stats Edit"))
                 {

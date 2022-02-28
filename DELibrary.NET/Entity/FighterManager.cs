@@ -9,6 +9,9 @@ namespace DragonEngineLibrary
     //Therefore, it makes sense that we make it static
     public static class FighterManager
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_GET_FIGHTER_INFO", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_FighterManager_GetFighterInfo(uint fighterIndex);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_REQUESTREGISTRATIONFIGHTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_FighterManager_RequestRegistrationFighter(uint charaUID, BattleGroupID id);
 
@@ -78,6 +81,16 @@ namespace DragonEngineLibrary
             }
 
             return enemyFighters.ToArray();
+        }
+
+        public static BattleFighterInfo GetFighterInfo(uint fighterIndex)
+        {
+            IntPtr inf = DELib_FighterManager_GetFighterInfo(fighterIndex);
+
+            if (inf == IntPtr.Zero)
+                return new BattleFighterInfo();
+            else
+                return Marshal.PtrToStructure<BattleFighterInfo>(inf);
         }
 
         /// <summary>

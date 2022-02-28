@@ -31,7 +31,7 @@ namespace Y7DebugTools
 
             NPCRequestMaterial material = new NPCRequestMaterial();
             material.Material = new NPCMaterial();
-            material.Material.pos_ = DragonEngine.GetHumanPlayer().Get().Transform.Position;
+            material.Material.pos_ = DragonEngine.GetHumanPlayer().Transform.Position;
             material.Material.character_id_ = id;
             material.Material.collision_type_ = 0;
             material.Material.is_eternal_life_ = true;

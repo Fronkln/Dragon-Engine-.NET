@@ -9,17 +9,11 @@ namespace DragonEngineLibrary
 {
     public class ECGameComponent : EntityComponent
     {
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_GAME_COMPONENT_GETTER_OWNER", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr DELib_Game_Component_Getter_Owner(IntPtr component);
-
-        public virtual GameObject Owner
+        public new virtual GameObject Owner
         {
             get
             {
-                GameObject ent = new GameObject();
-                ent._objectAddress = DELib_Game_Component_Getter_Owner(_objectAddress);
-
-                return ent;
+                return new EntityHandle<GameObject>(base.Owner.UID);
             }
         }
     }

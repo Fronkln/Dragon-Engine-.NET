@@ -155,9 +155,9 @@ namespace DragonEngineLibrary
         }
 
         //Same as GetSceneEntity(SceneEntity.human_player)
-        public static EntityHandle<Character> GetHumanPlayer()
+        public static Character GetHumanPlayer()
         {
-            return DELib_GetHumanPlayer();
+            return new EntityHandle<Character>(DELib_GetHumanPlayer());
         }
 
         public static void LibraryRenderUpdate()

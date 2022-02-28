@@ -49,7 +49,7 @@ namespace DragonEngineLibrary
         }   
 
         /// <summary>
-        /// Advanced 
+        /// Don't touch this unless you absolutely know what you are doing!
         /// </summary>
         public IntPtr Pointer
         {
@@ -57,7 +57,7 @@ namespace DragonEngineLibrary
             {
                 return _objectAddress;
             }
-            internal set { _objectAddress = value; }
+            set { _objectAddress = value; }
         }
 
         /// <summary>

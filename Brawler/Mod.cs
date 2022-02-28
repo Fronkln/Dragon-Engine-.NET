@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using DragonEngineLibrary;
 
@@ -6,7 +7,10 @@ namespace Brawler
 {
     public class Mod : DragonEngineMod
     {
-        private bool m_fightStartedDoOnce = false;
+        //0000000140085CF0 basemode change on debug build find the same place on retail and name it
+        //used for getting up from attack after X interval
+        [DllImport("Y7Internal.dll", EntryPoint = "VFUNC_TEST", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void TEST_FUNC();
 
         public void InputThread()
         {
@@ -24,6 +28,7 @@ namespace Brawler
                     BrawlerPlayer.InputUpdate();
             }
         }
+
 
         public override void OnModInit()
         {

@@ -16,9 +16,19 @@ namespace DragonEngineLibrary
         /// <summary>
         /// Reload the mesh with specified character id.
         /// </summary>
-        public void Reload(CharacterID chara_id, byte bank_mask = 0x1, bool is_change_chara_id = true)
+        public void Reload(CharacterID chara_id, byte bank_mask, bool is_change_chara_id = true)
         {
             DELib_ECRenderCharacter_Reload(_objectAddress, chara_id, bank_mask, false, is_change_chara_id);
+        }
+
+        /// <summary>
+        /// Reload the mesh with specified character id.
+        /// </summary>
+        public void Reload(CharacterID chara_id, bool is_change_chara_id = true)
+        {
+            bool characterFighting = new EntityHandle<Character>(Owner.UID).Get().GetFighter().IsValid();
+
+            DELib_ECRenderCharacter_Reload(_objectAddress, chara_id, (characterFighting ? (byte)0x80 : (byte)0x1), false, is_change_chara_id);
         }
     }
 }

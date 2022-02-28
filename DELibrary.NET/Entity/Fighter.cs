@@ -25,9 +25,11 @@ namespace DragonEngineLibrary
     /// </summary>
     public class Fighter
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GET_INFO", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Fighter_GetInfo(IntPtr fighterPtr);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SCOMMANDAI", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_GetCommandAI(IntPtr fighterPtr);
-
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETTER_CHARACTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_Getter_Character(IntPtr fighterPtr);
@@ -59,7 +61,7 @@ namespace DragonEngineLibrary
 
         public bool IsValid()
         {
-            return _ptr != IntPtr.Zero && Character.IsValid();
+            return Character.IsValid() && Character.GetFighter()._ptr == _ptr;
         }
 
         internal Fighter(IntPtr pointer)
@@ -79,12 +81,29 @@ namespace DragonEngineLibrary
             return Character.GetBattleStatus();
         }
 
+
+        public BattleFighterInfo GetInfo()
+        {
+            IntPtr inf = DELib_Fighter_GetInfo(_ptr);
+
+            if (inf == IntPtr.Zero)
+                return new BattleFighterInfo();
+            else
+                return Marshal.PtrToStructure<BattleFighterInfo>(inf);
+        }
+
         /// <summary>
         /// Is the fighter knocked down?
         /// </summary>
         public bool IsDown()
         {
-            return DELib_Fighter_IsDown(_ptr);
+            BattleFighterInfo inf = GetInfo();
+            return inf.is_ragdoll_;
+        }
+
+        public bool IsDead()
+        {
+            return Character.IsDead();
         }
 
         /// <summary>

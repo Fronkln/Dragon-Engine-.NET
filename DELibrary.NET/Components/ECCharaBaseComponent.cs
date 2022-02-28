@@ -11,11 +11,11 @@ namespace DragonEngineLibrary
         /// <summary>
         /// Return the owner as base character
         /// </summary>
-        public CharacterBase OwnerBaseCharacter
+        public new CharacterBase Owner
         {
             get
             {
-                return (CharacterBase)Owner; 
+                return new EntityHandle<CharacterBase>(base.Owner.UID);
             }
         }
     }

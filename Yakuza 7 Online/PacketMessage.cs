@@ -9,6 +9,8 @@ namespace Y7MP
         CharacterPlayGMT,
         CharacterAnimationUpdate,
         PlayerChatMessage,
-        FighterManagerGenerateEnemy
+        FighterManagerGenerateEnemy,
+        PlayerOnPlayerHAct,
+        PlayerFullInfoUpdate
     }
 }

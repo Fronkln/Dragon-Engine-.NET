@@ -19,7 +19,7 @@ namespace Y7DebugTools
 
             if (enabled)
             {
-                m_curPos = DragonEngine.GetHumanPlayer().Get().Transform.Position;
+                m_curPos = DragonEngine.GetHumanPlayer().Transform.Position;
                 DragonEngine.RegisterJob(Update, DEJob.DrawSetup);
             }
             else

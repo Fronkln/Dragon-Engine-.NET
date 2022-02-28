@@ -5,13 +5,13 @@ namespace DragonEngineLibrary
 {
     public static class HActManager
     {
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_TEST", CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.U1)]
-        public static extern void DELib_HActManager_Test();
-
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_REQUESTHACTPROC", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HActManager_RequestHActProc(ref HActRequestOptions opt);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_REQUESTNEXTHACT", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HActManager_RequestNextHAct(ref HActRequestOptions opt);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_REQUESTHACT", CallingConvention = CallingConvention.Cdecl)]
         [return:MarshalAs(UnmanagedType.U1)]
@@ -19,6 +19,10 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_SKIP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HActManager_Skip();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_ISPLAYING", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HActManager_IsPlaying();
 
 
         /// <summary>
@@ -35,6 +39,19 @@ namespace DragonEngineLibrary
         public static bool RequestHAct(HActRequestOptions opt)
         {
             return DELib_HActManager_RequestHAct(ref opt);
+        }
+
+        /// <summary>
+        /// Request HAct.
+        /// </summary>
+        public static bool RequestNextHAct(HActRequestOptions opt)
+        {
+            return DELib_HActManager_RequestNextHAct(ref opt);
+        }
+
+        public static bool IsPlaying()
+        {
+            return DELib_HActManager_IsPlaying();
         }
 
         /// <summary>

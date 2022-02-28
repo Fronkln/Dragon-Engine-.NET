@@ -67,6 +67,7 @@
     <Compile Include="Entity\AuthPlayBase.cs" />
     <Compile Include="Entity\BattleCommandAI.cs" />
     <Compile Include="Entity\BattleResourceManager.cs" />
+    <Compile Include="Entity\HumanModeManager.cs" />
     <Compile Include="Entity\Yakuza 7\BattleTurnManager.cs" />
     <Compile Include="Entity\BulletManager.cs" />
     <Compile Include="Entity\Character.cs" />
@@ -118,6 +119,8 @@
     <Compile Include="Enums\CharacterBagType.cs" />
     <Compile Include="Enums\CharacterBoneType.cs" />
     <Compile Include="Enums\CharacterClassID.cs" />
+    <Compile Include="Enums\CharacterDeleteFactorID.cs" />
+    <Compile Include="Enums\CharacterExistLevelID.cs" />
     <Compile Include="Enums\CharacterHeightID.cs" />
     <Compile Include="Enums\CharacterID.cs" />
     <Compile Include="Enums\CharacterModelD.cs" />
@@ -157,12 +160,18 @@
     <Compile Include="Entity\GameObject.cs" />
     <Compile Include="Entity\Player.cs" />
     <Compile Include="MarshallingTests.cs" />
+    <Compile Include="Structs\BattleFighterInfo.cs" />
+    <Compile Include="Structs\CharacterStatus.cs" />
+    <Compile Include="Structs\DynamicsPoseInfo.cs" />
+    <Compile Include="Structs\MotionBehaviorGroupActID.cs" />
+    <Compile Include="Structs\MotionPlayInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structs\CharacterComponents.cs" />
     <Compile Include="Structs\DynamicsMatrix.cs" />
     <Compile Include="Structs\HActRequestOptions.cs" />
     <Compile Include="Structs\Matrix4x4.cs" />
+    <Compile Include="Structs\MotionTimingStatus.cs" />
     <Compile Include="Structs\Shapes.cs" />
     <Compile Include="Third Party\RMM.cs" />
     <Compile Include="Structs\AIUtil.cs" />
