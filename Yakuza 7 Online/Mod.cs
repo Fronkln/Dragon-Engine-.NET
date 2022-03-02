@@ -30,22 +30,18 @@ namespace Y7MP
                 }
                 else
                 {
-                    if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
-                    {
-                        MPManager.Leave();
-                        continue;
-                    }
-
                     if (DragonEngine.IsKeyDown(VirtualKey.T))
                     {
                         MPChat.focusOneTime = true;
                     }
 
+#if DEBUG
+
                     if (DragonEngine.IsKeyDown(VirtualKey.Numpad3))
                     {
                         MPPlayer player = MPManager.CreateFakePlayer();
-                        player.PlayerInfo.isPVP = true;
                     }
+#endif
 
                     if (DragonEngine.IsKeyHeld(VirtualKey.LeftShift))
                     {
@@ -72,6 +68,7 @@ namespace Y7MP
                 m_callbacks.Add(Callback<LobbyInvite_t>.Create(MPManager.OnInvitedToLobby));
                 m_callbacks.Add(Callback<P2PSessionRequest_t>.Create(MPManager.OnP2PRequest));
                 m_callbacks.Add(Callback<LobbyChatUpdate_t>.Create(MPManager.OnLobbyChatUpdate));
+                m_callbacks.Add(Callback<GameLobbyJoinRequested_t>.Create(MPManager.OnGameLobbyJoinRequested));
 
                 //Start the input thread (reads keyboard input)
                 Thread inputThread = new Thread(InputThread);
@@ -84,6 +81,9 @@ namespace Y7MP
 
                 //Register Dragon Engine callback
                 DragonEngine.RegisterJob(MPManager.Update, DEJob.DrawSetup);
+
+                //Register RPC functions and cache reflection
+                ReflectionCache.Cache();
             }
             catch (Exception ex)
             {

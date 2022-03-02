@@ -56,12 +56,19 @@
     <Compile Include="MPBattle.cs" />
     <Compile Include="MPChat.cs" />
     <Compile Include="MPHooks.cs" />
+    <Compile Include="MPHost.cs" />
     <Compile Include="MPManager.cs" />
     <Compile Include="MPPlayer.cs" />
     <Compile Include="MPUI.cs" />
     <Compile Include="NetPacket.cs" />
     <Compile Include="PacketMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionCache.cs" />
+    <Compile Include="WorldSync\MpRPCAttribute.cs" />
+    <Compile Include="WorldSync\NetworkedEntities\GeneratedEnemy.cs" />
+    <Compile Include="WorldSync\RPCEvent.cs" />
+    <Compile Include="WorldSync\SimpleNetworkedEntity.cs" />
+    <Compile Include="WorldSync\WorldState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DELibrary.NET\DELibrary.NET.csproj">

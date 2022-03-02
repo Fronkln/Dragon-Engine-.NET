@@ -9,8 +9,11 @@ namespace Y7MP
     {
         public static MPPlayer LocalPlayer;
 
-        public const CharacterID DefaultPlayerModel = (CharacterID)15287; //Normal ichiban
-        public const uint DefaultPvpEnemyID = 0x3D1C;
+        public static bool DebugLocalGhostVisible = false;
+
+        public const CharacterID DefaultPlayerModel = CharacterID.m_ichiban_23; //Normal ichiban
+        public const uint DefaultPvpEnemyID = 0x3D1E;
+
         public const float PLAYER_STATUS_UPDATE_RATE = 0.1f;
         public const float PLAYER_POS_LERP_RATE = 0.15f;
         public const float PLAYER_ROT_LERP_RATE = 6;
@@ -26,8 +29,8 @@ namespace Y7MP
             public uint last_stage;
 
             //updated less often
-            public int playerHealth;
-            public int playerMaxHealth;
+            public long playerHealth;
+            public long playerMaxHealth;
 
             public int level;
 
@@ -36,8 +39,11 @@ namespace Y7MP
 
         public CSteamID Owner;
         public EntityHandle<Character> Character;
-        //ec_handle<cui_entity_component_enemy_life_gauge> NameDisplay;
+        public UIEntityComponentEnemyLifeGauge LifeGauge;
         public MPPlayerInfo PlayerInfo;
+
+
+        public bool IsFakePlayer = false;
 
         private float m_nextPositionUpdate = 0;
 
@@ -50,6 +56,7 @@ namespace Y7MP
 
             NetPacket coordUpdate = new NetPacket(false);
             NetPacket motionUpdate = new NetPacket(false);
+            NetPacket infoUpdate = new NetPacket(false);
 
             coordUpdate.Writer.Write((byte)PacketMessage.CharacterPositionUpdate);
             coordUpdate.Writer.Write((Vector3)playerEntity.Transform.Position);
@@ -60,6 +67,8 @@ namespace Y7MP
             motionUpdate.Writer.Write((byte)PacketMessage.CharacterAnimationUpdate);
             motionUpdate.Writer.WriteObject(motion.PlayInfo);
             motionUpdate.Writer.WriteObject(motion.BhvPartsInfo);
+
+            SendPlayerInfo();
 
             MPManager.SendToEveryone(coordUpdate);
             MPManager.SendToEveryone(motionUpdate);
@@ -94,49 +103,105 @@ namespace Y7MP
             return false;
         }
 
+        public void SendPlayerInfo()
+        {
+            if (!IsLocalPlayer() && !IsFakePlayer)
+                return;
+
+            NetPacket packet = new NetPacket(false);
+
+            if (!IsFakePlayer)
+            {
+                packet.Writer.Write((byte)PacketMessage.PlayerFullInfoUpdate);
+                packet.Writer.Write((uint)LocalPlayer.PlayerInfo.last_playermodel);
+                packet.Writer.Write(Player.GetHPNow(Player.ID.kasuga));
+                packet.Writer.Write(Player.GetHPMax(Player.ID.kasuga));
+                packet.Writer.Write(Player.GetLevel(Player.ID.kasuga));
+
+                MPManager.SendToEveryone(packet, EP2PSend.k_EP2PSendReliable);
+            }
+            else
+            {
+
+                packet.Writer.Write((uint)3);
+
+                MPManager.HandleP2PMessage(PacketMessage.PlayerFullInfoUpdate, Owner, new NetPacket(packet.Stream.ToArray()));
+            }
+        }
+
         public void Update()
         {
             Character chara = Character.Get();
+            Character localPlayer = DragonEngine.GetHumanPlayer();
+            ECBattleStatus status = chara.GetBattleStatus();
+
+            status.CurrentHP = PlayerInfo.playerHealth;
+            status.MaxHP = PlayerInfo.playerMaxHealth;
 
 
-            if(PlayerInfo.last_playermodel != CharacterID.invalid)
-                if(chara.Attributes.chara_id != PlayerInfo.last_playermodel)
-                {
+            if (!PlayerInfo.isPVP)
+            {
+                if (PlayerInfo.last_playermodel != CharacterID.invalid)
+                    if (chara.Attributes.chara_id != PlayerInfo.last_playermodel)
+                    {
 #if DEBUG
-                    DragonEngine.Log("Changing from " + chara.Attributes.chara_id + " to " + PlayerInfo.last_playermodel);
+                        DragonEngine.Log("Changing from " + chara.Attributes.chara_id + " to " + PlayerInfo.last_playermodel);
 #endif
-                    if (!IsLocalPlayer())
-                        CreateCharAny();
-                    else
-                        CreateCharNormal();
+                        if (!IsLocalPlayer())
+                            CreateCharAny();
+                        else
+                            CreateCharNormal();
 
-                    return;
+                        return;
+                    }
+            }
+            else
+            {
+                if (!IsFakePlayer)
+                {
+                    Character.Get().GetBattleStatus().MaxHP = PlayerInfo.playerHealth;
+                    Character.Get().GetBattleStatus().CurrentHP = PlayerInfo.playerMaxHealth;
                 }
+            }
 
             if (IsLocalPlayer())
             {
+                PlayerInfo.last_playermodel = localPlayer.Attributes.chara_id;
+
                 if (MPManager.MPTime >= m_nextPositionUpdate)
                 {
                     UpdateNetworkPlayer();
                     m_nextPositionUpdate += PLAYER_STATUS_UPDATE_RATE;
                 }
 
-                if (!HActManager.IsPlaying())
-                    if (chara.IsVisible())
-                        chara.SetVisible(false, false);
-  
+
+                if (!DebugLocalGhostVisible)
+                {
+                    if (!HActManager.IsPlaying())
+                        if (chara.IsVisible())
+                            chara.SetVisible(false, false);
+                }
+                else
+                    chara.SetVisible(true, false);
+
             }
             else
             {
                 if (!PlayerInfo.isPVP)
                 {
-                    if(ShouldTransitionToNormal())
+                    if (ShouldTransitionToNormal())
+                    {
                         DragonEngine.Log("Transition to normal");
+                        CreateCharNormal();
+                    }
                 }
                 else
                 {
                     if (ShouldTransitionToPvP())
+                    {
                         DragonEngine.Log("Transition to PVP");
+                        CreateCharPvP();
+                    }
                 }
             }
 
@@ -156,6 +221,9 @@ namespace Y7MP
 
         public void CreateCharAny()
         {
+            if (PlayerInfo.last_playermodel == CharacterID.invalid)
+                PlayerInfo.last_playermodel = DefaultPlayerModel;
+
             if (!Character.IsValid())
             {
                 if (PlayerInfo.isPVP)
@@ -181,9 +249,7 @@ namespace Y7MP
             material.Material = new NPCMaterial();
             material.Material.pos_ = Vector4.zero;
 
-            if (IsLocalPlayer())
-                if (PlayerInfo.last_playermodel == CharacterID.invalid)
-                    PlayerInfo.last_playermodel = DragonEngine.GetHumanPlayer().Attributes.chara_id;
+            DragonEngine.Log("Change to " + PlayerInfo.last_playermodel);
 
             material.Material.character_id_ = PlayerInfo.last_playermodel;
             material.Material.is_eternal_life_ = true;
@@ -201,6 +267,11 @@ namespace Y7MP
 
             if (IsLocalPlayer())
                 Character.Get().SetVisible(false, false);
+
+            LifeGauge = UIEntityComponentEnemyLifeGauge.Attach(Character);
+            LifeGauge.SetCategoryName(Owner.Name());
+
+            ECBattleStatus.Attach(Character);
 
             //wake up the animation component
             Character.Get().GetMotion().RequestGMT(MotionID.test_dance);
@@ -221,6 +292,10 @@ namespace Y7MP
                 Character.Get().DestroyEntity();
 
             Character = FighterManager.GenerateEnemyFighter(new PoseInfo(PlayerInfo.last_position, PlayerInfo.last_rot_y), DefaultPvpEnemyID, PlayerInfo.last_playermodel);
+
+
+            LifeGauge = new EntityComponentHandle<UIEntityComponentEnemyLifeGauge>(Character.Get().EntityComponentMap.GetComponent(EntityComponent.ECSlotID.ui_enemy_life_gauge).UID);
+            LifeGauge.SetCategoryName(Owner.Name() + $"({PlayerInfo.playerHealth}/{PlayerInfo.playerMaxHealth})");
 
             if (!Character.IsValid())
                 DragonEngine.Log("Character invalid!");

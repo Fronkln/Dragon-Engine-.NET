@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Timers;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,8 @@ namespace Y7MP
 
             BattleTurnManager.OverrideAttackerSelection(MPBattle.HandleAttackerSelection);
 
+            CreatePlayer(SteamUser.GetSteamID());
+
             DragonEngine.Log("Lobby entered.");
         }
 
@@ -90,44 +93,68 @@ namespace Y7MP
             SteamNetworking.AcceptP2PSessionWithUser(request.m_steamIDRemote);
         }
 
+        public static void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t request)
+        {
+            SteamMatchmaking.JoinLobby(request.m_steamIDLobby);
+        }
+
         public static void OnLobbyChatUpdate(LobbyChatUpdate_t update)
         {
             CSteamID id = new CSteamID(update.m_ulSteamIDMakingChange);
 
-            if (update.m_rgfChatMemberStateChange == 1)
+            switch ((EChatMemberStateChange)update.m_rgfChatMemberStateChange)
             {
-                CreatePlayer(id);
+                case EChatMemberStateChange.k_EChatMemberStateChangeEntered:
+                    CreatePlayer(id);
 
-                Timer timer = new Timer()
-                {
-                    AutoReset = false,
-                    Enabled = true,
-                    Interval = 1000
-                };
+                    Timer timer = new Timer()
+                    {
+                        AutoReset = false,
+                        Enabled = true,
+                        Interval = 1000
+                    };
 
-                timer.Elapsed += delegate
-                {
-                    NetPacket packet = new NetPacket(false);
-                    packet.Writer.Write((byte)PacketMessage.PlayerFullInfoUpdate);
-                    packet.Writer.Write((uint)MPPlayer.LocalPlayer.PlayerInfo.last_playermodel);
+                    timer.Elapsed += delegate
+                    {
+                        MPPlayer.LocalPlayer.SendPlayerInfo();
+                    };
 
-                    SendPacket(id, packet, EP2PSend.k_EP2PSendReliable);
-                    DragonEngine.Log("Sent our player information to the newcomer");
-                };
+                    DragonEngine.Log(id.Name() + " joined.");
+
+                    break;
+
+                case EChatMemberStateChange.k_EChatMemberStateChangeDisconnected:
+                    playerList[id].Character.Get().DestroyEntity();
+                    playerList.Remove(id);
+
+                    DragonEngine.Log(id.Name() + " left.");
+                    break;
+                case EChatMemberStateChange.k_EChatMemberStateChangeLeft:
+                    goto case EChatMemberStateChange.k_EChatMemberStateChangeDisconnected;
             }
-            else if (update.m_ulSteamIDMakingChange == 2 || update.m_ulSteamIDMakingChange == 4)
-            {
-                playerList[id].Character.Get().DestroyEntity();
-                playerList.Remove(id);
-            }
+        }
 
+        public static MPPlayer GetPlayerForCharacter(Character chara)
+        {
+            foreach (var kv in playerList)
+                if (kv.Value.Character.UID == chara.UID)
+                    return kv.Value;
+
+            return null;
         }
 
         public static MPPlayer CreatePlayer(CSteamID id)
         {
             MPPlayer player = new MPPlayer();
             player.Owner = id;
-            playerList.Add(id, player);
+
+            if (!playerList.ContainsKey(id))
+                playerList.Add(id, player);
+            else
+            {
+                playerList[id].Character.Get().DestroyEntity();
+                playerList[id] = player;
+            }
 
             if (player.IsLocalPlayer())
                 MPPlayer.LocalPlayer = player;
@@ -141,28 +168,74 @@ namespace Y7MP
         {
             Random rnd = new Random();
 
-            CharacterID[] charas = new CharacterID[]
-            {
-                CharacterID.n_akiyama,
-                CharacterID.m_kiryu,
-                CharacterID.m_ichiban_23,
-                CharacterID.m_adachi_mou,
-                CharacterID.w_saeko_haruka
-            };
-
-
             CSteamID fakeID = new CSteamID((ulong)rnd.Next(1000000000, int.MaxValue));
             MPPlayer fakePlayer = CreatePlayer(fakeID);
 
-            fakePlayer.PlayerInfo.last_playermodel = charas[rnd.Next(0, charas.Length)];
             fakePlayer.PlayerInfo.last_position = (Vector3)MPPlayer.LocalPlayer.Character.Get().Transform.Position + MPPlayer.LocalPlayer.Character.Get().Transform.forwardDirection * 2;
             fakePlayer.PlayerInfo.last_rot_y = MPPlayer.LocalPlayer.Character.Get().GetAngleY();
+
+            fakePlayer.PlayerInfo.playerMaxHealth = rnd.Next(1000, 5000);
+            fakePlayer.PlayerInfo.playerHealth = rnd.Next(0, (int)fakePlayer.PlayerInfo.playerMaxHealth);
+            fakePlayer.PlayerInfo.level = rnd.Next(1, 100);
+
+            fakePlayer.IsFakePlayer = true;
+
+            Timer timer = new Timer()
+            {
+                AutoReset = false,
+                Enabled = true,
+                Interval = 1000
+            };
+
+            timer.Elapsed += delegate
+            {
+                fakePlayer.SendPlayerInfo();
+                DragonEngine.Log("Fake info sent");
+            };
 
             DragonEngine.Log("Created fake MPPlayer");
 
             return fakePlayer;
         }
 
+
+        public static void HandleEntityRPC(ushort entityID, RPCEvent type, NetPacket args)
+        {
+            if (!RPCMethods.RegisteredRPCs.ContainsKey(type))
+            {
+                DragonEngine.Log("Unregistered RPC: " + type);
+                return;
+            }
+
+            MethodInfo function = RPCMethods.RegisteredRPCs[type];
+            ParameterInfo[] parameters = function.GetParameters();
+
+
+            if (!function.IsStatic && (entityID == 0 || !WorldState.DynamicEntities.ContainsKey(entityID)))
+            {
+                DragonEngine.Log("RPC on an entity which does not exist. ID: " + entityID + " RPC: " + type);
+                return;
+            }
+
+            object[] funcParams = args.Reader.ReadFunctionArguments(function);
+
+            if (!function.IsStatic)
+            {
+                SimpleNetworkedEntity ent = WorldState.DynamicEntities[entityID];
+
+                if (ent == null)
+                {
+                    DragonEngine.Log("Registered entity is null!");
+                    return;
+                }
+
+                function.Invoke(ent, funcParams);
+            }
+            else
+            {
+                function.Invoke(null, funcParams);
+            }
+        }
 
         public static void HandleP2PMessage(PacketMessage type, CSteamID sender, NetPacket packet)
         {
@@ -175,6 +248,25 @@ namespace Y7MP
 
             switch (type)
             {
+                default:
+                    DragonEngine.Log("Unhandled RPC: " + type);
+                    break;
+
+                case PacketMessage.SimpleNetworkEntityCreation:
+                    string typeString = packet.Reader.ReadString();
+                    ushort newEntID = packet.Reader.ReadUInt16();
+                    bool entityTypeExists = ReflectionCache.ClassNameCache.ContainsKey(typeString);
+
+                    System.Diagnostics.Debug.Assert(entityTypeExists, "Host tried to create an entity that does not exist");
+
+                    Type entityType = ReflectionCache.ClassNameCache[typeString];              
+                    WorldState.HandleCreationRequest(entityType, newEntID, packet);
+                    break;
+
+                case PacketMessage.SimpleNetworkEntityRPC:
+                    HandleEntityRPC(packet.Reader.ReadUInt16(), (RPCEvent)packet.Reader.ReadUInt16(), packet);
+                    break;
+
                 case PacketMessage.CharacterPositionUpdate:
                     if (senderChara.IsValid())
                     {
@@ -216,12 +308,12 @@ namespace Y7MP
                     break;
 
                 case PacketMessage.PlayerOnPlayerHAct:
-                    CSteamID attacker = new CSteamID(packet.Reader.ReadUInt64());
-                    CSteamID victim = new CSteamID(packet.Reader.ReadUInt64());
+                    CSteamID hactAttacker = new CSteamID(packet.Reader.ReadUInt64());
+                    CSteamID hactVictim = new CSteamID(packet.Reader.ReadUInt64());
                     TalkParamID hact = (TalkParamID)packet.Reader.ReadUInt32();
                     bool next = packet.Reader.ReadBoolean();
 
-                    if (!playerList.ContainsKey(attacker) || !playerList.ContainsKey(victim))
+                    if (!playerList.ContainsKey(hactAttacker) || !playerList.ContainsKey(hactVictim))
                         break;
 
                     HActRequestOptions hactOpt = new HActRequestOptions();
@@ -229,8 +321,8 @@ namespace Y7MP
                     hactOpt.is_force_play = (!next ? true : false);
                     hactOpt.can_skip = false;
 
-                    hactOpt.Register(HActReplaceID.hu_player1, playerList[attacker].Character.UID);
-                    hactOpt.Register(HActReplaceID.hu_enemy_00, playerList[victim].Character.UID);
+                    hactOpt.Register(HActReplaceID.hu_player1, playerList[hactAttacker].Character.UID);
+                    hactOpt.Register(HActReplaceID.hu_enemy_00, playerList[hactVictim].Character.UID);
 
                     if (!next)
                         HActManager.RequestHAct(hactOpt);
@@ -241,16 +333,45 @@ namespace Y7MP
 
                 case PacketMessage.PlayerFullInfoUpdate:
                     senderPlayer.PlayerInfo.last_playermodel = (CharacterID)packet.Reader.ReadUInt32();
+                    senderPlayer.PlayerInfo.playerHealth = packet.Reader.ReadInt64();
+                    senderPlayer.PlayerInfo.playerMaxHealth = packet.Reader.ReadInt64();
+                    senderPlayer.PlayerInfo.level = packet.Reader.ReadInt32();
                     break;
                 case PacketMessage.PlayerChatMessage:
                     string text = packet.Reader.ReadString();
-                   // string text = System.Text.Encoding.UTF8.GetString(packet.Stream.ToArray(), (int)packet.Reader.BaseStream.Position, packet.Reader.ReadInt32());
+                    // string text = System.Text.Encoding.UTF8.GetString(packet.Stream.ToArray(), (int)packet.Reader.BaseStream.Position, packet.Reader.ReadInt32());
                     MPChat.AddMessage($"{senderPlayer.Owner.Name()}: {text}");
                     break;
-            }
 
-            //We are done with it
-            packet.Reader.Dispose();
+                case PacketMessage.TURNBASED_ForceCounterCommand:
+                    MPPlayer counterer = playerList[new CSteamID(packet.Reader.ReadUInt64())];
+                    MPPlayer victimCounter = playerList[new CSteamID(packet.Reader.ReadUInt64())];
+                    RPGSkillID skill = (RPGSkillID)packet.Reader.ReadUInt32();
+
+                    if (victimCounter.IsLocalPlayer())
+                        BattleTurnManager.ForceCounterCommand(counterer.Character.Get().GetFighter(), FighterManager.GetPlayer(), skill);
+                    else
+                        BattleTurnManager.ForceCounterCommand(counterer.Character.Get().GetFighter(), victimCounter.Character.Get().GetFighter(), skill);
+
+                    DragonEngine.Log(counterer.Owner.Name() + " is countering: " + victimCounter.Owner + " with skill: " + skill);
+                    break;
+
+                case PacketMessage.PlayerCombatUpdate:
+                    senderChara.GetBattleStatus().CurrentHP = packet.Reader.ReadInt64();
+                    senderChara.GetBattleStatus().MaxHP = packet.Reader.ReadInt64();
+                    break;
+
+                case PacketMessage.TEST_EveryoneBecomesFriendly:
+                    foreach (var player in playerList)
+                        player.Value.PlayerInfo.isPVP = false;
+                    break;
+
+                case PacketMessage.TEST_EveryoneBecomesHostile:
+                    foreach (var player in playerList)
+                        player.Value.PlayerInfo.isPVP = true;
+
+                    break;
+            }
         }
 
         public static void ReadNetworkData()
@@ -298,6 +419,17 @@ namespace Y7MP
             if (!Connected)
                 return;
 
+            if (player.IsDead())
+            {
+                MPManager.Leave();
+                return;
+            }
+
+            NakamaManager.RemoveAllPartyMembers();
+
+            if (FighterManager.IsBrawlerMode())
+                BattleTurnManager.ReleaseMenu();
+
             MPTime += DragonEngine.deltaTime;
 
             //Check if any lobby members are uncreated
@@ -309,7 +441,7 @@ namespace Y7MP
                     CreatePlayer(lobbyPlr);
             }
 
-            foreach (var kv in playerList)
+            foreach (var kv in playerList.ToArray())
                 if (!kv.Value.Character.IsValid())
                     kv.Value.CreateCharAny();
 
@@ -324,6 +456,8 @@ namespace Y7MP
                     plr.Update();
             }
 
+            if (MPPlayer.LocalPlayer.IsMasterClient())
+                MPHost.Update();
         }
     }
 }

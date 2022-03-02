@@ -62,18 +62,30 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_SET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
         public static extern void DELibrary_EntityBase_Setter_Orient(IntPtr entity, IntPtr res);
 
-        //[DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
-        // public static extern Vector4 DELibrary_EntityBase_Getter_Orient(IntPtr entity);
+
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_POS_CENTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern Vector4 DELibrary_EntityBase_GetPosCenter(IntPtr entity);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_SET_POS_CENTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_EntityBase_SetPosCenter(IntPtr entity, Vector4 pos);
 
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_GLOBAL_ENTITY_FROM_UID", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern uint DELibrary_EntityBase_GetGlobalEntityFromUID(ulong uid);
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_ENTITY_COMPONENT_MAP", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELibrary_EntityBase_Getter_EntityComponentMap(IntPtr entity);
 
         public Transform Transform;
+
+        public EntityComponentMapSync EntityComponentMap
+        {
+            get
+            {
+                IntPtr address = DELibrary_EntityBase_Getter_EntityComponentMap(Pointer);
+
+                EntityComponentMapSync componentMap = new EntityComponentMapSync();
+                componentMap.Pointer = address;
+
+                return componentMap;
+            }
+        }
 
         public EntityUID EntityUID
         {
@@ -139,19 +151,6 @@ namespace DragonEngineLibrary
         {
             //Implicit operator automatically converts to handle
             return GetSceneEntity(sceneEnt).UID;
-        }
-
-
-        //Static functions
-
-        /// <summary>
-        /// Crashes dont use
-        /// </summary>
-        public static EntityHandle<EntityBase> GlobalEntityFromUID(EntityUID UID)
-        {
-
-            EntityHandle<EntityBase> handle = DELibrary_EntityBase_GetGlobalEntityFromUID(UID.UID);
-            return handle;
         }
     }
 }

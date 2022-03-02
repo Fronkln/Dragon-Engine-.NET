@@ -42,8 +42,9 @@ namespace Brawler
             if (allEnemies.Length <= 0)
                 return;
 
-            foreach (Fighter enemy in allEnemies)
-                if (enemy.IsDead())
+
+            if (allEnemies.Length == 1)
+                if (allEnemies[0].IsDead())
                     return;
 
             if (DragonEngine.IsKeyDown(VirtualKey.T))

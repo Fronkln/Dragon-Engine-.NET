@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.IO;
 using DragonEngineLibrary;
@@ -21,6 +22,21 @@ namespace Y7MP
             return arr;
         }
 
+        //Has to exactly match or epic failure
+        public static object[] ReadFunctionArguments(this BinaryReader reader, MethodInfo funcInf)
+        {
+            ParameterInfo[] parameters = funcInf.GetParameters();
+            object[] readParams = new object[parameters.Length];
+
+            for(int i = 0; i < parameters.Length; i++)
+            {
+                ParameterInfo param = parameters[i];
+                readParams[i] = reader.ReadObjectUnknown(param.ParameterType);
+            }
+
+            return readParams;
+        }
+
         public static T ToObject<T>(this byte[] arr) where T : new()
         {
             T obj = new T();
@@ -31,6 +47,21 @@ namespace Y7MP
             Marshal.Copy(arr, 0, ptr, size);
 
             obj = (T)Marshal.PtrToStructure(ptr, typeof(T));
+            Marshal.FreeHGlobal(ptr);
+
+            return obj;
+        }
+
+        public static object ToObjectType(this byte[] arr, Type T)
+        {
+            object obj = Activator.CreateInstance(T);
+
+            int size = Marshal.SizeOf(obj);
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+
+            Marshal.Copy(arr, 0, ptr, size);
+
+            obj = Marshal.PtrToStructure(ptr, T);
             Marshal.FreeHGlobal(ptr);
 
             return obj;
@@ -114,6 +145,13 @@ namespace Y7MP
             byte[] buff = reader.ReadBytes(Marshal.SizeOf<T>());
 
             return buff.ToObject<T>();
+        }
+
+        public static object ReadObjectUnknown(this BinaryReader reader, Type type) 
+        {
+            byte[] buff = reader.ReadBytes(Marshal.SizeOf(type));
+
+            return buff.ToObjectType(type);
         }
 
         public static Vector3 ReadVector3(this BinaryReader reader)

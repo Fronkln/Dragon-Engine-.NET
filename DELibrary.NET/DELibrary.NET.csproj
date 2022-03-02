@@ -38,6 +38,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,13 +63,20 @@
     <Compile Include="Components\ECCharacterEffectEvent.cs" />
     <Compile Include="Components\ECConstructor.cs" />
     <Compile Include="Components\ECConstructorCharacter.cs" />
+    <Compile Include="Components\ECSoldierInfo.cs" />
     <Compile Include="Components\ECSuper.cs" />
-    <Compile Include="DELETEME_DEBUG.cs" />
+    <Compile Include="Components\UIEntityComponentEnemyLifeGauge.cs" />
+    <Compile Include="Components\UIEntityComponentLifeGauge.cs" />
+    <Compile Include="Entity\AssetManager.cs" />
+    <Compile Include="Entity\AssetUnit.cs" />
     <Compile Include="Entity\AuthManager.cs" />
     <Compile Include="Entity\AuthPlay.cs" />
     <Compile Include="Entity\AuthPlayBase.cs" />
     <Compile Include="Entity\BattleCommandAI.cs" />
     <Compile Include="Entity\BattleResourceManager.cs" />
+    <Compile Include="Entity\EntityComponentList.cs" />
+    <Compile Include="Entity\EntityComponentMap.cs" />
+    <Compile Include="Entity\EntityComponentMapSync.cs" />
     <Compile Include="Entity\HumanModeManager.cs" />
     <Compile Include="Entity\Yakuza 7\BattleTurnManager.cs" />
     <Compile Include="Entity\BulletManager.cs" />

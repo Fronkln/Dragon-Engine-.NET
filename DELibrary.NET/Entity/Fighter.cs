@@ -64,7 +64,7 @@ namespace DragonEngineLibrary
             return Character.IsValid() && Character.GetFighter()._ptr == _ptr;
         }
 
-        internal Fighter(IntPtr pointer)
+        public Fighter(IntPtr pointer)
         {
             _ptr = pointer;
 

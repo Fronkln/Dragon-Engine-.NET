@@ -8,9 +8,21 @@ namespace Y7MP
         CharacterPositionUpdate,
         CharacterPlayGMT,
         CharacterAnimationUpdate,
-        PlayerChatMessage,
+
         FighterManagerGenerateEnemy,
+
+        PlayerChatMessage,
         PlayerOnPlayerHAct,
-        PlayerFullInfoUpdate
+        PlayerFullInfoUpdate,
+        PlayerCombatUpdate,
+
+        TURNBASED_ForceCounterCommand,
+
+        SimpleNetworkEntityRPC,
+        SimpleNetworkEntityCreation,
+        SimpleNetworkEntityDestroy,
+
+        TEST_EveryoneBecomesHostile,
+        TEST_EveryoneBecomesFriendly
     }
 }

@@ -7,9 +7,6 @@ namespace Y7MP
     {
         public static Fighter HandleAttackerSelection(bool readOnly, bool getNextFighter)
         {
-            if (FighterManager.IsBrawlerMode())
-                BattleTurnManager.ReleaseMenu();
-
             return FighterManager.GetPlayer();
         }
     }

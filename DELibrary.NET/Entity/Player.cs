@@ -28,6 +28,12 @@ namespace DragonEngineLibrary
             woman_a,		 // constant 0xE
         }
 
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_HP_NOW", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static long DELib_Player_GetHPNow(ID player);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_HP_MAX", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static long DELib_Player_GetHPMax(ID player);
+
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetLevel(uint level, ID playerID, IntPtr saveData = default(IntPtr));
 
@@ -45,6 +51,16 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_CURRENT_JOB", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetCurrentJob(ID player, RPGJobID job, bool recoverHPMPDifference);
+
+        public static long GetHPNow(ID playerID)
+        {
+            return DELib_Player_GetHPNow(playerID);
+        }
+
+        public static long GetHPMax(ID playerID)
+        {
+            return DELib_Player_GetHPMax(playerID);
+        }
 
         public static void SetLevel(uint level, ID playerID)
         {
