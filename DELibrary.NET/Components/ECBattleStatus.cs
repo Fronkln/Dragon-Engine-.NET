@@ -26,6 +26,30 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_CURRENTHP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern long DELibrary_ECBattleStatus_Getter_CurrentHp(IntPtr battlestatus);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_FIGHTER_LEVEL", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_ECBattleStatus_Getter_FighterLevel(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_FIGHTER_LEVEL", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_Setter_FighterLevel(IntPtr battlestatus, uint level);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_ATTACK_POWER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_ECBattleStatus_Getter_AttackPower(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_ATTACK_POWER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_Setter_AttackPower(IntPtr battlestatus, uint power);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_SP_ATTACK_POWER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_ECBattleStatus_Getter_SPAttackPower(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_SP_ATTACK_POWER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_Setter_SPAttackPower(IntPtr battlestatus, uint power);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_DEFENSE_POWER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_ECBattleStatus_Getter_DefensePower(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_DEFENSE_POWER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_Setter_DefensePower(IntPtr battlestatus, uint power);
+
         public static EntityComponentHandle<ECBattleStatus> Attach(Character character)
         {
             return DELibrary_ECBattleStatus_Attach(character.Pointer);
@@ -66,6 +90,30 @@ namespace DragonEngineLibrary
             {
                 SetHPMax(value);
             }
+        }
+
+        public uint Level
+        {
+            get { return DELibrary_ECBattleStatus_Getter_FighterLevel(Pointer); }
+            set { DELibrary_ECBattleStatus_Setter_FighterLevel(Pointer, value); }
+        }
+
+        public uint AttackPower
+        {
+            get { return DELibrary_ECBattleStatus_Getter_AttackPower(Pointer); }
+            set { DELibrary_ECBattleStatus_Setter_AttackPower(Pointer, value); }
+        }
+
+        public uint SPAttackPower
+        {
+            get { return DELibrary_ECBattleStatus_Getter_SPAttackPower(Pointer); }
+            set { DELibrary_ECBattleStatus_Setter_SPAttackPower(Pointer, value); }
+        }
+
+        public uint DefensePower
+        {
+            get { return DELibrary_ECBattleStatus_Getter_DefensePower(Pointer); }
+            set { DELibrary_ECBattleStatus_Setter_DefensePower(Pointer, value); }
         }
 
         public void SetAliveHPCurrent(long hp)

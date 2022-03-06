@@ -26,9 +26,11 @@ namespace Y7MP
             return Entity != null && Entity.IsDead();
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
+            base.Destroy();
 
+            Entity.DestroyEntity();
         }
     }
 }

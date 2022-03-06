@@ -54,6 +54,14 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_BattleTurnManager_RequestHactEvent(ref HActRequestOptions option);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_DOEXECTURNAICOMMAND", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_BattleTurnManager_DoExecTurnAICommand(IntPtr fighter, IntPtr inf);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_EXECTURNAICOMMANDDECIDE", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_BattleTurnManager_ExecTurnAICommandDecide(IntPtr fighter);
+
         public enum TurnPhase
         {
             StartWait = 0x0,
@@ -208,6 +216,18 @@ namespace DragonEngineLibrary
         public static bool RequestHActEvent(HActRequestOptions hact)
         {
             return DELib_BattleTurnManager_RequestHactEvent(ref hact);
+        }
+
+
+        public static bool DoExecTurnAICommand(Fighter fighter, BattleSelectCommandInfo inf)
+        {
+            //memory leak!
+            return DELib_BattleTurnManager_DoExecTurnAICommand(fighter._ptr, inf.ToIntPtr());
+        }
+
+        public static bool ExecTurnAICommandDecide(Fighter fighter)
+        {
+            return DELib_BattleTurnManager_ExecTurnAICommandDecide(fighter._ptr);
         }
     }
 }

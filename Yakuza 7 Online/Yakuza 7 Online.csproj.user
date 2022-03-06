@@ -3,4 +3,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartWorkingDirectory>G:\Yakuza Like a Dragon\runtime\media\</StartWorkingDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram>G:\Yakuza Like a Dragon\runtime\media\YakuzaLikeADragon.exe</StartProgram>
+  </PropertyGroup>
 </Project>

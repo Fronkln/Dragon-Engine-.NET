@@ -73,6 +73,7 @@ namespace Y7MP
             Connected = true;
             CurrentLobby = (CSteamID)entrance.m_ulSteamIDLobby;
             MPTime = 0;
+            WorldState.currentID = 0;
 
             BattleTurnManager.OverrideAttackerSelection(MPBattle.HandleAttackerSelection);
 
@@ -176,7 +177,7 @@ namespace Y7MP
 
             fakePlayer.PlayerInfo.playerMaxHealth = rnd.Next(1000, 5000);
             fakePlayer.PlayerInfo.playerHealth = rnd.Next(0, (int)fakePlayer.PlayerInfo.playerMaxHealth);
-            fakePlayer.PlayerInfo.level = rnd.Next(1, 100);
+            fakePlayer.PlayerInfo.level = (uint)rnd.Next(1, 100);
 
             fakePlayer.IsFakePlayer = true;
 
@@ -263,6 +264,20 @@ namespace Y7MP
                     WorldState.HandleCreationRequest(entityType, newEntID, packet);
                     break;
 
+                case PacketMessage.SimpleNetworkEntityDestroy:
+                    ushort id = packet.Reader.ReadUInt16();
+                    bool netEntValid = WorldState.DynamicEntities.ContainsKey(id);
+
+                    System.Diagnostics.Debug.Assert(netEntValid, "Recieved message from host to delete a non-existant entity");
+
+                    if(netEntValid)
+                    {
+                        WorldState.DynamicEntities[id].Destroy();
+                        DragonEngine.Log("Entity destroyed with ID: " + id);
+                    }
+
+                    break;
+
                 case PacketMessage.SimpleNetworkEntityRPC:
                     HandleEntityRPC(packet.Reader.ReadUInt16(), (RPCEvent)packet.Reader.ReadUInt16(), packet);
                     break;
@@ -335,7 +350,7 @@ namespace Y7MP
                     senderPlayer.PlayerInfo.last_playermodel = (CharacterID)packet.Reader.ReadUInt32();
                     senderPlayer.PlayerInfo.playerHealth = packet.Reader.ReadInt64();
                     senderPlayer.PlayerInfo.playerMaxHealth = packet.Reader.ReadInt64();
-                    senderPlayer.PlayerInfo.level = packet.Reader.ReadInt32();
+                    senderPlayer.PlayerInfo.level = packet.Reader.ReadUInt32();
                     break;
                 case PacketMessage.PlayerChatMessage:
                     string text = packet.Reader.ReadString();
@@ -419,12 +434,7 @@ namespace Y7MP
             if (!Connected)
                 return;
 
-            if (player.IsDead())
-            {
-                MPManager.Leave();
-                return;
-            }
-
+            DragonEngine.RefreshOffsets();
             NakamaManager.RemoveAllPartyMembers();
 
             if (FighterManager.IsBrawlerMode())

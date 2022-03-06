@@ -63,6 +63,9 @@ namespace DragonEngineLibrary
         public static extern void DELibrary_EntityBase_Setter_Orient(IntPtr entity, IntPtr res);
 
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_GLOBAL_ENTITY_FROM_UID", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_EntityBase_GetGlobalEntityFromUID(ulong uid);
+
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_POS_CENTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern Vector4 DELibrary_EntityBase_GetPosCenter(IntPtr entity);
@@ -151,6 +154,11 @@ namespace DragonEngineLibrary
         {
             //Implicit operator automatically converts to handle
             return GetSceneEntity(sceneEnt).UID;
+        }
+
+        public static EntityHandle<EntityBase> GetGlobalEntityFromUID(EntityUID uid)
+        {
+            return DELibrary_EntityBase_GetGlobalEntityFromUID(uid.UID);
         }
     }
 }

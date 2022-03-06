@@ -106,6 +106,7 @@
     <Compile Include="Entity\Services\SceneService.cs" />
     <Compile Include="Entity\SoundManager.cs" />
     <Compile Include="Entity\Yakuza 7\BattleCommandAI.cs" />
+    <Compile Include="Entity\Yakuza 7\TurnCommandDecideManager.cs" />
     <Compile Include="Enums\AIActGroupID.cs" />
     <Compile Include="Enums\AIActKindID.cs" />
     <Compile Include="Enums\AIBtlReactionPatternID.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Enums\DEJob.cs" />
     <Compile Include="Enums\DESpeedType.cs" />
     <Compile Include="Enums\EffectEventCharaID.cs" />
+    <Compile Include="Enums\EUIDKind.cs" />
     <Compile Include="Enums\FilePortCategory.cs" />
     <Compile Include="Enums\HActReplaceID.cs" />
     <Compile Include="Enums\ItemID.cs" />
@@ -170,9 +172,12 @@
     <Compile Include="Entity\GameObject.cs" />
     <Compile Include="Entity\Player.cs" />
     <Compile Include="MarshallingTests.cs" />
+    <Compile Include="Entity\MGHomelessCan.cs" />
     <Compile Include="Structs\BattleFighterInfo.cs" />
+    <Compile Include="Structs\BattleSelectCommandInfo.cs" />
     <Compile Include="Structs\CharacterStatus.cs" />
     <Compile Include="Structs\DynamicsPoseInfo.cs" />
+    <Compile Include="Structs\FighterRPGCommand.cs" />
     <Compile Include="Structs\MotionBehaviorGroupActID.cs" />
     <Compile Include="Structs\MotionPlayInfo.cs" />
     <Compile Include="Program.cs" />

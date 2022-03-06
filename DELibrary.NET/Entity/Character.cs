@@ -35,6 +35,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_HUMANMODEMANAGER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_GetHumanModeManager(IntPtr chara);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_CREATE1", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_Character_Create(uint parent, CharacterID charaID);
+
         /*
         /// <summary>
         /// Common information about the NPC
@@ -124,6 +127,11 @@ namespace DragonEngineLibrary
             constructor._objectAddress = DELib_Character_GetConstructor(_objectAddress);
 
             return constructor;
+        }
+        
+        public static EntityHandle<Character> Create(EntityHandle<EntityBase> parent, CharacterID ID)
+        {
+            return DELib_Character_Create(parent.UID, ID);
         }
     }
 }

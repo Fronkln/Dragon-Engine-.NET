@@ -7,6 +7,9 @@ namespace Y7MP
     {
         public static void RaiseRPC(SimpleNetworkedEntity entity, RPCEvent eventID, params object[] arguments)
         {
+            if (entity.ID == 0)
+                return;
+
             bool entityValid = entity != null && entity.ID > 0;
 
             NetPacket packet = new NetPacket(false);
@@ -24,13 +27,6 @@ namespace Y7MP
         //Only gets called on host
         public static void Update()
         {
-           if(DragonEngine.IsKeyHeld(VirtualKey.H))
-            {
-                WorldState.HostCreate<GeneratedEnemy>(DragonEngine.GetHumanPlayer().Transform.Position, 31.005f); 
-              
-                
-                // RaiseRPC(null, RPCEvent.Create_FighterManagerGeneratedEnemy, (ushort)31, new Vector3(90.5f, 100, 255), 1337);
-            }
         }
     }
 }

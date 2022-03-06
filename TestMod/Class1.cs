@@ -15,11 +15,22 @@ namespace TestMod
         {
             while (true)
             {
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad1))
+                if (DragonEngine.IsKeyDown(VirtualKey.Numpad6))
                 {
                     //NakamaManager.RemoveAllPartyMembers();
 
-                    FighterManager.GenerateEnemyFighter(new PoseInfo(DragonEngine.GetHumanPlayer().Transform.Position, 0), 0, CharacterID.m_masato);
+                    BattleSelectCommandInfo inf = new BattleSelectCommandInfo();
+                    inf.is_skip = false;
+                    inf.is_wait = true;
+                    inf.target_fighter = FighterManager.GetAllEnemies()[0].GetID().Handle.UID; 
+
+                    inf.command.command = RPGSkillID.boss_kiryu_atk_a;
+                    inf.command.command_type = FighterRPGCommand.CommandType.COMMAND_TYPE_BASIC_ATTACK;
+
+                    BattleTurnManager.DoExecTurnAICommand(FighterManager.GetAllEnemies()[0], inf);
+
+                  //  BattleTurnManager.ExecTurnAICommandDecide(FighterManager.GetAllEnemies()[0]);
+
                 }
 
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))

@@ -18,6 +18,17 @@ namespace Y7MP
         public Vector3 SyncedPosition;
         public Quaternion SyncedRotation;
 
+        public StageID world;
+
+
+        public virtual void Destroy()
+        {
+            WorldState.DynamicEntities.Remove(ID);
+
+            if (Entity.IsValid())
+                Entity.Get().DestroyEntity();
+        }
+
         public virtual bool ShouldBeRemoved()
         {
             return false;

@@ -116,6 +116,12 @@ namespace DragonEngineLibrary
             Log("Job for phase " + jobID.ToString() + " registered.");
         }
 
+
+        public static void RefreshOffsets()
+        {
+            DELib_RefreshOffsets();
+        }
+
         /// <summary>
         /// Unregister a job that was registered.
         /// </summary>

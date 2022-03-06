@@ -63,6 +63,24 @@ namespace Y7MP
         }
 
 
+        public static void HostDelete(ushort index)
+        {
+            NetPacket packet = new NetPacket(false);
+            packet.Writer.Write((byte)PacketMessage.SimpleNetworkEntityDestroy);
+            packet.Writer.Write(index);
+
+            MPManager.SendToEveryone(packet);
+        }
+
+        public static void HostDelete(SimpleNetworkedEntity entity)
+        {
+            System.Diagnostics.Debug.Assert(entity != null, "Host tried to dispose a null entity");
+            System.Diagnostics.Debug.Assert(DynamicEntities.ContainsKey(entity.ID), "Host tried to remove an entity not on the list");
+
+            HostDelete(entity.ID);
+        }
+
+
         public static void HandleCreationRequest(Type entityType, ushort ID, NetPacket args)
         {
             bool creationFunctionExists = ReflectionCache.CreationMethodCache.ContainsKey(entityType);
@@ -80,7 +98,9 @@ namespace Y7MP
                 try
                 {
                     creationFunc.Invoke(ent, readArgs);
-                    DynamicEntities.Add(ID, ent);
+                    DynamicEntities[ID] = ent;
+
+                    DragonEngine.Log("Network entity spawned with ID: " + ID);
 
                     CreationInfo inf = new CreationInfo()
                     {

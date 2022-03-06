@@ -8,6 +8,9 @@ namespace Y7MP
     public static class MPHooks
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private delegate bool TurnCommandDecideManagerHandleEnemyAI(IntPtr manager, IntPtr dest, IntPtr opt);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private delegate void ECMotionRequestGmt(IntPtr motionPtr, IntPtr serialIDPtr, MotionID gm);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -18,10 +21,12 @@ namespace Y7MP
             MinHookHelper.initialize();
 
             _requestGmtDelegate = new ECMotionRequestGmt(ECMotion_RequestGMT_Sync);
+            _handleEnemyAIDelegate = new TurnCommandDecideManagerHandleEnemyAI(TurnCommandDecideManager_HandleEnemyAI);
             _forceCounterCommandDelegate = new BattleTurnManagerForceCounterCommand(BattleTurnManager_ForceCounterCommand_Sync);
 
             MinHookHelper.createHook((IntPtr)0x1415EA7A0, _requestGmtDelegate, out _requestGmtTrampoline);
             MinHookHelper.createHook((IntPtr)0x1404C5D20, _forceCounterCommandDelegate, out _forceCounterCommandTrampoline);
+      //      MinHookHelper.createHook((IntPtr)0x1409AC8F0, _handleEnemyAIDelegate, out _handleEnemyAITrampoline);
             MinHookHelper.enableAllHook();
         }
 
@@ -77,6 +82,18 @@ namespace Y7MP
             }
 
             return _forceCounterCommandTrampoline(turnManager, counterFighter, attacker, skill);
+        }
+
+        private static TurnCommandDecideManagerHandleEnemyAI _handleEnemyAIDelegate;
+        private static TurnCommandDecideManagerHandleEnemyAI _handleEnemyAITrampoline;
+        private static bool TurnCommandDecideManager_HandleEnemyAI(IntPtr manager, IntPtr dest, IntPtr opt)
+        {
+            return false;
+
+            TurnCommandDecideManager mng = new TurnCommandDecideManager();
+            mng.Pointer = manager;
+
+            return TurnCommandDecideManager.DELib_TurnCommandDecideManager_HandleEnemyAI(manager, dest, opt);
         }
     }
 }

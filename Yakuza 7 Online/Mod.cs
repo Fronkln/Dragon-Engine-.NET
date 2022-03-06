@@ -27,9 +27,37 @@ namespace Y7MP
                 {
                     if (DragonEngine.IsKeyDown(VirtualKey.Numpad5))
                         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, MPManager.MaxPlayers);
+
+                    if (DragonEngine.IsKeyDown(VirtualKey.Numpad6))
+                    {
+                        Character chara = Character.Create(DragonEngine.GetHumanPlayer(), CharacterID.m_kiryu);
+    
+
+                        if(chara.IsValid())
+                        {
+                            DragonEngine.Log("chara valid");
+                            chara.Transform.Position = DragonEngine.GetHumanPlayer().Transform.Position;
+                        }
+                    }
                 }
                 else
                 {
+
+                    if (MPPlayer.LocalPlayer.IsMasterClient())
+                    {
+                        if(DragonEngine.IsKeyHeld(VirtualKey.Shift))
+                        if (DragonEngine.IsKeyDown(VirtualKey.H))
+                        {
+                            if (!WorldState.DynamicEntities.ContainsKey(1))
+                                WorldState.HostCreate<GeneratedEnemy>(DragonEngine.GetHumanPlayer().Transform.Position, 31.005f);
+                            else
+                                WorldState.HostDelete(1);
+
+
+                            // RaiseRPC(null, RPCEvent.Create_FighterManagerGeneratedEnemy, (ushort)31, new Vector3(90.5f, 100, 255), 1337);
+                        }
+                    }
+
                     if (DragonEngine.IsKeyDown(VirtualKey.T))
                     {
                         MPChat.focusOneTime = true;
