@@ -34,6 +34,8 @@ namespace DragonEngineLibrary
         internal static extern IntPtr DELib_Character_GetConstructor(IntPtr chara);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_HUMANMODEMANAGER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_GetHumanModeManager(IntPtr chara);
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_CHARACTERSTATUS", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_GetterCharacterStatus(IntPtr chara);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_CREATE1", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_Character_Create(uint parent, CharacterID charaID);
@@ -55,6 +57,19 @@ namespace DragonEngineLibrary
             }
         }
         */
+
+        public CharacterStatus Status
+        {
+            get
+            {
+                IntPtr status = DELib_Character_GetterCharacterStatus(Pointer);
+
+                CharacterStatus statuschara = new CharacterStatus();
+                statuschara.pointer = status;
+
+                return statuschara;
+            }
+        }
 
         /// <summary>
         /// Common components of a character
@@ -120,6 +135,7 @@ namespace DragonEngineLibrary
 
             return status;
         }
+
 
         public ECConstructorCharacter GetConstructor()
         {

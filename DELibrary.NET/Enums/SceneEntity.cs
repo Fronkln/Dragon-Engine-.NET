@@ -2,6 +2,7 @@
 
 namespace DragonEngineLibrary
 {
+
     public enum SceneEntity : uint
     {
         scene,       // constant 0x0
@@ -114,7 +115,7 @@ namespace DragonEngineLibrary
         player_ability_entity,       // constant 0x6B
         player_carry_item_entity,        // constant 0x6C
         player_carry_item_launcher_entity,       // constant 0x6D
-        player_point_entity,         // constant 0x6E
+        player_po_entity,         // constant 0x6E
         pause_sns_manager_entity,        // constant 0x6F
         pause_mail_manager_entity,       // constant 0x70
         pause_message_manager_entity,        // constant 0x71
@@ -124,13 +125,13 @@ namespace DragonEngineLibrary
         network_manager,         // constant 0x75
         timeline_manager,        // constant 0x76
         mission_manager,         // constant 0x77
-        random_point_manager,        // constant 0x78
+        random_po_manager,        // constant 0x78
         callback_db_holder,      // constant 0x79
         traffic_signal_manager,      // constant 0x7A
         clock_pkg_holder,        // constant 0x7B
         npc_tag_manager,         // constant 0x7C
         general_car_manager,         // constant 0x7D
-        general_car_intersection_manager,        // constant 0x7E
+        general_car_ersection_manager,        // constant 0x7E
         train_manager,       // constant 0x7F
         vehicle_special_manager,         // constant 0x80
         ladder_manager,      // constant 0x81
@@ -147,13 +148,13 @@ namespace DragonEngineLibrary
         time_updater,        // constant 0x8C
         exclusion_control_checker,       // constant 0x8D
         stalking_manager,        // constant 0x8E
-        cover_point_manager,         // constant 0x8F
+        cover_po_manager,         // constant 0x8F
         link_any,        // constant 0x90
         wrapping_collision_manager,      // constant 0x91
         police_manager,      // constant 0x92
         police_area_manager,         // constant 0x93
         chase_manager,       // constant 0x94
-        run_trick_point_manager,         // constant 0x95
+        run_trick_po_manager,         // constant 0x95
         ufo_catcher_manager,         // constant 0x96
         drone_manager,       // constant 0x97
         drone_online_manager,        // constant 0x98
@@ -164,7 +165,7 @@ namespace DragonEngineLibrary
         tougijyo_manager,        // constant 0x9D
         sugoroku_manager_entity,         // constant 0x9E
         sugoroku_effect_manager,         // constant 0x9F
-        sugoroku_dispose_point_manager,      // constant 0xA0
+        sugoroku_dispose_po_manager,      // constant 0xA0
         sugoroku_break_asset_manager,        // constant 0xA1
         coin_locker_key_manager,         // constant 0xA2
         qrcord_manager,      // constant 0xA3
@@ -190,87 +191,72 @@ namespace DragonEngineLibrary
         talk_adv_hp_gauge_manager,       // constant 0xB7
         adv_battle_gauge_manager,        // constant 0xB8
         human_player_dummy,      // constant 0xB9
-        camera_test_holder,      // constant 0xBA
-        debug_manager,       // constant 0xBB
-        debug_pick_manager,      // constant 0xBC
-        debug_character_manager,         // constant 0xBD
-        ui_debug_server_entity,      // constant 0xBE
-        ui_debug_server_for_sb_entity,       // constant 0xBF
-        debug_chara_selector,        // constant 0xC0
-        debug_scene_preparing,       // constant 0xC1
-        debug_scene_load_entity_wait,        // constant 0xC2
-        debug_selector_favo,         // constant 0xC3
-        debug_scene_transition,      // constant 0xC4
-        auth_play_com,       // constant 0xC5
-        human_view_com,      // constant 0xC6
-        editor_manager,      // constant 0xC7
-        primitive_editor_manager,        // constant 0xC8
-        water_manager,       // constant 0xC9
-        effect_only_one_manager,         // constant 0xCA
-        mg_clan_creator_online_rival_manager,        // constant 0xCB
-        mg_baseball_picture_holder,      // constant 0xCC
-        minigame_sandlot_baseball_manager,       // constant 0xCD
-        mg_offertory_box_entity,         // constant 0xCE
-        reward_manager,      // constant 0xCF
-        taiken_timer,        // constant 0xD0
-        file_port_manager,       // constant 0xD1
-        talk_text_man,       // constant 0xD2
-        uniq_auth_manager,       // constant 0xD3
-        friend_gauge_man,        // constant 0xD4
-        unlocking_adv_man,       // constant 0xD5
-        tss_manager,         // constant 0xD6
-        player_personality,      // constant 0xD7
-        uniq_replace_start,      // constant 0xD8
-        uniq_replace_nakama0,        // constant 0xD9
-        uniq_replace_nakama1,        // constant 0xDA
-        uniq_replace_nakama2,        // constant 0xDB
-        uniq_replace_nakama3,        // constant 0xDC
-        uniq_replace_nakama_adachi,      // constant 0xDD
-        uniq_replace_nakama_saeko,       // constant 0xDE
-        uniq_replace_nakama_nanba,       // constant 0xDF
-        uniq_replace_nakama_ayaka,       // constant 0xE0
-        uniq_replace_nakama_chou,        // constant 0xE1
-        uniq_replace_nakama_jyungi,      // constant 0xE2
-        uniq_replace_nakama_woman_a,         // constant 0xE3
-        uniq_replace_end,        // constant 0xE4
-        speech_subtitle_manager,         // constant 0xE5
-        dlc_manager,         // constant 0xE6
-        post_effect_dof,         // constant 0xE7
-        post_effect_glare,       // constant 0xE8
-        post_effect_tonemap,         // constant 0xE9
-        post_effect_filmgrain,       // constant 0xEA
-        post_effect_color_correction,        // constant 0xEB
-        post_effect_antialias,       // constant 0xEC
-        post_effect_motion_blur,         // constant 0xED
-        post_effect_feedback,        // constant 0xEE
-        post_effect_chromatic_aberration,        // constant 0xEF
-        post_effect_vignette,        // constant 0xF0
-        post_effect_ssao,        // constant 0xF1
-        entity_FullBodyIKDbgMngr,        // constant 0xF2
-        auth_play,       // constant 0xF3
-        light_reference,         // constant 0xF4
-        hoge_entity,         // constant 0xF5
-        ui_nowloading,       // constant 0xF6
-        npc_bypass_manager,      // constant 0xF7
-        stage_area_monitoring,       // constant 0xF8
-        title_entity,        // constant 0xF9
-        battle_tutorial,         // constant 0xFA
-        auth_skip_manager,       // constant 0xFB
-        qsearch_manager,         // constant 0xFC
-        video_call,      // constant 0xFD
-        side_case_manager,       // constant 0xFE
-        verification_manager,        // constant 0xFF
-        continue_ui_flow_holder,         // constant 0x100
-        photo_mission_dispose_manager,       // constant 0x101
-        decorating_office_dispose_manager,       // constant 0x102
-        dialog_information_manager,      // constant 0x103
-        sp_provider,         // constant 0x104
-        ui_popup_number_manager,         // constant 0x105
-        part_time_job_quest_entity,      // constant 0x106
-        checkpoint_entity,       // constant 0x107
-        grass_draw_manager,      // constant 0x108
-        mission_objective_manager_entity,        // constant 0x109
-        num,         // constant 0x10A
-        invalid,         // constant 0x10B
+        water_manager,       // constant 0xBA
+        effect_only_one_manager,         // constant 0xBB
+        mg_clan_creator_online_rival_manager,        // constant 0xBC
+        mg_baseball_picture_holder,      // constant 0xBD
+        minigame_sandlot_baseball_manager,       // constant 0xBE
+        mg_offertory_box_entity,         // constant 0xBF
+        reward_manager,      // constant 0xC0
+        taiken_timer,        // constant 0xC1
+        file_port_manager,       // constant 0xC2
+        talk_text_man,       // constant 0xC3
+        uniq_auth_manager,       // constant 0xC4
+        friend_gauge_man,        // constant 0xC5
+        unlocking_adv_man,       // constant 0xC6
+        tss_manager,         // constant 0xC7
+        player_personality,      // constant 0xC8
+        uniq_replace_start,      // constant 0xC9
+        uniq_replace_nakama0,        // constant 0xCA
+        uniq_replace_nakama1,        // constant 0xCB
+        uniq_replace_nakama2,        // constant 0xCC
+        uniq_replace_nakama3,        // constant 0xCD
+        uniq_replace_nakama_adachi,      // constant 0xCE
+        uniq_replace_nakama_saeko,       // constant 0xCF
+        uniq_replace_nakama_nanba,       // constant 0xD0
+        uniq_replace_nakama_ayaka,       // constant 0xD1
+        uniq_replace_nakama_chou,        // constant 0xD2
+        uniq_replace_nakama_jyungi,      // constant 0xD3
+        uniq_replace_nakama_woman_a,         // constant 0xD4
+        uniq_replace_end,        // constant 0xD5
+        speech_subtitle_manager,         // constant 0xD6
+        dlc_manager,         // constant 0xD7
+        post_effect_dof,         // constant 0xD8
+        post_effect_glare,       // constant 0xD9
+        post_effect_tonemap,         // constant 0xDA
+        post_effect_filmgrain,       // constant 0xDB
+        post_effect_color_correction,        // constant 0xDC
+        post_effect_antialias,       // constant 0xDD
+        post_effect_motion_blur,         // constant 0xDE
+        post_effect_feedback,        // constant 0xDF
+        post_effect_chromatic_aberration,        // constant 0xE0
+        post_effect_vignette,        // constant 0xE1
+        post_effect_ssao,        // constant 0xE2
+        entity_FullBodyIKDbgMngr,        // constant 0xE3
+        auth_play,       // constant 0xE4
+        light_reference,         // constant 0xE5
+        hoge_entity,         // constant 0xE6
+        ui_nowloading,       // constant 0xE7
+        npc_bypass_manager,      // constant 0xE8
+        stage_area_monitoring,       // constant 0xE9
+        title_entity,        // constant 0xEA
+        battle_tutorial,         // constant 0xEB
+        auth_skip_manager,       // constant 0xEC
+        qsearch_manager,         // constant 0xED
+        video_call,      // constant 0xEE
+        side_case_manager,       // constant 0xEF
+        verification_manager,        // constant 0xF0
+        continue_ui_flow_holder,         // constant 0xF1
+        photo_mission_dispose_manager,       // constant 0xF2
+        decorating_office_dispose_manager,       // constant 0xF3
+        dialog_information_manager,      // constant 0xF4
+        sp_provider,         // constant 0xF5
+        ui_popup_number_manager,         // constant 0xF6
+        part_time_job_quest_entity,      // constant 0xF7
+        checkpo_entity,       // constant 0xF8
+        grass_draw_manager,      // constant 0xF9
+        mission_objective_manager_entity,        // constant 0xFA
+        num,         // constant 0xFB
+        invalid,         // constant 0xFC
     }
 }

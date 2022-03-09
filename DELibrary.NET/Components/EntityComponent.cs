@@ -78,7 +78,7 @@ namespace DragonEngineLibrary
             effect_body_wet,         // constant 0x3B
             effect_fur,      // constant 0x3C
             effect_hit_wound,        // constant 0x3D
-            aii,         // constant 0x3E
+            ai,         // constant 0x3E
             mind_control_sensor,         // constant 0x3F
             play_simple_motion,      // constant 0x40
             body_coordinator,        // constant 0x41
@@ -89,7 +89,7 @@ namespace DragonEngineLibrary
             battle_target_decide,        // constant 0x46
             battle_status,       // constant 0x47
             battle_collision,        // constant 0x48
-            uii,         // constant 0x49
+            ui,         // constant 0x49
             ui_life_gauge,       // constant 0x4A
             ui_enemy_life_gauge,         // constant 0x4B
             life_gauge_sp_hit,       // constant 0x4C

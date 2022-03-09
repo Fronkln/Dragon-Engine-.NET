@@ -13,6 +13,7 @@ namespace Y7DebugTools
             ImGui.Text("State: " + command.state_);
             ImGui.Text("Commander: " + command.commander_);
             ImGui.Text("Priority: " + command.priority_);
+            ImGui.Text("Target Position " + command.element_.target_pos_);
         }
     }
 }

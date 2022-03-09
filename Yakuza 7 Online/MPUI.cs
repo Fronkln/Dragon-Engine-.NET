@@ -22,6 +22,7 @@ namespace Y7MP
         public static void Draw()
         {
             if (m_secretMenuToggle)
+            {
                 if (ImGui.Begin("Super secret MP menu"))
                 {
                     ImGui.Checkbox("HAct menu", ref m_secretMenuHact);
@@ -29,16 +30,16 @@ namespace Y7MP
                     if (m_secretMenuHact)
                         DrawSecretHActMenu();
 
-                    if(ImGui.CollapsingHeader("Misc"))
+                    if (ImGui.CollapsingHeader("Misc"))
                     {
-                        if(ImGui.Button("Make everyone hostile"))
+                        if (ImGui.Button("Make everyone hostile"))
                         {
                             NetPacket packet = new NetPacket(false);
                             packet.Writer.Write((byte)PacketMessage.TEST_EveryoneBecomesHostile);
                             MPManager.SendToEveryone(packet);
                         }
 
-                        if(ImGui.Button("Make everyone friendly"))
+                        if (ImGui.Button("Make everyone friendly"))
                         {
                             NetPacket packet = new NetPacket(false);
                             packet.Writer.Write((byte)PacketMessage.TEST_EveryoneBecomesFriendly);
@@ -51,6 +52,7 @@ namespace Y7MP
 
                     ImGui.End();
                 }
+            }
 
 
             if (MPManager.Connected)

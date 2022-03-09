@@ -26,19 +26,12 @@ namespace Y7MP
                 if (!MPManager.Connected)
                 {
                     if (DragonEngine.IsKeyDown(VirtualKey.Numpad5))
-                        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, MPManager.MaxPlayers);
-
-                    if (DragonEngine.IsKeyDown(VirtualKey.Numpad6))
                     {
-                        Character chara = Character.Create(DragonEngine.GetHumanPlayer(), CharacterID.m_kiryu);
-    
-
-                        if(chara.IsValid())
-                        {
-                            DragonEngine.Log("chara valid");
-                            chara.Transform.Position = DragonEngine.GetHumanPlayer().Transform.Position;
-                        }
+                        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, MPManager.MaxPlayers);
+                        continue;
                     }
+
+                    DragonEngine.ForceSetCursorVisible(false);
                 }
                 else
                 {
@@ -57,6 +50,12 @@ namespace Y7MP
                             // RaiseRPC(null, RPCEvent.Create_FighterManagerGeneratedEnemy, (ushort)31, new Vector3(90.5f, 100, 255), 1337);
                         }
                     }
+
+                    if (DragonEngine.IsKeyDown(VirtualKey.F2))
+                    {
+                        DragonEngine.ForceSetCursorVisible(!DragonEngine.IsCursorForcedVisible());
+                    }
+          
 
                     if (DragonEngine.IsKeyDown(VirtualKey.T))
                     {

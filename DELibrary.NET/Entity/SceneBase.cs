@@ -9,11 +9,19 @@ namespace DragonEngineLibrary
         internal static extern StageID DELibrary_SceneBase_Getter_Stage(IntPtr scenebase);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSCENE_BASE_GET_SCENE_ENTITY", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern uint DELibrary_CSCENE_BASE_GET_SCENE_ENTITY(IntPtr scenebase, SceneEntity sceneEnt);
+        internal static extern uint DELibrary_SceneBase_GetSceneEntity(IntPtr scenebase, SceneEntity sceneEnt);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSCENE_BASE_SET_SCENE_ENTITY", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_SceneBase_SetSceneEntity(IntPtr scenebase, SceneEntity sceneEnt, uint handle);
 
         public override EntityHandle<EntityBase> GetSceneEntity(SceneEntity sceneEnt)
         {
-            return DELibrary_CSCENE_BASE_GET_SCENE_ENTITY(_objectAddress, sceneEnt);
+            return DELibrary_SceneBase_GetSceneEntity(_objectAddress, sceneEnt);
+        }
+
+        public void SetSceneEntity(SceneEntity sceneEnt, EntityHandle<EntityBase> handle)
+        {
+            DELibrary_SceneBase_SetSceneEntity(_objectAddress, sceneEnt, handle.UID);
         }
 
         public StageID StageID

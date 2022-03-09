@@ -26,7 +26,7 @@ namespace DragonEngineLibrary
     
 
         /// <summary>
-        /// Safely assign the struct
+        /// Dont use
         /// </summary>
         public void Set(MotionPlayInfo value)
         {

@@ -15,22 +15,42 @@ namespace TestMod
         {
             while (true)
             {
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad6))
+                if (DragonEngine.IsKeyHeld(VirtualKey.Numpad6))
                 {
-                    //NakamaManager.RemoveAllPartyMembers();
+                   EntityComponent comp = FighterManager.GetPlayer().Character.EntityComponentMap.GetComponent(EntityComponent.ECSlotID.navigate);
 
-                    BattleSelectCommandInfo inf = new BattleSelectCommandInfo();
-                    inf.is_skip = false;
-                    inf.is_wait = true;
-                    inf.target_fighter = FighterManager.GetAllEnemies()[0].GetID().Handle.UID; 
+                    if (comp.IsValid())
+                        DragonEngine.Log("comp valid");
 
-                    inf.command.command = RPGSkillID.boss_kiryu_atk_a;
-                    inf.command.command_type = FighterRPGCommand.CommandType.COMMAND_TYPE_BASIC_ATTACK;
+                    /*
+                    TalkTextManager.TextInfo inf = new TalkTextManager.TextInfo();
 
-                    BattleTurnManager.DoExecTurnAICommand(FighterManager.GetAllEnemies()[0], inf);
+                    EntityHandle<Character> chara = Character.Create(DragonEngine.GetHumanPlayer(), CharacterID.m_kiryu);
+                    chara.Get().Transform.Position = DragonEngine.GetHumanPlayer().Transform.Position + DragonEngine.GetHumanPlayer().Transform.forwardDirection * 3f;
 
-                  //  BattleTurnManager.ExecTurnAICommandDecide(FighterManager.GetAllEnemies()[0]);
+                    inf.msg_text = "turn off brawler";
+                    inf.msg_talker = "suzuki";
+                    inf.h_chara = chara.UID;
+                    inf.skip_type = TalkTextSkipTypeID.invalid;
+                    inf.wnd_type = TalkTextWindowTypeID.normal;
+                    inf.play_speed = 1;
+                    inf.bgm_trigger = TalkSoundBGMTriggerID.invalid;
+                    inf.bgm_id = 0;
+                    inf.bgm_fadein_sec = 0;
+                    inf.bgm_fadeout_sec = 0;
+                    inf.se_id = 0;
+                    inf.oneshot_voice_id_talk = SoundCategoryLabelGVTalkID.disappoed1;
+                    inf.time_next_tick = 29900;
+                    inf.voicer_id = CharacterVoicerID.kasuga;
+                    inf.flag_text = 0;
+                    inf.face_tex_id = 0;
+                    inf.color_text = 4294967295;
+                    inf.lip_scale = 0;
+                    inf.speech_time = 14950;
+                    inf.disable_tick = 0;
 
+                    TalkTextManager.SetText(inf);
+                    */
                 }
 
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
@@ -40,38 +60,9 @@ namespace TestMod
                     FighterManager.GenerateEnemyFighter(new PoseInfo(DragonEngine.GetHumanPlayer().Transform.Position, 0), 0, CharacterID.s_masumi_44);
                 }
 
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad4))
-                {
-                    NPCRequestMaterial material = new NPCRequestMaterial();
-                    material.Material = new NPCMaterial();
-                    material.Material.pos_ = DragonEngine.GetHumanPlayer().Transform.Position;
-
-
-                    material.Material.ai_command_.pack_id_ = (AIPackID)8;
-                    material.Material.ai_command_.commander_ = AIUtilCommand.Commander.debug;
-                    material.Material.ai_command_.priority_ = 100;
-
-                    material.Material.character_id_ = CharacterID.m_kiryu;
-                    material.Material.is_eternal_life_ = true;
-                    material.Material.is_encounter_ = true;
-                    material.Material.is_encount_btl_type_ = true;
-                    material.Material.soldier_data_id_ = CharacterNPCSoldierPersonalDataID.yazawa_btl15_0030_000_7;
-                    material.Material.enemy_id_ = BattleRPGEnemyID.yazawa_boss_aoki;
-                    material.Material.height_scale_id_ = CharacterHeightID.invalid;
-                    material.Material.is_minimum_mode_ = false;
-                    material.Material.is_force_create_ = true;
-                    material.Material.is_force_visible_ = true;
-                    material.Material.behavior_set_id_ = BehaviorSetID.encounter;
-                    material.Material.voicer_id_ = CharacterVoicerID.invalid;
-                    material.Material.parent_ = SceneService.CurrentScene.Get().GetSceneEntity<EntityBase>(SceneEntity.character_manager).UID;
-                    material.Material.npc_setup_id_ = CharacterNPCSetup.fix_soldier;
- 
-
-                    Character chara = NPCFactory.RequestCreate(material);
-                    FighterManager.RequestRegistrationFighter(chara.UID, BattleGroupID.Enemy);
-                }
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad5))
                 {
+                    /*
                     HActRequestOptions opts = new HActRequestOptions();
 
                     opts.Init();
@@ -83,36 +74,12 @@ namespace TestMod
                     opts.Register(HActReplaceID.hu_enemy_00, FighterManager.GetAllEnemies()[1].Character.UID);
 
                     BattleTurnManager.RequestHActEvent(opts);
+                    */
                 }
             }
 
         }
 
-        public static void Update()
-        {
-            if (DragonEngine.IsKeyHeld(VirtualKey.Numpad3))
-            {
-                NPCRequestMaterial material = new NPCRequestMaterial();
-                material.Material = new NPCMaterial();
-                material.Material.pos_ = DragonEngine.GetHumanPlayer().GetPosCenter();
-                material.Material.character_id_ = CharacterID.m_dummy;
-                material.Material.collision_type_ = 0;
-                material.Material.is_eternal_life_ = true;
-                material.Material.height_scale_id_ = CharacterHeightID.height_170;
-                material.Material.is_force_create_ = true;
-                material.Material.is_force_visible_ = true;
-                material.Material.behavior_set_id_ = BehaviorSetID.invalid;
-                material.Material.voicer_id_ = CharacterVoicerID.sonhi;
-                material.Material.parent_ = DragonEngineLibrary.Service.SceneService.CurrentScene.Get().GetSceneEntity<EntityBase>(SceneEntity.character_manager).UID;
-                material.Material.npc_setup_id_ = CharacterNPCSetup.no_collision_ever_fix;
-
-                chara = NPCFactory.RequestCreate(material);
-
-                EntityComponentHandle<ECCharacterEffectEvent> newComp = ECCharacterEffectEvent.Attach(chara);
-                newComp.Get().PlayEvent(EffectEventCharaID.boss_mabuchi_lp);
-
-            }
-        }
 
         public override void OnModInit()
         {
@@ -123,7 +90,6 @@ namespace TestMod
             Thread thread = new Thread(InputThread);
             thread.Start();
 
-            DragonEngine.RegisterJob(Update, DEJob.Update);
         }
     }
 }

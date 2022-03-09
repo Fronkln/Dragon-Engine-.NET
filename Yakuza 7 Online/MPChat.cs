@@ -76,19 +76,26 @@ namespace Y7MP
                 focusOneTime = false;
             }
 
+            if (ImGui.IsWindowFocused())
+            {
+                DragonEngine.GetHumanPlayer().Status.SetNoInputTemporary();
+            }
+
             bool reclaim_focus = false;
 
             if (ImGui.InputText("Input", m_buffer, (uint)m_buffer.Length, input_text_flags))
             {
+                //Convert byte buffer to a UTF8 string, then gets its bytes and write it to the packet
                 string str = Encoding.UTF8.GetString(m_buffer);
                 byte[] strBytes = Encoding.UTF8.GetBytes(str);
+
+                //clean text input box
                 Array.Clear(m_buffer, 0, m_buffer.Length);
 
                 NetPacket chatMsg = new NetPacket(false);
+
                 chatMsg.Writer.Write((byte)PacketMessage.PlayerChatMessage);
                 chatMsg.Writer.Write(str);
-                //  chatMsg.Writer.Write(strBytes.Length);
-                //chatMsg.Writer.Write(strBytes);
 
                 MPManager.SendToEveryone(chatMsg);
 
