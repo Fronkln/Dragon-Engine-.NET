@@ -8,7 +8,7 @@ namespace DragonEngineLibrary
     {
         //motion::PlayInfoVtbl *vfptr;
 
-        [FieldOffset(0x0)] private IntPtr vfptr;
+        [FieldOffset(0x0)] public IntPtr vfptr;
         [FieldOffset(0x10)] public Vector4 jaunt_goal_;
         [FieldOffset(0x20)] public Vector4 blend_space_param_;
         [FieldOffset(0x30)] public MotionBehaviorGroupActID behavior_id_;
