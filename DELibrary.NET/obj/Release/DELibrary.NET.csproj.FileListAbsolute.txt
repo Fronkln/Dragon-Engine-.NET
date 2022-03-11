@@ -12,5 +12,3 @@ C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Release\DELibrary.N
 C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Release\DELibrary.NET.exe
 C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Release\DELibrary.NET.pdb
 C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Release\DELibrary.NET.csprojAssemblyReference.cache
-C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\bin\Release\MinHookCSharpWrapper.dll
-C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET\obj\Release\DELibrary.NET.csproj.CopyComplete

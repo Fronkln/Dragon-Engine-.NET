@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y7DebugTools", "Y7DebugTool
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brawler", "Brawler\Brawler.csproj", "{6BB08119-CCCF-41E9-B6A9-DAAAE9BA61AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamworksTest", "SteamworksTest\SteamworksTest.csproj", "{8E5AF732-D5ED-4C19-81F2-685BE29D5978}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,18 @@ Global
 		{6BB08119-CCCF-41E9-B6A9-DAAAE9BA61AE}.Release|x64.Build.0 = Release|Any CPU
 		{6BB08119-CCCF-41E9-B6A9-DAAAE9BA61AE}.Release|x86.ActiveCfg = Release|Any CPU
 		{6BB08119-CCCF-41E9-B6A9-DAAAE9BA61AE}.Release|x86.Build.0 = Release|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Debug|x64.Build.0 = Debug|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Debug|x86.Build.0 = Debug|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|x64.ActiveCfg = Release|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|x64.Build.0 = Release|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|x86.ActiveCfg = Release|Any CPU
+		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

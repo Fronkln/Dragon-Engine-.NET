@@ -22,27 +22,9 @@ namespace DragonEngineLibrary.Advanced
             DXHook.DELibrary_DXHook_RegisterPresentFunc(Marshal.GetFunctionPointerForDelegate(del));
         }
 
-        internal static void InitLib()
-        {
-            void InitThread()
-            {
-                DXHook.DoHook();
-
-                while (DXHook.GetDevice() == IntPtr.Zero)
-                {
-                    continue;
-                }
-
-                DXHook.InitImGui();
-            }
-
-            Thread thread = new Thread(InitThread);
-            thread.Start();
-        }
-
         public static void Init()
         {
-            DXHook.DELibrary_DXHook_SetWantHook();
+            DXHook.DELibrary_DXHook_InitImGui();
         }
     }
 }

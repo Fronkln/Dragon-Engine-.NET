@@ -200,11 +200,8 @@ namespace DragonEngineLibrary
         }
 
         public static void LibraryRenderUpdate()
-        {
+        {   
             DELib_RefreshOffsets();
-
-            if (Advanced.DXHook.DELibrary_DXHook_GetWantHook())
-                Advanced.ImGui.InitLib();
         }
 
         internal static bool InitializeModLibrary(string path)
