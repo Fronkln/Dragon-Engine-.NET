@@ -17,11 +17,29 @@ namespace DragonEngineLibrary
         {
             DragonEngine.Log("Dragon Engine Library .NET Thread Start");
 
+#if YLAD
             while (!DragonEngine.IsEngineInitialized())
             {
                 continue;
             }
 
+            StartEngine();
+#else
+            //TEMPORARY FOR OTHER GAMES!
+            System.Timers.Timer timer = new System.Timers.Timer()
+            {
+                Interval = 2000,
+                AutoReset = false,
+                Enabled = true
+            };
+
+            timer.Elapsed += delegate { StartEngine(); };
+#endif
+
+        }
+
+        private static void StartEngine()
+        {
             DragonEngine.Log("Engine initialized");
 
 
@@ -41,6 +59,7 @@ namespace DragonEngineLibrary
 
             DragonEngine.Log("\n\nAll mods have been initialized.");
 
+            //dont let the thread die
             while (true) { }
         }
 
@@ -53,13 +72,15 @@ namespace DragonEngineLibrary
             // DragonEngine._logWriter = new StreamWriter(DragonEngine._logStream);
 
             //Create seperate thread for our C# library
-
             DragonEngine.Log("DragonEngine Library .Net Main Start");
+            DragonEngine.Initialize();
+
 
             Thread thread1 = new Thread(ThreadTest);
             thread1.Start();
 
             DragonEngine.RegisterJob(DragonEngine.LibraryRenderUpdate, DEJob.Update);
+
         }
     }
 }

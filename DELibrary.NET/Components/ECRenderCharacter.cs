@@ -26,7 +26,11 @@ namespace DragonEngineLibrary
         /// </summary>
         public void Reload(CharacterID chara_id, bool is_change_chara_id = true)
         {
+#if YLAD
             bool characterFighting = new EntityHandle<Character>(Owner.UID).Get().GetFighter().IsValid();
+#else
+            bool characterFighting = false;
+#endif
 
             DELib_ECRenderCharacter_Reload(_objectAddress, chara_id, (characterFighting ? (byte)0x80 : (byte)0x1), false, is_change_chara_id);
         }

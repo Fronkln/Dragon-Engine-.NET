@@ -86,6 +86,7 @@ namespace Brawler
                         ChangeStyle(m_Styles[0], true);
 
                     m_battleStartDoOnce = true;
+                    BattleTurnManager.RPGCamera.Get().Sleep();
                 }
             }
 

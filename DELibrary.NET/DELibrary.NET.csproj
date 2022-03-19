@@ -41,6 +41,29 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;YK2</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,6 +85,7 @@
     <Compile Include="Components\ECCharacterEffectEvent.cs" />
     <Compile Include="Components\ECConstructor.cs" />
     <Compile Include="Components\ECConstructorCharacter.cs" />
+    <Compile Include="Components\ECPosture.cs" />
     <Compile Include="Components\ECSoldierInfo.cs" />
     <Compile Include="Components\ECSuper.cs" />
     <Compile Include="Components\UIEntityComponentEnemyLifeGauge.cs" />
@@ -74,6 +98,7 @@
     <Compile Include="Entity\AuthPlayBase.cs" />
     <Compile Include="Entity\BattleCommandAI.cs" />
     <Compile Include="Entity\BattleResourceManager.cs" />
+    <Compile Include="Entity\CameraBase.cs" />
     <Compile Include="Entity\EntityComponentList.cs" />
     <Compile Include="Entity\EntityComponentMap.cs" />
     <Compile Include="Entity\EntityComponentMapSync.cs" />
@@ -96,7 +121,7 @@
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Entity\Fighter.cs" />
     <Compile Include="Entity\HActManager.cs" />
-    <Compile Include="Entity\NakamaManager.cs" />
+    <Compile Include="Entity\Yakuza 7\NakamaManager.cs" />
     <Compile Include="Entity\NPCFactory.cs" />
     <Compile Include="Entity\ObjectiveManager.cs" />
     <Compile Include="Entity\ObjectiveManagerEntityBase.cs" />
@@ -123,7 +148,8 @@
     <Compile Include="Enums\BattleCommandSetID.cs" />
     <Compile Include="Enums\BattleControlType.cs" />
     <Compile Include="Enums\BattleGroupID.cs" />
-    <Compile Include="Enums\BattleRPGEnemyID.cs" />
+    <Compile Include="Enums\ParticleInterface.cs" />
+    <Compile Include="Enums\Yakuza 7\BattleRPGEnemyID.cs" />
     <Compile Include="Enums\BehaviorActionID.cs" />
     <Compile Include="Enums\BehaviorGroupID.cs" />
     <Compile Include="Enums\BehaviorSetID.cs" />
@@ -159,9 +185,11 @@
     <Compile Include="Enums\MotionFacePattern.cs" />
     <Compile Include="Enums\MotionID.cs" />
     <Compile Include="Enums\ParticleID.cs" />
-    <Compile Include="Enums\RPGJobID.cs" />
-    <Compile Include="Enums\RPGSkillID.cs" />
+    <Compile Include="Enums\ParticleType.cs" />
+    <Compile Include="Enums\Yakuza 7\RPGJobID.cs" />
+    <Compile Include="Enums\Yakuza 7\RPGSkillID.cs" />
     <Compile Include="Enums\SceneEntity.cs" />
+    <Compile Include="Enums\SceneID.cs" />
     <Compile Include="Enums\SoundCategoryLabelGVCmnID.cs" />
     <Compile Include="Enums\SoundCategoryLabelGVTalkID.cs" />
     <Compile Include="Enums\SoundCuesheetID.cs" />
@@ -178,7 +206,7 @@
     <Compile Include="Enums\Yakuza 7\MinigameDragonKartCourseID.cs" />
     <Compile Include="Enums\Yakuza 7\MinigameDragonKartDriverID.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Entity\FighterManager.cs" />
+    <Compile Include="Entity\Yakuza 7\FighterManager.cs" />
     <Compile Include="Entity\GameObject.cs" />
     <Compile Include="Entity\Player.cs" />
     <Compile Include="MarshallingTests.cs" />

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brawler", "Brawler\Brawler.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamworksTest", "SteamworksTest\SteamworksTest.csproj", "{8E5AF732-D5ED-4C19-81F2-685BE29D5978}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dance Battle!", "Dance Battle!\Dance Battle!.csproj", "{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,18 @@ Global
 		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|x64.Build.0 = Release|Any CPU
 		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|x86.ActiveCfg = Release|Any CPU
 		{8E5AF732-D5ED-4C19-81F2-685BE29D5978}.Release|x86.Build.0 = Release|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Debug|x64.Build.0 = Debug|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Debug|x86.Build.0 = Debug|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Release|x64.ActiveCfg = Release|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Release|x64.Build.0 = Release|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Release|x86.ActiveCfg = Release|Any CPU
+		{5CD10D97-AFED-4EBF-B19C-6C3A887588E1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

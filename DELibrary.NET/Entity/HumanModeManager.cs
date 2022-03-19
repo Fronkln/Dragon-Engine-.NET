@@ -18,6 +18,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOMOVE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HumanModeManager_ToMove(IntPtr manager, bool no_blend);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOSWAY", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_HumanModeManager_ToSway(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOBATTOU", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_HumanModeManager_ToBattou(IntPtr manager, AssetID id);
+
         public enum RequireType
         {
             Normal = 0x0,
@@ -32,5 +38,7 @@ namespace DragonEngineLibrary
         public void ToStand(RequireType reqType) => DELib_HumanModeManager_ToStand(Pointer, reqType);
         public void ToKamae(bool no_blend, bool force_kamae, bool no_start_req) => DELib_HumanModeManager_ToKamae(Pointer, no_blend, force_kamae, no_start_req);
         public void ToMove(bool no_blend) => DELib_HumanModeManager_ToMove(Pointer, no_blend);
+        public void ToSway() => DELib_HumanModeManager_ToSway(Pointer);
+        public void ToBattou(AssetID asset) => DELib_HumanModeManager_ToBattou(Pointer, asset);
     }
 }

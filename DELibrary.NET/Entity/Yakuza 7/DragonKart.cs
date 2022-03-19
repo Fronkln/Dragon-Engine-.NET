@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+#if YLAD
 namespace DragonEngineLibrary
 {
     public class DragonKart : EntityBase
@@ -22,3 +23,4 @@ namespace DragonEngineLibrary
         }
     }
 }
+#endif

@@ -56,6 +56,9 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_IsDown(IntPtr fighterPtr);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_CALC_ROOT_MATRIX", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Fighter_CalcRootMatrix(IntPtr fighterPtr);
+
         public Character Character { get; internal set; }
         internal IntPtr _ptr;
 
@@ -177,6 +180,21 @@ namespace DragonEngineLibrary
             ai.Pointer = addr;
 
             return ai;
+        }
+
+        public Matrix4x4 CalcRootMatrix()
+        {
+            IntPtr matrixPtr = DELib_Fighter_CalcRootMatrix(_ptr);
+
+            if (matrixPtr != IntPtr.Zero)
+            {
+                Matrix4x4 matrixObj = Marshal.PtrToStructure<Matrix4x4>(matrixPtr);
+                DragonEngine.FreeUnmanagedMemory(matrixPtr);
+
+                return matrixObj;
+            }
+            else
+                return new Matrix4x4();
         }
     }
 

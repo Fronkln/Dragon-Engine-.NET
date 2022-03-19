@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using DragonEngineLibrary;
-
+#if YLAD
 namespace Y7MP
 {
     public class MGHomelessCan : EntityBase
@@ -15,3 +15,4 @@ namespace Y7MP
         }
     }
 }
+#endif

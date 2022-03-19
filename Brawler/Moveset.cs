@@ -45,11 +45,12 @@ namespace Brawler
 
         public override void Execute(Fighter attacker, Fighter target)
         {
+            attacker.Character.HumanModeManager.ToSway();
 
-            if(DragonEngine.IsKeyHeld(VirtualKey.W))
-                attacker.Character.GetMotion().RequestGMT((MotionID)12);
-            else
-                attacker.Character.GetMotion().RequestGMT((MotionID)11);
+          //  if(DragonEngine.IsKeyHeld(VirtualKey.W))
+             //   attacker.Character.GetMotion().RequestGMT((MotionID)12);
+           // else
+              //  attacker.Character.GetMotion().RequestGMT((MotionID)11);
         }
     }
 

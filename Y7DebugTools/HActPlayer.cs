@@ -29,22 +29,9 @@ namespace Y7DebugTools
         private static EntityHandle<Character> CreateHActChara(CharacterID id)
         {
 
-            NPCRequestMaterial material = new NPCRequestMaterial();
-            material.Material = new NPCMaterial();
-            material.Material.pos_ = DragonEngine.GetHumanPlayer().Transform.Position;
-            material.Material.character_id_ = id;
-            material.Material.collision_type_ = 0;
-            material.Material.is_eternal_life_ = true;
-            material.Material.is_short_life_ = false;
-            material.Material.height_scale_id_ = CharacterHeightID.height_185;
-            material.Material.is_force_create_ = true;
-            material.Material.is_force_visible_ = true;
-            material.Material.behavior_set_id_ = BehaviorSetID.m_human_npc_base;
-            material.Material.voicer_id_ = CharacterVoicerID.invalid;
-            material.Material.parent_ = SceneService.CurrentScene.Get().GetSceneEntity<EntityBase>(SceneEntity.character_manager).UID;
-            material.Material.npc_setup_id_ = CharacterNPCSetup.no_collision_ever_fix;
+            return BattleResourceManager.CreateTempHActChara(id, Player.ID.invalid);
 
-           return NPCFactory.RequestCreate(material);
+        //   return NPCFactory.RequestCreate(material);
 
         }
 

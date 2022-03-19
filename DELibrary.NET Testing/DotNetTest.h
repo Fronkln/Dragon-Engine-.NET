@@ -159,6 +159,7 @@ int Test()
 {
     PCHAR ptrBinary; DWORD lenBinary;
 
+
     //Change exe path to yours
     //I made this an absolute path because i didnt want to copy files around for each change to my own code tests
     if (!readBinFile("DELibrary.NET.dll", ptrBinary, lenBinary))

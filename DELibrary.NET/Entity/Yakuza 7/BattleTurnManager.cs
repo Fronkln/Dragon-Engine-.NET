@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+#if YLAD
 
 namespace DragonEngineLibrary
 {
@@ -62,6 +63,9 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_BattleTurnManager_ExecTurnAICommandDecide(IntPtr fighter);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_RPG_CAMERA", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleTurnManager_Getter_RPGCamera();
+
         public enum TurnPhase
         {
             StartWait = 0x0,
@@ -98,6 +102,8 @@ namespace DragonEngineLibrary
             Combination = 0x4,
             NumType = 0x5,
         };
+
+        public static EntityHandle<CameraBase> RPGCamera { get { return DELib_BattleTurnManager_Getter_RPGCamera(); } }
 
         public static TurnPhase CurrentPhase { get { return DELib_BattleTurnManager_Getter_CurrentPhase(); } }
         public static ActionStep CurrentActionStep { get { return DELib_BattleTurnManager_Getter_CurrentActionStep(); } }
@@ -231,3 +237,4 @@ namespace DragonEngineLibrary
         }
     }
 }
+#endif

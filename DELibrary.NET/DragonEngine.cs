@@ -83,16 +83,25 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_TEMP_CPP_COUT", CallingConvention = CallingConvention.Cdecl)]
         private static extern void DELib_TEMP_CPP_COUT(string text);
 
+
+/// <summary>
+/// Very dangerous to use, doesnt call constructors on deletion.
+/// </summary>
+/// <param name="text"></param>
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CPP_FREE_MEM", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void DELib_CPP_FREE_MEM(IntPtr memory);
+
         /// <summary>
         /// Initialize Dragon Engine library. Important for it to properly function.
         /// </summary>
         public static void Initialize()
         {
             DELib_Init();
-
+#if YLAD
             BattleTurnManager.OverrideAttackerSelectionInfo.deleg = new BattleTurnManager.OverrideAttackerSelectionDelegate(BattleTurnManager.ReturnManualAttackerSelectionResult);
             BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr = Marshal.GetFunctionPointerForDelegate(BattleTurnManager.OverrideAttackerSelectionInfo.deleg);
             DELib_RegisterAttackerOverrideFunc(BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr);
+#endif
 
             EngineHooks.Initialize();
         }
@@ -109,8 +118,15 @@ namespace DragonEngineLibrary
         {
             string valueStr = value.ToString();
 
-            DELib_TEMP_CPP_COUT(valueStr + "\n");
+            Console.WriteLine(valueStr);
+           // DELib_TEMP_CPP_COUT(valueStr + "\n");
            // File.AppendAllText("dotnetlog.txt", valueStr + "\n");
+        }
+
+
+        internal static void FreeUnmanagedMemory(IntPtr memory)
+        {
+            DELib_CPP_FREE_MEM(memory);
         }
 
         public static bool IsCursorForcedVisible()

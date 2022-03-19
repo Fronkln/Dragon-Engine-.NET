@@ -11,7 +11,8 @@ DWORD WINAPI NetThread(HMODULE hModule)
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
 
-    std::cout << "Starting" << std::endl;
+    std::cout << "Starting in 8 seconds" << std::endl;
+    Sleep(8000);
 
     Test();
 

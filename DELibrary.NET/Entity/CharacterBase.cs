@@ -13,10 +13,13 @@ namespace DragonEngineLibrary
         internal static extern IntPtr DELib_Character_Base_Getter_Attributes(IntPtr character_base);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_GET_MOTION", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr DELib_Character_Base_Get_Motion(IntPtr character_base);
+        internal static extern IntPtr DELib_Character_Base_GetMotion(IntPtr character_base);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_GET_RENDER", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr DELib_Character_Base_Get_Render(IntPtr character_base);
+        internal static extern IntPtr DELib_Character_Base_GetRender(IntPtr character_base);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_GET_POSTUREE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_Base_GetPosture(IntPtr character_base);
 
         /// <summary>
         /// Read only for now. Returns character's creation information
@@ -40,7 +43,7 @@ namespace DragonEngineLibrary
         /// </summary>
         public ECMotion GetMotion()
         {
-            IntPtr addr = DELib_Character_Base_Get_Motion(_objectAddress);
+            IntPtr addr = DELib_Character_Base_GetMotion(_objectAddress);
 
             ECMotion motion = new ECMotion();
             motion._objectAddress = addr;
@@ -53,12 +56,19 @@ namespace DragonEngineLibrary
         /// </summary>
         public ECRenderCharacter GetRender()
         {
-            IntPtr addr = DELib_Character_Base_Get_Render(_objectAddress);
+            IntPtr addr = DELib_Character_Base_GetRender(_objectAddress);
 
             ECRenderCharacter rend = new ECRenderCharacter();
             rend._objectAddress = addr;
 
             return rend;
         }
+
+        public ECPosture GetPosture()
+        {
+            IntPtr addr = DELib_Character_Base_GetPosture(_objectAddress);
+            return new ECPosture() { Pointer = addr };
+        }
     }
 }
+

@@ -1,0 +1,26 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace DragonEngineLibrary
+{
+    public class ECPosture : ECCharaBaseComponent
+    {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_POSTURE_GET_ROOT_MATRIX", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_ECPosture_GetRootMatrix(IntPtr posture);
+
+        public Matrix4x4 GetRootMatrix()
+        {
+            IntPtr matrixPtr = DELib_ECPosture_GetRootMatrix(Pointer);
+
+            if(matrixPtr != IntPtr.Zero)
+            {
+                Matrix4x4 matrixObj = Marshal.PtrToStructure<Matrix4x4>(matrixPtr);
+                DragonEngine.FreeUnmanagedMemory(matrixPtr);
+
+                return matrixObj;
+            }
+
+            return new Matrix4x4();
+        }
+    }
+}

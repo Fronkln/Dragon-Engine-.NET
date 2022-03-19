@@ -10,7 +10,9 @@ namespace DragonEngineLibrary
     public struct DynamicsMatrix
     {
         [FieldOffset(0x0)]
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x70)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x30)]
         public byte[] temp;
+        [FieldOffset(0x30)]
+        public Matrix4x4 matrix;
     }
 }

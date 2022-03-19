@@ -80,6 +80,7 @@ namespace TestMod
 
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad5))
                 {
+                    DragonEngine.Log(ParticleManager.Play(ParticleID.AAa0000, DragonEngine.GetHumanPlayer().GetPosture().GetRootMatrix(), ParticleType.Hit).UID);
                     /*
                     HActRequestOptions opts = new HActRequestOptions();
 

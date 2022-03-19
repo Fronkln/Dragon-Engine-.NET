@@ -24,6 +24,19 @@ namespace Brawler
                     DragonEngine.Log("Brawler Mode: " + toggle);
                 }
 
+                if (DragonEngine.IsKeyDown(VirtualKey.Numpad8))
+                {
+                    ECBattleStatus status = DragonEngine.GetHumanPlayer().GetBattleStatus();
+                    status.AttackPower = status.AttackPower * 4;
+                }
+
+
+                if (DragonEngine.IsKeyDown(VirtualKey.Numpad9))
+                {
+                    DragonEngine.GetHumanPlayer().HumanModeManager.ToSway();
+      
+                }
+
                 if (FighterManager.IsBrawlerMode())
                     BrawlerPlayer.InputUpdate();
             }

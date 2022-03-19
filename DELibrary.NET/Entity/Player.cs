@@ -34,6 +34,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_HP_MAX", CallingConvention = CallingConvention.Cdecl)]
         internal extern static long DELib_Player_GetHPMax(ID player);
 
+#if YLAD
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetLevel(uint level, ID playerID, IntPtr saveData = default(IntPtr));
 
@@ -51,6 +52,7 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_CURRENT_JOB", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetCurrentJob(ID player, RPGJobID job, bool recoverHPMPDifference);
+#endif
 
         public static long GetHPNow(ID playerID)
         {
@@ -61,7 +63,7 @@ namespace DragonEngineLibrary
         {
             return DELib_Player_GetHPMax(playerID);
         }
-
+#if YLAD
         public static void SetLevel(uint level, ID playerID)
         {
             DELib_Player_SetLevel(level, playerID, IntPtr.Zero);
@@ -106,5 +108,6 @@ namespace DragonEngineLibrary
         {
             DELib_Player_SetCurrentJob(player, job, recoverHPAndMPDifference);
         }
+#endif
     }
 }
