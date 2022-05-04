@@ -186,7 +186,7 @@ namespace DragonEngineLibrary
 
         public static void SwitchActiveFighter(FighterID id, bool noUIChange)
         {
-            DELib_BattleTurnManager_SwitchActiveFighter(id.Handle.UID, noUIChange);
+            DELib_BattleTurnManager_SwitchActiveFighter(id.Handle, noUIChange);
         }
 
         public static void ChangePhase(TurnPhase phase)

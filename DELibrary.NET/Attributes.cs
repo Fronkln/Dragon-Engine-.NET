@@ -19,4 +19,15 @@ namespace DragonEngineLibrary
             InitializationClass = modInitializationClass;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class DECompatibility : Attribute
+    {
+        public DEGames compatibleGames;
+
+        public DECompatibility(DEGames compatibility)
+        {
+            compatibleGames = compatibility;
+        }
+    }
 }

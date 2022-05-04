@@ -101,7 +101,6 @@ namespace DragonEngineLibrary
 
             return outVec;
         }
-
         public static Vector3 operator -(Vector3 a, Vector3 b)
         {
             Vector3 outVec;
@@ -144,6 +143,11 @@ namespace DragonEngineLibrary
             outVec.z = a.z * f;
 
             return outVec;
+        }
+
+        public static Vector3 operator /(Vector3 a, float d)
+        {
+            return new Vector3(a.x / d, a.y / d, a.z / d);
         }
 
         public static float Distance(Vector3 a, Vector3 b)

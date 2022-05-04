@@ -14,9 +14,16 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GET_BATTLESTATUS", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Get_BattleStatus(IntPtr chara);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_REQUEST_START_FIGHTER", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Character_RequestStartFighter(IntPtr chara);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_IS_DEAD", CallingConvention = CallingConvention.Cdecl)]
         [return:MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Character_IsDead(IntPtr chara);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_TO_DEAD", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_Character_ToDead(IntPtr chara);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETFIGHTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_GetFighter(IntPtr chara);
@@ -27,8 +34,11 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_SET_ANG_Y", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Character_SetAngY(IntPtr chara, float ang);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_WARP_POS_AND_ANGLE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_Character_WarpPosAndAng(IntPtr chara, Vector4 pos, float ang);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_REQUEST_WARP_POSE", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void DELib_Character_RequestWarpPose(IntPtr chara, ref PoseInfo inf);
+        internal static extern void DELib_Character_RequestWarpPose(IntPtr chara, IntPtr inf);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GET_CONSTRUCTOR", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_GetConstructor(IntPtr chara);
@@ -40,24 +50,24 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_CREATE1", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_Character_Create(uint parent, CharacterID charaID);
 
-        /*
-        /// <summary>
-        /// Common information about the NPC
-        /// </summary>
-        public CharacterStatus Status
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_ECBATTLETARGETDECIDE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_Getter_ECBattleTargetDecide(IntPtr chara);
+
+#if YLAD
+        ///<summary>Target select module of the character.</summary>
+        public ECBattleTargetDecide TargetDecide
         {
             get
             {
-                IntPtr result = DELib_Character_Getter_Status(Pointer);
+                ECBattleTargetDecide decide = new ECBattleTargetDecide();
+                decide.Pointer = DELib_Character_Getter_ECBattleTargetDecide(Pointer);
 
-                if (result == null)
-                    return new CharacterStatus();
-                else
-                    return Marshal.PtrToStructure<CharacterStatus>(result);
+                return decide;
             }
         }
-        */
+#endif
 
+        ///<summary>Common information about the character.</summary>
         public CharacterStatus Status
         {
             get
@@ -71,9 +81,7 @@ namespace DragonEngineLibrary
             }
         }
 
-        /// <summary>
-        /// Common components of a character
-        /// </summary>
+        ///<summary>Common components of a character.</summary>
         public CharacterComponents Components
         {
             get
@@ -82,6 +90,7 @@ namespace DragonEngineLibrary
             }
         }
 
+        ///<summary>The HumanModeManager component of this character.</summary>
         public HumanModeManager HumanModeManager
         {
             get
@@ -95,21 +104,52 @@ namespace DragonEngineLibrary
             }
         }
 
+
+
+        ///<summary>Get the Y angle of this character.</summary>
         public float GetAngleY()
         {
             return DELib_Character_GetAngY(_objectAddress);
         }
 
+#if YK2
+        ///<summary>Request to turn this character into a fighter.</summary>
+        public bool RequestStartFighter()
+        {
+            return DELib_Character_RequestStartFighter(Pointer);
+        }
+#endif
+
+        ///<summary>Set Y angle of this character.</summary>
         public void SetAngleY(float angle)
         {
             DELib_Character_SetAngY(_objectAddress, angle);
         }
 
+#if YK2
+        ///<summary>Warp to the coordinates specified.</summary>
+        public void WarpPosAndAngle(Vector4 position, float angle)
+        {
+            DELib_Character_WarpPosAndAng(Pointer, position, angle);
+        }
+#endif
+
+        ///<summary>Request to be warped to the coordinates specified.</summary>
         public void RequestWarpPose(PoseInfo inf)
         {
-            DELib_Character_RequestWarpPose(_objectAddress, ref inf);
+            IntPtr infPtr = inf.ToIntPtr();
+            DELib_Character_RequestWarpPose(_objectAddress, infPtr);
+
+            Marshal.FreeHGlobal(infPtr);
         }
 
+        ///<summary>Kill this character.</summary>
+        public void ToDead()
+        {
+            DELib_Character_ToDead(Pointer);
+        }
+
+        ///<summary>Is the character dead?</summary>
         public bool IsDead()
         {
             return DELib_Character_IsDead(Pointer);
@@ -136,7 +176,7 @@ namespace DragonEngineLibrary
             return status;
         }
 
-
+        ///<summary>Get the constructor of this character.</summary>
         public ECConstructorCharacter GetConstructor()
         {
             ECConstructorCharacter constructor = new ECConstructorCharacter();
@@ -144,7 +184,18 @@ namespace DragonEngineLibrary
 
             return constructor;
         }
-        
+
+
+        ///<summary>Set the commandset of this character.</summary>
+        public void SetCommandSet(BattleCommandSetID commandSet)
+        {
+            CommandSetModel commandSetMdl = HumanModeManager.CommandsetModel;
+            GetBattleStatus().ClearCommand();
+
+            commandSetMdl.SetCommandSet(0, commandSet);
+        }
+
+        ///<summary>Create a character.</summary>
         public static EntityHandle<Character> Create(EntityHandle<EntityBase> parent, CharacterID ID)
         {
             return DELib_Character_Create(parent.UID, ID);

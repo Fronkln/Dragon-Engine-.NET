@@ -12,6 +12,7 @@ namespace DragonEngineLibrary
         internal static extern uint DELib_UIEntityComponentEnemyLifeGauge_Attach(IntPtr character);
 
 
+        ///<summary>Set name on the UI gauge.</summary>
         public void SetCategoryName(string name)
         {
             DELib_UIEntityComponentEnemyLifeGauge_SetCategoryName(Pointer, name);

@@ -11,11 +11,14 @@ namespace DragonEngineLibrary
     {
         internal EntityBase _owner;
 
+        ///<summary>The position of this entity.</summary>
         public Vector4 Position
         {
             get{ return _owner.GetPosCenter(); }
             set { _owner.SetPosCenter(value); }
         }
+
+        ///<summary>The rotation of this entity.</summary>
         public Quaternion Orient
         {
             get
@@ -77,6 +80,7 @@ namespace DragonEngineLibrary
 
         public Transform Transform;
 
+        ///<summary>Entity component map of this entity.</summary>
         public EntityComponentMapSync EntityComponentMap
         {
             get
@@ -90,6 +94,7 @@ namespace DragonEngineLibrary
             }
         }
 
+        ///<summary>Unique entity UID of this entity.</summary>
         public EntityUID EntityUID
         {
             get
@@ -156,6 +161,7 @@ namespace DragonEngineLibrary
             return GetSceneEntity(sceneEnt).UID;
         }
 
+        ///<summary>Get an entity from UID.</summary>
         public static EntityHandle<EntityBase> GetGlobalEntityFromUID(EntityUID uid)
         {
             return DELibrary_EntityBase_GetGlobalEntityFromUID(uid.UID);

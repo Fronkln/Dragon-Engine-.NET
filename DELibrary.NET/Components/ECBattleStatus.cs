@@ -50,6 +50,33 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_DEFENSE_POWER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_ECBattleStatus_Setter_DefensePower(IntPtr battlestatus, uint power);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_HEAT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int DELibrary_ECBattleStatus_Getter_Heat(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_HEAT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_Setter_Heat(IntPtr battlestatus, int heat);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_ACTION_COMMAND", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern BattleCommandSetID DELibrary_ECBattleStatus_Getter_ActionCommand(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_ACTION_COMMAND", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_Setter_ActionCommand(IntPtr battlestatus, BattleCommandSetID set);
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_RPG_COMMAND", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern BattleCommandSetID DELibrary_ECBattleStatus_Getter_RPGCommand(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_RPG_COMMAND", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_Setter_RPGCommand(IntPtr battlestatus, BattleCommandSetID set);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_CLEAR_COMMAND", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_ClearCommand(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SET_SUPER_ARMOR", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_SetSuperArmor(IntPtr battlestatus, bool armor);
+
+  
+
         public static EntityComponentHandle<ECBattleStatus> Attach(Character character)
         {
             return DELibrary_ECBattleStatus_Attach(character.Pointer);
@@ -92,6 +119,44 @@ namespace DragonEngineLibrary
             }
         }
 
+        public int Heat
+        {
+            get
+            {
+                return DELibrary_ECBattleStatus_Getter_Heat(_objectAddress);
+            }
+            set
+            {
+                DELibrary_ECBattleStatus_Setter_Heat(_objectAddress, value);
+            }
+        }
+
+        ///<summary>RPG Command set of th echaracter.</summary>
+        public BattleCommandSetID RPGCommand
+        {
+            get
+            {
+                return DELibrary_ECBattleStatus_Getter_RPGCommand(_objectAddress);
+            }
+            set
+            {
+                DELibrary_ECBattleStatus_Setter_RPGCommand(_objectAddress, value);
+            }
+        }
+
+        ///<summary>Action command set of the character.</summary>
+        public BattleCommandSetID ActionCommand
+        {
+            get
+            {
+                return DELibrary_ECBattleStatus_Getter_ActionCommand(_objectAddress);
+            }
+            set
+            {
+                DELibrary_ECBattleStatus_Setter_ActionCommand(_objectAddress, value);
+            }
+        }
+
         public uint Level
         {
             get { return DELibrary_ECBattleStatus_Getter_FighterLevel(Pointer); }
@@ -116,21 +181,31 @@ namespace DragonEngineLibrary
             set { DELibrary_ECBattleStatus_Setter_DefensePower(Pointer, value); }
         }
 
+        ///<summary>Set current alive HP?? What??</summary>
         public void SetAliveHPCurrent(long hp)
         {
             DELibrary_ECBattleStatus_SetAliveHPCurrent(_objectAddress, hp);
         }
 
+        ///<summary>Set max HP.</summary>
         public void SetHPMax(long hp)
         {
            DELibrary_ECBattleStatus_SetHPMax(_objectAddress, hp);
         }
 
+        ///<summary>Set current HP.</summary>
         public void SetHPCurrent(long hp)
         {
             DELibrary_ECBattleStatus_SetHPCurrent(_objectAddress, hp);
         }
 
+        ///<summary>Clear fighter command.</summary>
+        public void ClearCommand()
+        {
+            DELibrary_ECBattleStatus_ClearCommand(Pointer);
+        }
+
+        ///<summary>Get the battle AI of the character.</summary>
         public BattleCommandAI GetBattleAI()
         {
             IntPtr addr = DELibrary_ECBattleStatus_GetBattleAI(_objectAddress);
@@ -139,6 +214,13 @@ namespace DragonEngineLibrary
 
             return ai;
         }
+
+
+        public void SetSuperArmor(bool armor)
+        {
+            DELibrary_ECBattleStatus_SetSuperArmor(Pointer, armor);
+        }
+
         
     }
 }

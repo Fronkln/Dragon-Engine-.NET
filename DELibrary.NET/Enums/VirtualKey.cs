@@ -46,7 +46,7 @@ namespace DragonEngineLibrary
         Kanji = 0x19,
         /// <summary></summary>
         Escape = 0x1B,
-        /// <summary></summary>
+        /// <summary></summary> 
         Convert = 0x1C,
         /// <summary></summary>
         NonConvert = 0x1D,

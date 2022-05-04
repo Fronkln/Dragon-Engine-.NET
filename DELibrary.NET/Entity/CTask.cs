@@ -57,8 +57,10 @@ namespace DragonEngineLibrary
             {
                 return _objectAddress;
             }
-            set { _objectAddress = value; }
+            set { _objectAddress = value; Precache(); }
         }
+
+        protected virtual void Precache() { }
 
         /// <summary>
         /// Is this object valid? (UID is not zero + UID dereferencing points to a valid memory address)

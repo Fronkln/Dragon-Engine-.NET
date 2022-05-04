@@ -13,7 +13,7 @@ namespace DragonEngineLibrary
         internal static extern bool DELib_BattleCommandAI_Getter_IsInitialized(IntPtr commandAI);
 
         /// <summary>
-        /// Owner of this AI
+        /// Owner of this AI.
         /// </summary>
         public Character Owner
         {
@@ -29,10 +29,7 @@ namespace DragonEngineLibrary
 
         public IntPtr Pointer { get; internal set; }
 
-        /// <summary>
-        /// Is the AI initialized
-        /// </summary>
-        /// <returns></returns>
+        ///<summary>Is the AI initialized?</summary>
         public bool IsInitialized()
         {
             return DELib_BattleCommandAI_Getter_IsInitialized(Pointer);

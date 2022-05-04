@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,8 +30,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MinHookCSharpWrapper">
+      <HintPath>..\Yakuza 7 Online\Libraries\MinHookCSharpWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,17 +46,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleManager.cs" />
+    <Compile Include="BrawlerHooks.cs" />
     <Compile Include="BrawlerPlayer.cs" />
+    <Compile Include="BrawlerState.cs" />
+    <Compile Include="HeatActionManager.cs" />
     <Compile Include="Mod.cs" />
+    <Compile Include="MortalStateManager.cs" />
     <Compile Include="Moveset.cs" />
+    <Compile Include="MoveString.cs" />
+    <Compile Include="Moves\MoveHeatAction.cs" />
+    <Compile Include="Moves\HeatActionCondition.cs" />
+    <Compile Include="Moves\Move.cs" />
+    <Compile Include="Moves\MoveGetUp.cs" />
+    <Compile Include="Moves\MoveGMTOnly.cs" />
+    <Compile Include="Moves\MoveInput.cs" />
+    <Compile Include="Moves\MoveSidestep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleTimer.cs" />
     <Compile Include="Style.cs" />
+    <Compile Include="WeaponManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DELibrary.NET\DELibrary.NET.csproj">
       <Project>{9900112c-25d6-427d-846a-a90e31cf8fe3}</Project>
       <Name>DELibrary.NET</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BossIDs.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

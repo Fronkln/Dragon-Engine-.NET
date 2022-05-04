@@ -12,6 +12,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CGAME_OBJECT_SET_VISIBLE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_GameObject_SetVisible(IntPtr gameobject, bool visible, bool temporarily);
 
+        ///<summary>Is the entity visible?</summary>
         public bool IsVisible()
         {
             return DELib_GameObject_IsVisible(_objectAddress);

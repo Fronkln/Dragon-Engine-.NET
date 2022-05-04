@@ -125,7 +125,7 @@ namespace Y7MP
             {
                 if(Character.IsValid())
                 {
-                    LifeGauge = new EntityComponentHandle<UIEntityComponentEnemyLifeGauge>(Character.Get().EntityComponentMap.GetComponent(EntityComponent.ECSlotID.ui_enemy_life_gauge).UID);
+                    LifeGauge = new EntityComponentHandle<UIEntityComponentEnemyLifeGauge>(Character.Get().EntityComponentMap.GetComponent(ECSlotID.ui_enemy_life_gauge).UID);
                     LifeGauge.SetCategoryName(Owner.Name() + $"({PlayerInfo.playerHealth}/{PlayerInfo.playerMaxHealth})");
                 }
               //  if(LifeGauge.IsValid())

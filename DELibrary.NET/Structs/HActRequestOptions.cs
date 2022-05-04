@@ -16,6 +16,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTREQUESTOPTIONS_REGISTERFIGHTERANDWEAPON", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HActRequestOptions_RegisterFighterAndWeapon(ref HActRequestOptions opt, HActReplaceID id, uint fid);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTREQUESTOPTIONS_REGISTERWEAPON", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_HActRequestOptions_RegisterWeapon(ref HActRequestOptions opt, AuthAssetReplaceID id, AssetID asset);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTREQUESTOPTIONS_REGISTERWEAPON2", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_HActRequestOptions_RegisterWeapon2(ref HActRequestOptions opt, AuthAssetReplaceID id, uint wep);
+
         [FieldOffset(0x0)] public DynamicsMatrix base_mtx;
         [FieldOffset(0x70)] public DynamicsMatrix base_mtx_sub;
         [FieldOffset(0xE0)] public TalkParamID id;
@@ -48,12 +54,28 @@ namespace DragonEngineLibrary
 
         public void RegisterFighter(HActReplaceID id, FighterID fighterID)
         {
-            DELib_HActRequestOptions_RegisterFighter(ref this, id, fighterID.Handle.UID);
+            DELib_HActRequestOptions_RegisterFighter(ref this, id, fighterID.Handle);
         }
 
         public void RegisterFighterAndWeapon(HActReplaceID id, FighterID fighterID)
         {
-            DELib_HActRequestOptions_RegisterFighterAndWeapon(ref this, id, fighterID.Handle.UID);
+            DELib_HActRequestOptions_RegisterFighterAndWeapon(ref this, id, fighterID.Handle);
+        }
+
+        public void RegisterFighterAndWeapon(HActReplaceID id, Fighter fighter, AuthAssetReplaceID wepReplaceID)
+        {
+            Register(id, fighter.Character.UID);
+            RegisterWeapon(wepReplaceID, fighter.GetWeapon(AttachmentCombinationID.right_weapon2).Unit.Get().AssetID);
+        }
+
+        public void RegisterWeapon(AuthAssetReplaceID id, AssetID asset)
+        {
+            DELib_HActRequestOptions_RegisterWeapon(ref this, id, asset);
+        }
+
+        public void RegisterWeapon(AuthAssetReplaceID id, Weapon wep)
+        {
+            DELib_HActRequestOptions_RegisterWeapon2(ref this, id, wep.Unit.UID);
         }
     }
 }

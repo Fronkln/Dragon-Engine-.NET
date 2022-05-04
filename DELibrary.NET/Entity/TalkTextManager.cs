@@ -79,16 +79,19 @@ namespace DragonEngineLibrary
             inf.disable_tick = 0;
         }
 
+        ///<summary>Display the talk window.</summary>
         public static void DisplayWindow(bool show, bool talkerShow)
         {
             DELibrary_TalkTextManager_DisplayWindow(show, talkerShow);
         }
 
+        ///<summary>Set type of current window.</summary>
         public static void SetWindowType(TalkTextWindowTypeID id)
         {
             DELibrary_TalkTextManager_SetWindowType(id);
         }
 
+        ///<summary>Set text of current window.</summary>
         public static void SetText(TextInfo inf)
         {
             IntPtr infPtr = inf.ToIntPtr();

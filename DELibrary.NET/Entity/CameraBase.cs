@@ -8,6 +8,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCAMERA_BASE_SLEEP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_CameraBase_Sleep(IntPtr camera);
 
+        ///<summary>Disable the camera.</summary>
         public void Sleep()
         {
             DELib_CameraBase_Sleep(Pointer);

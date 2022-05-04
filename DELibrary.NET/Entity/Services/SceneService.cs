@@ -8,11 +8,11 @@ namespace DragonEngineLibrary.Service
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSCENE_SERVICE_GET_SCENE_INFO", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_SceneService_GetSceneInfo();
 
-        public static EntityHandle<SceneBase> CurrentScene
+        public static EntityHandle<Scene> CurrentScene
         {
             get
             {
-                return GetSceneInfo().ScenePlay;
+                return GetSceneInfo().ScenePlay.UID;
             }
         }
 

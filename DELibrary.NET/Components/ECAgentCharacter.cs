@@ -12,13 +12,14 @@ namespace DragonEngineLibrary
         internal static extern uint DELib_ECAgentCharacter_Getter_SoldierInfo(IntPtr agent);
 
         /// <summary>
-        /// AI component.
+        /// AI component of the Agent.
         /// </summary>
         public EntityComponentHandle<ECAI> AI
         {
             get { return DELib_ECAgentCharacter_Getter_AI(_objectAddress); }
         }
 
+        ///<summary>Soldier info of this agent.</summary>
         public EntityComponentHandle<ECSoldierInfo> SoldierInfo
         {
             get { return DELib_ECAgentCharacter_Getter_SoldierInfo(_objectAddress); }

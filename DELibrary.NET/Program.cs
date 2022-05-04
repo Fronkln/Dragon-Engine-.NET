@@ -15,33 +15,30 @@ namespace DragonEngineLibrary
         //Do whatever you want here
         static void ThreadTest()
         {
-            DragonEngine.Log("Dragon Engine Library .NET Thread Start");
-
-#if YLAD
-            while (!DragonEngine.IsEngineInitialized())
+            try
             {
-                continue;
+                DragonEngine.Log("\nDragon Engine Library .NET Thread Start");
+
+
+                while (!DragonEngine.IsEngineInitialized())
+                {
+                    continue;
+                }
+
+                DragonEngine.Log("Dragon Engine initialized, initializing the library.");
+
+                StartEngine();
+            }
+            catch(Exception ex)
+            {
+                DragonEngine.Log("\n\n\nFailed to initialize\nError:" + ex.Message + "\n\nStacktrace:\n" + ex.StackTrace);
             }
 
-            StartEngine();
-#else
-            //TEMPORARY FOR OTHER GAMES!
-            System.Timers.Timer timer = new System.Timers.Timer()
-            {
-                Interval = 2000,
-                AutoReset = false,
-                Enabled = true
-            };
-
-            timer.Elapsed += delegate { StartEngine(); };
-#endif
 
         }
 
         private static void StartEngine()
         {
-            DragonEngine.Log("Engine initialized");
-
 
             if (Directory.Exists("mods"))
             {

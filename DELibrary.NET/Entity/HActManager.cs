@@ -49,13 +49,14 @@ namespace DragonEngineLibrary
             return DELib_HActManager_RequestNextHAct(ref opt);
         }
 
+        ///<summary>Are any HActs playing?</summary>
         public static bool IsPlaying()
         {
             return DELib_HActManager_IsPlaying();
         }
 
         /// <summary>
-        /// Skip HAct.
+        /// Skip the current HAct that is playing.
         /// </summary>
         public static void Skip()
         {

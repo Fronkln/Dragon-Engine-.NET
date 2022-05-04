@@ -51,13 +51,7 @@ namespace DragonEngineLibrary
             }
         }
 
-        public void Test()
-        {
-            DragonEngine.Log("testing");
-            ECRenderMesh.DELib_ECRenderMesh_Test(_objectAddress);
-        }
-
-
+        ///<summary>Set the bounding box of this mesh.</summary>
         public void SetBoundingBoxLocal(OrBox box)
         {
             IntPtr boxPtr = box.ToIntPtr();

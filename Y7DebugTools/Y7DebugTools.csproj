@@ -50,10 +50,13 @@
     <Compile Include="AnimPlayer.cs" />
     <Compile Include="BattleTurnManagerMenu.cs" />
     <Compile Include="EffectEventMenu.cs" />
+    <Compile Include="FighterCommandMenu.cs" />
     <Compile Include="HActPlayer.cs" />
     <Compile Include="JobCounter.cs" />
     <Compile Include="NoclipMode.cs" />
     <Compile Include="PlayermodelChanger.cs" />
+    <Compile Include="SceneInfo.cs" />
+    <Compile Include="SoundPlayer.cs" />
     <Compile Include="Submenu\AgentCharacterRender.cs" />
     <Compile Include="Submenu\AIUtilCommandRender.cs" />
     <Compile Include="Submenu\CharaRender.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="PlayerMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Submenu\ECAIRender.cs" />
+    <Compile Include="UIPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DELibrary.NET\DELibrary.NET.csproj">

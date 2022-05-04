@@ -21,9 +21,11 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_GET_POSTUREE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Base_GetPosture(IntPtr character_base);
 
-        /// <summary>
-        /// Read only for now. Returns character's creation information
-        /// </summary>
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CHARACTER_BASE_IS_RAGDOLL", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Character_Base_IsRagdoll(IntPtr character_base);
+
+        ///<summary>Information that was used to create the character.</summary>
         public CharacterAttributes Attributes
         {
             get
@@ -38,9 +40,7 @@ namespace DragonEngineLibrary
             }
         }
 
-        /// <summary>
-        /// Returns reference to the character's motion component.
-        /// </summary>
+        ///<summary>The motion component of this character.</summary>
         public ECMotion GetMotion()
         {
             IntPtr addr = DELib_Character_Base_GetMotion(_objectAddress);
@@ -50,10 +50,7 @@ namespace DragonEngineLibrary
 
             return motion;
         }
-
-        /// <summary>
-        /// Returns reference to the character's render mesh component.
-        /// </summary>
+        ///<summary>The mesh compoment of this character.</summary>
         public ECRenderCharacter GetRender()
         {
             IntPtr addr = DELib_Character_Base_GetRender(_objectAddress);
@@ -64,10 +61,17 @@ namespace DragonEngineLibrary
             return rend;
         }
 
+        ///<summary>The posture component of this character.</summary>
         public ECPosture GetPosture()
         {
             IntPtr addr = DELib_Character_Base_GetPosture(_objectAddress);
             return new ECPosture() { Pointer = addr };
+        }
+
+        ///<summary>Is the character ragdolled?</summary>
+        public bool IsRagdoll()
+        {
+            return DELib_Character_Base_IsRagdoll(Pointer);
         }
     }
 }

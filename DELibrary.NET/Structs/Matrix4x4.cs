@@ -6,7 +6,7 @@ namespace DragonEngineLibrary
     [StructLayout(LayoutKind.Sequential, Size = 0x40)]
     public struct Matrix4x4
     {
-        public  Vector4 m_vm0;
+        public Vector4 m_vm0;
         public Vector4 m_vm1;
         public Vector4 m_vm2;
         public Vector4 m_vm3;

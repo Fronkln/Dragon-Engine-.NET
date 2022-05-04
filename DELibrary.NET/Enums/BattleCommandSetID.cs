@@ -2,7 +2,7 @@
 
 namespace DragonEngineLibrary
 {
-    public enum BattleCommandSetID : uint
+    public enum BattleCommandSetID : ushort
     {
         invalid,         // constant 0x0
         Default,         // constant 0x1

@@ -17,7 +17,7 @@ namespace TestMod
             {
                 if (DragonEngine.IsKeyHeld(VirtualKey.Numpad6))
                 {
-                   EntityComponent comp = FighterManager.GetPlayer().Character.EntityComponentMap.GetComponent(EntityComponent.ECSlotID.navigate);
+                   EntityComponent comp = FighterManager.GetPlayer().Character.EntityComponentMap.GetComponent(ECSlotID.navigate);
 
                     if (comp.IsValid())
                         DragonEngine.Log("comp valid");
@@ -55,49 +55,24 @@ namespace TestMod
 
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad2))
                 {
-                    //NakamaManager.RemoveAllPartyMembers();
+                    DragonEngine.Log("P1: " + ParticleManager.IsLoadedRaw(ParticleID.AAa0077));
+                    DragonEngine.Log("P2: " + ParticleManager.IsLoadedRaw(ParticleID.AAa0078));
+                    DragonEngine.Log("P3: " + ParticleManager.IsLoadedRaw(ParticleID.AMs0001));
 
-                    NPCRequestMaterial material = new NPCRequestMaterial();
-                    material.Material = new NPCMaterial();
-                    material.Material.pos_ = Vector4.zero;
 
-                    material.Material.character_id_ = CharacterID.m_kiryu;
-                    material.Material.is_eternal_life_ = true;
-                    material.Material.height_scale_id_ = CharacterHeightID.invalid;
-                    material.Material.is_minimum_mode_ = false;
-                    material.Material.is_force_create_ = true;
-                    material.Material.is_force_visible_ = true;
-                    material.Material.behavior_set_id_ = BehaviorSetID.m_human_npc_base;
-                    material.Material.voicer_id_ = CharacterVoicerID.invalid;
-                    material.Material.parent_ = SceneService.CurrentScene.Get().GetSceneEntity<EntityBase>(SceneEntity.character_manager).UID;
-                    material.Material.npc_setup_id_ = CharacterNPCSetup.no_collision_ever_fix;
-                    material.Material.map_icon_id_ = MapIconID.enemy;
+                    DragonEngine.Log("play");
 
-                    chara = NPCFactory.RequestCreate(material);
-                    chara.Transform.Position = DragonEngine.GetHumanPlayer().Transform.Position;
-                    chara.GetMotion().RequestGMT(MotionID.test_dance);
-                }
+                    ParticleManager.Play(ParticleID.AAa0077, DragonEngine.GetHumanPlayer().GetPosture().GetRootMatrix(), ParticleType.Stage);
+                    ParticleManager.Play(ParticleID.AAa0078, DragonEngine.GetHumanPlayer().GetPosture().GetRootMatrix(), ParticleType.Stage);
 
-                if (DragonEngine.IsKeyDown(VirtualKey.Numpad5))
-                {
-                    DragonEngine.Log(ParticleManager.Play(ParticleID.AAa0000, DragonEngine.GetHumanPlayer().GetPosture().GetRootMatrix(), ParticleType.Hit).UID);
-                    /*
-                    HActRequestOptions opts = new HActRequestOptions();
 
-                    opts.Init();
-                    opts.id = TalkParamID.h5040_shimano_throw;
-                    opts.is_force_play = false;
-                    opts.can_skip = false;
-
-                    opts.Register(HActReplaceID.hu_player1, FighterManager.GetAllEnemies()[0].Character.UID);
-                    opts.Register(HActReplaceID.hu_enemy_00, FighterManager.GetAllEnemies()[1].Character.UID);
-
-                    BattleTurnManager.RequestHActEvent(opts);
-                    */
+                    DragonEngine.Log("played");
                 }
             }
 
         }
+
+
 
 
         public static MotionPlayInfo Copy(MotionPlayInfo to, MotionPlayInfo from)
@@ -145,7 +120,6 @@ namespace TestMod
 
 
             DragonEngine.RegisterJob(Update, DEJob.Update);
-
         }
     }
 }

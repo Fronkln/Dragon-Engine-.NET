@@ -34,6 +34,17 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_HP_MAX", CallingConvention = CallingConvention.Cdecl)]
         internal extern static long DELib_Player_GetHPMax(ID player);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_HEAT_NOW", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static int DELib_Player_GetHeatNow(ID player);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_HEAT_MAX", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static int DELib_Player_GetHeatMax(ID player);
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_HEAT_NOW", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void DELib_Player_SetHeatNow(ID player, int val);
+
 #if YLAD
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetLevel(uint level, ID playerID, IntPtr saveData = default(IntPtr));
@@ -54,56 +65,85 @@ namespace DragonEngineLibrary
         internal extern static void DELib_Player_SetCurrentJob(ID player, RPGJobID job, bool recoverHPMPDifference);
 #endif
 
+        ///<summary>Get current HP of player.</summary>
         public static long GetHPNow(ID playerID)
         {
             return DELib_Player_GetHPNow(playerID);
         }
 
+        ///<summary>Get maximum HP of player.</summary>
         public static long GetHPMax(ID playerID)
         {
             return DELib_Player_GetHPMax(playerID);
         }
+
+        ///<summary>Get heat of player.</summary>
+        public static int GetHeatNow(ID playerID)
+        {
+            return DELib_Player_GetHeatNow(playerID);
+        }
+
+        ///<summary>Get maximum heat of player.</summary>
+        public static int GetHeatMax(ID playerID)
+        {
+            return DELib_Player_GetHeatMax(playerID);
+        }
+
+        ///<summary>Set heat of the player.</summary>
+        public static void SetHeatNow(ID playerID, int val)
+        {
+            DELib_Player_SetHeatNow(playerID, val);
+        }
+
 #if YLAD
+        ///<summary>Set current level of player.</summary>
         public static void SetLevel(uint level, ID playerID)
         {
             DELib_Player_SetLevel(level, playerID, IntPtr.Zero);
         }
-
+        ///<summary>Set current level of player.</summary>
         public static void SetLevel(uint level, ID playerID, IntPtr saveData)
         {
             DELib_Player_SetLevel(level, playerID, saveData);
         }
 
+        ///<summary>Get level of player.</summary>
         public static uint GetLevel(ID player)
         {
             return DELib_Player_GetLevel(player);
         }
 
+        ///<summary>Set current job level of player.</summary>
         public static void SetJobLevel(uint level, ID player, bool levelUpFullRecover = true, bool adjustXP = true)
         {
             DELib_Player_SetJobLevel(GetCurrentJob(player), level, player, levelUpFullRecover, adjustXP);
         }
 
+        ///<summary>Set job level of player.</summary>
         public static void SetJobLevel(RPGJobID job, uint level, ID player, bool levelUpFullRecover = true, bool adjustXP = true)
         {
             DELib_Player_SetJobLevel(job, level, player, levelUpFullRecover, adjustXP);
         }
 
+        ///<summary>Get current job level of player.</summary>
         public static uint GetJobLevel(ID player)
         {
             return DELib_Player_GetJobLevel(GetCurrentJob(player), player);
         }
 
+        ///<summary>Get job level of player</summary>
         public static uint GetJobLevel(RPGJobID job, ID player)
         {
             return DELib_Player_GetJobLevel(job, player);
         }
 
+        ///<summary>Get current job of player.</summary>
         public static RPGJobID GetCurrentJob(ID player)
         {
             return DELib_Player_GetCurrentJob(player);
         }
 
+        ///<summary>Set current job of player.</summary>
         public static void SetCurrentJob(ID player, RPGJobID job, bool recoverHPAndMPDifference = true)
         {
             DELib_Player_SetCurrentJob(player, job, recoverHPAndMPDifference);

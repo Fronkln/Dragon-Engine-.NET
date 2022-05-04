@@ -5,13 +5,10 @@ namespace DragonEngineLibrary.Advanced
 {
     public static class DXHook
     {
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_IMGUI_INIT", CallingConvention = CallingConvention.Cdecl)]
-        [return:MarshalAs(UnmanagedType.I1)]
-        internal static extern bool DELibrary_DXHook_InitImGui();
+        [DllImport("cimgui.dll", EntryPoint = "OOELib_InitDX11Hook", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Init();
 
-
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_DXHOOK_REGISTER_PRESENT_FUNC", CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
+        [DllImport("cimgui.dll", EntryPoint = "OOELib_Register_Present_Function", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_DXHook_RegisterPresentFunc(IntPtr addr);
     }
 }

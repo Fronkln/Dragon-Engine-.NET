@@ -38,6 +38,13 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_Equip(IntPtr fighterPtr, AssetID assetid, AttachmentCombinationID combinationid, ItemID itemid, RPGSkillID skillid);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_EQUIP2", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Fighter_Equip2(IntPtr fighterPtr, ItemID itemid, AttachmentCombinationID combinationid);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETWEAPON", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_Fighter_GetWeapon(IntPtr fighterPtr, AttachmentCombinationID attachment);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_DROPWEAPON", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_DropWeapon(IntPtr fighterPtr, ref DropWeaponOption opt);
@@ -58,6 +65,9 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_CALC_ROOT_MATRIX", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_CalcRootMatrix(IntPtr fighterPtr);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SETUPWEAPON", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_Fighter_SetupWeapon(IntPtr fighterPtr);
 
         public Character Character { get; internal set; }
         internal IntPtr _ptr;
@@ -84,7 +94,20 @@ namespace DragonEngineLibrary
             return Character.GetBattleStatus();
         }
 
+        ///<summary>Get the weapon held at the specified attachment point of this character.</summary>
+        public Weapon GetWeapon(AttachmentCombinationID attachment)
+        {
+            return new Weapon() { Unit = DELib_Fighter_GetWeapon(_ptr, attachment) };
+        }
 
+        ///<summary>Setup the weapons of this fighter.</summary>
+        public void SetupWeapon()
+        {
+            DELib_Fighter_SetupWeapon(_ptr);
+        }
+
+
+        ///<summary>Get battle info of this fighter.</summary>
         public BattleFighterInfo GetInfo()
         {
             IntPtr inf = DELib_Fighter_GetInfo(_ptr);
@@ -100,10 +123,20 @@ namespace DragonEngineLibrary
         /// </summary>
         public bool IsDown()
         {
-            BattleFighterInfo inf = GetInfo();
-            return inf.is_ragdoll_;
+            return DELib_Fighter_IsDown(_ptr);
+            //return Character.HumanModeManager.IsDown();
+          //  return Character.IsRagdoll();
+          //  return inf.is_stand_up_;
         }
 
+        ///<summary>Is the fighter in a sync move?</summary>
+        public bool IsSync()
+        {
+            BattleFighterInfo inf = GetInfo();
+            return inf.is_sync_;
+        }
+
+        ///<summary>Is the fighter dead?</summary>
         public bool IsDead()
         {
             return Character.IsDead();
@@ -114,7 +147,11 @@ namespace DragonEngineLibrary
         /// </summary>
         public bool IsPlayer()
         {
+#if YLAD
             return Character.Attributes.is_player;
+#else
+            return false;
+#endif
         }
 
 
@@ -157,6 +194,14 @@ namespace DragonEngineLibrary
         }
 
         /// <summary>
+        /// Equip the specified weapon.
+        /// </summary>
+        public bool Equip(ItemID itemid, AttachmentCombinationID combinationid)
+        {
+            return DELib_Fighter_Equip2(_ptr, itemid, combinationid);
+        }
+
+        /// <summary>
         /// Drop weapon if we have any.
         /// </summary>
         public bool DropWeapon(DropWeaponOption opt)
@@ -172,6 +217,7 @@ namespace DragonEngineLibrary
             DELib_Fighter_ThrowEquipAsset(_ptr, leftHand, rightHand);
         }
 
+        ///<summary>Get the battle AI of this fighter.</summary>
         public BattleCommandAI GetBattleAI()
         {
             IntPtr addr = DELib_Fighter_GetCommandAI(_ptr);
@@ -182,6 +228,7 @@ namespace DragonEngineLibrary
             return ai;
         }
 
+        ///<summary>Get the root matrix of this fighter.</summary>
         public Matrix4x4 CalcRootMatrix()
         {
             IntPtr matrixPtr = DELib_Fighter_CalcRootMatrix(_ptr);
@@ -205,7 +252,6 @@ namespace DragonEngineLibrary
         internal static extern uint DELib_FighterID_Getter_Handle(IntPtr fighterID);
 
         [FieldOffset(0x0)]
-        [MarshalAs(UnmanagedType.U4)]
-        public EntityHandle<Character> Handle;
+        public uint Handle;
     }
 }

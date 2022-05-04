@@ -24,7 +24,7 @@ namespace DragonEngineLibrary.Advanced
 
         public static void Init()
         {
-            DXHook.DELibrary_DXHook_InitImGui();
+            DXHook.Init();
         }
     }
 }

@@ -165,8 +165,15 @@ int Test()
     if (!readBinFile("DELibrary.NET.dll", ptrBinary, lenBinary))
         return -1;
 
-    printf(" --- Try to Fetch .NET Framework v4.0 ---\n");
+    printf(" --- Try to Fetch .NET Framework v4.6.1 ---\n");
     ICorRuntimeHost* pRuntimeHost = getCorRtHost_byVersion(L"v4.0.30319");
+
+    if (!pRuntimeHost)
+    {
+        printf(" --- Fetching v4.6.1 failed, trying to fetch v4.0 ---\n");
+        ICorRuntimeHost* pRuntimeHost = getCorRtHost_byVersion(L"v4.0");
+    }
+
     std::cout << "\n Is RuntimeHost null: " << pRuntimeHost << std::endl;
 
     printf("\n --- Enumerate Available CLR Runtime ---\n");

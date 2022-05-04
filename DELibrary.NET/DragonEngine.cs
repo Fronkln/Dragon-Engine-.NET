@@ -33,6 +33,10 @@ namespace DragonEngineLibrary
         }
         internal static List<JobRegisterInfo> _jobDelegates = new List<JobRegisterInfo>();
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_MODULE_ADDRESS", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr GetModuleHandle();
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_INIT", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_Init();
 
@@ -84,18 +88,21 @@ namespace DragonEngineLibrary
         private static extern void DELib_TEMP_CPP_COUT(string text);
 
 
-/// <summary>
-/// Very dangerous to use, doesnt call constructors on deletion.
-/// </summary>
-/// <param name="text"></param>
+        /// <summary>
+        /// Very dangerous to use, doesnt call constructors on deletion.
+        /// </summary>
+        /// <param name="text"></param>
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CPP_FREE_MEM", CallingConvention = CallingConvention.Cdecl)]
         private static extern void DELib_CPP_FREE_MEM(IntPtr memory);
+
+        public static IntPtr BaseAddress { get { return GetModuleHandle(); } }
 
         /// <summary>
         /// Initialize Dragon Engine library. Important for it to properly function.
         /// </summary>
         public static void Initialize()
         {
+
             DELib_Init();
 #if YLAD
             BattleTurnManager.OverrideAttackerSelectionInfo.deleg = new BattleTurnManager.OverrideAttackerSelectionDelegate(BattleTurnManager.ReturnManualAttackerSelectionResult);
@@ -270,7 +277,6 @@ namespace DragonEngineLibrary
 
             if (modType.BaseType.FullName == "DragonEngineLibrary.DragonEngineMod")
             {
-                Log("Initializing mod class");
                 object createdObj = Activator.CreateInstance(modType);
 
                 if (createdObj != null)

@@ -9,7 +9,7 @@ namespace HActViewer
     {
 
         static volatile AuthPlay currentHAct;
-
+        static bool m_advanced = true;
 
         public void InputThread()
         {
@@ -26,14 +26,12 @@ namespace HActViewer
                     {
                         if (DragonEngine.IsKeyDown(VirtualKey.P))
                         {
-                            DragonEngine.SetSpeed(DESpeedType.General, 0.0000001f);
-                            DragonEngine.SetSpeed(DESpeedType.Character, 0.0000001f);
+                            currentHAct.SetSpeed(1);
                         }
 
                         if (DragonEngine.IsKeyDown(VirtualKey.S))
                         {
-                            DragonEngine.SetSpeed(DESpeedType.General, 0.0000001f);
-                            DragonEngine.SetSpeed(DESpeedType.General, 0.0000001f);
+                            currentHAct.SetSpeed(0);
                         }
 
                         if (DragonEngine.IsKeyDown(VirtualKey.T))
@@ -69,12 +67,26 @@ namespace HActViewer
             bool open = AuthManager.PlayingScene.IsValid();
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(300, 300), ImGuiCond.FirstUseEver);
 
-            if (open)
+            if (open && currentHAct.IsValid())
             {
+                if(m_advanced)
+                {
+                    if (ImGui.Begin("Advanced", ref open, ImGuiWindowFlags.MenuBar))
+                    {
+                        ImGui.Text("Current Page ID: " + currentHAct.GetCurrentPageIndex());
+                    }
+                }
+
                 if (ImGui.Begin("HAct Timeline", ref open, ImGuiWindowFlags.MenuBar))
                 {
-                    int test = (int)currentHAct.GetGameTick();
-                    ImGui.SliderInt("Test", ref test, 0, (int)currentHAct.GetEndTick());
+                    ImGui.Checkbox("Advanced", ref m_advanced);
+
+                    float test = currentHAct.GetGameFrame();
+
+                    ImGui.Text("HAct: " + currentHAct.TalkParamID);
+
+                    if (ImGui.SliderFloat("Frame", ref test, 0, currentHAct.GetEndFrame()))
+                        currentHAct.SetGameFrame(test);
 
                     if (ImGui.Button("Stop"))
                         currentHAct.SetSpeed(0);

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Timers;
 using System.Collections.Generic;
 using DragonEngineLibrary.Service;
 using ImGuiNET;
@@ -10,16 +12,24 @@ namespace Y7DebugTools
     {
         private static int m_chosenHAct = 0;
 
-        private static bool m_battleMode = true;
+        private static bool m_battleMode = false;
         private static bool m_isPlayerAction = true;
+        private static bool m_atPlayerPos = true;
         private static bool m_canSkip = true;
         private static bool m_forcePlay = true;
+        private static bool m_simple = true;
 
         private static int[] m_chosenIDs = new int[(int)HActReplaceID.num];
 
         private static string[] m_enumNames_HactReplace;
 
         private static List<EntityHandle<Character>> m_createdHActChara = new List<EntityHandle<Character>>();
+        private static bool m_cleanDoOnce = false;
+
+        private static bool m_allyIsAlly = true;
+        private static bool m_allyIsNPC = false;
+        private static bool m_allyIsEnemy = false;
+        private static bool m_Reverse = false;
 
         static HActPlayer()
         {
@@ -31,7 +41,7 @@ namespace Y7DebugTools
 
             return BattleResourceManager.CreateTempHActChara(id, Player.ID.invalid);
 
-        //   return NPCFactory.RequestCreate(material);
+            //   return NPCFactory.RequestCreate(material);
 
         }
 
@@ -44,45 +54,110 @@ namespace Y7DebugTools
                     chara.Get().DestroyEntity();
                 }
 
+            bool inFight = FighterManager.GetAllEnemies().Length > 0;
+
             m_createdHActChara.Clear();
 
             HActRequestOptions opts = new HActRequestOptions();
             opts.Init();
             opts.id = (TalkParamID)m_chosenHAct;
 
+            if (m_atPlayerPos)
+                opts.base_mtx.matrix = DragonEngine.GetHumanPlayer().GetPosture().GetRootMatrix();
+
             opts.is_warp_return = true;
             opts.is_player_action = m_isPlayerAction;
             opts.is_force_play = m_forcePlay;
             opts.can_skip = m_canSkip;
 
-            //Register everything for the hacts
-            for (int i = 0; i < m_chosenIDs.Length; i++)
+            if (!m_simple)
             {
-                if (i > 0)
+                //Register everything for the hacts
+                for (int i = 0; i < m_chosenIDs.Length; i++)
                 {
-                    if (m_chosenIDs[i] > 0)
+                    if (i > 0)
                     {
-                        EntityHandle<Character> hactChara = CreateHActChara((CharacterID)m_chosenIDs[i]);
-                        m_createdHActChara.Add(hactChara);
+                        if (m_chosenIDs[i] > 0)
+                        {
+                            EntityHandle<Character> hactChara = CreateHActChara((CharacterID)m_chosenIDs[i]);
+                            m_createdHActChara.Add(hactChara);
 
-                        opts.Register((HActReplaceID)i, hactChara.UID);
+                            opts.Register((HActReplaceID)i, hactChara.UID);
 
-                        DragonEngine.Log("Register: " + ((HActReplaceID)i).ToString() + " Chara: " + ((CharacterID)m_chosenIDs[i]).ToString());
+                            DragonEngine.Log("Register: " + ((HActReplaceID)i).ToString() + " Chara: " + ((CharacterID)m_chosenIDs[i]).ToString());
+                        }
                     }
                 }
             }
+            else
+            {
+                if (!inFight)
+                    opts.Register(HActReplaceID.hu_player1, DragonEngine.GetHumanPlayer().UID);
+                else
+                {
+                    // opts.Register(HActReplaceID.hu_player1, FighterManager.GetFighter(0).Character);
+                    // opts.RegisterWeapon(AuthAssetReplaceID.we_player_r, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.right_weapon).Unit.Get().AssetID);
 
+                    opts.RegisterFighterAndWeapon(HActReplaceID.hu_player1, FighterManager.GetFighter(0), AuthAssetReplaceID.we_player_r);
+                }
+
+                Fighter[] enemies = FighterManager.GetAllEnemies();
+                HActReplaceID curEnemy = HActReplaceID.hu_enemy_00;
+
+                if (!m_allyIsEnemy)
+                    foreach (Fighter enemy in enemies)
+                    {
+                        opts.RegisterFighter(curEnemy, enemy.GetID());
+                        curEnemy = (HActReplaceID)((uint)curEnemy + 1);
+                    }
+
+                HActReplaceID curAllyRegister = HActReplaceID.invalid;
+
+                if (m_allyIsAlly)
+                {
+                    curAllyRegister = (!m_Reverse ? HActReplaceID.hu_nakama_00 : HActReplaceID.hu_nakama_03);
+                }
+
+                if (m_allyIsNPC)
+                {
+                    curAllyRegister = (!m_Reverse ? HActReplaceID.hu_npc_00 : HActReplaceID.hu_npc_10);
+                }
+
+
+                if (m_allyIsEnemy)
+                {
+                    curAllyRegister = (!m_Reverse ? HActReplaceID.hu_enemy_00 : HActReplaceID.hu_enemy_10);
+                }
+
+
+
+                for (int i = 1; i < 4; i++)
+                {
+                    opts.Register(curAllyRegister, FighterManager.GetFighter((uint)i).Character);
+
+                    if (!m_Reverse)
+                        curAllyRegister = (HActReplaceID)((uint)curAllyRegister + 1);
+                    else
+                        curAllyRegister = (HActReplaceID)((uint)curAllyRegister - 1);
+                }
+            }
+
+            PlayHAct(opts);
+        }
+
+        private static void PlayHAct(HActRequestOptions inf)
+        {
             bool result;
 
             if (m_battleMode)
-                result = BattleTurnManager.RequestHActEvent(opts);
+                result = BattleTurnManager.RequestHActEvent(inf);
             else
-                result = HActManager.RequestHAct(opts);
+                result = HActManager.RequestHAct(inf);
+
 
             if (!result)
                 DragonEngine.Log("HAct fail");
         }
-
         public static void Draw()
         {
             if (ImGui.Begin("Hact Player"))
@@ -93,19 +168,55 @@ namespace Y7DebugTools
                 ImGui.Dummy(new System.Numerics.Vector2(0, 10));
 
                 ImGui.Checkbox("Is Player Action", ref m_isPlayerAction);
+                ImGui.Checkbox("Play at Player Pos", ref m_atPlayerPos);
                 ImGui.Checkbox("Can Skip", ref m_canSkip);
                 ImGui.Checkbox("Force Play", ref m_forcePlay);
+                ImGui.Checkbox("Simple", ref m_simple);
 
                 ImGui.Dummy(new System.Numerics.Vector2(0, 20));
 
                 if (ImGui.Button("Play"))
                     Play();
 
-                ImGui.Text("Character ID's");
 
-                for (int i = 0; i < (int)HActReplaceID.num; i++)
-                    ImGui.InputInt(m_enumNames_HactReplace[i], ref m_chosenIDs[i]);
+                if (!m_simple)
+                {
+                    ImGui.Text("Character ID's");
 
+                    for (int i = 0; i < (int)HActReplaceID.num; i++)
+                        ImGui.InputInt(m_enumNames_HactReplace[i], ref m_chosenIDs[i]);
+                }
+                else
+                {
+                    ImGui.Checkbox("Reverse Order", ref m_Reverse);
+
+                    ImGui.Text("Ally is:");
+
+                    if (ImGui.Checkbox("Ally", ref m_allyIsAlly))
+                        if (m_allyIsEnemy)
+                        {
+                            m_allyIsNPC = false;
+                            m_allyIsEnemy = false;
+                        }
+
+                    if (ImGui.Checkbox("NPC", ref m_allyIsNPC))
+                        if (m_allyIsEnemy)
+                        {
+                            m_allyIsAlly = false;
+                            m_allyIsEnemy = false;
+                        }
+
+                    if (ImGui.Checkbox("Enemy", ref m_allyIsEnemy))
+                    {
+                        if (m_allyIsEnemy)
+                        {
+                            m_allyIsAlly = false;
+                            m_allyIsNPC = false;
+                        }
+                    }
+                }
+
+                ImGui.End();
             }
         }
     }

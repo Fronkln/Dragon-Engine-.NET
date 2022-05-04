@@ -8,6 +8,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_POSTURE_GET_ROOT_MATRIX", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_ECPosture_GetRootMatrix(IntPtr posture);
 
+        ///<summary>Get the root matrix of the character.</summary>
         public Matrix4x4 GetRootMatrix()
         {
             IntPtr matrixPtr = DELib_ECPosture_GetRootMatrix(Pointer);

@@ -12,6 +12,13 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_RENDER_CHARACTER_RELOAD", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr DELib_ECRenderCharacter_Reload(IntPtr renderCharacter, CharacterID chara_id, byte bank_mask, bool is_preload, bool is_change_chara_id);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_RENDER_CHARACTER_BATTLE_TRANSFORM_ON", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        private static extern bool DELib_ECRenderCharacter_BattleTransformOn(IntPtr renderCharacter);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_RENDER_CHARACTER_BATTLE_TRANSFORM_OFF", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        private static extern bool DELib_ECRenderCharacter_BattleTransformOff(IntPtr renderCharacter);
 
         /// <summary>
         /// Reload the mesh with specified character id.
@@ -34,5 +41,19 @@ namespace DragonEngineLibrary
 
             DELib_ECRenderCharacter_Reload(_objectAddress, chara_id, (characterFighting ? (byte)0x80 : (byte)0x1), false, is_change_chara_id);
         }
+
+#if YLAD
+        ///<summary>Battle transform the character.</summary>
+        public bool BattleTransformationOn()
+        {
+            return DELib_ECRenderCharacter_BattleTransformOn(_objectAddress);
+        }
+
+        ///<summary>Un-battle transform the character.</summary>
+        public bool BattleTransformationOff()
+        {
+            return DELib_ECRenderCharacter_BattleTransformOff(_objectAddress);
+        }
+#endif
     }
 }

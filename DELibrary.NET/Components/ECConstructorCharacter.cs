@@ -28,6 +28,7 @@ namespace DragonEngineLibrary
             }
         }
 
+        ///<summary>Get the gaent component of this character.</summary>
         public ECAgentCharacter GetAgentComponent()
         {       
             ECAgentCharacter agent = new ECAgentCharacter();
@@ -36,11 +37,13 @@ namespace DragonEngineLibrary
             return agent;
         }
 
+        ///<summary>Start the agent of this character.</summary>
         public void StartAgent()
         {
             DELib_ECConstructorCharacter_StartAgent(_objectAddress);
         }
 
+        ///<summary>Stop the agent of this character.</summary>
         public void StopAgent()
         {
             DELib_ECConstructorCharacter_StopAgent(_objectAddress);

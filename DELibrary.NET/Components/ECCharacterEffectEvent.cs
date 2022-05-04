@@ -60,6 +60,7 @@ namespace DragonEngineLibrary
             DELibrary_ECCharacterEffectEvent_PlayEventOverride(_objectAddress, effectID);
         }
 
+        ///<summary>Stop specified effect.</summary>
         public void StopEvent(EffectEventCharaID effectID, bool fadeOut)
         {
             DELibrary_ECCharacterEffectEvent_StopEvent(_objectAddress, effectID, fadeOut);

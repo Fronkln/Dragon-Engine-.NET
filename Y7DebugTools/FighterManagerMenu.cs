@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DragonEngineLibrary;
 using ImGuiNET;
 
@@ -8,6 +9,14 @@ namespace Y7DebugTools
     {
         private static int m_chosenCharaID;
         private static int m_chosenPersonalGroupID;
+
+        public static List<FighterManagerSpawn> CreationQueue = new List<FighterManagerSpawn>();
+
+        public struct FighterManagerSpawn
+        {
+            public int m_CharaID;
+            public int m_PersonalGroupID;
+        }
 
         public static void SpawnEnemy()
         {
@@ -25,8 +34,11 @@ namespace Y7DebugTools
                     ImGui.InputInt("Character ID:", ref m_chosenCharaID);
                     ImGui.InputInt("Soldier Personal Data ID:", ref m_chosenPersonalGroupID);
 
-                    if (ImGui.Button("Spawn"))
-                        SpawnEnemy();
+                    if (ImGui.Button("Spawn") || (DragonEngine.IsKeyHeld(VirtualKey.LeftShift) && DragonEngine.IsKeyDown(VirtualKey.X)))
+                    {
+                        CreationQueue.Add(new FighterManagerSpawn() { m_CharaID = m_chosenCharaID, m_PersonalGroupID = m_chosenPersonalGroupID });
+                    }
+                        //SpawnEnemy();
 
                     ImGui.EndMenu();
                 }
