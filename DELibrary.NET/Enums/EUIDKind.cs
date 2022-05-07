@@ -269,7 +269,7 @@ namespace DragonEngineLibrary
         camera_verification_look_at,         // constant 0x3AE
         camera_rpg_battle,       // constant 0x40C
         camera_minigame_pachislot,       // constant 0x4A4
-        stagee,      // constant 0x37
+        stage,      // constant 0x37
         stage_area_range,        // constant 0x171
         stage_area_range_bg,         // constant 0x173
         stage_resident_auth,         // constant 0x3B2

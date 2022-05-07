@@ -24,8 +24,11 @@ namespace Brawler
             {
                 if (DragonEngine.IsKeyDown(VirtualKey.X))
                 {
-                    //doesnt work check function + offset of var
-                    FighterManager.GetFighter(0).GetStatus().SetSuperArmor(true);
+                    // foreach (InventoryItem item in Inventory.GetCarryItems())
+                    //DragonEngine.Log(item.m_item_id + " " + item.m_count);
+
+
+                    Inventory.ClearItems();
                 }
 
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad7))
@@ -46,8 +49,8 @@ namespace Brawler
 
                 if (DragonEngine.IsKeyDown(VirtualKey.Numpad9))
                 {
-                    DragonEngine.GetHumanPlayer().HumanModeManager.ToSway();
-      
+                    DragonEngine.Log(DragonEngine.GetHumanPlayer().GetRender().CharacterID);
+
                 }
 
                 if (DragonEngine.IsKeyHeld(VirtualKey.LeftShift))

@@ -107,7 +107,7 @@ namespace Y7DebugTools
                 if (!m_allyIsEnemy)
                     foreach (Fighter enemy in enemies)
                     {
-                        opts.RegisterFighter(curEnemy, enemy.GetID());
+                        opts.Register(curEnemy, enemy.Character);
                         curEnemy = (HActReplaceID)((uint)curEnemy + 1);
                     }
 

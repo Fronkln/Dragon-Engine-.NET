@@ -23,5 +23,19 @@ namespace DragonEngineLibrary
         {
             return GCHandle.ToIntPtr(target);
         }
+
+        public static T[] ToTypeArray<T>(this IntPtr unmanagedArray, int length)
+        {
+            T[] array = new T[length];
+            var size = Marshal.SizeOf(typeof(T));
+
+            for (int i = 0; i < length; i++)
+            {
+                IntPtr ins = new IntPtr(unmanagedArray.ToInt64() + i * size);
+                array[i] = Marshal.PtrToStructure<T>(ins);
+            }
+
+            return array;
+        }
     }
 }

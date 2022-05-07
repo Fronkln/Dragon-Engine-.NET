@@ -20,6 +20,14 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool DELib_ECRenderCharacter_BattleTransformOff(IntPtr renderCharacter);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_RENDER_CHARACTER_GETTER_CHARACTER_ID", CallingConvention = CallingConvention.Cdecl)]
+        private static extern CharacterID DELib_ECRenderCharacter_Getter_CharacterID(IntPtr renderCharacter);
+
+        public CharacterID CharacterID
+        {
+            get { return DELib_ECRenderCharacter_Getter_CharacterID(Pointer); }
+        }
+
         /// <summary>
         /// Reload the mesh with specified character id.
         /// </summary>

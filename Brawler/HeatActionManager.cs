@@ -14,7 +14,7 @@ namespace Brawler
         {
             HeatAction[] unarmedAttacks = new HeatAction[]
             {
-                new HeatAction((TalkParamID)12884, HeatActionCondition.EnemyDown, 1, 0, 1, 2f) //kenzan slap
+                new HeatAction((TalkParamID)12886, HeatActionCondition.EnemyDown, 1, 0, 1, 2f) //kenzan slap
             };
 
             HeatAction[] wepAAttacks = new HeatAction[]

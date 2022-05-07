@@ -14,7 +14,8 @@ namespace Brawler
 
         private static bool ShouldEnterMortalState(Fighter fighter)
         {
-            return fighter.GetStatus().CurrentHP > 0;
+            return false;
+            //return fighter.GetStatus().CurrentHP > 0;
         }
 
         private static bool ShouldExitMortalState(Fighter fighter)
