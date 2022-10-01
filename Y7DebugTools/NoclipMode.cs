@@ -12,6 +12,11 @@ namespace Y7DebugTools
 
         private const float m_speed = 8;
 
+        public static void Toggle()
+        {
+            Toggle(!m_enabled);
+        }
+
         public static void Toggle(bool enabled)
         {
             if (m_enabled == enabled)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using DragonEngineLibrary.Unsafe;
 
 namespace DragonEngineLibrary
 {
@@ -15,8 +16,8 @@ namespace DragonEngineLibrary
 
             if(matrixPtr != IntPtr.Zero)
             {
-                Matrix4x4 matrixObj = Marshal.PtrToStructure<Matrix4x4>(matrixPtr);
-                DragonEngine.FreeUnmanagedMemory(matrixPtr);
+                Matrix4x4 matrixObj = Marshal.PtrToStructure<Matrix4x4>(matrixPtr);            
+                CPP.FreeUnmanagedMemory(matrixPtr);
 
                 return matrixObj;
             }

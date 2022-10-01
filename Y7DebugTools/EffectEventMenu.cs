@@ -9,6 +9,8 @@ namespace Y7DebugTools
         private static int m_curEffectID = 0;
         private static int m_curEffectID2 = 0;
 
+        private static int m_screenEffectID = 0;
+
         public static void Draw()
         {
             Character player = DragonEngine.GetHumanPlayer();
@@ -18,8 +20,10 @@ namespace Y7DebugTools
 
             if(ImGui.Begin("Effect Event Menu"))
             {
+                ImGui.Text("Character");
+
                 ImGui.InputInt("Effect ID 1", ref m_curEffectID);
-                ImGui.InputInt("Effect ID2", ref m_curEffectID2);
+                ImGui.InputInt("Effect ID 2", ref m_curEffectID2);
 
                 if (ImGui.Button("Play"))
                     player.Components.EffectEvent.Get().PlayEvent((EffectEventCharaID)m_curEffectID, (EffectEventCharaID)m_curEffectID2);
@@ -33,6 +37,16 @@ namespace Y7DebugTools
                 if (ImGui.Button("Stop All"))
                     player.Components.EffectEvent.Get().StopEventAll();
 
+
+                ImGui.Text("Screen");
+
+                ImGui.InputInt("Screen Effect ID", ref m_screenEffectID);
+
+                if(ImGui.Button("Play Screen"))
+                {
+                    EffectEventManager.LoadScreen((uint)m_screenEffectID);
+                    EffectEventManager.PlayScreen((uint)m_screenEffectID);
+                }
 
                 ImGui.End();
             }

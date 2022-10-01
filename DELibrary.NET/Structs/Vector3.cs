@@ -158,5 +158,15 @@ namespace DragonEngineLibrary
 
             return (float)Math.Sqrt(diff_x * diff_x + diff_y * diff_y + diff_z * diff_z);
         }
+
+        public static bool operator ==(Vector3 v1, Vector3 v2)
+        {
+            return (v1.x == v2.x && v1.y == v2.y  && v1.z == v2.z);
+        }
+
+        public static bool operator !=(Vector3 v1, Vector3 v2)
+        {
+            return (v1.x != v2.x || v1.y != v2.y || v1.z != v2.z);
+        }
     }
 }

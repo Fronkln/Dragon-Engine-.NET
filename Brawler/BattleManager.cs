@@ -1,42 +1,254 @@
 ﻿using System;
+using System.Linq;
 using DragonEngineLibrary;
+using System.Collections.Generic;
 
 namespace Brawler
 {
-    public static class BattleManager
+    [Serializable]
+    public struct JobTheme
+    {
+        public ushort Cuesheet;
+        public ushort ID;
+
+        public JobTheme(ushort cue, ushort id)
+        {
+            Cuesheet = cue;
+            ID = id;
+        }
+    }
+
+    [System.Serializable]
+    public class AuraDefinition
+    {
+        public EffectEventCharaID Loop;
+        public EffectEventCharaID End;
+
+        public AuraDefinition(EffectEventCharaID loop, EffectEventCharaID end)
+        {
+            Loop = loop;
+            End = end;
+        }
+    }
+
+    public static class BrawlerBattleManager
     {
         public const float BattleStartTime = 2.8f;
         public static bool BattleStartDoOnce = false;
         public static float BattleTime = 0;
 
+        public static bool HActIsPlaying = false;
+
+        /// <summary>
+        /// Used for special fights like crane/excavator
+        /// </summary>
+        public static bool DisableTargetingOnce = false;
         public static bool AllowPlayerTransformationDoOnce = false;
+
+        public static Dictionary<RPGJobID, AuraDefinition> AuraDefs = new Dictionary<RPGJobID, AuraDefinition>();
+        public static Dictionary<RPGJobID, JobTheme> JobThemes = new Dictionary<RPGJobID, JobTheme>();
+
+        static AuraDefinition LastAura = new AuraDefinition(EffectEventCharaID.invalid, EffectEventCharaID.invalid);
+
+        private static uint m_bgmID;
+        private static float m_bgmTime;
+
+        public static Fighter Kasuga;
+        public static Character KasugaChara;
+
+        public static Fighter[] Enemies;
+
+        //Needs to be checked properly to ensure they are actually alive and kicking
+        public static Fighter CurrentAttacker;
+
+
+        static BrawlerBattleManager()
+        {
+            JobThemes = new Dictionary<RPGJobID, JobTheme>()
+            {
+                [RPGJobID.invalid] = new JobTheme(4536, 8),
+                [RPGJobID.man_05] = new JobTheme(5568, 1), //breaker 
+                [RPGJobID.kasuga_freeter] = new JobTheme(5568, 11),
+                [RPGJobID.kasuga_braver] = new JobTheme(5568, 2), //slugger / bat style
+                [RPGJobID.man_kaitaiya] = new JobTheme(5568, 3) //foreman
+            };
+
+            AuraDefs = new Dictionary<RPGJobID, AuraDefinition>()
+            {
+                [RPGJobID.invalid] = new AuraDefinition(EffectEventCharaID.OgrefHeatAuraKr01, EffectEventCharaID.invalid),
+                [RPGJobID.kasuga_freeter] = new AuraDefinition(EffectEventCharaID.OgrefHeatAuraKr01, EffectEventCharaID.invalid),
+                [RPGJobID.kasuga_braver] = new AuraDefinition(EffectEventCharaID.JudgeSideAuraHentai_lp, EffectEventCharaID.invalid),
+                [RPGJobID.man_05] = new AuraDefinition(EffectEventCharaID.JudgeBossAuraSak_lp, EffectEventCharaID.invalid)
+            };
+        }
+
+        private static void OnAuraChanged()
+        {
+            StopAura();
+        }
+
+        private static void StopAura()
+        {
+            KasugaChara.Components.EffectEvent.Get().StopEvent(LastAura.Loop, false);
+        }
+
+        private static void StartAura()
+        {
+            KasugaChara.Components.EffectEvent.Get().PlayEvent(LastAura.Loop);
+        }
 
         private static bool ShouldShowHeatAura()
         {
-            if (BrawlerPlayer.IsEXGamer)
+            if (!BrawlerPlayer.IsEXGamer)
+                return false;
+            else
                 return true;
 
-            if (HActManager.IsPlaying())
-                return false;
+           // if (HActManager.IsPlaying())
+              //  return false;
 
-            if (!DragonEngine.GetHumanPlayer().GetFighter().IsValid() || !BattleStartDoOnce)
+            if (!Kasuga.IsValid() || !BattleStartDoOnce)
                 return false;
             else
-                return FighterManager.GetFighter(0).GetStatus().Heat == Player.GetHeatMax(Player.ID.kasuga);
+                return Player.GetHeatNow(Player.ID.kasuga) == Player.GetHeatMax(Player.ID.kasuga);
         }
 
+        public static void OnEXGamerON()
+        {
+            m_bgmID = SoundManager.GetBGMSeID();
+            m_bgmTime = SoundManager.GetBGMPlaytimeSec();
+
+            RPGJobID playerJob = Player.GetCurrentJob(Player.ID.kasuga);
+
+            AllowPlayerTransformationDoOnce = true;
+            BrawlerPlayer.m_attackCooldown = 1;
+
+            SoundManager.PlayCue(SoundCuesheetID.battle_common, 5, 11);
+
+            if (playerJob != RPGJobID.kasuga_freeter)
+            {
+                SimpleTimer timer = new SimpleTimer(0.5f,
+                    delegate
+                    {
+                        BattleCommandSetID commandSet = RPG.GetJobCommandSetID(Player.ID.kasuga, Player.GetCurrentJob(Player.ID.kasuga));
+
+                        Kasuga.Character.GetRender().BattleTransformationOn();
+                        BrawlerPlayer.WantSwapJobWeapon = true;
+                        Kasuga.Character.GetBattleStatus().ActionCommand = commandSet;
+                        Kasuga.Character.SetCommandSet(commandSet);
+                        Kasuga.GetStatus().SetSuperArmor(true);
+                        BrawlerPlayer.FreezeInput = false;
+                        Kasuga.PlayVoice(0x10B);
+                    }
+                    );
+            }
+            else
+            {
+                Kasuga.GetStatus().SetSuperArmor(true);
+                BrawlerPlayer.FreezeInput = false;
+                Kasuga.Character.GetMotion().RequestGMT(17063);
+                Kasuga.PlayVoice(0x10B);
+
+                BrawlerPlayer.CurrentMoveset = BrawlerPlayer.EXMovesets[AssetArmsCategoryID.invalid];
+            }
+
+            JobTheme theme;
+
+            if (!JobThemes.ContainsKey(playerJob))
+                theme = JobThemes[RPGJobID.invalid];
+            else
+                theme = JobThemes[playerJob];
+
+
+            SoundManager.PlayBGM(theme.Cuesheet, theme.ID);
+        }
+
+        public static void OnEXGamerOFF()
+        {
+
+            if (m_bgmID == 0)
+                Console.WriteLine("!!!!!!!!!!!!!!!!!EX GAMER OFF: BGM ID IS 0!!!!!!!!!!!!!!!!");
+
+            SoundManager.PlayBGM(m_bgmID, (uint)TimeSpan.FromSeconds(m_bgmTime).TotalMilliseconds);
+            SoundManager.PlayCue(SoundCuesheetID.battle_common, 5, 4);
+
+
+            Fighter kasugaFighter = FighterManager.GetFighter(0);
+            BrawlerPlayer.FreezeInput = true;
+
+            SimpleTimer timer = new SimpleTimer(0.5f,
+                delegate
+                {
+                    BattleCommandSetID commandSet = BattleCommandSetID.p_kasuga_job_01;
+
+                    kasugaFighter.Character.GetRender().BattleTransformationOff();
+                    BrawlerPlayer.WantSwapJobWeapon = true;
+                    kasugaFighter.Character.GetBattleStatus().ActionCommand = commandSet;
+                    kasugaFighter.Character.SetCommandSet(commandSet);
+                    kasugaFighter.GetStatus().SetSuperArmor(false);
+                    BrawlerPlayer.FreezeInput = false;
+                    BrawlerPlayer.IsEXGamer = false;
+                }
+                );
+        }
+
+
+        private static void CheckSpecialBattle()
+        {
+            //Dont change to BattleManager.Enemies
+            IEnumerable<Fighter> machinery = FighterManager.GetAllEnemies().Where(
+                x => x.Character.Attributes.ctrl_type == BattleControlType.boss_power_shovel || 
+                x.Character.Attributes.ctrl_type == BattleControlType.boss_crane_truck);
+
+            //Special fight against machinery. Disable locking on
+            if (machinery.Count() > 0)
+                DisableTargetingOnce = true;
+        }
+
+        private static void LoadBattleResources()
+        {
+            SoundManager.LoadCuesheet((SoundCuesheetID)5568); //bbg_brawler
+            SoundManager.LoadCuesheet((SoundCuesheetID)2546); //act_player
+        }
         public static void Update()
         {
-            BrawlerPlayer.GameUpdate();
+            Kasuga = FighterManager.GetFighter(0);
+            KasugaChara = DragonEngine.GetHumanPlayer();
 
-            if(!ShouldShowHeatAura())
-                DragonEngine.GetHumanPlayer().Components.EffectEvent.Get().StopEvent(EffectEventCharaID.OgrefHeatAuraKr01, false);
+            Enemies = FighterManager.GetAllEnemies().Where(x => !x.IsDead()).ToArray();
+
+            DETaskManager.Update();
+
+#if DEBUG
+            if (!FighterManager.IsBrawlerMode())
+                return;
+#endif
+            HActIsPlaying = HActManager.IsPlaying();
+
+            Mod.IsGameFocused = Mod.ApplicationIsActivated();
+
+            //Core updates outside of combat
+            BrawlerGaugeRestore.Update();
+
+            if (!ShouldShowHeatAura())
+                StopAura();
             else
-                DragonEngine.GetHumanPlayer().Components.EffectEvent.Get().PlayEvent(EffectEventCharaID.OgrefHeatAuraKr01);
+                StartAura();
 
-
-            if (!DragonEngine.GetHumanPlayer().GetFighter().IsValid())
+            //Updates that concern combat start from here
+            if (!Kasuga.IsValid())
             {
+                if (BattleStartDoOnce)
+                {
+                    //Mod combat music cuesheet
+                    SoundManager.UnloadCuesheet((SoundCuesheetID)5568);
+
+                    KasugaChara.SetCommandSet(BattleCommandSetID.p_kasuga_job_01);
+                    AllowPlayerTransformationDoOnce = false;
+                   
+                    DisableTargetingOnce = false;
+                }
+
                 BattleStartDoOnce = false;
                 BattleTime = 0;
                 BrawlerPlayer.IsEXGamer = false;
@@ -47,19 +259,59 @@ namespace Brawler
                 return;
             }
 
-            if (!BattleStartDoOnce)
-            {
-                if (BattleTime == 0)
-                    FighterManager.GetFighter(0).Character.SetCommandSet(RPG.GetJobCommandSetID(Player.ID.kasuga, RPGJobID.kasuga_freeter));
 
-                if (BattleTime > BattleStartTime)
-                {      
-                    BrawlerPlayer.ChangeStyle(null, true);
-                    BattleStartDoOnce = true;
+            if (!Kasuga.IsDead())
+            {
+                BrawlerPlayer.GameUpdate();
+
+                RPGJobID playerJob = Player.GetCurrentJob(Player.ID.kasuga);
+                AuraDefinition aura;
+
+                if (!AuraDefs.ContainsKey(playerJob))
+                    aura = AuraDefs[RPGJobID.invalid];
+                else
+                    aura = AuraDefs[playerJob];
+
+                if (LastAura != aura)
+                    OnAuraChanged();
+
+                LastAura = aura;
+
+                if (!BattleStartDoOnce)
+                {
+                    if (BattleTime == 0)
+                    {
+                        LoadBattleResources();
+                        Kasuga.Character.SetCommandSet(RPG.GetJobCommandSetID(Player.ID.kasuga, RPGJobID.kasuga_freeter));
+                    }
+
+                    if (BattleTime > BattleStartTime)
+                    {
+#if DEBUG
+                        foreach (Fighter fighter in Enemies)
+                            Console.WriteLine(fighter.Character.Attributes.soldier_data_id + " " + fighter.Character.Attributes.enemy_id + " " + fighter.Character.Attributes.ctrl_type);
+#endif
+
+                        CheckSpecialBattle();
+
+                        BrawlerPlayer.ChangeStyle(null, true);
+                        BattleStartDoOnce = true;
+                    }
                 }
+
+
+                if (!Mod.DebugNoUpdate)
+                    EnemyManager.Update();
+
+                WeaponManager.Update(Kasuga.GetWeapon(AttachmentCombinationID.right_weapon).Unit.Get());
+                HeatModule.Update();
+                EXModule.Update();
+                EXFollowups.Update();
+
+                if (Enemies.Length > 0)
+                    BattleTurnManager.ReleaseMenu();
             }
 
-            MortalStateManager.Update();
             BattleTurnManager.RPGCamera.Get().Sleep();
 
             BattleTime += DragonEngine.deltaTime;

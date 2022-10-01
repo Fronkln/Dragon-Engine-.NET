@@ -9,25 +9,17 @@ namespace Brawler
 {
     public class HeatAction : MoveBase
     {
-        TalkParamID heatAction;
-        HeatActionCondition heatAttackCond;
+        public TalkParamID heatAction;
+        public HeatActionCondition heatAttackCond;
         public float dist;
-        int damage;
+        public int damage;
         public int numTargets;
         float killTime = 0;
 
-        /*
-        public HeatAction(TalkParamID action, HeatActionCondition cond, MoveInput[] input, float dist, int damage, int numTargets = 1, float killTime = 0) : base(1, null, MoveSimpleConditions.None)
-        {
-            heatAction = action;
-            heatAttackCond = cond;
-            this.dist = dist;
-            this.numTargets = numTargets;
-            this.damage = damage;
-            this.killTime = killTime;
-            inputKeys = input;
-        }
-        */
+        public static float Cost = 0.3f;
+
+
+        public static HeatAction LastHeatAction = null;
 
         public HeatAction(TalkParamID action, HeatActionCondition cond, float dist, int damage, int numTargets = 1, float killTime = 0) : base(1, null, MoveSimpleConditions.None)
         {
@@ -46,6 +38,12 @@ namespace Brawler
 
         public override bool CheckConditions(Fighter fighter, Fighter[] targets)
         {
+            int curHeat = fighter.GetStatus().Heat;
+            BrawlerFighterInfo info = BrawlerFighterInfo.Infos[fighter.Character.UID];
+
+            if (curHeat < Player.GetHeatMax(Player.ID.kasuga) * Cost)
+                return false;
+
             List<Fighter> fightersToCheck = new List<Fighter>();
 
             for (int i = 0; i < numTargets; i++)
@@ -65,25 +63,66 @@ namespace Brawler
             if (heatAttackCond == HeatActionCondition.None)
                 return true;
 
+            if (heatAttackCond.HasFlag(HeatActionCondition.FighterDown))
+                if (!info.IsDown)
+                    return false;
+
+            if (heatAttackCond.HasFlag(HeatActionCondition.FighterHealthNotCritical))
+                if (fighter.IsBrawlerCriticalHP())
+                    return false;
+
+            if (heatAttackCond.HasFlag(HeatActionCondition.FighterCriticalHealth))
+            {
+                if (!fighter.IsBrawlerCriticalHP())
+                    return false;
+            }
+
+            if (heatAttackCond.HasFlag(HeatActionCondition.FighterStandingUp))
+            {
+                bool standing = info.IsGettingUp;
+
+                if (!standing)
+                    return false;
+            }
+
             foreach (Fighter enemy in fightersToCheck)
             {
+                EnemyAI enemyAI = EnemyManager.EnemyAIs[enemy.Character.UID];
+
+                if (heatAttackCond.HasFlag(HeatActionCondition.EnemyHealthNotCritical))
+                    if (enemy.IsBrawlerCriticalHP())
+                        return false;
+
                 if (heatAttackCond.HasFlag(HeatActionCondition.EnemyCriticalHealth))
                 {
-                    long curHp = enemy.Character.GetBattleStatus().CurrentHP;
-                    long criticalHP = (long)(curHp * Mod.CriticalHPRatio);
-
-                    if (curHp > criticalHP)
-                        return false;
+                   if(!enemy.IsBrawlerCriticalHP());
+                    return false;
                 }
 
                 if (heatAttackCond.HasFlag(HeatActionCondition.EnemyDown))
                 {
-                    bool down = enemy.IsDown();
-   
-                    if (!down)
+                    bool down = enemyAI.Info.IsDown;
+
+                    if (heatAttackCond.HasFlag(HeatActionCondition.EnemyDown))
+                        if (!down)
+                            return false;
+                }
+
+                if (heatAttackCond.HasFlag(HeatActionCondition.EnemyNotDown))
+                {
+                    bool down = enemyAI.Info.IsDown;
+
+                    if (down)
                         return false;
                 }
 
+                if(heatAttackCond.HasFlag(HeatActionCondition.EnemyStandingUp))
+                {
+                    bool standing = enemyAI.Info.IsGettingUp;
+
+                    if (!standing)
+                        return false;
+                }
             }
 
             return true;
@@ -124,34 +163,24 @@ namespace Brawler
                 affectedEnemies.Add(enemies[i]);
             }
 
+            ECBattleStatus kasugaStatus = BrawlerBattleManager.Kasuga.GetStatus();
 
-            foreach(Fighter fighter in affectedEnemies)
-            {
-                ECBattleStatus status = fighter.Character.GetBattleStatus();
+            BattleTurnManager.RequestHActEvent(opts);
+            LastHeatAction = this;
+            BrawlerBattleManager.KasugaChara.Status.SetNoInputTemporary();
 
-                if(status.CurrentHP < damage)
-                {
-                    //if its 0 they die at the end of hact
-                    if (killTime != 0)
-                    {
-                        Timer killtimer = new Timer() { Enabled = true, Interval = TimeSpan.FromSeconds(killTime).TotalMilliseconds, AutoReset = false };
-                        killtimer.Elapsed += delegate { fighter.Character.ToDead(); };
-                    }
-                }
+            int heatReduce = (int)(Player.GetHeatMax(Player.ID.kasuga) * 0.3f);
+            int newHeat = kasugaStatus.Heat - heatReduce;
 
-                status.CurrentHP -= damage;
-                
-            }
+            if (newHeat < 0)
+                newHeat = 0;
 
-         //   Player.SetHeatNow(Player.ID.kasuga, 0);
-
-            HActManager.RequestHAct(opts);
-            AuthManager.PlayingScene.Get().SetSpeed(0);
+            kasugaStatus.Heat = newHeat;
         }
 
         public override bool MoveExecuting()
         {
-            return HActManager.IsPlaying();
+            return BrawlerBattleManager.HActIsPlaying;
         }
     }
 }

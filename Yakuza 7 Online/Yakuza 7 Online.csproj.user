@@ -8,4 +8,9 @@
     <StartAction>Program</StartAction>
     <StartProgram>G:\Yakuza Like a Dragon\runtime\media\YakuzaLikeADragon.exe</StartProgram>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Debug|AnyCPU'">
+    <StartProgram>G:\Yakuza Like a Dragon\runtime\media\YakuzaLikeADragon.exe</StartProgram>
+    <StartWorkingDirectory>G:\Yakuza Like a Dragon\runtime\media\</StartWorkingDirectory>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
 </Project>

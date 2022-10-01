@@ -17,15 +17,17 @@ namespace DragonEngineLibrary
         {
             try
             {
+
                 DragonEngine.Log("\nDragon Engine Library .NET Thread Start");
 
-
-                while (!DragonEngine.IsEngineInitialized())
+                while(!DragonEngine.IsEngineInitialized())
                 {
+                    DragonEngine.RefreshOffsets();
                     continue;
                 }
 
-                DragonEngine.Log("Dragon Engine initialized, initializing the library.");
+                DragonEngine.RegisterJob(DragonEngine.LibUpdate, DEJob.Update);
+                DragonEngine.Log("Dragon Engine initialized, initializing the library.\n");
 
                 StartEngine();
             }
@@ -39,10 +41,19 @@ namespace DragonEngineLibrary
 
         private static void StartEngine()
         {
+            DragonEngine.Log("Starting initializaton of all mods.");
+            DragonEngine.Log("Path: " + AppDomain.CurrentDomain.BaseDirectory + "\n");
 
+
+            Thread modsThread = new Thread(LibThread);
+            modsThread.Start();
+        }
+
+        public static void LibThread()
+        {
             if (Directory.Exists("mods"))
             {
-                foreach (string directory in Directory.GetDirectories("mods"))
+                foreach (string directory in Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods")))
                 {
                     foreach (string dllFile in Directory.GetFiles(directory, "*.dll"))
                     {
@@ -75,9 +86,6 @@ namespace DragonEngineLibrary
 
             Thread thread1 = new Thread(ThreadTest);
             thread1.Start();
-
-            DragonEngine.RegisterJob(DragonEngine.LibraryRenderUpdate, DEJob.Update);
-
         }
     }
 }

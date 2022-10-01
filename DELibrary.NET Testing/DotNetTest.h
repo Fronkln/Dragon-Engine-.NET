@@ -194,8 +194,10 @@ int Test()
             else printf("[+] pAssembly->get_EntryPoint(...) succeeded\n");
 
 
+    VARIANT var = VARIANT();
+
     /* EntryPoint.Invoke(new string[] { argv_1, argv_2, argv_3, ... } ) */
-    if (HRESULT hr = pMethodInfo->raw_Invoke_3(VARIANT(), newArguments(0, 0), &VARIANT()) < 0) {
+    if (HRESULT hr = pMethodInfo->raw_Invoke_3(VARIANT(), newArguments(0, 0), &var) < 0) {
         printf("[!] pMethodInfo->Invoke_3(...) failed, hr = %X\n", hr);
         return -1;
     }

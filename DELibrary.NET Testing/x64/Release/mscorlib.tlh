@@ -1,9 +1,9 @@
-﻿// Created by Microsoft (R) C/C++ Compiler Version 14.16.27043.0 (a21ca5e4).
+﻿// Created by Microsoft (R) C/C++ Compiler Version 14.32.31329.0 (5367e158).
 //
-// c:\users\orhan\source\repos\y7internal.net\delibrary.net testing\x64\release\mscorlib.tlh
+// C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET Testing\x64\Release\mscorlib.tlh
 //
-// C++ source equivalent of Win32 type library mscorlib.tlb
-// compiler-generated file created 01/30/22 at 01:39:09 - DO NOT EDIT!
+// C++ source equivalent of type library mscorlib.tlb
+// compiler-generated file - DO NOT EDIT!
 
 #pragma once
 #pragma pack(push, 8)
@@ -3481,22 +3481,22 @@ _Activator : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -3507,22 +3507,22 @@ _Activator : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("9ba4fd4e-2bc2-31a0-b721-d17aba5b12c3"))
@@ -3756,22 +3756,22 @@ _Attribute : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -3782,22 +3782,22 @@ _Attribute : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("1765714b-e628-34c3-b66f-7686faf462da"))
@@ -3985,22 +3985,22 @@ _Thread : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -4011,22 +4011,22 @@ _Thread : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("314bda5a-9292-3fc0-830d-7a4b0261fc88"))
@@ -4443,12 +4443,12 @@ TypeInfo;
     // interface _Type
     // interface IReflect
 
-#pragma pack(push, 4)
+#pragma pack(push, 8)
 
 struct __declspec(uuid("3613a9b6-c23b-3b54-ae02-6ec764d69e70"))
 RuntimeArgumentHandle
 {
-    long m_ptr;
+    __int64 m_ptr;
 };
 
 #pragma pack(pop)
@@ -4571,13 +4571,13 @@ TypeCode
     TypeCode_String = 18
 };
 
-#pragma pack(push, 4)
+#pragma pack(push, 8)
 
 struct __declspec(uuid("06ad02b5-c5a4-3eec-b7ba-b0af7860d36a"))
 TypedReference
 {
-    long value;
-    long Type;
+    __int64 value;
+    __int64 Type;
 };
 
 #pragma pack(pop)
@@ -4735,16 +4735,16 @@ Mutex;
     // interface _Object
     // interface IDisposable
 
-#pragma pack(push, 4)
+#pragma pack(push, 8)
 
 struct __declspec(uuid("a2959123-2f66-35b4-815d-37c83360809b"))
 NativeOverlapped
 {
-    long InternalLow;
-    long InternalHigh;
+    __int64 InternalLow;
+    __int64 InternalHigh;
     long OffsetLow;
     long OffsetHigh;
-    long EventHandle;
+    __int64 EventHandle;
 };
 
 #pragma pack(pop)
@@ -5507,22 +5507,22 @@ _AssemblyName : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -5533,22 +5533,22 @@ _AssemblyName : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("f12fde6a-9394-3c32-8e4d-f3d470947284"))
@@ -5639,22 +5639,22 @@ _ParameterInfo : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -5665,22 +5665,22 @@ _ParameterInfo : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("d002e9ba-d9e3-3749-b1d3-d565a08b13e7"))
@@ -5695,22 +5695,22 @@ _Module : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -5721,22 +5721,22 @@ _Module : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("ca308c9f-3b97-3152-acfa-8ab23c17df73"))
@@ -6003,7 +6003,7 @@ ISymbolWriter : IDispatch
     //
 
     HRESULT Initialize (
-        long emitter,
+        __int64 emitter,
         _bstr_t filename,
         VARIANT_BOOL fFullBuild );
     ISymbolDocumentWriterPtr DefineDocument (
@@ -6084,14 +6084,14 @@ ISymbolWriter : IDispatch
         long endLine,
         long endColumn );
     HRESULT SetUnderlyingWriter (
-        long underlyingWriter );
+        __int64 underlyingWriter );
 
     //
     // Raw methods provided by interface
     //
 
       virtual HRESULT __stdcall raw_Initialize (
-        /*[in]*/ long emitter,
+        /*[in]*/ __int64 emitter,
         /*[in]*/ BSTR filename,
         /*[in]*/ VARIANT_BOOL fFullBuild ) = 0;
       virtual HRESULT __stdcall raw_DefineDocument (
@@ -6174,7 +6174,7 @@ ISymbolWriter : IDispatch
         /*[in]*/ long endLine,
         /*[in]*/ long endColumn ) = 0;
       virtual HRESULT __stdcall raw_SetUnderlyingWriter (
-        /*[in]*/ long underlyingWriter ) = 0;
+        /*[in]*/ __int64 underlyingWriter ) = 0;
 };
 
 struct __declspec(uuid("e5ce8078-0ca7-3578-80db-f20fca8786a6"))
@@ -7763,12 +7763,12 @@ GCHandleType
     GCHandleType_Pinned = 3
 };
 
-#pragma pack(push, 4)
+#pragma pack(push, 8)
 
 struct __declspec(uuid("66e1f723-e57f-35ce-8306-3c09fb68a322"))
 GCHandle
 {
-    long m_handle;
+    __int64 m_handle;
 };
 
 #pragma pack(pop)
@@ -7779,7 +7779,7 @@ struct __declspec(uuid("c71dce2b-b87f-37a9-89ed-f1145955bcd6"))
 HandleRef
 {
     IUnknown * m_wrapper;
-    long m_handle;
+    __int64 m_handle;
 };
 
 #pragma pack(pop)
@@ -7792,11 +7792,11 @@ ICustomMarshaler : IDispatch
     //
 
     _variant_t MarshalNativeToManaged (
-        long pNativeData );
-    long MarshalManagedToNative (
+        __int64 pNativeData );
+    __int64 MarshalManagedToNative (
         const _variant_t & ManagedObj );
     HRESULT CleanUpNativeData (
-        long pNativeData );
+        __int64 pNativeData );
     HRESULT CleanUpManagedData (
         const _variant_t & ManagedObj );
     long GetNativeDataSize ( );
@@ -7806,13 +7806,13 @@ ICustomMarshaler : IDispatch
     //
 
       virtual HRESULT __stdcall raw_MarshalNativeToManaged (
-        /*[in]*/ long pNativeData,
+        /*[in]*/ __int64 pNativeData,
         /*[out,retval]*/ VARIANT * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_MarshalManagedToNative (
         /*[in]*/ VARIANT ManagedObj,
-        /*[out,retval]*/ long * pRetVal ) = 0;
+        /*[out,retval]*/ __int64 * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_CleanUpNativeData (
-        /*[in]*/ long pNativeData ) = 0;
+        /*[in]*/ __int64 pNativeData ) = 0;
       virtual HRESULT __stdcall raw_CleanUpManagedData (
         /*[in]*/ VARIANT ManagedObj ) = 0;
       virtual HRESULT __stdcall raw_GetNativeDataSize (
@@ -10179,22 +10179,22 @@ _AssemblyBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10205,22 +10205,22 @@ _AssemblyBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("0814be2a-48e5-3d61-90f3-ef3d05df9d5e"))
@@ -10254,22 +10254,22 @@ _ConstructorBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10280,22 +10280,22 @@ _ConstructorBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("be9acce8-aaff-3b91-81ae-8211663f5cad"))
@@ -10310,22 +10310,22 @@ _CustomAttributeBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10336,22 +10336,22 @@ _CustomAttributeBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("c7bd73de-9f85-3290-88ee-090b8bdfe2df"))
@@ -10366,22 +10366,22 @@ _EnumBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10392,22 +10392,22 @@ _EnumBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("aadaba99-895d-3d65-9760-b1f12621fae8"))
@@ -10422,22 +10422,22 @@ _EventBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10448,22 +10448,22 @@ _EventBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("ce1a3bf5-975e-30cc-97c9-1ef70f8f3993"))
@@ -10478,22 +10478,22 @@ _FieldBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10504,22 +10504,22 @@ _FieldBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("a4924b27-6e3b-37f7-9b83-a4501955e6a7"))
@@ -10534,22 +10534,22 @@ _ILGenerator : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10560,22 +10560,22 @@ _ILGenerator : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("4e6350d1-a08b-3dec-9a3e-c465f9aeec0c"))
@@ -10590,22 +10590,22 @@ _LocalBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10616,22 +10616,22 @@ _LocalBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("007d8a14-fdf3-363e-9a0b-fec0618260a2"))
@@ -10646,22 +10646,22 @@ _MethodBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10672,22 +10672,22 @@ _MethodBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("c2323c25-f57f-3880-8a4d-12ebea7a5852"))
@@ -10702,22 +10702,22 @@ _MethodRental : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10728,22 +10728,22 @@ _MethodRental : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("d05ffa9a-04af-3519-8ee1-8d93ad73430b"))
@@ -10758,22 +10758,22 @@ _ModuleBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10784,22 +10784,22 @@ _ModuleBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("36329eba-f97a-3565-bc07-0ed5c6ef19fc"))
@@ -10814,22 +10814,22 @@ _ParameterBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10840,22 +10840,22 @@ _ParameterBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("15f9a479-9397-3a63-acbd-f51977fb0f02"))
@@ -10870,22 +10870,22 @@ _PropertyBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10896,22 +10896,22 @@ _PropertyBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("7d13dd37-5a04-393c-bbca-a5fea802893d"))
@@ -10926,22 +10926,22 @@ _SignatureHelper : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -10952,22 +10952,22 @@ _SignatureHelper : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("7e5678ee-48b3-3f83-b076-c58543498a58"))
@@ -10982,22 +10982,22 @@ _TypeBuilder : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
 
     //
     // Raw methods provided by interface
@@ -11008,22 +11008,22 @@ _TypeBuilder : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
 };
 
 struct __declspec(uuid("93c24cdb-4014-3efd-b564-e836ba48c765"))
@@ -15534,22 +15534,22 @@ _AppDomain : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -15738,22 +15738,22 @@ _AppDomain : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -16075,22 +16075,22 @@ _MemberInfo : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -16118,22 +16118,22 @@ _MemberInfo : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -16275,22 +16275,22 @@ _Type : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -16519,22 +16519,22 @@ _Type : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -17308,7 +17308,7 @@ ISymbolBinder1 : IDispatch
     //
 
     ISymbolReaderPtr GetReader (
-        long importer,
+        __int64 importer,
         _bstr_t filename,
         _bstr_t searchPath );
 
@@ -17317,7 +17317,7 @@ ISymbolBinder1 : IDispatch
     //
 
       virtual HRESULT __stdcall raw_GetReader (
-        /*[in]*/ long importer,
+        /*[in]*/ __int64 importer,
         /*[in]*/ BSTR filename,
         /*[in]*/ BSTR searchPath,
         /*[out,retval]*/ struct ISymbolReader * * pRetVal ) = 0;
@@ -18030,22 +18030,22 @@ _MethodBase : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -18100,22 +18100,22 @@ _MethodBase : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -18330,22 +18330,22 @@ _MethodInfo : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -18403,22 +18403,22 @@ _MethodInfo : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -18599,22 +18599,22 @@ _EventInfo : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -18661,22 +18661,22 @@ _EventInfo : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -18795,22 +18795,22 @@ _ConstructorInfo : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -18872,22 +18872,22 @@ _ConstructorInfo : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -19031,22 +19031,22 @@ _FieldInfo : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -19105,22 +19105,22 @@ _FieldInfo : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -19236,22 +19236,22 @@ _PropertyInfo : IUnknown
     HRESULT GetTypeInfo (
         unsigned long iTInfo,
         unsigned long lcid,
-        long ppTInfo );
+        __int64 ppTInfo );
     HRESULT GetIDsOfNames (
         GUID * riid,
-        long rgszNames,
+        __int64 rgszNames,
         unsigned long cNames,
         unsigned long lcid,
-        long rgDispId );
+        __int64 rgDispId );
     HRESULT Invoke (
         unsigned long dispIdMember,
         GUID * riid,
         unsigned long lcid,
         short wFlags,
-        long pDispParams,
-        long pVarResult,
-        long pExcepInfo,
-        long puArgErr );
+        __int64 pDispParams,
+        __int64 pVarResult,
+        __int64 pExcepInfo,
+        __int64 puArgErr );
     _bstr_t GetToString ( );
     VARIANT_BOOL Equals (
         const _variant_t & other );
@@ -19314,22 +19314,22 @@ _PropertyInfo : IUnknown
       virtual HRESULT __stdcall raw_GetTypeInfo (
         /*[in]*/ unsigned long iTInfo,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long ppTInfo ) = 0;
+        /*[in]*/ __int64 ppTInfo ) = 0;
       virtual HRESULT __stdcall raw_GetIDsOfNames (
         /*[in]*/ GUID * riid,
-        /*[in]*/ long rgszNames,
+        /*[in]*/ __int64 rgszNames,
         /*[in]*/ unsigned long cNames,
         /*[in]*/ unsigned long lcid,
-        /*[in]*/ long rgDispId ) = 0;
+        /*[in]*/ __int64 rgDispId ) = 0;
       virtual HRESULT __stdcall raw_Invoke (
         /*[in]*/ unsigned long dispIdMember,
         /*[in]*/ GUID * riid,
         /*[in]*/ unsigned long lcid,
         /*[in]*/ short wFlags,
-        /*[in]*/ long pDispParams,
-        /*[in]*/ long pVarResult,
-        /*[in]*/ long pExcepInfo,
-        /*[in]*/ long puArgErr ) = 0;
+        /*[in]*/ __int64 pDispParams,
+        /*[in]*/ __int64 pVarResult,
+        /*[in]*/ __int64 pExcepInfo,
+        /*[in]*/ __int64 puArgErr ) = 0;
       virtual HRESULT __stdcall get_ToString (
         /*[out,retval]*/ BSTR * pRetVal ) = 0;
       virtual HRESULT __stdcall raw_Equals (
@@ -20217,7 +20217,7 @@ ILease : IDispatch
 // Wrapper method implementations
 //
 
-#include "c:\users\orhan\source\repos\y7internal.net\delibrary.net testing\x64\release\mscorlib.tli"
+#include "C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET Testing\x64\Release\mscorlib.tli"
 
 } // namespace mscorlib
 

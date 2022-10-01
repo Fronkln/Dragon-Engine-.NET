@@ -66,7 +66,19 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_RPG_CAMERA", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_BattleTurnManager_Getter_RPGCamera();
 
-        public enum TurnPhase
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_UI_ROOT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleTurnManager_Getter_UI_Root();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_HACT_READY_UI", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleTurnManager_Getter_HAct_Ready_UI_Root();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_TARGET_FIGHTER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleTurnManager_Getter_Target_Fighter();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_SELECTED_FIGHTER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleTurnManager_Getter_Selected_Fighter();
+
+        public enum TurnPhase : uint
         {
             StartWait = 0x0,
             Start = 0x1,
@@ -110,6 +122,39 @@ namespace DragonEngineLibrary
         public static ActionType CurrentActionType { get { return DELib_BattleTurnManager_Getter_ActionType(); } }
 
         internal delegate IntPtr OverrideAttackerSelectionDelegate(IntPtr battleTurnManager, bool readOnly, bool getNextFighter);
+
+
+        public static UIHandleBase UIRoot
+        {
+            get
+            {
+                return new UIHandleBase() { Handle = DELib_BattleTurnManager_Getter_UI_Root() };
+            }
+        }
+
+        public static UIHandleBase HActReadyUI
+        {
+            get
+            {
+                return new UIHandleBase() { Handle = DELib_BattleTurnManager_Getter_HAct_Ready_UI_Root() };
+            }
+        }
+
+        public static EntityHandle<Character> TargetFighter
+        {
+            get
+            {
+                return new EntityHandle<Character>(DELib_BattleTurnManager_Getter_Target_Fighter());
+            }
+        }
+
+        public static EntityHandle<Character> SelectedFighter
+        {
+            get
+            {
+                return new EntityHandle<Character>(DELib_BattleTurnManager_Getter_Selected_Fighter());
+            }
+        }
 
         internal static class OverrideAttackerSelectionInfo
         {

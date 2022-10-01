@@ -52,6 +52,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -64,6 +65,54 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Release|AnyCPU'">
+    <OutputPath>bin\YLAD Release\</OutputPath>
+    <DefineConstants>TRACE;YLAD</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Release|x64'">
+    <OutputPath>bin\x64\YLAD Release\</OutputPath>
+    <DefineConstants>TRACE;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\YLAD Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\YLAD Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP</DefineConstants>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -101,9 +150,11 @@
     <Compile Include="Entity\AuthPlayBase.cs" />
     <Compile Include="Entity\Battle.cs" />
     <Compile Include="Entity\BattleCommandAI.cs" />
+    <Compile Include="Entity\BattleManager.cs" />
     <Compile Include="Entity\BattleResourceManager.cs" />
     <Compile Include="Entity\CameraBase.cs" />
     <Compile Include="Entity\DB.cs" />
+    <Compile Include="Entity\EffectEventManager.cs" />
     <Compile Include="Entity\EntityComponentMap.cs" />
     <Compile Include="Entity\EntityComponentMapSync.cs" />
     <Compile Include="Entity\HumanMode.cs" />
@@ -112,10 +163,13 @@
     <Compile Include="Entity\RPG.cs" />
     <Compile Include="Entity\Services\Scene.cs" />
     <Compile Include="Entity\Services\ScenePhaseBase.cs" />
+    <Compile Include="Entity\SyncManager.cs" />
     <Compile Include="Entity\TalkTextManager.cs" />
     <Compile Include="Entity\UI.cs" />
+    <Compile Include="Entity\UIEntityPlayerGauge.cs" />
     <Compile Include="Entity\UIHandleBase.cs" />
     <Compile Include="Entity\Weapon.cs" />
+    <Compile Include="Entity\Yakuza 7\BattleResult.cs" />
     <Compile Include="Entity\Yakuza 7\BattleTurnManager.cs" />
     <Compile Include="Entity\BulletManager.cs" />
     <Compile Include="Entity\Character.cs" />
@@ -165,6 +219,7 @@
     <Compile Include="Enums\BattleGroupID.cs" />
     <Compile Include="Enums\DbID.cs" />
     <Compile Include="Enums\DEGames.cs" />
+    <Compile Include="Enums\HActRangeType.cs" />
     <Compile Include="Enums\Kiwami 2\ECSlotIDYK2.cs" />
     <Compile Include="Enums\ParticleInterface.cs" />
     <Compile Include="Enums\SceneConfigID.cs" />
@@ -232,14 +287,20 @@
     <Compile Include="Entity\Player.cs" />
     <Compile Include="MarshallingTests.cs" />
     <Compile Include="Entity\Yakuza 7\MGHomelessCan.cs" />
+    <Compile Include="PXD.cs" />
+    <Compile Include="Structs\AuthNodeInfo.cs" />
+    <Compile Include="Structs\BattleDamageInfo.cs" />
     <Compile Include="Structs\BattleFighterInfo.cs" />
     <Compile Include="Structs\BattleSelectCommandInfo.cs" />
+    <Compile Include="Structs\CalcDamageEventArgs.cs" />
     <Compile Include="Structs\CharacterStatus.cs" />
     <Compile Include="Structs\CommandSetModel.cs" />
     <Compile Include="Structs\DynamicsPoseInfo.cs" />
     <Compile Include="Structs\FighterCommandID.cs" />
     <Compile Include="Structs\FighterModeAttack.cs" />
     <Compile Include="Structs\FighterRPGCommand.cs" />
+    <Compile Include="Structs\GameTick.cs" />
+    <Compile Include="Structs\HActRangeInfo.cs" />
     <Compile Include="Structs\Inventory.cs" />
     <Compile Include="Structs\InventoryItem.cs" />
     <Compile Include="Structs\MotionBehaviorGroupActID.cs" />
@@ -254,6 +315,7 @@
     <Compile Include="Structs\PlayerPoint.cs" />
     <Compile Include="Structs\RequestRagdollOptions.cs" />
     <Compile Include="Structs\Shapes.cs" />
+    <Compile Include="Structs\TimingInfoDamage.cs" />
     <Compile Include="Third Party\RMM.cs" />
     <Compile Include="Structs\AIUtil.cs" />
     <Compile Include="Structs\CharacterAttributes.cs" />

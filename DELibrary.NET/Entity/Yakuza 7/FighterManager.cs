@@ -71,7 +71,7 @@ namespace DragonEngineLibrary
             List<Fighter> enemyFighters = new List<Fighter>();
 
             //heuteristic, may not be accurate on extreme cases
-            for (uint i = 0; i < 64; i++)
+            for (uint i = 3; i < 48; i++)
             {
                 Fighter fighter = GetFighter(i);
 

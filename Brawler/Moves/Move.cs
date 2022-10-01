@@ -3,8 +3,20 @@ using DragonEngineLibrary;
 
 namespace Brawler
 {
+    public enum MoveType
+    {
+        MoveBase,
+        MoveRPG,
+        MoveGMTOnly,
+        MoveHeatAction,
+        MoveComboString,
+        MoveSidestep
+    }
+
     public class MoveBase
     {
+        public virtual MoveType MoveType => MoveType.MoveBase;
+
         public MoveInput[] inputKeys;
         public MoveSimpleConditions skillConditions;
         public float cooldown = 0;
@@ -39,17 +51,19 @@ namespace Brawler
             foreach (MoveInput input in inputKeys)
             {
                 if (input.Hold)
-                    if (!DragonEngine.IsKeyHeld(input.Key))
+                {
+                    if (!Mod.Input[input.Key].Held)
                         return false;
-                if (!input.Hold)
-                    if (!DragonEngine.IsKeyDown(input.Key))
+                }
+                else
+                    if (Mod.Input[input.Key].LastTimeSincePressed > 0.1f)
                         return false;
             }
 
             return true;
         }
 
-        public bool CheckSimpleConditions(Fighter fighter)
+        public bool CheckSimpleConditions(Fighter fighter, Fighter[] targets)
         {
             if (!fighter.Character.IsValid())
                 return false;
@@ -58,36 +72,41 @@ namespace Brawler
                 return true;
 
             ECBattleStatus battleStatus = fighter.Character.GetBattleStatus();
+            BrawlerFighterInfo info = BrawlerFighterInfo.Infos[fighter.Character.UID];
 
             if (skillConditions.HasFlag(MoveSimpleConditions.FighterIsNotDown))
-                if (fighter.IsDown())
-                {
-                    DragonEngine.Log("we down");
+                if (info.IsDown)
                     return false;
-                }
 
             if (skillConditions.HasFlag(MoveSimpleConditions.FighterHPCritical))
                 if ((battleStatus.MaxHP * 0.4f) < battleStatus.CurrentHP)
                     return false;
 
             if (skillConditions.HasFlag(MoveSimpleConditions.FighterIsDown))
-                if (!fighter.IsDown())
+                if (!info.IsDown || info.IsGettingUp)
                     return false;
+
+            if(skillConditions.HasFlag(MoveSimpleConditions.LockedEnemyIsDown))
+            {
+                Fighter lockedEnemy = BrawlerPlayer.GetLockOnTarget(fighter, targets);
+
+                if (!lockedEnemy.IsValid())
+                    return false;
+                else
+                {
+                    BrawlerFighterInfo enemyInfo = BrawlerFighterInfo.Infos[lockedEnemy.Character.UID];
+
+                    if (!enemyInfo.IsDown || enemyInfo.IsGettingUp)
+                        return false;
+                }
+            }
 
             return true;
         }
 
         public virtual bool CheckConditions(Fighter fighter, Fighter[] targets)
         {
-            return CheckSimpleConditions(fighter);
-        }
-
-        public virtual bool CanUse(Fighter fighter)
-        {
-            if (!fighter.Character.IsValid())
-                return false;
-
-            return CheckSimpleConditions(fighter);
+            return CheckSimpleConditions(fighter, targets);
         }
 
         public virtual void Execute(Fighter attacker, Fighter[] target) { }
@@ -95,20 +114,36 @@ namespace Brawler
         public virtual void Update() { }
     }
 
-    public class Move : MoveBase
+    public class MoveRPG : MoveBase
     {
+        public override MoveType MoveType => MoveType.MoveRPG;
+
         public RPGSkillID ID;
+        private bool m_isCooldown = false;
+        private float m_cooldownDur = 1;
 
-
-
-        public Move(RPGSkillID attack, float attackDelay, MoveInput[] input, MoveSimpleConditions condition = MoveSimpleConditions.None) : base(attackDelay, input, condition)
+        public MoveRPG(RPGSkillID attack, float attackDuration, MoveInput[] input, MoveSimpleConditions condition = MoveSimpleConditions.None, float cooldown = 1) : base(attackDuration, input, condition)
         {
             ID = attack;
+            m_cooldownDur = cooldown;
         }
+
 
         public override void Execute(Fighter attacker, Fighter[] target)
         {
             BattleTurnManager.ForceCounterCommand(attacker, target[0], ID);
+            BrawlerPlayer.m_attackCooldown = cooldown;
+
+            m_isCooldown = true;
+            new SimpleTimer(m_cooldownDur, delegate { m_isCooldown = false; });
+        }
+
+        public override bool CheckConditions(Fighter fighter, Fighter[] targets)
+        {
+            if (m_isCooldown)
+                return false;
+
+            return base.CheckConditions(fighter, targets);
         }
     }
 }

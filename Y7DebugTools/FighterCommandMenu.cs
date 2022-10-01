@@ -11,6 +11,8 @@ namespace Y7DebugTools
         private static int m_chosenSetID = 0;
         private static int m_chosenCmdID = 0;
 
+        private static int m_chosenRPGSkillID = 0;
+
         private static bool m_incremental = false;
 
         private static int m_min = -1;
@@ -28,6 +30,8 @@ namespace Y7DebugTools
                 if (ImGui.InputInt("Command ID:", ref m_chosenCmdID))
                     if (m_chosenCmdID < ushort.MinValue || m_chosenSetID > ushort.MaxValue)
                         m_chosenCmdID = 0;
+
+                ImGui.InputInt("RPG Skill:", ref m_chosenRPGSkillID);
 
                 ImGui.Dummy(new System.Numerics.Vector2(0, 5));
 
@@ -55,6 +59,11 @@ namespace Y7DebugTools
 
                     if (m_incremental)
                         m_chosenCmdID++;
+                }
+
+                if (ImGui.Button("Execute RPG Skill"))
+                {
+                    BattleTurnManager.ForceCounterCommand(FighterManager.GetFighter(0), FighterManager.GetAllEnemies()[0], (RPGSkillID)m_chosenRPGSkillID);
                 }
             }
         }

@@ -3,7 +3,7 @@
 namespace Brawler
 {
     [Flags]
-    public enum HeatActionCondition
+    public enum HeatActionCondition : ulong
     {
         None = 1,
 
@@ -11,13 +11,23 @@ namespace Brawler
         FighterCriticalHealth = 4,
 
         EnemyDown = 8,
-        FighterDown = 16,
+        EnemyNotDown = 16,
 
-        EnemyStunned = 32,
-        FighterStunned = 64,
+        FighterDown = 32,
 
-        EnemyMidAir = 128,
-        FighterMidAir = 256
+        EnemyStunned = 64,
+        FighterStunned = 128,
+
+        EnemyMidAir = 256,
+        FighterMidAir = 1024,
+
+        IsExHero = 2048,
+
+        EnemyStandingUp = 4096,
+        FighterStandingUp = 8192,
+
+        FighterHealthNotCritical = 16384,
+        EnemyHealthNotCritical = 32768,
 
     }
 }

@@ -2842,6 +2842,7 @@ namespace DragonEngineLibrary
         S08_0020C,       // constant 0xB13
         ADV10_0230,      // constant 0xB14
         S08_0030,        // constant 0xB15
+#if K2_AND_UP
         lexus2_A01_0010,         // constant 0xB16
         lexus2_A01_0013,         // constant 0xB17
         lexus2_A01_0015,         // constant 0xB18
@@ -4336,6 +4337,7 @@ namespace DragonEngineLibrary
         lexus2_test_osaka_day,       // constant 0x10E9
         lexus2_ADV06_0015,       // constant 0x10EA
         lexus2_ADV08_0070,       // constant 0x10EB
+#endif
         judge_C07_010,       // constant 0x10EC
         judge_C07_020,       // constant 0x10ED
         judge_ADV07_010,         // constant 0x10EE
@@ -8269,6 +8271,7 @@ namespace DragonEngineLibrary
         command_continue_bomb,       // constant 0x2046
         minigame_sugoroku_stage_tgs,         // constant 0x2047
         minigame_drone_select_tgs,       // constant 0x2048
+#if YLAD_AND_UP
         yazawa_1st,      // constant 0x2049
         yazawa_padv,         // constant 0x204A
         yazawa_debug_yokohama_day,       // constant 0x204B
@@ -10434,6 +10437,7 @@ namespace DragonEngineLibrary
         game_pad_info,       // constant 0x28BB
         minigame_pachisolt_dll,      // constant 0x28BC
         minigame_pachislot_dll,      // constant 0x28BD
+#endif
     }
 
 }

@@ -8,8 +8,15 @@ namespace Brawler
 {
     public static class BrawlerPlayer
     {
-        private static Style[] m_Styles;
+        public static BrawlerFighterInfo Info;
+
+        public static Style[] m_Styles;
         private static Style m_currentStyle;
+
+        public static Dictionary<AssetArmsCategoryID, Moveset> EXMovesets = new Dictionary<AssetArmsCategoryID, Moveset>();
+        public static Dictionary<AssetArmsCategoryID, Moveset> EXHeats = new Dictionary<AssetArmsCategoryID, Moveset>();
+
+        public static MotionPlayInfo MotionInfo;
 
         public static Moveset CurrentMoveset = null;
         public static Moveset CommonMoves = null;
@@ -20,6 +27,8 @@ namespace Brawler
         public static float m_currentAttackTime = 0;
 
         public static Timer attackCancelTimer = null;
+
+        public static bool ThrowingWeapon = false;
 
         public static bool IsEXGamer = false;
         public static bool WantSwapJobWeapon = false;
@@ -33,69 +42,95 @@ namespace Brawler
             m_currentStyle = m_Styles[0];
         }
 
-        public static void UpdateTargeting(Fighter[] targets)
-        {
 
+        //Should execute brawler input
+        //Battle start done once
+        //Input not frozen
+        //Not downed
+        //Not dead
+        //Not ragdolled
+        //Not sync
+        //Not attacking
+        //Not getting up
+        public static bool GenericShouldExecuteAttack()
+        {
+            if (!Mod.ShouldExecBrawlerInput())
+                return false;
+
+            if (!BrawlerBattleManager.BattleStartDoOnce)
+                return false;
+
+            if (FreezeInput)
+                return false;
+
+            return !Info.IsDown && !Info.IsDead && !Info.IsSync && !Info.IsGettingUp && !Info.IsRagdoll &&
+                    m_lastMove == null;
+        }
+
+        public static void ThrowWeapon()
+        {
+            Weapon wep = BrawlerBattleManager.Kasuga.GetWeapon(AttachmentCombinationID.right_weapon);
+            AssetUnit unit = wep.Unit;
+
+            if (unit.AssetID == AssetID.invalid)
+                return;
+
+            AssetArmsCategoryID wepCategory = Asset.GetArmsCategory(unit.AssetID);
+
+            switch(wepCategory)
+            {
+                default:
+                    BrawlerBattleManager.KasugaChara.GetMotion().RequestGMT(17075);
+                    break;
+            }
+
+            ThrowingWeapon = true;
+        }
+
+        public static Fighter GetLockOnTarget(Fighter kasugaFighter, Fighter[] allEnemies)
+        {
+            if (BrawlerBattleManager.DisableTargetingOnce)
+                return new Fighter(IntPtr.Zero);
+
+            if (allEnemies.Length <= 0)
+                return new Fighter(IntPtr.Zero);
+
+            Fighter nearestFighter = allEnemies[0];
+            FighterID nearestFighterID = nearestFighter.GetID();
+            bool isLockingIn = BrawlerHooks.HumanModeManager_IsInputKamae(kasugaFighter.Character.HumanModeManager.Pointer);
+
+            //always prioritize locking in
+            if (isLockingIn)
+                return nearestFighter;
+
+            float distToNearestEnemy = Vector3.Distance((Vector3)kasugaFighter.Character.GetPosCenter(), (Vector3)nearestFighter.Character.GetPosCenter());
+
+            if (allEnemies.Length < 2)
+                return (distToNearestEnemy <= 3.5f ? nearestFighter : new Fighter(IntPtr.Zero));
+            else
+            {
+                if (distToNearestEnemy <= 2.5f)
+                    return nearestFighter;
+            }
+
+            return new Fighter(IntPtr.Zero);
+        }
+
+        public static void UpdateTargeting(Fighter kasugaFighter, Fighter[] allEnemies)
+        {
+            ECBattleTargetDecide targetDecide = kasugaFighter.Character.TargetDecide;
+            targetDecide.SetTarget(GetLockOnTarget(kasugaFighter, allEnemies).GetID());
         }
 
 
-        public static void EnterEXGamerState()
-        {
-            Fighter kasugaFighter = FighterManager.GetFighter(0);
-
-            BattleManager.AllowPlayerTransformationDoOnce = true;
-
-            SimpleTimer timer = new SimpleTimer(0.5f,
-                delegate
-                {
-                    BattleCommandSetID commandSet = RPG.GetJobCommandSetID(Player.ID.kasuga, Player.GetCurrentJob(Player.ID.kasuga));
-
-                    kasugaFighter.Character.GetRender().BattleTransformationOn();
-                    WantSwapJobWeapon = true;
-                    // kasugaFighter.Equip(Party.GetEquipItemID(Player.ID.kasuga, PartyEquipSlotID.weapon), AttachmentCombinationID.right_weapon);
-                    kasugaFighter.Character.GetBattleStatus().ActionCommand = commandSet;
-                    kasugaFighter.Character.SetCommandSet(commandSet);
-                    kasugaFighter.GetStatus().SetSuperArmor(true);
-                    FreezeInput = false;
-                    IsEXGamer = true;
-                }
-                );
-        }
-
-        public static void ExitEXGamerState()
-        {
-            Fighter kasugaFighter = FighterManager.GetFighter(0);
-            FreezeInput = true;
-
-            SimpleTimer timer = new SimpleTimer(0.5f,
-                delegate
-                {
-                    BattleCommandSetID commandSet = BattleCommandSetID.p_kasuga_job_01;
-
-                    kasugaFighter.Character.GetRender().BattleTransformationOff();
-                    WantSwapJobWeapon = true;
-                    //  kasugaFighter.DropWeapon(new DropWeaponOption(AttachmentCombinationID.right_weapon, true));
-                    kasugaFighter.Character.GetBattleStatus().ActionCommand = commandSet;
-                    kasugaFighter.Character.SetCommandSet(commandSet);
-                    kasugaFighter.GetStatus().SetSuperArmor(false);
-                    FreezeInput = false;
-                    IsEXGamer = false;
-                }
-                );
-        }
 
         public static void InputUpdate()
         {
-            if (FreezeInput)
+            if (FreezeInput || !Mod.IsGameFocused)
                 return;
 
             Fighter kasugaFighter = FighterManager.GetFighter(0);
-            Fighter[] allEnemies = FighterManager.GetAllEnemies().Where(x => !x.IsDead()).OrderBy(x => Vector3.Distance((Vector3)kasugaFighter.Character.GetPosCenter(), (Vector3)x.Character.GetPosCenter())).ToArray();
-
-            if (allEnemies.Length > 0 && Vector3.Distance((Vector3)kasugaFighter.Character.GetPosCenter(), (Vector3)allEnemies[0].Character.GetPosCenter()) <= 6)
-                kasugaFighter.Character.TargetDecide.SetTarget(allEnemies[0].GetID());
-            else
-                kasugaFighter.Character.TargetDecide.SetTarget(new FighterID() { Handle = 0 });
+            UpdateTargeting(kasugaFighter, BrawlerBattleManager.Enemies);
 
             if (m_lastMove != null)
             {
@@ -113,7 +148,7 @@ namespace Brawler
             {
 
                 AssetUnit unit = kasugaFighter.GetWeapon(AttachmentCombinationID.right_weapon).Unit;
-                bool heatActionUpdate = HeatActionManager.InputUpdate(Asset.GetArmsCategory(unit.AssetID));
+                bool heatActionUpdate = HeatActionManager.InputUpdate(Asset.GetArmsCategory(unit.AssetID), Asset.GetArmsCategorySub(unit.AssetID));
 
                 //we executed a heat action.
                 if (heatActionUpdate)
@@ -124,10 +159,10 @@ namespace Brawler
 
                 if (!wepUpdate)
                 {
-                    CurrentMoveset = m_currentStyle.CommandSet;
-
-                    if (DragonEngine.IsKeyDown(VirtualKey.T))
-                        kasugaFighter.ThrowEquipAsset(false, true);
+                    //cheap fix
+                    if(!IsEXGamer)
+                        CurrentMoveset = m_currentStyle.CommandSet;
+                       // kasugaFighter.ThrowEquipAsset(false, true);
                     if (DragonEngine.IsKeyHeld(VirtualKey.N1))
                         ChangeStyle(m_Styles[0]);
                     else if (DragonEngine.IsKeyHeld(VirtualKey.N2))
@@ -137,15 +172,28 @@ namespace Brawler
                 }
 
 
-                if (DragonEngine.IsKeyDown(VirtualKey.Q))
+                if (Mod.Input[BattleInput.Q].Pressed && !WantTransform)
                 {
                     RPGJobID job = Player.GetCurrentJob(Player.ID.kasuga);
 
-                    if (job != RPGJobID.kasuga_freeter)
+                    if (!IsEXGamer)
+                    {
+                        if (kasugaFighter.GetStatus().Heat > 0)
+                        {
+                            IsEXGamer = true;
+                            WantTransform = true;
+                        }
+                    }
+                    else
+                    {
+                        IsEXGamer = false;
                         WantTransform = true;
+                    }
                 }
 
-                if(CommonMoves != null)
+                Fighter[] allEnemies = BrawlerBattleManager.Enemies;
+
+                if (CommonMoves != null)
                 {
                     foreach (MoveBase move in CommonMoves.Moves)
                         if (move.AreInputKeysPressed() && move.CheckConditions(kasugaFighter, allEnemies))
@@ -170,9 +218,27 @@ namespace Brawler
         public static void GameUpdate()
         {
             Fighter kasugaFighter = FighterManager.GetFighter(0);
+            Info.Update(kasugaFighter);
 
-            if (FreezeInput)
+            MotionInfo = kasugaFighter.Character.GetMotion().PlayInfo;
+
+            //Second condition is for player movement freezing on talk
+            if (FreezeInput || (BattleTurnManager.CurrentPhase == BattleTurnManager.TurnPhase.Event && BattleTurnManager.CurrentActionStep == BattleTurnManager.ActionStep.Init))
                 DragonEngine.GetHumanPlayer().Status.SetNoInputTemporary();
+
+            foreach (var kv in Mod.Input)
+            {
+                if (kv.Value.Held || kv.Value.Pressed)
+                {
+                    kv.Value.TimeHeld += DragonEngine.deltaTime;
+                    kv.Value.LastTimeSincePressed = 0;
+                }
+                else
+                {
+                    kv.Value.TimeHeld = 0;
+                    kv.Value.LastTimeSincePressed += DragonEngine.deltaTime;
+                }
+            }
 
             float timeDelta = DragonEngine.deltaTime;
 
@@ -188,40 +254,64 @@ namespace Brawler
             {
                 if (WantTransform)
                 {
+
                     RPGJobID job = Player.GetCurrentJob(Player.ID.kasuga);
-                    kasugaFighter.Character.Components.EffectEvent.Get().StopEvent((EffectEventCharaID)0x104, false);
-                    kasugaFighter.Character.Components.EffectEvent.Get().PlayEventOverride((EffectEventCharaID)0x104);
+                    bool sameJob = kasugaFighter.GetStatus().ActionCommand == RPG.GetJobCommandSetID(Player.ID.kasuga, job);
+
+                    if (!sameJob)
+                    {
+                        kasugaFighter.Character.Components.EffectEvent.Get().StopEvent((EffectEventCharaID)0x104, false);
+                        kasugaFighter.Character.Components.EffectEvent.Get().PlayEventOverride((EffectEventCharaID)0x104);
+                    }
                     FreezeInput = true;
 
-                    if (kasugaFighter.GetStatus().ActionCommand != RPG.GetJobCommandSetID(Player.ID.kasuga, job))
-                        EnterEXGamerState();
+                    if (IsEXGamer)
+                        BrawlerBattleManager.OnEXGamerON();
                     else
-                        ExitEXGamerState();
+                        BrawlerBattleManager.OnEXGamerOFF();
 
                     WantTransform = false;
                 }
 
-                if(WantSwapJobWeapon)
+                if (WantSwapJobWeapon)
                 {
                     RPGJobID job = Player.GetCurrentJob(Player.ID.kasuga);
 
                     //drop it
                     if (!FighterManager.GetFighter(0).IsValid() || kasugaFighter.GetStatus().ActionCommand != RPG.GetJobCommandSetID(Player.ID.kasuga, job))
+                    {
                         kasugaFighter.DropWeapon(new DropWeaponOption(AttachmentCombinationID.right_weapon, true));
+                        kasugaFighter.DropWeapon(new DropWeaponOption(AttachmentCombinationID.left_weapon, true));
+                    }
                     else
-                        kasugaFighter.Equip(Party.GetEquipItemID(Player.ID.kasuga, PartyEquipSlotID.weapon), AttachmentCombinationID.right_weapon);
+                    {
+                        //Enforcer: Dual weapons
+                        if (job == RPGJobID.man_06)
+                        {
+                            kasugaFighter.Equip(Party.GetEquipItemID(Player.ID.kasuga, PartyEquipSlotID.weapon), AttachmentCombinationID.left_weapon);
+                            kasugaFighter.Equip(ItemID.yazawa_pocket_weapon_adachi_004, AttachmentCombinationID.right_weapon);
+                        }
+                        else
+                            kasugaFighter.Equip(Party.GetEquipItemID(Player.ID.kasuga, PartyEquipSlotID.weapon), AttachmentCombinationID.right_weapon);
+                    }
 
                     WantSwapJobWeapon = false;
                 }
 
             }
 
+            foreach (var kv in Mod.Input)
+            {
+                if (kv.Value.Pressed)
+                    kv.Value.Pressed = false;
+            }
+
         }
 
         //Standard attacking, does not include heat actions
-        public static void ExecuteMove(MoveBase move, Fighter attacker, Fighter[] enemy)
+        public static void ExecuteMove(MoveBase move, Fighter attacker, Fighter[] enemy, bool force = false)
         {
-            if (m_lastMove != null && !m_lastMove.AllowChange())
+            if (!force && m_lastMove != null && !m_lastMove.AllowChange())
                 return;
 
             if (attackCancelTimer != null)
@@ -252,7 +342,7 @@ namespace Brawler
 
             m_currentStyle = style;
             CurrentMoveset = m_currentStyle.CommandSet;
-            DragonEngine.GetHumanPlayer().GetMotion().RequestGMT(style.SwapAnimation);
+            BrawlerBattleManager.Kasuga.Character.GetMotion().RequestGMT(style.SwapAnimation);
 
             m_attackCooldown = 0.7f;
         }
@@ -262,9 +352,10 @@ namespace Brawler
 
             CommonMoves = new Moveset
             (
+                RPGSkillID.invalid,
                 new MoveSidestep(0.25f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.Space, false)
+                    new MoveInput(BattleInput.Space, false)
                 }, MoveSimpleConditions.FighterIsNotDown)
             );
 
@@ -272,87 +363,147 @@ namespace Brawler
             //Legend
             Moveset legendMoveSet = new Moveset
             (
+                (RPGSkillID)1750,
                 new MoveSidestep(0.25f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.Space, false)
+                    new MoveInput(BattleInput.Space, false)
                 }, MoveSimpleConditions.FighterIsNotDown),
+
+                //Stomp
+                new MoveRPG((RPGSkillID)1752, 0.8f, new MoveInput[]
+                {
+                    new MoveInput(BattleInput.RightMouse, false)
+                }, MoveSimpleConditions.LockedEnemyIsDown),
 
                 new MoveString(new MoveString.AttackFrame[]
                 {
-                    new MoveString.AttackFrame(new FighterCommandID(1337, 1), 0.5f, 1f),
-                    new MoveString.AttackFrame(new FighterCommandID(1337, 2), 0.4f, 0.4f, 0.8f),
-                    new MoveString.AttackFrame(new FighterCommandID(1337, 3), 0.5f, 0.7f, 0.8f),
-                    new MoveString.AttackFrame(new FighterCommandID(1337, 4), 0.5f, 0.4f, 0.8f),
+                    new MoveString.AttackFrame(new FighterCommandID(1337, 1), new FighterCommandID(1337, 5), false, 1f),
+                    new MoveString.AttackFrame(new FighterCommandID(1337, 2), new FighterCommandID(1337, 6), true, 0.4f, 0.8f),
+                    new MoveString.AttackFrame(new FighterCommandID(1337, 3), new FighterCommandID(1337, 7), true, 0.7f, 0.8f),
+                    new MoveString.AttackFrame(new FighterCommandID(1337, 4), new FighterCommandID(1337, 8), false, 0.4f, 0.8f),
 
                 }, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.LeftButton, false)
+                    new MoveInput(BattleInput.LeftMouse, false)
                 }, MoveSimpleConditions.FighterIsNotDown),
 
-                new Move(RPGSkillID.boss_kiryu_legend_atk_c, 1f, new MoveInput[]
+                new MoveRPG((RPGSkillID)246, 3.5f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.LeftShift, true),
-                    new MoveInput(VirtualKey.RightButton, false)
+                    new MoveInput(BattleInput.E, false)
                 }, MoveSimpleConditions.FighterIsNotDown),
 
-                new Move(RPGSkillID.boss_kiryu_legend_atk_d, 0.5f, new MoveInput[]
+                /*
+                new MoveRPG((RPGSkillID)243, 2.5f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.RightButton, false)
+                    new MoveInput(BattleInput.E, true),
                 }, MoveSimpleConditions.FighterIsNotDown),
+                */
 
-                new Move(RPGSkillID.boss_kiryu_atk_a, 0.5f, new MoveInput[]
+                new MoveRPG(RPGSkillID.boss_kiryu_legend_atk_c, 1f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.F, false)
+                    new MoveInput(BattleInput.LeftShift, true),
+                    new MoveInput(BattleInput.RightMouse, false)
                 }, MoveSimpleConditions.FighterIsNotDown)
 
             );
 
             Moveset rushMoveSet = new Moveset
             (
+                RPGSkillID.invalid,
                 new MoveGMTOnly(MotionID.C_COM_BTL_SUD_dwnB_to_dge_r, 1, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.Space, false)
+                    new MoveInput(BattleInput.Space, false)
                 }, MoveSimpleConditions.FighterIsDown),
 
                 new MoveSidestep(0.1f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.Space, false)
+                    new MoveInput(BattleInput.Space, false)
                 }, MoveSimpleConditions.FighterIsNotDown),
 
-                new Move(RPGSkillID.boss_kiryu_rush_atk_a, 0.35f, new MoveInput[]
+                new MoveRPG(RPGSkillID.boss_kiryu_rush_atk_a, 0.35f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.LeftButton, false),
+                    new MoveInput(BattleInput.LeftMouse, false),
                 }, MoveSimpleConditions.FighterIsNotDown),
 
-                new Move(RPGSkillID.boss_kiryu_rush_atk_b, 0.35f, new MoveInput[]
+                new MoveRPG(RPGSkillID.boss_kiryu_rush_atk_b, 0.35f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.RightButton, false),
+                    new MoveInput(BattleInput.RightMouse, false),
                 }, MoveSimpleConditions.FighterIsNotDown)
             );
 
 
             Moveset crashMoveSet = new Moveset
             (
+                RPGSkillID.invalid,
                 new MoveGMTOnly(MotionID.C_COM_BTL_SUD_dwnB_to_dge_r, 1, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.Space, false)
+                    new MoveInput(BattleInput.Space, false)
                 }, MoveSimpleConditions.FighterIsDown),
 
                 new MoveSidestep(0.1f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.Space, false)
+                    new MoveInput(BattleInput.Space, false)
                 }, MoveSimpleConditions.FighterIsNotDown),
 
-                new Move(RPGSkillID.boss_kiryu_atk_e, 0.5f, new MoveInput[]
+                new MoveRPG(RPGSkillID.boss_kiryu_atk_e, 0.5f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.LeftButton, false),
+                    new MoveInput(BattleInput.LeftMouse, false),
                 }, MoveSimpleConditions.FighterIsNotDown),
 
-                new Move(RPGSkillID.boss_kiryu_crash_atk_a, 0.5f, new MoveInput[]
+                new MoveRPG(RPGSkillID.boss_kiryu_crash_atk_a, 0.5f, new MoveInput[]
                 {
-                    new MoveInput(VirtualKey.RightButton, false),
+                    new MoveInput(BattleInput.RightMouse, false),
                 }, MoveSimpleConditions.FighterIsNotDown)
             );
+
+
+            EXMovesets = new Dictionary<AssetArmsCategoryID, Moveset>()
+            {
+                [AssetArmsCategoryID.invalid] =  new Moveset
+            (
+                (RPGSkillID)1751,
+                new MoveSidestep(0.25f, new MoveInput[]
+                {
+                    new MoveInput(BattleInput.Space, false)
+                }, MoveSimpleConditions.FighterIsNotDown),
+
+                new MoveRPG(RPGSkillID.kasuga_job01_nml_atk_down, 1f, new MoveInput[]
+                {
+                    new MoveInput(BattleInput.RightMouse, false)
+                }, MoveSimpleConditions.LockedEnemyIsDown, 3f),
+
+                new MoveString(new MoveString.AttackFrame[]
+                {
+                    new MoveString.AttackFrame(new FighterCommandID(1337, 1), new FighterCommandID(1337, 5), false, 1f),
+                    new MoveString.AttackFrame(new FighterCommandID(1337, 2), new FighterCommandID(1337, 6), true, 0.4f, 0.8f),
+                    new MoveString.AttackFrame(new FighterCommandID(1337, 3), new FighterCommandID(1337, 7), true, 0.7f, 0.8f),
+                    new MoveString.AttackFrame(new FighterCommandID(1337, 4), new FighterCommandID(1337, 8), false, 0.4f, 0.8f),
+
+                }, new MoveInput[]
+                {
+                    new MoveInput(BattleInput.LeftMouse, false)
+                }, MoveSimpleConditions.FighterIsNotDown),
+
+                new MoveRPG((RPGSkillID)245, 3.5f, new MoveInput[]
+                {
+                    new MoveInput(BattleInput.E, false)
+                }, MoveSimpleConditions.FighterIsNotDown),
+
+                /*
+                new MoveRPG((RPGSkillID)243, 2.5f, new MoveInput[]
+                {
+                    new MoveInput(BattleInput.E, true),
+                }, MoveSimpleConditions.FighterIsNotDown),
+                */
+
+                new MoveRPG(RPGSkillID.boss_kiryu_legend_atk_c, 1f, new MoveInput[]
+                {
+                    new MoveInput(BattleInput.LeftShift, true),
+                    new MoveInput(BattleInput.RightMouse, false)
+                }, MoveSimpleConditions.FighterIsNotDown)
+
+            )
+        };
 
             Style legendStyle = new Style((MotionID)17033, legendMoveSet);
             Style rushStyle = new Style(MotionID.E_KRH_BTL_SUD_styl_change, rushMoveSet);

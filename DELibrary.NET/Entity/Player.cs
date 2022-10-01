@@ -46,6 +46,9 @@ namespace DragonEngineLibrary
         internal extern static void DELib_Player_SetHeatNow(ID player, int val);
 
 #if YLAD
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_RPGBTLMENU_SETCURRENTHEAT", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void DELib_RPGBtlMenu_SetCurrentHeat(uint index, uint amount);
+
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetLevel(uint level, ID playerID, IntPtr saveData = default(IntPtr));
 
@@ -64,7 +67,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_CURRENT_JOB", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetCurrentJob(ID player, RPGJobID job, bool recoverHPMPDifference);
 #endif
-
+#if YLAD
         ///<summary>Get current HP of player.</summary>
         public static long GetHPNow(ID playerID)
         {
@@ -93,7 +96,10 @@ namespace DragonEngineLibrary
         public static void SetHeatNow(ID playerID, int val)
         {
             DELib_Player_SetHeatNow(playerID, val);
-        }
+            DELib_RPGBtlMenu_SetCurrentHeat(0, (uint)val);
+
+#endif
+    }
 
 #if YLAD
         ///<summary>Set current level of player.</summary>
@@ -148,6 +154,7 @@ namespace DragonEngineLibrary
         {
             DELib_Player_SetCurrentJob(player, job, recoverHPAndMPDifference);
         }
+
+}
 #endif
-    }
 }

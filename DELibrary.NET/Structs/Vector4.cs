@@ -5,7 +5,7 @@ namespace DragonEngineLibrary
 {
     
     [StructLayout(LayoutKind.Explicit, Size = 0x10)]
-    public struct Vector4
+    public unsafe struct Vector4
     {
         [FieldOffset(0x0)]
         public float x;

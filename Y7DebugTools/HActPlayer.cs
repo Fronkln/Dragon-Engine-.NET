@@ -11,6 +11,7 @@ namespace Y7DebugTools
     public static class HActPlayer
     {
         private static int m_chosenHAct = 0;
+        private static int m_chosenHActRange = 0;
 
         private static bool m_battleMode = false;
         private static bool m_isPlayerAction = true;
@@ -22,6 +23,7 @@ namespace Y7DebugTools
         private static int[] m_chosenIDs = new int[(int)HActReplaceID.num];
 
         private static string[] m_enumNames_HactReplace;
+        private static string[] m_enumNames_HactRange;
 
         private static List<EntityHandle<Character>> m_createdHActChara = new List<EntityHandle<Character>>();
         private static bool m_cleanDoOnce = false;
@@ -34,6 +36,7 @@ namespace Y7DebugTools
         static HActPlayer()
         {
             m_enumNames_HactReplace = Enum.GetNames(typeof(HActReplaceID));
+            m_enumNames_HactRange= Enum.GetNames(typeof(HActRangeType));
         }
 
         private static EntityHandle<Character> CreateHActChara(CharacterID id)
@@ -62,8 +65,20 @@ namespace Y7DebugTools
             opts.Init();
             opts.id = (TalkParamID)m_chosenHAct;
 
-            if (m_atPlayerPos)
+            Vector4 pos = (m_atPlayerPos ? DragonEngine.GetHumanPlayer().Transform.Position : new Vector4());
+
+           // if(m_chosenHActRange <= 0)
                 opts.base_mtx.matrix = DragonEngine.GetHumanPlayer().GetPosture().GetRootMatrix();
+            /*
+            else
+            {
+                HActRangeInfo inf = new HActRangeInfo();
+                HActManager.FindRange(DragonEngine.GetHumanPlayer().Transform.Position, (HActRangeType)m_chosenHActRange, ref inf);
+
+                if ((Vector3)inf.Pos != Vector3.zero)
+                    DragonEngine.GetHumanPlayer().RequestWarpPose(new PoseInfo(inf.Pos, 0));
+            }
+            */
 
             opts.is_warp_return = true;
             opts.is_player_action = m_isPlayerAction;
@@ -98,7 +113,9 @@ namespace Y7DebugTools
                     // opts.Register(HActReplaceID.hu_player1, FighterManager.GetFighter(0).Character);
                     // opts.RegisterWeapon(AuthAssetReplaceID.we_player_r, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.right_weapon).Unit.Get().AssetID);
 
-                    opts.RegisterFighterAndWeapon(HActReplaceID.hu_player1, FighterManager.GetFighter(0), AuthAssetReplaceID.we_player_r);
+                    opts.RegisterFighter(HActReplaceID.hu_player1, FighterManager.GetFighter(0).GetID());
+                    opts.RegisterWeapon(AuthAssetReplaceID.we_player_r, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.right_weapon));
+                    opts.RegisterWeapon(AuthAssetReplaceID.we_player_l, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.left_weapon));
                 }
 
                 Fighter[] enemies = FighterManager.GetAllEnemies();
@@ -160,9 +177,14 @@ namespace Y7DebugTools
         }
         public static void Draw()
         {
+
             if (ImGui.Begin("Hact Player"))
             {
                 ImGui.InputInt("HAct ID", ref m_chosenHAct);
+                ImGui.InputInt("Range ID", ref m_chosenHActRange);
+
+                ImGui.Dummy(new System.Numerics.Vector2(0, 10));
+
                 ImGui.Checkbox("Battle Mode", ref m_battleMode);
 
                 ImGui.Dummy(new System.Numerics.Vector2(0, 10));
@@ -214,6 +236,16 @@ namespace Y7DebugTools
                             m_allyIsNPC = false;
                         }
                     }
+
+
+                    ImGui.Dummy(new System.Numerics.Vector2(0, 10));
+
+                    for (int i = 0; i < m_enumNames_HactRange.Length; i++)
+                    {
+                        HActRangeInfo inf = new HActRangeInfo();
+                        ImGui.Text(m_enumNames_HactRange[i] + " " + HActManager.FindRange(DragonEngine.GetHumanPlayer().Transform.Position, (HActRangeType)i, ref inf));
+                    }
+
                 }
 
                 ImGui.End();

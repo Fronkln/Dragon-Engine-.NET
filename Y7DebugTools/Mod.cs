@@ -32,6 +32,7 @@ namespace Y7DebugTools
                 ImGui.Checkbox("Animation", ref m_animPlayerMenuEnabled);
                 ImGui.Checkbox("NPC", ref m_npcMenuEnabled);
                 ImGui.Checkbox("Scene Info", ref SceneInfo.Open);
+                ImGui.Checkbox("Scenario", ref ScenarioMenu.Open);
                 ImGui.Checkbox("FighterManager", ref m_fighterManagerMenuEnabled);
                 ImGui.Checkbox("BattleTurnManager", ref m_battleTurnManagerMenuEnabled);
                 ImGui.Checkbox("HAct Player", ref m_hactPlayerMenuEnabled);
@@ -39,14 +40,13 @@ namespace Y7DebugTools
                 ImGui.Checkbox("Fighter CFC", ref FighterCommandMenu.Open);
                 ImGui.Checkbox("Cue Player", ref SoundPlayer.Open);
                 ImGui.Checkbox("UI Player", ref UIPlayer.Open);
+                ImGui.Checkbox("DB", ref DBMenu.Open);
 
 
 
                 if (ImGui.Checkbox("DE Job Count", ref m_jobMenuEnabled))
                     JobCounter.Toggle(m_jobMenuEnabled);
 
-                if (ImGui.Button("Unload all DB"))
-                    DB.Unload(DbId.character_character_data);
 
                 ImGui.EndMenu();
                 ImGui.End();
@@ -79,6 +79,12 @@ namespace Y7DebugTools
                 if (SceneInfo.Open)
                     SceneInfo.Draw();
 
+                if (ScenarioMenu.Open)
+                    ScenarioMenu.Draw();
+
+                if (DBMenu.Open)
+                    DBMenu.Draw();
+
                 if (m_jobMenuEnabled)
                 {
                     ImGui.Text("Average execution per second:");
@@ -86,6 +92,12 @@ namespace Y7DebugTools
                     {
                         ImGui.Text(((DEJob)i).ToString() + ": " + JobCounter.m_countAverage[i]);
                     }
+                }
+
+                if (PlayerMenu.m_toEquip)
+                {
+                    PlayerMenu.m_toEquip = false;
+                    FighterManager.GetFighter(0).Equip((ItemID)PlayerMenu.equipItem, AttachmentCombinationID.right_weapon);
                 }
 
             }
@@ -96,6 +108,11 @@ namespace Y7DebugTools
             while (true)
             {
                 VirtualKey key = ((VirtualKey)m_enumValues_VirtualKey.GetValue(NPCMenu.SpawnBind));
+
+                if (DragonEngine.IsKeyHeld(VirtualKey.LeftShift))
+                    if (DragonEngine.IsKeyDown(VirtualKey.V))
+                        NoclipMode.Toggle();
+                        
 
                 if (DragonEngine.IsKeyDown(key))
                     NPCMenu.Create();

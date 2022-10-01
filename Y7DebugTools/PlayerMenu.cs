@@ -18,6 +18,9 @@ namespace Y7DebugTools
 
         private static bool m_noclipEnabled = false;
 
+        public static bool m_toEquip = false;
+        public static int equipItem = 0;
+
         static PlayerMenu()
         {
             m_enum_names_PlayerID = Enum.GetNames(typeof(Player.ID));
@@ -45,6 +48,16 @@ namespace Y7DebugTools
                     PlayermodelChanger.Draw();
                     CharaRender.Draw(player);
                 }
+
+
+                ImGui.Dummy(new System.Numerics.Vector2(0, 20));
+
+                ImGui.InputInt("Equip", ref equipItem);
+
+                if (ImGui.Button("Equip"))
+                    m_toEquip = true;
+
+                ImGui.Dummy(new System.Numerics.Vector2(0, 20));
 
                 if (ImGui.CollapsingHeader("Player Stats Edit"))
                 {

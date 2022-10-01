@@ -2,6 +2,7 @@
 
 namespace Brawler
 {
+    [System.Serializable]
     public class Style
     {
         public MotionID SwapAnimation;

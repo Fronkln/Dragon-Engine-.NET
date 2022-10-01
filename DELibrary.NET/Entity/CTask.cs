@@ -67,8 +67,30 @@ namespace DragonEngineLibrary
         /// </summary>
         public virtual bool IsValid()
         {
-            return DELib_CTask_Common_Validity_Check(UID);
+            return UID > 0 && DELib_CTask_Common_Validity_Check(UID);
            // return UID != 0 && ((EntityHandle<CTask>)UID).IsValid();
+        }
+
+        public static bool operator ==(CTask v1, CTask v2)
+        {
+            if (ReferenceEquals(v1, null) && ReferenceEquals(v2, null))
+                return true;
+
+            if (ReferenceEquals(v1, null) || ReferenceEquals(v2, null))
+                return false;
+
+            return v1.UID == v2.UID;
+        }
+
+        public static bool operator !=(CTask v1, CTask v2)
+        {
+            if (ReferenceEquals(v1, null) && ReferenceEquals(v2, null))
+                return false;
+
+            if (ReferenceEquals(v1, null) || ReferenceEquals(v2, null))
+                return true;
+
+            return v1.UID != v2.UID;
         }
 
         /// <summary>

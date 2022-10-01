@@ -1,9 +1,9 @@
-﻿// Created by Microsoft (R) C/C++ Compiler Version 14.16.27043.0 (a21ca5e4).
+﻿// Created by Microsoft (R) C/C++ Compiler Version 14.32.31329.0 (5367e158).
 //
-// c:\users\orhan\source\repos\y7internal.net\delibrary.net testing\x64\release\mscorlib.tli
+// C:\Users\orhan\source\repos\Y7Internal.NET\DELibrary.NET Testing\x64\Release\mscorlib.tli
 //
-// Wrapper implementations for Win32 type library mscorlib.tlb
-// compiler-generated file created 01/30/22 at 01:39:09 - DO NOT EDIT!
+// Wrapper implementations for type library mscorlib.tlb
+// compiler-generated file - DO NOT EDIT!
 
 #pragma once
 
@@ -201,19 +201,19 @@ inline HRESULT _Activator::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _Activator::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _Activator::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Activator::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _Activator::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Activator::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _Activator::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -353,19 +353,19 @@ inline HRESULT _Attribute::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _Attribute::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _Attribute::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Attribute::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _Attribute::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Attribute::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _Attribute::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -381,19 +381,19 @@ inline HRESULT _Thread::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _Thread::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _Thread::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Thread::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _Thread::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Thread::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _Thread::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -642,19 +642,19 @@ inline HRESULT _AssemblyName::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _AssemblyName::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _AssemblyName::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _AssemblyName::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _AssemblyName::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _AssemblyName::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _AssemblyName::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -670,19 +670,19 @@ inline HRESULT _ParameterInfo::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _ParameterInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _ParameterInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ParameterInfo::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _ParameterInfo::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ParameterInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _ParameterInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -698,19 +698,19 @@ inline HRESULT _Module::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _Module::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _Module::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Module::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _Module::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Module::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _Module::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -720,7 +720,7 @@ inline HRESULT _Module::Invoke ( unsigned long dispIdMember, GUID * riid, unsign
 // interface ISymbolWriter wrapper method implementations
 //
 
-inline HRESULT ISymbolWriter::Initialize ( long emitter, _bstr_t filename, VARIANT_BOOL fFullBuild ) {
+inline HRESULT ISymbolWriter::Initialize ( __int64 emitter, _bstr_t filename, VARIANT_BOOL fFullBuild ) {
     HRESULT _hr = raw_Initialize(emitter, filename, fFullBuild);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -836,7 +836,7 @@ inline HRESULT ISymbolWriter::SetMethodSourceRange ( struct ISymbolDocumentWrite
     return _hr;
 }
 
-inline HRESULT ISymbolWriter::SetUnderlyingWriter ( long underlyingWriter ) {
+inline HRESULT ISymbolWriter::SetUnderlyingWriter ( __int64 underlyingWriter ) {
     HRESULT _hr = raw_SetUnderlyingWriter(underlyingWriter);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -952,7 +952,7 @@ inline VARIANT_BOOL IPrincipal::IsInRole ( _bstr_t role ) {
 // interface ICustomMarshaler wrapper method implementations
 //
 
-inline _variant_t ICustomMarshaler::MarshalNativeToManaged ( long pNativeData ) {
+inline _variant_t ICustomMarshaler::MarshalNativeToManaged ( __int64 pNativeData ) {
     VARIANT _result;
     VariantInit(&_result);
     HRESULT _hr = raw_MarshalNativeToManaged(pNativeData, &_result);
@@ -960,14 +960,14 @@ inline _variant_t ICustomMarshaler::MarshalNativeToManaged ( long pNativeData ) 
     return _variant_t(_result, false);
 }
 
-inline long ICustomMarshaler::MarshalManagedToNative ( const _variant_t & ManagedObj ) {
-    long _result = 0;
+inline __int64 ICustomMarshaler::MarshalManagedToNative ( const _variant_t & ManagedObj ) {
+    __int64 _result = 0;
     HRESULT _hr = raw_MarshalManagedToNative(ManagedObj, &_result);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _result;
 }
 
-inline HRESULT ICustomMarshaler::CleanUpNativeData ( long pNativeData ) {
+inline HRESULT ICustomMarshaler::CleanUpNativeData ( __int64 pNativeData ) {
     HRESULT _hr = raw_CleanUpNativeData(pNativeData);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1396,19 +1396,19 @@ inline HRESULT _AssemblyBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _AssemblyBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _AssemblyBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _AssemblyBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _AssemblyBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _AssemblyBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _AssemblyBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1424,19 +1424,19 @@ inline HRESULT _ConstructorBuilder::GetTypeInfoCount ( unsigned long * pcTInfo )
     return _hr;
 }
 
-inline HRESULT _ConstructorBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _ConstructorBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ConstructorBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _ConstructorBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ConstructorBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _ConstructorBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1452,19 +1452,19 @@ inline HRESULT _CustomAttributeBuilder::GetTypeInfoCount ( unsigned long * pcTIn
     return _hr;
 }
 
-inline HRESULT _CustomAttributeBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _CustomAttributeBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _CustomAttributeBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _CustomAttributeBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _CustomAttributeBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _CustomAttributeBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1480,19 +1480,19 @@ inline HRESULT _EnumBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _EnumBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _EnumBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _EnumBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _EnumBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _EnumBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _EnumBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1508,19 +1508,19 @@ inline HRESULT _EventBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _EventBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _EventBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _EventBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _EventBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _EventBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _EventBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1536,19 +1536,19 @@ inline HRESULT _FieldBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _FieldBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _FieldBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _FieldBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _FieldBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _FieldBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _FieldBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1564,19 +1564,19 @@ inline HRESULT _ILGenerator::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _ILGenerator::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _ILGenerator::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ILGenerator::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _ILGenerator::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ILGenerator::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _ILGenerator::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1592,19 +1592,19 @@ inline HRESULT _LocalBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _LocalBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _LocalBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _LocalBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _LocalBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _LocalBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _LocalBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1620,19 +1620,19 @@ inline HRESULT _MethodBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _MethodBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _MethodBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MethodBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _MethodBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MethodBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _MethodBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1648,19 +1648,19 @@ inline HRESULT _MethodRental::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _MethodRental::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _MethodRental::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MethodRental::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _MethodRental::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MethodRental::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _MethodRental::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1676,19 +1676,19 @@ inline HRESULT _ModuleBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _ModuleBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _ModuleBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ModuleBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _ModuleBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ModuleBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _ModuleBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1704,19 +1704,19 @@ inline HRESULT _ParameterBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _ParameterBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _ParameterBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ParameterBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _ParameterBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ParameterBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _ParameterBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1732,19 +1732,19 @@ inline HRESULT _PropertyBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _PropertyBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _PropertyBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _PropertyBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _PropertyBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _PropertyBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _PropertyBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1760,19 +1760,19 @@ inline HRESULT _SignatureHelper::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _SignatureHelper::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _SignatureHelper::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _SignatureHelper::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _SignatureHelper::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _SignatureHelper::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _SignatureHelper::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -1788,19 +1788,19 @@ inline HRESULT _TypeBuilder::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _TypeBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _TypeBuilder::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _TypeBuilder::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _TypeBuilder::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _TypeBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _TypeBuilder::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -2665,19 +2665,19 @@ inline HRESULT _AppDomain::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _AppDomain::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _AppDomain::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _AppDomain::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _AppDomain::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _AppDomain::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _AppDomain::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -3161,19 +3161,19 @@ inline HRESULT _MemberInfo::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _MemberInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _MemberInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MemberInfo::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _MemberInfo::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MemberInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _MemberInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -3266,19 +3266,19 @@ inline HRESULT _Type::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _Type::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _Type::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Type::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _Type::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _Type::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _Type::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -4401,7 +4401,7 @@ inline ISymbolReaderPtr ISymbolBinder::GetReader ( long importer, _bstr_t filena
 // interface ISymbolBinder1 wrapper method implementations
 //
 
-inline ISymbolReaderPtr ISymbolBinder1::GetReader ( long importer, _bstr_t filename, _bstr_t searchPath ) {
+inline ISymbolReaderPtr ISymbolBinder1::GetReader ( __int64 importer, _bstr_t filename, _bstr_t searchPath ) {
     struct ISymbolReader * _result = 0;
     HRESULT _hr = raw_GetReader(importer, filename, searchPath, &_result);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
@@ -5055,19 +5055,19 @@ inline HRESULT _MethodBase::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _MethodBase::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _MethodBase::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MethodBase::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _MethodBase::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MethodBase::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _MethodBase::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -5385,19 +5385,19 @@ inline HRESULT _MethodInfo::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _MethodInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _MethodInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MethodInfo::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _MethodInfo::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _MethodInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _MethodInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -5729,19 +5729,19 @@ inline HRESULT _EventInfo::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _EventInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _EventInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _EventInfo::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _EventInfo::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _EventInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _EventInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -5916,19 +5916,19 @@ inline HRESULT _ConstructorInfo::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _ConstructorInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _ConstructorInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ConstructorInfo::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _ConstructorInfo::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _ConstructorInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _ConstructorInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -6179,19 +6179,19 @@ inline HRESULT _FieldInfo::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _FieldInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _FieldInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _FieldInfo::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _FieldInfo::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _FieldInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _FieldInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
@@ -6423,19 +6423,19 @@ inline HRESULT _PropertyInfo::GetTypeInfoCount ( unsigned long * pcTInfo ) {
     return _hr;
 }
 
-inline HRESULT _PropertyInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, long ppTInfo ) {
+inline HRESULT _PropertyInfo::GetTypeInfo ( unsigned long iTInfo, unsigned long lcid, __int64 ppTInfo ) {
     HRESULT _hr = raw_GetTypeInfo(iTInfo, lcid, ppTInfo);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _PropertyInfo::GetIDsOfNames ( GUID * riid, long rgszNames, unsigned long cNames, unsigned long lcid, long rgDispId ) {
+inline HRESULT _PropertyInfo::GetIDsOfNames ( GUID * riid, __int64 rgszNames, unsigned long cNames, unsigned long lcid, __int64 rgDispId ) {
     HRESULT _hr = raw_GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;
 }
 
-inline HRESULT _PropertyInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, long pDispParams, long pVarResult, long pExcepInfo, long puArgErr ) {
+inline HRESULT _PropertyInfo::Invoke ( unsigned long dispIdMember, GUID * riid, unsigned long lcid, short wFlags, __int64 pDispParams, __int64 pVarResult, __int64 pExcepInfo, __int64 puArgErr ) {
     HRESULT _hr = raw_Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
     if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
     return _hr;

@@ -16,5 +16,5 @@ namespace Brawler
             tim.AutoReset = false;
             tim.Elapsed += delegate { func(); };
         }
-    }
+    }   
 }

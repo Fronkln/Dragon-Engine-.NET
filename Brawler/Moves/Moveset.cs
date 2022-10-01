@@ -13,25 +13,20 @@ namespace Brawler
         None = 0x0,
         FighterIsNotDown = 0x1,
         FighterIsDown = 0x2,
-        FighterHPCritical = 0x3
+        FighterHPCritical = 0x4,
+        LockedEnemyIsDown = 0x8
     }
 
-
-    public class WeaponMove : Move
-    {
-        public WeaponMove(RPGSkillID attack, float attackDelay, MoveInput[] input, MoveSimpleConditions condition, ItemID weapon) : base(attack, attackDelay, input, condition)
-        {
-
-        }
-    }
-
+    [System.Serializable]
     public class Moveset
     {
         public List<MoveBase> Moves = new List<MoveBase>();
+        public RPGSkillID RepelCounter;
 
-        public Moveset(params MoveBase[] moves)
+        public Moveset(RPGSkillID repel = RPGSkillID.invalid, params MoveBase[] moves)
         {
             Moves = moves.ToList();
+            RepelCounter = repel;
         }
 
         public T GetMoveOfType<T>() where T : MoveBase, new()

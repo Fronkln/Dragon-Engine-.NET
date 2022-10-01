@@ -12,6 +12,16 @@ namespace Brawler
 
         }
 
+        public override bool CheckConditions(Fighter fighter, Fighter[] targets)
+        {
+            bool baseCond = base.CheckConditions(fighter, targets);
+
+            if (!baseCond)
+                return false;
+
+            return BrawlerPlayer.GenericShouldExecuteAttack();
+        }
+
         public override void Execute(Fighter attacker, Fighter[] target)
         {
             attacker.Character.HumanModeManager.ToSway();

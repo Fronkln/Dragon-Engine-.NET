@@ -29,6 +29,14 @@ namespace Y7DebugTools
         {
             if(ImGui.Begin("FighterManager Menu"))
             {
+                if (ImGui.Button("Kill All Enemies"))
+                    foreach (Fighter fighter in FighterManager.GetAllEnemies())
+                        fighter.Character.ToDead();
+
+                if (ImGui.Button("Kill All Allies"))
+                    for (int i = 1; i < 4; i++)
+                        FighterManager.GetFighter((uint)i).Character.ToDead();
+
                 if (ImGui.CollapsingHeader("Create Enemy"))
                 {
                     ImGui.InputInt("Character ID:", ref m_chosenCharaID);

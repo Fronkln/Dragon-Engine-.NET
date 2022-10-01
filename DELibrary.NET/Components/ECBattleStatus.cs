@@ -73,9 +73,15 @@ namespace DragonEngineLibrary
         internal static extern void DELibrary_ECBattleStatus_ClearCommand(IntPtr battlestatus);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SET_SUPER_ARMOR", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void DELibrary_ECBattleStatus_SetSuperArmor(IntPtr battlestatus, bool armor);
+        internal static extern void DELibrary_ECBattleStatus_SetSuperArmor(IntPtr battlestatus, bool armor, bool isSuperHard = false);
 
-  
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_IS_SUPER_ARMOR", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELibrary_ECBattleStatus_IsSuperArmor(IntPtr battlestatus);
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_ADD_DAMAGE_INFO", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_AddDamageInfo(IntPtr battlestatus, ref BattleDamageInfo info);
 
         public static EntityComponentHandle<ECBattleStatus> Attach(Character character)
         {
@@ -216,9 +222,20 @@ namespace DragonEngineLibrary
         }
 
 
-        public void SetSuperArmor(bool armor)
+        public void SetSuperArmor(bool armor, bool isSuperHard = false)
         {
-            DELibrary_ECBattleStatus_SetSuperArmor(Pointer, armor);
+            DELibrary_ECBattleStatus_SetSuperArmor(Pointer, armor, isSuperHard);
+        }
+
+        public bool IsSuperArmor()
+        {
+           return DELibrary_ECBattleStatus_IsSuperArmor(Pointer);
+        }
+
+        public void AddDamageInfo(BattleDamageInfo inf)
+        {
+          //  IntPtr dmgPtr = inf.ToIntPtr();
+            DELibrary_ECBattleStatus_AddDamageInfo(Pointer, ref inf);
         }
 
         

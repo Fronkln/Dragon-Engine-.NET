@@ -6,13 +6,27 @@ namespace DragonEngineLibrary
     public class UI
     {
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_CREATE", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr DELib_UI_Create(uint sceneID, uint targetID);
+        internal static extern ulong DELib_UI_Create(uint sceneID, uint targetID);
 
 
         ///<summary>Create UI.</summary>
         public static UIHandleBase Create(uint sceneID, uint targetID)
         {
-            return new UIHandleBase() { _ptr = DELib_UI_Create(sceneID, targetID) };
+            return new UIHandleBase() { Handle = DELib_UI_Create(sceneID, targetID) };
         }
+
+        /// <summary>
+        /// Loads the UI. Does not create it.
+        /// </summary>
+        /// <param name="sceneID"></param>
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_SCENE_LOAD_BY_REF", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Load(uint sceneID);
+
+        /// <summary>
+        /// Unloads the UI.
+        /// </summary>
+        /// <param name="sceneID"></param>
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_SCENE_UNLOAD_BY_REF", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Unload(uint sceneID);
     }
 }

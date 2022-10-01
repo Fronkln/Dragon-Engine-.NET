@@ -10,6 +10,36 @@ using System.Reflection;
 
 namespace DragonEngineLibrary
 {
+    namespace Unsafe
+    {
+        public static class CPP
+        {
+            /// <summary>
+            /// Very dangerous to use, doesnt call constructors on deletion.
+            /// </summary>
+            /// <param name="text"></param>
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_CPP_FREE_MEM", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void FreeUnmanagedMemory(IntPtr memory);
+
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_UNSAFE_NOP", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void NopMemory(IntPtr memory, uint len);
+
+
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_UNSAFE_PATCH", CallingConvention = CallingConvention.Cdecl)]
+            private static extern void Unsafe_NopMemory(IntPtr memory, IntPtr buf, int len);
+
+            public static void PatchMemory(IntPtr addr, params byte[] bytes)
+            {
+                IntPtr byteArr = Marshal.AllocHGlobal(bytes.Length);
+                Marshal.Copy(bytes, 0, byteArr, bytes.Length);
+
+                Unsafe_NopMemory(addr, byteArr, bytes.Length);
+
+                Marshal.FreeHGlobal(byteArr);
+            }
+        }
+    }
+
     public static class DragonEngine
     {
         internal delegate void RegisterJobDelegate();
@@ -44,7 +74,7 @@ namespace DragonEngineLibrary
         private static extern void DELib_RegisterAttackerOverrideFunc(IntPtr deleg);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_IS_ENGINE_INITIALIZED", CallingConvention = CallingConvention.Cdecl)]
-        [return:MarshalAs(UnmanagedType.U1)]
+        [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool DELib_IsEngineInitialized();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_REFRESH_OFFSETS", CallingConvention = CallingConvention.Cdecl)]
@@ -66,11 +96,11 @@ namespace DragonEngineLibrary
         private static extern void DELib_ForceSetCursorVisible(bool allow);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_IS_CURSOR_FORCED_VISIBLE", CallingConvention = CallingConvention.Cdecl)]
-        [return:MarshalAs(UnmanagedType.U1)]
+        [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool DELib_IsCursorForcedVisible();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_IS_ALT_TAB_PAUSE_ALLOWED", CallingConvention = CallingConvention.Cdecl)]
-        [return:MarshalAs(UnmanagedType.U1)]
+        [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool DELib_IsAltTabPauseAllowed();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_REGISTER_DE_JOB", CallingConvention = CallingConvention.Cdecl)]
@@ -87,22 +117,15 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_TEMP_CPP_COUT", CallingConvention = CallingConvention.Cdecl)]
         private static extern void DELib_TEMP_CPP_COUT(string text);
 
-
-        /// <summary>
-        /// Very dangerous to use, doesnt call constructors on deletion.
-        /// </summary>
-        /// <param name="text"></param>
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CPP_FREE_MEM", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void DELib_CPP_FREE_MEM(IntPtr memory);
-
         public static IntPtr BaseAddress { get { return GetModuleHandle(); } }
 
         /// <summary>
         /// Initialize Dragon Engine library. Important for it to properly function.
         /// </summary>
+        /// 
+
         public static void Initialize()
         {
-
             DELib_Init();
 #if YLAD
             BattleTurnManager.OverrideAttackerSelectionInfo.deleg = new BattleTurnManager.OverrideAttackerSelectionDelegate(BattleTurnManager.ReturnManualAttackerSelectionResult);
@@ -111,6 +134,11 @@ namespace DragonEngineLibrary
 #endif
 
             EngineHooks.Initialize();
+        }
+
+        internal static void LibUpdate()
+        {
+            RefreshOffsets();
         }
 
         /// <summary>
@@ -126,14 +154,8 @@ namespace DragonEngineLibrary
             string valueStr = value.ToString();
 
             Console.WriteLine(valueStr);
-           // DELib_TEMP_CPP_COUT(valueStr + "\n");
-           // File.AppendAllText("dotnetlog.txt", valueStr + "\n");
-        }
-
-
-        internal static void FreeUnmanagedMemory(IntPtr memory)
-        {
-            DELib_CPP_FREE_MEM(memory);
+            // DELib_TEMP_CPP_COUT(valueStr + "\n");
+            // File.AppendAllText("dotnetlog.txt", valueStr + "\n");
         }
 
         public static bool IsCursorForcedVisible()
@@ -183,7 +205,7 @@ namespace DragonEngineLibrary
         /// </summary>
         public static void UnregisterJob(Action func, DEJob phase)
         {
-           
+
             foreach (JobRegisterInfo job in _jobDelegates.ToArray())
                 if (job.phase == phase)
                     if (job.funcRaw == func)
@@ -222,11 +244,6 @@ namespace DragonEngineLibrary
             return new EntityHandle<Character>(DELib_GetHumanPlayer());
         }
 
-        public static void LibraryRenderUpdate()
-        {   
-            DELib_RefreshOffsets();
-        }
-
         internal static bool InitializeModLibrary(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -241,7 +258,6 @@ namespace DragonEngineLibrary
 
             try
             {
-                //Ugly reflection type
                 Assembly loadedAssembly = Assembly.LoadFrom(path);
                 Type modInfoType = typeof(DEModInfo);
 
@@ -256,8 +272,9 @@ namespace DragonEngineLibrary
             }
             catch (Exception ex)
             {
-                if(ex as BadImageFormatException == null)
-                    Log("Failed to load library, error: " + ex.Message);
+                //It was a valid C# Dragon Engine .NET library but there was an error
+                if (ex as BadImageFormatException == null)
+                    Log("Failed to load library, error: " + Environment.StackTrace + "\n" + ex.Message + "\n" + ex.InnerException);
 
                 return false;
             }
@@ -293,6 +310,14 @@ namespace DragonEngineLibrary
 
     public class DragonEngineMod
     {
+        public virtual string ModPath
+        {
+            get
+            {
+                return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            }
+        }
+
         public virtual void OnModInit()
         {
 

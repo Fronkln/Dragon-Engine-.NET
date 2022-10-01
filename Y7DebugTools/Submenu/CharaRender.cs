@@ -6,6 +6,10 @@ namespace Y7DebugTools
 {
     public static class CharaRender
     {
+        private static float m_X;
+        private static float m_Y;
+        private static float m_Z;
+
         public static void Draw(Character chara)
         {
             if (chara == null || !chara.IsValid())
@@ -16,6 +20,15 @@ namespace Y7DebugTools
 
             ImGui.Text("Position: " + (Vector3)chara.Transform.Position);
             ImGui.Text("Orientation: " + chara.Transform.Orient);
+            ImGui.Text("Current GMT ID: " + chara.GetMotion().GmtID + " " + chara.GetMotion().BhvPartsInfo.gmt_id_);
+
+
+            ImGui.InputFloat("X", ref m_X);
+            ImGui.InputFloat("Y", ref m_Y);
+            ImGui.InputFloat("Z", ref m_Z);
+
+            if (ImGui.Button("Teleport"))
+                chara.RequestWarpPose(new PoseInfo(new Vector4(m_X, m_Y, m_Z), 0));
 
             if (ImGui.CollapsingHeader("Render Mesh"))
             {

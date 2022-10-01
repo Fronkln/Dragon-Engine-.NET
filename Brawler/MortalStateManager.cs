@@ -47,9 +47,8 @@ namespace Brawler
 
         public static void Update()
         {
-            Fighter[] enemies = FighterManager.GetAllEnemies();
 
-            foreach (Fighter enemy in enemies)
+            foreach (Fighter enemy in BrawlerBattleManager.Enemies)
                 if (ShouldEnterMortalState(enemy))
                     if (!m_mortalEnemies.Contains(enemy.Character.UID))
                         EnterMortalState(enemy);

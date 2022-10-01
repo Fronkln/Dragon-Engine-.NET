@@ -3,11 +3,13 @@ using DragonEngineLibrary;
 
 namespace Brawler
 {
-    public class MoveGMTOnly : Move
+    public class MoveGMTOnly : MoveBase
     {
+        public override MoveType MoveType => MoveType.MoveGMTOnly;
+
         public MotionID Motion;
 
-        public MoveGMTOnly(MotionID motion, float attackDelay, MoveInput[] input, MoveSimpleConditions condition = MoveSimpleConditions.None) : base(RPGSkillID.invalid, attackDelay, input, condition)
+        public MoveGMTOnly(MotionID motion, float attackDelay, MoveInput[] input, MoveSimpleConditions condition = MoveSimpleConditions.None) : base(attackDelay, input, condition)
         {
             Motion = motion;
         }

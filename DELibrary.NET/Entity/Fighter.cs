@@ -23,8 +23,11 @@ namespace DragonEngineLibrary
     /// <summary>
     /// Fighter objects only exist on combat.
     /// </summary>
-    public class Fighter
+    public unsafe class Fighter
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_PLAY_VOICE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_Fighter_PlayVoice(IntPtr fighterPtr, uint id);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GET_INFO", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_GetInfo(IntPtr fighterPtr);
 
@@ -59,6 +62,11 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_IsEnemy(IntPtr fighterPtr);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_IS_BOSS", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Fighter_IsBoss(IntPtr fighterPtr);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_IS_DOWN", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_IsDown(IntPtr fighterPtr);
@@ -69,8 +77,11 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SETUPWEAPON", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Fighter_SetupWeapon(IntPtr fighterPtr);
 
-        public Character Character { get; internal set; }
-        internal IntPtr _ptr;
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_REQUEST_DAMAGE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_Fighter_RequestDamage(IntPtr fighterPtr, IntPtr dmgInf);
+
+        public Character Character { get; set; }
+        public IntPtr _ptr;
 
         public bool IsValid()
         {
@@ -84,6 +95,11 @@ namespace DragonEngineLibrary
             //do PInvoke once. i doubt the character pointer of a fighter will ever change.
             Character = new Character();
             Character._objectAddress = DELib_Fighter_Getter_Character(_ptr);
+        }
+
+        public void PlayVoice(uint label)
+        {
+            DELib_Fighter_PlayVoice(_ptr, label);
         }
 
         /// <summary>
@@ -123,10 +139,10 @@ namespace DragonEngineLibrary
         /// </summary>
         public bool IsDown()
         {
-            return DELib_Fighter_IsDown(_ptr);
-            //return Character.HumanModeManager.IsDown();
-          //  return Character.IsRagdoll();
-          //  return inf.is_stand_up_;
+         //   return DELib_Fighter_IsDown(_ptr);
+            return Character.HumanModeManager.IsDown();
+            //  return Character.IsRagdoll();
+            //  return inf.is_stand_up_;
         }
 
         ///<summary>Is the fighter in a sync move?</summary>
@@ -164,6 +180,14 @@ namespace DragonEngineLibrary
             return DELib_Fighter_IsEnemy(_ptr);
         }
 
+        /// <summary>
+        /// Is the fighter a boss?
+        /// </summary>
+        public bool IsBoss()
+        {
+            return DELib_Fighter_IsBoss(_ptr);
+        }
+
         //might be incorrect?
         /// <summary>
         /// Is the fighter an ally?
@@ -172,7 +196,7 @@ namespace DragonEngineLibrary
         {
             return !IsPlayer() && !IsEnemy();
         }
-        
+
         /// <summary>
         /// Get's the fighter ID of the fighter.
         /// </summary>
@@ -217,6 +241,14 @@ namespace DragonEngineLibrary
             DELib_Fighter_ThrowEquipAsset(_ptr, leftHand, rightHand);
         }
 
+        public unsafe void RequestDamage(BattleDamageInfo damage)
+        {
+            IntPtr ptr = damage.ToIntPtr();
+            DELib_Fighter_RequestDamage(_ptr, ptr);
+
+            Marshal.FreeHGlobal(ptr);
+        }
+
         ///<summary>Get the battle AI of this fighter.</summary>
         public BattleCommandAI GetBattleAI()
         {
@@ -236,17 +268,41 @@ namespace DragonEngineLibrary
             if (matrixPtr != IntPtr.Zero)
             {
                 Matrix4x4 matrixObj = Marshal.PtrToStructure<Matrix4x4>(matrixPtr);
-                DragonEngine.FreeUnmanagedMemory(matrixPtr);
+                Unsafe.CPP.FreeUnmanagedMemory(matrixPtr);
 
                 return matrixObj;
             }
             else
                 return new Matrix4x4();
         }
+
+
+        public static bool operator ==(Fighter v1, Fighter v2)
+        {
+            if (ReferenceEquals(v1, null) && ReferenceEquals(v2, null))
+                return true;
+
+            if (ReferenceEquals(v1, null) || ReferenceEquals(v2, null))
+                return false;
+
+            return v1.Character.UID == v2.Character.UID;
+        }
+
+        public static bool operator !=(Fighter v1, Fighter v2)
+        {
+            if (ReferenceEquals(v1, null) && ReferenceEquals(v2, null))
+                return false;
+
+            if (ReferenceEquals(v1, null) || ReferenceEquals(v2, null))
+                return true;
+
+            return v1.Character.UID != v2.Character.UID;
+        }
+
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 0x4)]
-    public struct FighterID
+    public unsafe struct FighterID
     {
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTERID_GETTER_HANDLE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_FighterID_Getter_Handle(IntPtr fighterID);

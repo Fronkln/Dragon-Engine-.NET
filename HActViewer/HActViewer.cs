@@ -69,26 +69,20 @@ namespace HActViewer
 
             if (open && currentHAct.IsValid())
             {
-                if(m_advanced)
-                {
-                    if (ImGui.Begin("Advanced", ref open, ImGuiWindowFlags.MenuBar))
-                    {
-                        ImGui.Text("Current Page ID: " + currentHAct.GetCurrentPageIndex());
-                    }
-                }
-
                 if (ImGui.Begin("HAct Timeline", ref open, ImGuiWindowFlags.MenuBar))
                 {
-                    ImGui.Checkbox("Advanced", ref m_advanced);
+                    if (ImGui.Button("Stop"))
+                        HActManager.Skip();
 
                     float test = currentHAct.GetGameFrame();
 
                     ImGui.Text("HAct: " + currentHAct.TalkParamID);
+                    ImGui.Text("Current Page ID: " + currentHAct.GetCurrentPageIndex());
 
                     if (ImGui.SliderFloat("Frame", ref test, 0, currentHAct.GetEndFrame()))
                         currentHAct.SetGameFrame(test);
 
-                    if (ImGui.Button("Stop"))
+                    if (ImGui.Button("Pause"))
                         currentHAct.SetSpeed(0);
 
                     ImGui.SameLine(0, 30);

@@ -5,6 +5,10 @@ namespace DragonEngineLibrary
 {
     public class HumanModeManager
     {
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_HUMAN", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_HumanModeManager_Getter_Human(IntPtr manager);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOREADY", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HumanModeManager_ToReady(IntPtr manager, bool no_blend);
@@ -43,6 +47,11 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HumanModeManager_IsDown(IntPtr manager);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISSTANDUP", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsStandup(IntPtr manager);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_COMMANDSETMODEL", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_HumanModeManager_Getter_CommandsetModel(IntPtr manager);
 
@@ -50,11 +59,18 @@ namespace DragonEngineLibrary
         {
             Normal = 0x0,
             Immediate = 0x1,
-            NoBlend = 0x2,
-            Count = 0x3,
+            Blend = 0x2,
         };
 
         public IntPtr Pointer;
+
+        public Character Human
+        {
+            get
+            {
+                return new Character() { Pointer = DELib_HumanModeManager_Getter_Human(Pointer) };
+            }
+        }
 
         ///<summary>Commandset model responsible for fighter command related operations.</summary>
         public CommandSetModel CommandsetModel
@@ -102,11 +118,13 @@ namespace DragonEngineLibrary
         ///<summary>Don't know what this does.</summary>
         public void ToMove(bool no_blend) => DELib_HumanModeManager_ToMove(Pointer, no_blend);
         ///<summary>Makes the character sidestep.</summary>
-        public void ToSway() => DELib_HumanModeManager_ToSway(Pointer);
+        public void ToSway() =>  DELib_HumanModeManager_ToSway(Pointer);
         ///<summary>Equip a weapon.</summary>
         public void ToBattou(AssetID asset) => DELib_HumanModeManager_ToBattou(Pointer, asset);
 
         ///<summary>Are we knocked down?</summary>
         public bool IsDown() { return DELib_HumanModeManager_IsDown(Pointer); }
+        ///<summary>Are we getting up?</summary>
+        public bool IsStandup() { return DELib_HumanModeManager_IsStandup(Pointer); }
     }
 }
