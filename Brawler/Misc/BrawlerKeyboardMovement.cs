@@ -1,5 +1,6 @@
 ﻿#define USE_DS4
 
+using System;
 using System.Threading;
 using Nefarius.ViGEm.Client;
 using Nefarius.ViGEm.Client.Targets;
@@ -16,12 +17,23 @@ namespace Brawler
     //Y:LAD took "REAL YAKUZA USE A GAMEPAD" too far
     internal static class BrawlerKeyboardMovement
     {
+        public static bool IsKeyboard = false;
+
         private static ViGEmClient VigCli = new ViGEmClient();
 #if USE_XBOX
         internal static IXbox360Controller ControllerSim;
 #else
         internal static IDualShock4Controller ControllerSim;
 #endif
+
+        private static byte m_LX;
+        private static byte m_LY;
+
+        private static byte m_RX;
+        private static byte m_RY;
+
+
+        private static DateTime m_noTimeSinceEmulation;
 
         static BrawlerKeyboardMovement()
         {
@@ -54,8 +66,14 @@ namespace Brawler
                     ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 128);
                     ControllerSim.SetAxisValue(DualShock4Axis.RightThumbX, 128);
 
+                    m_LX = 128;
+                    m_RX = 128;
+
                     ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 128);
                     ControllerSim.SetAxisValue(DualShock4Axis.RightThumbY, 128);
+
+                    m_LY = 128;
+                    m_RY = 128;
 #endif
                     continue;
                 }
@@ -76,16 +94,26 @@ namespace Brawler
                     ControllerSim.SetAxisValue(Xbox360Axis.LeftThumbX, 0);
 #else
 
+                bool set = false;
+
                 if (DragonEngine.IsKeyHeld(VirtualKey.W))
                 {
                     ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 0);
+                    m_LY = 0;
+
+                    set = true;
                 }
                 else if (DragonEngine.IsKeyHeld(VirtualKey.S))
                 {
                     ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 255);
+                    m_LY = 255;
+                    set = true;
                 }
                 else
                 {
+                    m_LY = 128;
+                    m_RY = 128;
+
                     ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 128);
                     ControllerSim.SetAxisValue(DualShock4Axis.RightThumbY, 128);
                 }
@@ -93,15 +121,38 @@ namespace Brawler
                 if (DragonEngine.IsKeyHeld(VirtualKey.A))
                 {
                     ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 0);
+                    m_LY = 0;
+                    set = true;
                 }
                 else if (DragonEngine.IsKeyHeld(VirtualKey.D))
                 {
                     ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 255);
+                    m_LX = 255;
+                    set = true;
                 }
                 else
                 {
+                    m_LX = 128;
+                    m_RX = 128;
+
                     ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 128);
                     ControllerSim.SetAxisValue(DualShock4Axis.RightThumbX, 128);
+                }
+
+                if (set)
+                {
+                    IsKeyboard = true;
+                    m_noTimeSinceEmulation = DateTime.Now;
+                }
+                else
+                {
+
+
+                    if (m_LX == 128 && m_LY == 128 && m_RX == 128 && m_RY == 128)
+                        if ((DateTime.Now - m_noTimeSinceEmulation).Seconds >= 2)
+                            if (BrawlerBattleManager.Kasuga.IsValid())
+                                if (BrawlerBattleManager.KasugaChara.HumanModeManager.IsMove())
+                                    IsKeyboard = false;
                 }
 #endif
             }

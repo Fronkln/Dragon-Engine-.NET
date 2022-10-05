@@ -15,56 +15,72 @@ namespace Brawler
         /// </summary>
         protected HashSet<TalkParamID> m_damagedHacts = new HashSet<TalkParamID>();
 
-        /// <summary>
-        /// List of heat actions we have done.
-        /// </summary>
-        protected HashSet<TalkParamID> m_performedHacts = new HashSet<TalkParamID>();
-
         //Last hact we took damage from.
         private TalkParamID m_lastDamagedHact = TalkParamID.invalid;
-
-        //public virtual MotionID TauntMotion => MotionID.invalid;
-
-        public virtual MotionID TauntMotion => MotionID.test_dance;
-        private const float Y7B_BOSS_TAUNT_COOLDOWN = 7.5f;
+        public virtual MotionID TauntMotion => MotionID.invalid;
+        protected virtual float BOSS_TAUNT_COOLDOWN => 7.5f;
         private float m_tauntCD;
 
-        //Amount of attacks to sidestep until we go back to blocking
-        //Can be overrided for people like Majima who will never stop
-        public virtual int EvadeAmount => 6;
-        private int m_evadedHits = 0;
+        public override void Start()
+        {
+            base.Start();
 
-        protected List<RPGSkillID> m_counterAttacks = new List<RPGSkillID>();
-        protected virtual float m_counterAttackCooldown => 4.5f;
-        private float m_counterAttackCD;
+            BlockModule.BlockChance = 20;
+        }
 
         public override bool IsBoss()
         {
             return true;
         }
 
+        public override bool ShouldBlockAttack(BattleDamageInfo dmgInf)
+        {
+            //Wow! We really took a lot of hits and the RNG hasnt gotten our back!
+            if(RecentHitsWithoutDefensiveMove >= 6)
+            {
+                Console.WriteLine("Ate 6 whole hits without defensive move recently. Auto blocking");
+                RecentHitsWithoutDefensiveMove = 0;
+                return true;
+            }
+
+            if (BlockModule.ShouldBlockAttack(dmgInf))
+                return true;
+            else
+                return base.ShouldBlockAttack(dmgInf);
+        }
+
         public override void CombatUpdate()
         {
             base.CombatUpdate();
 
-            if (!IsBeingSpammed())
-                m_evadedHits = 0;
-
             if (m_tauntCD > 0)
                 m_tauntCD -= DragonEngine.deltaTime;
 
-            if (m_counterAttackCD > 0)
-                m_counterAttackCD -= DragonEngine.deltaTime;
-
-            if (m_tauntCD <= 0 && BrawlerPlayer.Info.IsGettingUp || BrawlerPlayer.Info.IsDown)
-                TauntProcedure();
+            if(!IsAttacking()) 
+            {
+                if (BattleTurnManager.CurrentActionStep == BattleTurnManager.ActionStep.Ready)
+                    if (m_tauntCD <= 0 && TauntMotion != MotionID.invalid)
+                    if (ShouldTaunt())
+                        TauntProcedure();
+            }
         }
 
         public void TauntProcedure()
         {
             if (!Chara.Get().GetMotion().RequestedAnimPlaying())
-                if (TauntMotion != MotionID.invalid)
-                    Chara.Get().GetMotion().RequestGMT(TauntMotion);
+            {
+                m_tauntCD = BOSS_TAUNT_COOLDOWN;
+
+                DETaskList list = new DETaskList(new DETask[]
+                {
+                    new DETaskNextFrame(),
+                    new DETaskNextFrame(delegate
+                    {
+                        Chara.Get().GetMotion().RequestGMT(TauntMotion);
+                        m_tauntCD =  BOSS_TAUNT_COOLDOWN;
+                    }),
+                });
+            }
         }
 
         public override void HActProcedure()
@@ -94,57 +110,16 @@ namespace Brawler
             return dmg;
         }
 
-        public override bool ShouldDoBlockCounter()
+        public virtual bool ShouldTaunt()
         {
-            return false;
+            return BrawlerPlayer.Info.IsGettingUp || BrawlerPlayer.Info.IsDown;
         }
 
         //Evade attack + strike back
         //Executed right before we go back to blocking in 90% of bosses.
-        public virtual bool ShouldDoCounterAttack()
-        {   
-            return m_counterAttackCD <= 0 && m_counterAttacks.Count > 0 && m_evadedHits >= 6;
-        }
-
-        public virtual void DoCounterAttack()
+        public override bool ShouldDoCounterAttack()
         {
-            m_counterAttackCD = m_counterAttackCooldown;
-
-            Console.WriteLine("pre!");
-
-            DETaskList list = new DETaskList(new DETask[]
-            {
-               new DETaskTime(0.45f, delegate
-               {
-                   Console.WriteLine("Time for a devastating counter attack!");
-
-                   BattleTurnManager.ForceCounterCommand(Character, BrawlerBattleManager.Kasuga, m_counterAttacks[ new Random().Next(0, m_counterAttacks.Count)]);
-                 
-                   Chara.Get().Components.EffectEvent.Get().PlayEvent((EffectEventCharaID)206);
-                   SoundManager.PlayCue(SoundCuesheetID.battle_common, 5, 0);
-
-                   //Grant superarmor while countering.
-                   if(!Character.GetStatus().IsSuperArmor())
-                   {
-                       Character.GetStatus().SetSuperArmor(true);
-
-                       DETaskList armorProcedure = new DETaskList(new DETask[]
-                       {
-                           new DETaskNextFrame(),
-                           new DETaskNextFrame(),
-                           new DETask(
-                               delegate
-                               { 
-                                   return Chara.Get().GetMotion().GmtID == 0; 
-                               }, 
-                               delegate
-                               {
-                                   Character.GetStatus().SetSuperArmor(false);
-                               }, false)
-                       });
-                   }
-               }, false),
-            });
+            return EvasionModule.ShouldDoCounterAttack();
         }
 
         public override bool DoSpecial(BattleDamageInfo inf)
@@ -154,15 +129,17 @@ namespace Brawler
             if (Character.GetStatus().IsSuperArmor())
                 return false;
 
-            if (IsBeingSpammed() && LastGuardTime > 1.3f)
+            //Respect the boundaries of guaranteed blocks and dont ignore it
+            if (BlockModule.ShouldBlockAttack(inf))
+                return false;
+
+            bool shouldEvade = EvasionModule.ShouldEvade(inf);       
+
+            if(shouldEvade)
             {
-                //TODO: probably make this a overridable function.
-                Character.Character.HumanModeManager.ToSway();
-                m_evadedHits++;
+                EvasionModule.DoEvasion();
 
-                if (ShouldDoCounterAttack())
-                    DoCounterAttack();
-
+                /*
                 if (m_evadedHits >= EvadeAmount)
                 {
                     //Start blocking instead we dodged enough
@@ -170,30 +147,12 @@ namespace Brawler
                     LastGuardTime = 0;
                     m_forceGuard = true;
                 }
+                */
 
                 return true;
             }
 
             return false;
-        }
-
-        public void DoHAct(TalkParamID hact)
-        {
-            HActRequestOptions opts = new HActRequestOptions();
-            opts.base_mtx.matrix = Chara.Get().GetPosture().GetRootMatrix();
-            opts.id = hact;
-            opts.is_force_play = true;
-
-            opts.Register(HActReplaceID.hu_enemy_00, Chara.UID);
-            opts.Register(HActReplaceID.hu_player, BrawlerBattleManager.KasugaChara.UID);
-
-            opts.RegisterWeapon(AuthAssetReplaceID.we_enemy_00_r, Character.GetWeapon(AttachmentCombinationID.right_weapon));
-            opts.RegisterWeapon(AuthAssetReplaceID.we_enemy_00_l, Character.GetWeapon(AttachmentCombinationID.left_weapon));
-            opts.RegisterWeapon(AuthAssetReplaceID.we_player_r, BrawlerBattleManager.Kasuga.GetWeapon(AttachmentCombinationID.right_weapon));
-            opts.RegisterWeapon(AuthAssetReplaceID.we_player_l, BrawlerBattleManager.Kasuga.GetWeapon(AttachmentCombinationID.left_weapon));
-
-            m_performedHacts.Add(hact);
-            BattleTurnManager.RequestHActEvent(opts);
         }
     }
 }

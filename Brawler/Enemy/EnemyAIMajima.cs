@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Brawler
 {
+    //Recent AI changes broke majimas shitton of sidestepping code
+    //Reimplement!
     internal class EnemyAIMajima : EnemyAIBoss
     {
         public override MotionID TauntMotion => (MotionID)17084;
-        public override int EvadeAmount => 99999;
 
         public override void InitResources()
         {

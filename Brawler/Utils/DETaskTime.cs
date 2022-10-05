@@ -9,18 +9,18 @@ namespace Brawler
 {
     internal class DETaskTime : DETask
     {
-        private float m_time = 0;
+        public float Time = 0;
         private float m_targetTime = 0;
 
         public DETaskTime(float time, Action onFinish, bool autoStart = true) : base(null, onFinish, autoStart)
         {
             m_targetTime = time;
-            m_Func = delegate { return m_time >= m_targetTime; };
+            m_Func = delegate { return Time >= m_targetTime; };
         }
 
         public override void Run()
         {
-            m_time += DragonEngine.deltaTime;
+           Time += DragonEngine.deltaTime;
 
             base.Run();
         }

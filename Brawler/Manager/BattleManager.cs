@@ -59,7 +59,9 @@ namespace Brawler
         public static Fighter[] Enemies;
 
         //Needs to be checked properly to ensure they are actually alive and kicking
-        public static Fighter CurrentAttacker;
+        public static Fighter CurrentAttacker = new Fighter((IntPtr)0);
+
+        private static bool m_ResourcesLoaded = false;
 
 
         static BrawlerBattleManager()
@@ -104,8 +106,8 @@ namespace Brawler
             else
                 return true;
 
-           // if (HActManager.IsPlaying())
-              //  return false;
+            // if (HActManager.IsPlaying())
+            //  return false;
 
             if (!Kasuga.IsValid() || !BattleStartDoOnce)
                 return false;
@@ -197,7 +199,7 @@ namespace Brawler
         {
             //Dont change to BattleManager.Enemies
             IEnumerable<Fighter> machinery = FighterManager.GetAllEnemies().Where(
-                x => x.Character.Attributes.ctrl_type == BattleControlType.boss_power_shovel || 
+                x => x.Character.Attributes.ctrl_type == BattleControlType.boss_power_shovel ||
                 x.Character.Attributes.ctrl_type == BattleControlType.boss_crane_truck);
 
             //Special fight against machinery. Disable locking on
@@ -209,6 +211,8 @@ namespace Brawler
         {
             SoundManager.LoadCuesheet((SoundCuesheetID)5568); //bbg_brawler
             SoundManager.LoadCuesheet((SoundCuesheetID)2546); //act_player
+
+            m_ResourcesLoaded = false;
         }
         public static void Update()
         {
@@ -229,6 +233,7 @@ namespace Brawler
 
             //Core updates outside of combat
             BrawlerGaugeRestore.Update();
+            TutorialManager.Update();
 
             if (!ShouldShowHeatAura())
                 StopAura();
@@ -245,8 +250,9 @@ namespace Brawler
 
                     KasugaChara.SetCommandSet(BattleCommandSetID.p_kasuga_job_01);
                     AllowPlayerTransformationDoOnce = false;
-                   
+
                     DisableTargetingOnce = false;
+                    m_ResourcesLoaded = false;
                 }
 
                 BattleStartDoOnce = false;
@@ -277,25 +283,58 @@ namespace Brawler
 
                 LastAura = aura;
 
-                if (!BattleStartDoOnce)
-                {
-                    if (BattleTime == 0)
+                if (!m_ResourcesLoaded)
+                    if (BattleTurnManager.CurrentPhase == BattleTurnManager.TurnPhase.Action && BattleTurnManager.CurrentActionStep != BattleTurnManager.ActionStep.Init)
                     {
                         LoadBattleResources();
-                        Kasuga.Character.SetCommandSet(RPG.GetJobCommandSetID(Player.ID.kasuga, RPGJobID.kasuga_freeter));
+                        m_ResourcesLoaded = true;
+                        //Testing
+                        TutorialManager.Initialize(
+                            new TutorialSegment[]
+                            {
+                                new TutorialSegment()
+                                {
+                                    Instructions = "Test!",
+                                    TimeToComplete = 0.25f,
+                                    OnStart = delegate{BattleTurnManager.RequestHActEvent(new HActRequestOptions(){id = (TalkParamID)12902, is_force_play = true}); },
+                                    Silent = true
+                                },
+                                new TutorialSegment()
+                                {
+                                    Instructions = "",
+                                    TimeToComplete = 0.5f,
+                                    OnStart = delegate{BattleTurnManager.RequestHActEvent(new HActRequestOptions(){id = (TalkParamID)12903, is_force_play = true}); },
+                                    Silent = true
+                                },
+                                new TutorialSegment()
+                                {
+                                    Instructions = "",
+                                    Modifiers = TutorialModifier.PlayerDontTakeDamage,
+                                    TimeoutIsSuccess = true,
+                                    IsCompleteDelegate = delegate{return false; },
+                                    TimeToComplete = 25,
+                                    UpdateDelegate =
+                                    delegate
+                                    {
+                                        string lightFmt = TutorialManager.GetFormattedButtonStr(TutorialButton.LightAttack);
+                                        TutorialManager.SetText($"{lightFmt}{lightFmt}{lightFmt}{lightFmt}\nRush Combo");
+                                    }
+                                }
+                            });
                     }
+
+                if (!BattleStartDoOnce)
+                {
+                    Kasuga.Character.SetCommandSet(RPG.GetJobCommandSetID(Player.ID.kasuga, RPGJobID.kasuga_freeter));
 
                     if (BattleTime > BattleStartTime)
                     {
-#if DEBUG
-                        foreach (Fighter fighter in Enemies)
-                            Console.WriteLine(fighter.Character.Attributes.soldier_data_id + " " + fighter.Character.Attributes.enemy_id + " " + fighter.Character.Attributes.ctrl_type);
-#endif
-
                         CheckSpecialBattle();
 
                         BrawlerPlayer.ChangeStyle(null, true);
                         BattleStartDoOnce = true;
+
+   
                     }
                 }
 

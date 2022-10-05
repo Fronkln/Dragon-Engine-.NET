@@ -122,7 +122,10 @@ namespace Brawler
             targetDecide.SetTarget(GetLockOnTarget(kasugaFighter, allEnemies).GetID());
         }
 
-
+        public static bool AllowDamage(BattleDamageInfo inf)
+        {
+            return TutorialManager.AllowPlayerDamage();
+        }
 
         public static void InputUpdate()
         {

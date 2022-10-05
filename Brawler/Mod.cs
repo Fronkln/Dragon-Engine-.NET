@@ -270,6 +270,9 @@ namespace Brawler
             if (!kasugaFighter.IsValid() ||  BrawlerPlayer.Info.IsDead)
                 return false;
 
+            if (TutorialManager.IsTutorialPromptVisible())
+                return false;
+
             if (kasugaFighter.Character.IsAnimDamage())
                 return false;
 

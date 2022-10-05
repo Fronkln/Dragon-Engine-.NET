@@ -45,17 +45,22 @@ namespace Y7DebugTools
 
                 if (ImGui.Button("Execute") || DragonEngine.IsKeyDown(VirtualKey.J))
                 {
-                    if (m_incremental)
+                    if (m_chosenRPGSkillID != 0)
+                        BattleTurnManager.ForceCounterCommand(FighterManager.GetFighter(0), FighterManager.GetAllEnemies()[0], (RPGSkillID)m_chosenRPGSkillID);
+                    else
                     {
-                        if (m_min > -1 && m_chosenCmdID < m_min)
-                            m_chosenCmdID = m_min;
+                        if (m_incremental)
+                        {
+                            if (m_min > -1 && m_chosenCmdID < m_min)
+                                m_chosenCmdID = m_min;
 
-                        if (m_max > -1 && m_chosenCmdID > m_max)
-                            m_chosenCmdID = m_min;
+                            if (m_max > -1 && m_chosenCmdID > m_max)
+                                m_chosenCmdID = m_min;
+                        }
+
+                        BattleCommandSetID id = (BattleCommandSetID)(m_chosenSetID);
+                        DragonEngine.GetHumanPlayer().HumanModeManager.ToAttackMode(new FighterCommandID() { set_ = (ushort)m_chosenSetID, cmd = (ushort)m_chosenCmdID });
                     }
-
-                    BattleCommandSetID id = (BattleCommandSetID)(m_chosenSetID);
-                    DragonEngine.GetHumanPlayer().HumanModeManager.ToAttackMode(new FighterCommandID() { set_ = (ushort)m_chosenSetID, cmd = (ushort)m_chosenCmdID });
 
                     if (m_incremental)
                         m_chosenCmdID++;

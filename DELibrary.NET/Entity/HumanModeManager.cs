@@ -47,6 +47,10 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HumanModeManager_IsDown(IntPtr manager);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISMOVE", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsMove(IntPtr manager);
+
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISSTANDUP", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
@@ -126,5 +130,7 @@ namespace DragonEngineLibrary
         public bool IsDown() { return DELib_HumanModeManager_IsDown(Pointer); }
         ///<summary>Are we getting up?</summary>
         public bool IsStandup() { return DELib_HumanModeManager_IsStandup(Pointer); }
+
+        public bool IsMove() { return DELib_HumanModeManager_IsMove(Pointer); }
     }
 }

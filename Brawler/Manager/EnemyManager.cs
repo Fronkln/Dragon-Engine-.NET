@@ -155,13 +155,20 @@ namespace Brawler
 
             switch(enemy.Character.Attributes.enemy_id)
             {
-                default:
-                   ai = new EnemyAI();
-                    break;
                 case BattleRPGEnemyID.yazawa_boss_ushio_c01:
                     ai = new EnemyAIUshio();
                     break;
             }
+
+            switch(enemy.Character.Attributes.soldier_data_id)
+            {
+                case CharacterNPCSoldierPersonalDataID.yazawa_btl03_0010_000_2:
+                    ai = new EnemyAIHu();
+                    break;
+            }
+
+            if (ai == null)
+                ai = new EnemyAI();
 
             ai.Character = enemy;
             ai.Chara = enemy.Character;
@@ -180,6 +187,12 @@ namespace Brawler
                     break;
                 case BattleControlType.boss_majima_b:
                     ai = new EnemyAIMajima();
+                    break;
+                case BattleControlType.boss_saejima:
+                    ai = new EnemyAISaejima();
+                    break;
+                case BattleControlType.boss_sawashiro_e:
+                    ai = new EnemyAISawashiro2();
                     break;
             }
 

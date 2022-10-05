@@ -27,21 +27,38 @@ namespace Brawler
         private bool m_gettingUp = false;
         private bool m_getupHyperArmorDoOnce = false;
 
-        //Use cautiously
-        protected bool m_forceGuard = false;
-        private int m_numGuardedHits = 0;
+        public int RecentDefensiveAttacks = 0;
+        //We can determine if RNG has failed us and force things as needed
+        //Primarily meant for bosses
+        public int RecentHitsWithoutDefensiveMove = 0; 
 
         //Player is spamming same attacks 0 iq
-        private int m_spammedHits = 0;
+        private int RecentHits = 0;
 
         private const float Y7B_BTL_AI_SPM_TIME = 1.8f;
 
         //Amount of spam hits that makes the AI realize its being spam attacked
         private const int Y7B_BTL_AI_SPM_COUNT = 5;
 
+        public List<RPGSkillID> CounterAttacks = new List<RPGSkillID>();
+
+        public EnemyEvasionModule EvasionModule = null;
+        public EnemyBlockModule BlockModule = null;
+        public EnemySyncHActModule SyncHActModule = null;
+
+        /// <summary>
+        /// List of heat actions we have done.
+        /// </summary>
+        protected HashSet<TalkParamID> m_performedHacts = new HashSet<TalkParamID>();
+
         public virtual void Start()
         {
-
+            BlockModule = new EnemyBlockModule() { AI = this };
+            EvasionModule = new EnemyEvasionModule() { AI = this };
+            SyncHActModule = new EnemySyncHActModule() { AI = this };
+#if DEBUG
+            Console.WriteLine(Chara.Get().Attributes.soldier_data_id + " " + Chara.Get().Attributes.enemy_id + " " + Chara.Get().Attributes.ctrl_type);
+#endif
         }
 
         public virtual void InitResources()
@@ -57,13 +74,13 @@ namespace Brawler
 
             if (BrawlerPlayer.m_lastMove == null)
             {
-                m_forceGuard = false;
-                m_numGuardedHits = 0;
+                BlockModule.RecentlyBlockedHits = 0;
                 return;
             }
 
             MoveBase playerMove = BrawlerPlayer.m_lastMove;
 
+            /*
             if(playerMove.MoveType == MoveType.MoveComboString)
             {
                 //We are being combod
@@ -72,6 +89,7 @@ namespace Brawler
                 if (LastHitTime < Y7B_BTL_AI_SPM_TIME && LastGuardTime < Y7B_BTL_AI_SPM_TIME)
                     m_forceGuard = true;
             }
+            */
 
         }
 
@@ -94,11 +112,19 @@ namespace Brawler
                 LastHitTime += delta;
 
             if (LastHitTime > Y7B_BTL_AI_SPM_TIME)
-                m_spammedHits = 0;
+            {
+                RecentHits = 0;
+                RecentHitsWithoutDefensiveMove = 0;
+                RecentDefensiveAttacks = 0;
+            }
         }
 
         public virtual void CombatUpdate()
         {
+            BlockModule.Update();
+            EvasionModule.Update();
+            SyncHActModule.Update();
+
             if (m_getupHyperArmorDoOnce && !m_gettingUp)
             {
                 m_getupHyperArmorDoOnce = false;
@@ -123,9 +149,17 @@ namespace Brawler
         }
 
 
-        public virtual bool ShouldDoBlockCounter()
+         //Not applicable to generic enemy
+        public virtual bool ShouldDoCounterAttack()
         {
             return false;
+        }
+
+        public virtual bool IsAttacking()
+        {
+            return BrawlerBattleManager.CurrentAttacker.Character.UID == Chara.UID &&
+                BattleTurnManager.CurrentPhase == BattleTurnManager.TurnPhase.Action &&
+                BattleTurnManager.CurrentActionStep == BattleTurnManager.ActionStep.Action;
         }
 
         //Check if we are too far. If we are, give turn to nearest enemy instead.
@@ -151,20 +185,12 @@ namespace Brawler
         }
 
 
-        public void OnBlocked()
+        public virtual void OnBlocked()
         {
-            LastGuardTime = 0;
-            m_numGuardedHits++;
-
-            if (m_numGuardedHits >= 5)
-            {
-                LastGuardTime = 999;
-                m_forceGuard = false;
-                m_spammedHits = 0;
-            }
+            BlockModule.OnBlocked();
         }
 
-        public void OnGuardBroke()
+        public virtual void OnGuardBroke()
         {
            // Chara.Get().GetMotion().RequestGMT((MotionID)5542);
             SoundManager.PlayCue(SoundCuesheetID.battle_common, 12, 0);
@@ -179,6 +205,11 @@ namespace Brawler
             Chara.Get().HumanModeManager.ToSway();
         }
 
+        public void DoGrabHActSync(EnemyMoveSync sync)
+        {
+
+        }
+
         public virtual bool DoSpecial(BattleDamageInfo inf)
         {
             return false;
@@ -189,9 +220,6 @@ namespace Brawler
             if (Character.GetStatus().IsSuperArmor())
                 return false;
 
-            if (m_forceGuard)
-                return true;
-
             if (m_gettingUp)
                 return false;
 
@@ -199,7 +227,7 @@ namespace Brawler
                 return false;
 
             Random rnd = new Random();
-            return rnd.Next(0, 101) <= 10;
+            return rnd.Next(0, 101) <= BlockModule.BlockChance;
         }
 
         public virtual bool IsBoss()
@@ -214,10 +242,12 @@ namespace Brawler
             return dmg;
         }
 
-        public void OnAttacked()
+        //Counts for dodges and counter attacks too
+        //Maybe dont?
+        public virtual void OnHit()
         {
             LastHitTime = 0;
-            m_spammedHits++;
+            RecentHits++;
         }
 
         /// <summary>
@@ -225,7 +255,7 @@ namespace Brawler
         /// </summary>
         public bool IsBeingSpammed()
         {
-            return m_spammedHits >= Y7B_BTL_AI_SPM_COUNT && LastHitTime <= Y7B_BTL_AI_SPM_TIME;
+            return RecentHits >= Y7B_BTL_AI_SPM_COUNT && LastHitTime <= Y7B_BTL_AI_SPM_TIME;
         }
 
         //Action, Action
@@ -244,5 +274,33 @@ namespace Brawler
 
         }
 
+        public void DoHAct(TalkParamID hact, params Fighter[] allies)
+        {
+            HActRequestOptions opts = new HActRequestOptions();
+            opts.base_mtx.matrix = Chara.Get().GetPosture().GetRootMatrix();
+            opts.id = hact;
+            opts.is_force_play = true;
+
+            opts.Register(HActReplaceID.hu_enemy_00, Chara.UID);
+            opts.Register(HActReplaceID.hu_player, BrawlerBattleManager.KasugaChara.UID);
+
+            opts.RegisterWeapon(AuthAssetReplaceID.we_enemy_00_r, Character.GetWeapon(AttachmentCombinationID.right_weapon));
+            opts.RegisterWeapon(AuthAssetReplaceID.we_enemy_00_l, Character.GetWeapon(AttachmentCombinationID.left_weapon));
+            opts.RegisterWeapon(AuthAssetReplaceID.we_player_r, BrawlerBattleManager.Kasuga.GetWeapon(AttachmentCombinationID.right_weapon));
+            opts.RegisterWeapon(AuthAssetReplaceID.we_player_l, BrawlerBattleManager.Kasuga.GetWeapon(AttachmentCombinationID.left_weapon));
+
+            int curReplace = (int)HActReplaceID.hu_enemy_01;
+
+            foreach (Fighter fighter in allies)
+            {
+                if (fighter.IsValid())
+                    opts.Register((HActReplaceID)curReplace, fighter.Character.UID);
+
+                curReplace++;
+            }
+
+            m_performedHacts.Add(hact);
+            BattleTurnManager.RequestHActEvent(opts);
+        }
     }
 }

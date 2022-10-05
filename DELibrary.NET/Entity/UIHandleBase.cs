@@ -11,6 +11,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_SET_WIDTH", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_UIHandleBase_SetWidth(ulong handle, float width);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_SET_TEXT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_UIHandleBase_SetText(ulong handle, string txt);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_PLAY_ANIMATION_SET", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_UIHandleBase_PlayAnimationSet(ulong handle, uint id);
 
@@ -39,6 +42,11 @@ namespace DragonEngineLibrary
         public void SetWidth(float width)
         {
             DELib_UIHandleBase_SetWidth(Handle, width);
+        }
+
+        public void SetText(string text)
+        {
+            DELib_UIHandleBase_SetText(Handle,text);
         }
 
         public void SetVisible(bool visible)

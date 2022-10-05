@@ -142,15 +142,24 @@ namespace Brawler
             }
 
             EnemyAI ai = EnemyManager.EnemyAIs[fighter.Character.UID];
-           
-            if(ai.Flags.ShouldGuardBreakFlag)
+
+            if (ai.Flags.ShouldGuardBreakFlag)
             {
                 Console.WriteLine("GUARD BREAK!");
                 *motionID = 5542;
                 ai.Flags.ShouldGuardBreakFlag = false;
             }
             else
+            {
+                //TODO: Fix AI code. Add boss traits to goons but never activate them
+                if(ai.IsBoss())
+                {
+                    if ((ai as EnemyAIBoss).BlockModule.OnBlockedAnimEvent())
+                        return;
+                }
+
                 _guardReactionIDTrampoline(guardReactionObj);
+            }
         }
 
         private static HijackedGuardFunc _npcGuardDeleg;
@@ -375,12 +384,15 @@ namespace Brawler
                 bool special = ai.DoSpecial(*argsPtr->info);
                 bool blocked = (special ? false : ai.ShouldBlockAttack(*argsPtr->info));
 
+                //BUG: guard break interrupts counter attack
                 if (blocked)
                 {
                     uint brawlerSpecialProperty = *((uint*)((uint)damageInf + 0xE8));
 
+                    bool wouldHaveCounterAttacked = ai.EvasionModule.ShouldDoCounterAttack();
+
                     //YLAD Brawler: Guard Break
-                    if (brawlerSpecialProperty == 99999)
+                    if (!wouldHaveCounterAttacked && brawlerSpecialProperty == 99999)
                         ai.OnGuardBroke();
                     else
                         ai.OnBlocked();
@@ -395,9 +407,19 @@ namespace Brawler
                     *miss = true;
                 }
 
-                ai.OnAttacked();
+                ai.OnHit();
 
                 return blocked;
+            }
+            else
+            {
+                if (!BrawlerPlayer.AllowDamage(*damageInf))
+                {
+                    uint* dmg = (uint*)((long)argsPtr->info + 0x64);
+                    bool* miss = (bool*)((long)argsPtr->info + 0xA9);
+
+                    *dmg = 0;
+                }
             }
 
             if (BrawlerPlayer.CurrentMoveset.RepelCounter == RPGSkillID.invalid)

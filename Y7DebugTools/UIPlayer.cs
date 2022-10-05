@@ -18,6 +18,8 @@ namespace Y7DebugTools
 
         private static byte[] handleBuf = new byte[24];
 
+        private static byte[] txtBuf = new byte[256];
+
         public static void Draw()
         {
             if (ImGui.Begin("UI Player"))
@@ -61,6 +63,9 @@ namespace Y7DebugTools
 
                 if (ImGui.InputFloat("Value", ref m_setValue))
                     ui.SetValue(m_setValue);
+                
+                if(ImGui.InputText("Text", txtBuf, (uint)txtBuf.Length))
+                    ui.SetText(System.Text.Encoding.UTF8.GetString(txtBuf));
 
                 ImGui.InputInt("Animation Set", ref m_animation_set);
 
