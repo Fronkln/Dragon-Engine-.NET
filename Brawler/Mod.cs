@@ -33,6 +33,8 @@ namespace Brawler
 
         public static bool IsGameFocused;
 
+        public static string ModPath;
+
         internal class KeyInfo
         {
             public VirtualKey Key;
@@ -168,8 +170,6 @@ namespace Brawler
 
                     if (DragonEngine.IsKeyDown(VirtualKey.Z))
                     {
-
-
                         Assembly assmb = Assembly.GetExecutingAssembly();
                         string path = Path.GetDirectoryName(assmb.Location);
 
@@ -254,7 +254,10 @@ namespace Brawler
                 {
                     if(execBrawlerInput)
                         BrawlerPlayer.InputUpdate();
-                    else //28.09.2022: testing out if interruptions break anything
+                    else 
+                    //28.09.2022: testing out if interruptions break anything
+                    //10.10.2022: it broke newly added MoveGrab because ShouldExecBarwlerInput automatically returned false on being sync
+                    //            i fixed it for now but it could freak out on edge cases maybe?
                     {
                         BrawlerPlayer.m_lastMove?.OnMoveEnd();
                         BrawlerPlayer.m_lastMove = null;
@@ -280,7 +283,7 @@ namespace Brawler
                 return false;
 
             //dont exec when synced
-            if (BrawlerPlayer.Info.IsSync)
+            if (BrawlerPlayer.Info.IsSync && !(BrawlerPlayer.m_lastMove != null && BrawlerPlayer.m_lastMove.IsSyncMove()))
                 return false;
 
             if (BattleTurnManager.CurrentPhase != BattleTurnManager.TurnPhase.Action)
@@ -306,6 +309,9 @@ namespace Brawler
         {
             DragonEngine.Initialize();
 
+            Assembly assmb = Assembly.GetExecutingAssembly();
+            ModPath = Path.GetDirectoryName(assmb.Location);
+
             BrawlerPlayer.Init();
             HeatActionManager.Init();
             WeaponManager.InitWeaponMovesets();
@@ -318,6 +324,11 @@ namespace Brawler
             FighterManager.ForceBrawlerMode(true);
 
             BrawlerHooks.Init();
+
+            if (!File.Exists(Path.Combine(ModPath,"likeabrawler.ini")))
+                IniSettings.WriteDefault();
+
+            IniSettings.Read();
 
 #if DEBUG
             DragonEngineLibrary.Advanced.ImGui.RegisterUIUpdate(DrawMenu);
@@ -342,8 +353,8 @@ namespace Brawler
             Thread thread = new Thread(InputThread);
             thread.Start();
 
-            Thread keyboardThread = new Thread(BrawlerKeyboardMovement.Update);
-            keyboardThread.Start();
+   //         Thread keyboardThread = new Thread(BrawlerKeyboardMovement.Update);
+         //   keyboardThread.Start();
         }
 
     }

@@ -11,6 +11,8 @@ namespace Brawler
         public float CurrentCounterAttackCooldown = 0;
         public float CounterAttackCooldown = 4.5f;
 
+        public bool IsCounterAttacking = false;
+
         public override void Update()
         {
             base.Update();
@@ -41,9 +43,12 @@ namespace Brawler
             //Maybe instead of blanket banning super armor evasions
             //Set a flag for when we dont want to dodge during certain parts
             //Example: Sawashiro 2 charged attack being cancelled out by evasion bug
-           
+
             //replace with is counter attacking
             if (AI.IsAttacking())
+                return false;
+
+            if (AI.Character.IsSync())
                 return false;
 
             if (AI.Character.GetStatus().IsSuperArmor())
@@ -57,8 +62,8 @@ namespace Brawler
             if (firstEvasion)
                 return firstEvasion;
             else
-                 //Make this a proper algorithm later
-                return new Random().Next(0, 101) <= 10;  
+                //Make this a proper algorithm later
+                return new Random().Next(0, 101) <= 10;
         }
 
         //First attack = Hasnt got hit since 2.5 seconds
@@ -89,7 +94,7 @@ namespace Brawler
 
             bool wasSuper = AI.Character.GetStatus().IsSuperArmor();
 
-            if(!wasSuper)
+            if (!wasSuper)
                 AI.Character.GetStatus().SetSuperArmor(true);
 
             DETaskList list = new DETaskList(new DETask[]
@@ -105,7 +110,9 @@ namespace Brawler
                    //Grant superarmor while countering.
                    if(!wasSuper)
                    {
-                       DETaskList armorProcedure = new DETaskList(new DETask[]
+                       IsCounterAttacking = true;
+
+                       DETaskList counterProcedure = new DETaskList(new DETask[]
                        {
                            new DETaskNextFrame(),
                            new DETaskNextFrame(),
@@ -116,6 +123,7 @@ namespace Brawler
                                },
                                delegate
                                {
+                                   IsCounterAttacking = false;
                                    AI.Character.GetStatus().SetSuperArmor(false);
                                }, false)
                        });

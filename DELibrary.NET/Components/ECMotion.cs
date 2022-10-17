@@ -143,5 +143,10 @@ namespace DragonEngineLibrary
 
             Marshal.FreeHGlobal(optsPtr);
         }
+
+        public bool RequestedAnimPlaying()
+        {
+            return GmtID != MotionID.invalid;
+        }
     }
 }

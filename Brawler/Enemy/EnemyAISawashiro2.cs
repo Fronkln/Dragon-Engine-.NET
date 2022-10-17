@@ -42,8 +42,8 @@ namespace Brawler
             switch(phase)
             {
                 case 0:
-                    CounterAttacks.Add((RPGSkillID)842);
-                    m_curPhaseCounters.Add((RPGSkillID)842);
+                    CounterAttacks.Add((RPGSkillID)841);
+                    m_curPhaseCounters.Add((RPGSkillID)841);
                     break;
             }
         }

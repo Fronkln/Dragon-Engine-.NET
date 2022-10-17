@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using DragonEngineLibrary;
 using ImGuiNET;
+using Vector2 = System.Numerics.Vector2;
 
 namespace Y7DebugTools
 {

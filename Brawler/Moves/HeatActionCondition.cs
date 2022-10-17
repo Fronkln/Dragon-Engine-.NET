@@ -29,5 +29,8 @@ namespace Brawler
         FighterHealthNotCritical = 16384,
         EnemyHealthNotCritical = 32768,
 
+        FighterGrabbed = 65536,
+        EnemyGrabbed = 131072,
+
     }
 }

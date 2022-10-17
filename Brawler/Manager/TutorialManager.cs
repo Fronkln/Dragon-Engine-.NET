@@ -89,6 +89,7 @@ namespace Brawler
 
         public static void OnSuccess()
         {
+            m_tutorialSegments[m_curSegment].OnEnd?.Invoke();
             m_wait = true;
             new DETaskTime(1.5f, delegate { StartSegment(++m_curSegment); m_wait = false ; });
             m_tutorialHandle.PlayAnimationSet(ANM_TUTORIAL_SUCCESS);
@@ -96,9 +97,12 @@ namespace Brawler
 
         public static void OnFail()
         {
-            m_wait = true;
+            m_tutorialSegments[m_curSegment].OnEnd?.Invoke();
             if (!m_tutorialSegments[m_curSegment].Silent)
+            {
+                m_wait = true;
                 new DETaskTime(1, delegate { StartSegment(++m_curSegment); m_wait = false; });
+            }
             else
                 StartSegment(++m_curSegment);
         }
@@ -111,13 +115,58 @@ namespace Brawler
                 return !m_tutorialSegments[m_curSegment].Modifiers.HasFlag(TutorialModifier.PlayerDontTakeDamage);
         }
 
+        public static bool AllowEnemyDamage()
+        {
+            if (!Active)
+                return true;
+            else
+                return !m_tutorialSegments[m_curSegment].Modifiers.HasFlag(TutorialModifier.EnemyDontTakeDamage);
+        }
+
         public static void Update()
         {
             if (!Active  || HActManager.IsPlaying() || IsTutorialPromptVisible() || m_wait)
                 return;
 
+            if(m_curSegment >= m_tutorialSegments.Length)
+            {
+                Active = false;
+                m_curSegment = 0;
+                m_tutorialSegments = null;
+                SetVisible(false);
+                return;
+            }
+
+#if DEBUG
+            if(DragonEngine.IsKeyHeld(VirtualKey.LeftShift))
+                if(DragonEngine.IsKeyHeld(VirtualKey.F))
+                {
+                    OnSuccess();
+                    return;
+                }
+#endif
+
             TutorialSegment curSegment = m_tutorialSegments[m_curSegment];
 
+            if(m_curSegmentTimer <= 0 && curSegment.HasTime())
+            {
+                if (curSegment.TimeoutIsSuccess)
+                    OnSuccess();
+                else
+                    OnFail();
+
+                return;
+            }
+            else
+            {
+                if (curSegment.IsCompleteDelegate != null && curSegment.IsCompleteDelegate.Invoke())
+                {
+                    OnSuccess();
+                    return;
+                }
+            }
+
+            curSegment.UpdateDelegate?.Invoke();
 
             if (curSegment.TimeToComplete <= 0 || m_curSegmentTimer < 0)
                 return;
@@ -147,6 +196,21 @@ namespace Brawler
                         return "<symbol=y7b_mouse_button_r>";
                     else
                         return "<symbol=button_sankaku>";
+                case TutorialButton.Dodge:
+                    if (BrawlerKeyboardMovement.IsKeyboard)
+                        return "<symbol=y7b_keyboard_space>";
+                    else
+                        return "<symbol=button_batsu>";
+                case TutorialButton.Block:
+                    if (BrawlerKeyboardMovement.IsKeyboard)
+                        return "<symbol=y7b_keyboard_shift>";
+                    else
+                        return "<symbol=button_l1>";
+                case TutorialButton.Grab:
+                    if (BrawlerKeyboardMovement.IsKeyboard)
+                        return "<symbol=y7b_keyboard_e>";
+                    else
+                        return "<symbol=button_maru>";
             }
 
             return "(INVALID_BUTTON!)";

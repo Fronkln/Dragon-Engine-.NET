@@ -32,6 +32,7 @@ namespace Y7DebugTools
                 ImGui.Checkbox("Animation", ref m_animPlayerMenuEnabled);
                 ImGui.Checkbox("NPC", ref m_npcMenuEnabled);
                 ImGui.Checkbox("Scene Info", ref SceneInfo.Open);
+                ImGui.Checkbox("Entity", ref EntityMenu.Open);
                 ImGui.Checkbox("Scenario", ref ScenarioMenu.Open);
                 ImGui.Checkbox("FighterManager", ref m_fighterManagerMenuEnabled);
                 ImGui.Checkbox("BattleTurnManager", ref m_battleTurnManagerMenuEnabled);
@@ -85,6 +86,9 @@ namespace Y7DebugTools
                 if (DBMenu.Open)
                     DBMenu.Draw();
 
+                if (EntityMenu.Open)
+                    EntityMenu.Draw();
+
                 if (m_jobMenuEnabled)
                 {
                     ImGui.Text("Average execution per second:");
@@ -99,7 +103,6 @@ namespace Y7DebugTools
                     PlayerMenu.m_toEquip = false;
                     FighterManager.GetFighter(0).Equip((ItemID)PlayerMenu.equipItem, AttachmentCombinationID.right_weapon);
                 }
-
             }
         }
 
@@ -145,6 +148,17 @@ namespace Y7DebugTools
                     FighterManager.GenerateEnemyFighter(new PoseInfo(DragonEngine.GetHumanPlayer().Transform.Position, 0), (uint)spawn.m_PersonalGroupID, (CharacterID)spawn.m_CharaID);
 
                 FighterManagerMenu.CreationQueue.Clear();
+            }
+
+            if (UIPlayer.ToCreate || UIPlayer.ToPlay)
+            {
+                if (UIPlayer.ToCreate)
+                    UIPlayer.Create();
+                else
+                    UIPlayer.Play();
+
+                UIPlayer.ToCreate = false;
+                UIPlayer.ToPlay = false;
             }
         }
 

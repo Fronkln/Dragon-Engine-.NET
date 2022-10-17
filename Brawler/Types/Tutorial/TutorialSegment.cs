@@ -20,5 +20,13 @@ namespace Brawler
         public Action OnStart;
         public Action OnEnd;
         public Action UpdateDelegate;
+
+        public float var1;
+        public bool var2;
+
+        public bool HasTime()
+        {
+            return TimeToComplete > 0;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DragonEngineLibrary;
+using DragonEngineLibrary.Service;
 
 namespace Brawler
 {
@@ -30,6 +31,21 @@ namespace Brawler
             return motion.GmtID != MotionID.invalid;
         }
 
+        public static bool IsPlayingAnim(this ECMotion motion, MotionID gmt)
+        {
+            return motion.GmtID == gmt;
+        }
+
+        public static bool InBepNodeRange(this ECMotion motion, uint nodeID)
+        {
+            MotionPlayInfo inf = motion.PlayInfo;
+            MotionService.TimingResult res = MotionService.SearchTimingDetail(inf.tick_now_, motion.BepID, nodeID);
+
+            if (res.Start == -1 || res.End == -1)
+                return false;
+
+            return inf.tick_gmt_now_>= res.Start && inf.tick_gmt_now_<= res.End;
+        }
 
         public static bool IsBrawlerCriticalHP(this Fighter fighter)
         {

@@ -87,16 +87,19 @@ namespace Brawler
 
             foreach (Fighter enemy in fightersToCheck)
             {
-                EnemyAI enemyAI = EnemyManager.EnemyAIs[enemy.Character.UID];
+                EnemyAI enemyAI = EnemyManager.GetAI(enemy);
 
+                if (enemyAI == null)
+                    continue;
+              
                 if (heatAttackCond.HasFlag(HeatActionCondition.EnemyHealthNotCritical))
                     if (enemy.IsBrawlerCriticalHP())
                         return false;
 
                 if (heatAttackCond.HasFlag(HeatActionCondition.EnemyCriticalHealth))
                 {
-                   if(!enemy.IsBrawlerCriticalHP());
-                    return false;
+                   if(!enemy.IsBrawlerCriticalHP())
+                        return false;
                 }
 
                 if (heatAttackCond.HasFlag(HeatActionCondition.EnemyDown))
@@ -121,6 +124,20 @@ namespace Brawler
                     bool standing = enemyAI.Info.IsGettingUp;
 
                     if (!standing)
+                        return false;
+                }
+
+                if (heatAttackCond.HasFlag(HeatActionCondition.EnemyGrabbed))
+                {
+                    bool grabbed = BrawlerPlayer.m_lastMove != null &&
+                        BrawlerPlayer.m_lastMove.MoveType == MoveType.MoveGrab;
+
+                    if (!grabbed)
+                        return false;
+
+                    MoveGrab grab = BrawlerPlayer.m_lastMove as MoveGrab;
+
+                    if (enemy != grab.Victim)
                         return false;
                 }
             }

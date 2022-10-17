@@ -68,10 +68,13 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ini.cs" />
+    <Compile Include="IniSettings.cs" />
     <Compile Include="Manager\BattleManager.cs" />
     <Compile Include="BrawlerFighterInfo.cs" />
     <Compile Include="BrawlerGaugeRestore.cs" />
     <Compile Include="BrawlerHooks.cs" />
+    <Compile Include="Manager\SpecialBattleManager.cs" />
     <Compile Include="Manager\TutorialManager.cs" />
     <Compile Include="Misc\BrawlerKeyboardMovement.cs" />
     <Compile Include="BrawlerPlayer.cs" />
@@ -91,9 +94,11 @@
     <Compile Include="Enemy\EnemySync.cs" />
     <Compile Include="Enemy\EnemySyncHActModule.cs" />
     <Compile Include="EXFollowups.cs" />
+    <Compile Include="Moves\MoveGrab.cs" />
     <Compile Include="Types\Tutorial\TutorialButton.cs" />
     <Compile Include="Types\Tutorial\TutorialModifier.cs" />
     <Compile Include="Types\Tutorial\TutorialSegment.cs" />
+    <Compile Include="Utils\DETaskWaitRequestedAnim.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Module\EXModule.cs" />
     <Compile Include="Manager\HeatActionManager.cs" />

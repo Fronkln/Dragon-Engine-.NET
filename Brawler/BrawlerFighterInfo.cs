@@ -14,6 +14,7 @@ namespace Brawler
         public bool IsDown;
         public bool IsGettingUp;
         public bool IsRagdoll;
+        public bool IsMove;
 
         //Purpose: Cache fighter variables
         //Reduces PInvoke(probably) and eliminates several crashes
@@ -28,11 +29,14 @@ namespace Brawler
                 return;
             }
 
+            BattleFighterInfo inf = fighter.GetInfo();
+
             IsDead = fighter.IsDead();
             IsSync = fighter.IsSync();
             IsDown = fighter.IsDown();
             IsGettingUp = fighter.Character.HumanModeManager.IsStandup();
-            IsRagdoll = fighter.GetInfo().is_ragdoll_;//fighter.Character.IsRagdoll();
+            IsRagdoll = inf.is_ragdoll_;//fighter.Character.IsRagdoll();
+            IsMove = fighter.Character.HumanModeManager.IsMove();
 
             Infos[fighter.Character.UID] = this;
         }

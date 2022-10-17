@@ -134,14 +134,14 @@ namespace Brawler
 
             HumanModeManager manager = new HumanModeManager() { Pointer = (IntPtr)(*mngPtr) };
             Fighter fighter = manager.Human.GetFighter();
+            EnemyAI ai = EnemyManager.GetAI(fighter);
 
-            if (!fighter.IsValid() || !fighter.IsEnemy() || !EnemyManager.EnemyAIs.ContainsKey(fighter.Character.UID))
+
+            if (!fighter.IsValid() || !fighter.IsEnemy() || ai == null)
             {
                 _guardReactionIDTrampoline(guardReactionObj);
                 return;
             }
-
-            EnemyAI ai = EnemyManager.EnemyAIs[fighter.Character.UID];
 
             if (ai.Flags.ShouldGuardBreakFlag)
             {
@@ -321,7 +321,7 @@ namespace Brawler
                     }
 
                     if (victim.IsBoss())
-                        EnemyManager.EnemyAIs[victim.Character.UID].ProcessHActDamage(HeatAction.LastHeatAction.heatAction, finalDmg);
+                        EnemyManager.GetAI(victim)?.ProcessHActDamage(HeatAction.LastHeatAction.heatAction, finalDmg);
 
                     long finalHp = victimStatus.CurrentHP - finalDmg;
 
@@ -358,18 +358,17 @@ namespace Brawler
             Fighter victim = new Fighter((IntPtr)(((CalcDamageEventArgs*)args)->damage_fighter_));
             CalcDamageEventArgs* argsPtr = (CalcDamageEventArgs*)args;
             BattleDamageInfo* damageInf = argsPtr->info;
+            
+            //Player
+            bool guarded = false;
 
             if (!victim.IsPlayer())
             {
                 Fighter fighter = victim;
+                EnemyAI ai = EnemyManager.GetAI(fighter);
 
-                uint uid = fighter.Character.UID;
-
-                if (!EnemyManager.EnemyAIs.ContainsKey(uid))
+                if (ai == null)
                     return false;
-
-                //Hacky for now
-                EnemyAI ai = EnemyManager.EnemyAIs[fighter.Character.UID];
 
                 if (!BrawlerPlayer.IsEXGamer)
                 {
@@ -381,7 +380,7 @@ namespace Brawler
                         kasugaStatus.Heat = kasugaStatus.Heat + (int)(maxHeat * 0.05f);
                 }
 
-                bool special = ai.DoSpecial(*argsPtr->info);
+                bool special = (ai.Info.IsSync ? false : ai.DoSpecial(*argsPtr->info));
                 bool blocked = (special ? false : ai.ShouldBlockAttack(*argsPtr->info));
 
                 //BUG: guard break interrupts counter attack
@@ -398,13 +397,17 @@ namespace Brawler
                         ai.OnBlocked();
                 }
 
-                if(special)
+                bool allowDamage = ai.AllowDamage();
+
+                if(special || !allowDamage)
                 {
                     uint* dmg = (uint*)((long)argsPtr->info + 0x64);
                     bool* miss = (bool*)((long)argsPtr->info + 0xA9);
 
                     *dmg = 0;
-                    *miss = true;
+
+                    if(special)
+                        *miss = true;
                 }
 
                 ai.OnHit();
@@ -413,6 +416,7 @@ namespace Brawler
             }
             else
             {
+               
                 if (!BrawlerPlayer.AllowDamage(*damageInf))
                 {
                     uint* dmg = (uint*)((long)argsPtr->info + 0x64);
@@ -420,6 +424,8 @@ namespace Brawler
 
                     *dmg = 0;
                 }
+
+                guarded = true;
             }
 
             if (BrawlerPlayer.CurrentMoveset.RepelCounter == RPGSkillID.invalid)
@@ -443,7 +449,15 @@ namespace Brawler
                     *miss = true;
 
                     BattleTurnManager.ForceCounterCommand(victim, attacker.GetFighter(), BrawlerPlayer.CurrentMoveset.RepelCounter);
+                    guarded = false;
                 }
+            }
+
+            //Player
+            if (guarded)
+            {
+                BrawlerPlayer.OnGuard();
+                return true;
             }
 
             //Removed perfect guarding

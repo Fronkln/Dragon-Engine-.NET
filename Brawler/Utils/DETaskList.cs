@@ -14,7 +14,7 @@ namespace Brawler
         int m_curTask = 0;
 
 
-        public DETaskList(DETask[] tasks, bool autoStart = true) : base(null, null, autoStart)
+        public DETaskList(params DETask[] tasks) : base(null, null, true)
         {
             m_Tasks = tasks;
             m_Func = delegate { return m_Done; };

@@ -24,6 +24,8 @@ namespace Brawler
         public float LastHitTime = 10000;
         public float LastGuardTime = 10000;
 
+        //counter attacking
+
         private bool m_gettingUp = false;
         private bool m_getupHyperArmorDoOnce = false;
 
@@ -149,6 +151,12 @@ namespace Brawler
         }
 
 
+        public virtual bool AllowDamage()
+        {
+            return TutorialManager.AllowEnemyDamage();
+        }
+
+
          //Not applicable to generic enemy
         public virtual bool ShouldDoCounterAttack()
         {
@@ -218,6 +226,9 @@ namespace Brawler
         {
             //It doesnt matter when they have super armor
             if (Character.GetStatus().IsSuperArmor())
+                return false;
+
+            if (Character.IsSync())
                 return false;
 
             if (m_gettingUp)

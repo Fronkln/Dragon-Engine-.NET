@@ -10,7 +10,8 @@ namespace Brawler
         MoveGMTOnly,
         MoveHeatAction,
         MoveComboString,
-        MoveSidestep
+        MoveSidestep,
+        MoveGrab
     }
 
     public class MoveBase
@@ -36,6 +37,16 @@ namespace Brawler
         public virtual bool MoveExecuting()
         {
             return BrawlerPlayer.m_attackCooldown > 0;
+        }
+
+        public virtual bool IsSyncMove()
+        {
+            return false;
+        }
+
+        public virtual bool AllowHActWhileExecuting()
+        {
+            return false;
         }
 
         public virtual bool AllowChange()
@@ -122,6 +133,9 @@ namespace Brawler
         private bool m_isCooldown = false;
         private float m_cooldownDur = 1;
 
+        private bool m_execStart = false;
+        private bool m_gmtDone = false;
+
         public MoveRPG(RPGSkillID attack, float attackDuration, MoveInput[] input, MoveSimpleConditions condition = MoveSimpleConditions.None, float cooldown = 1) : base(attackDuration, input, condition)
         {
             ID = attack;
@@ -136,6 +150,25 @@ namespace Brawler
 
             m_isCooldown = true;
             new SimpleTimer(m_cooldownDur, delegate { m_isCooldown = false; });
+
+            m_execStart = true;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if(m_execStart)
+            {
+
+            }
+        }
+
+        public override void OnMoveEnd()
+        {
+            base.OnMoveEnd();
+
+            m_execStart = false;
         }
 
         public override bool CheckConditions(Fighter fighter, Fighter[] targets)

@@ -44,7 +44,7 @@ namespace Brawler
 #if !DEBUG
                 DragonEngine.Log("Don't have moveset for arms category " + category + ", dropping");
                 kasuga.DropWeapon(new DropWeaponOption(AttachmentCombinationID.right_weapon, false));
-                return false;
+                return;
 #else
                 DragonEngine.Log("Don't have moveset for arms category " + category + ". Will not drop on debug");
 #endif

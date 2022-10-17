@@ -8,7 +8,7 @@ namespace Brawler
     public static class HeatActionManager
     {
         public static Dictionary<AssetArmsCategoryID, Dictionary<uint, HeatAction[]>> HeatActionsList = new Dictionary<AssetArmsCategoryID, Dictionary<uint, HeatAction[]>>();
-
+        public static List<HeatAction> PerformableHacts = new List<HeatAction>();
 
         public static void Init()
         {
@@ -16,8 +16,11 @@ namespace Brawler
             {
                 new HeatAction((TalkParamID)12885, HeatActionCondition.FighterDown, 5, 0, 1, 5f), //y0 brawler getup attack
                 new HeatAction((TalkParamID)12892, HeatActionCondition.EnemyStandingUp, 5, 0, 1, 3.5f), //y5 enemy gets up heat attack
-                new HeatAction((TalkParamID)12886, HeatActionCondition.EnemyDown, 2, 0, 1, 2f), //kaito tower bridge
-                new HeatAction((TalkParamID)12895, HeatActionCondition.EnemyDown, 2, 0, 1, 2f) //wreckage
+                new HeatAction((TalkParamID)12905, HeatActionCondition.EnemyGrabbed | HeatActionCondition.FighterHealthNotCritical, 5, 0, 1, 3.5f), //y3 shimano throw
+                new HeatAction((TalkParamID)12906, HeatActionCondition.EnemyGrabbed | HeatActionCondition.FighterCriticalHealth, 5, 0, 1, 3.5f), //Custom HAct: Essence of Last Stand
+               // new HeatAction((TalkParamID)12886, HeatActionCondition.EnemyDown, 2, 0, 1, 2f), //kaito tower bridge
+              //  new HeatAction((TalkParamID)12895, HeatActionCondition.EnemyDown, 2, 0, 1, 2f) //wreckage
+              new HeatAction((TalkParamID)12904, HeatActionCondition.EnemyDown, 2, 0, 1, 2f) //y5 downed combo
             };
 
             HeatAction[] wepAAttacks = new HeatAction[]
@@ -63,43 +66,73 @@ namespace Brawler
         //Return true = heat action executed
         public static bool InputUpdate(AssetArmsCategoryID currentWep, uint subCategory)
         {
-            if(DragonEngine.IsKeyHeld(VirtualKey.R))
-                return false;
+
+            //can there be a more optimized way to check these? probably not
+            //we are solely doing this for hact prompt.
+            PerformableHacts = GetPerformableHacts(currentWep, subCategory);
 
             bool rightClickPressed = Mod.Input[BattleInput.RightMouse].LastTimeSincePressed < 0.05f;
 
-            if (!HeatActionsList.ContainsKey(currentWep))
+            if (!rightClickPressed || !CanHAct())
                 return false;
 
-            if (!rightClickPressed)
+            ExecHeatAction(PerformableHacts[0], BrawlerBattleManager.Kasuga, BrawlerBattleManager.EnemiesNearest);
+            return true; 
+        }
+
+        public static bool CanHAct()
+        {
+            if (DragonEngine.IsKeyHeld(VirtualKey.R))
+                return false;
+
+            if (!BrawlerBattleManager.Kasuga.IsValid())
+                return false;
+
+            if (BrawlerBattleManager.Kasuga.IsDead())
                 return false;
 
             if (HActManager.IsPlaying())
                 return false;
 
-            Fighter kasuga = BrawlerBattleManager.Kasuga;
-            Fighter[] validEnemies = BrawlerBattleManager.Enemies.OrderBy(x => Vector3.Distance((Vector3)kasuga.Character.Transform.Position, (Vector3)x.Character.Transform.Position)).ToArray();
-
-            if (validEnemies.Length <= 0)
+            if (PerformableHacts.Count <= 0)
                 return false;
 
+            return true;
+        }
+
+        private static List<HeatAction> GetPerformableHacts(AssetArmsCategoryID currentWep, uint subCategory)
+        {
+            Fighter kasuga = BrawlerBattleManager.Kasuga;
+            Fighter[] validEnemies = BrawlerBattleManager.EnemiesNearest;
+
+            List<HeatAction> hacts = new List<HeatAction>();
+
+            if (!HeatActionsList.ContainsKey(currentWep))
+                return hacts;
+
+            if (validEnemies.Length <= 0)
+                return hacts;
+
             float distToNearestEnemy = Vector3.Distance((Vector3)kasuga.Character.GetPosCenter(), (Vector3)validEnemies[0].Character.GetPosCenter());
-
-
             uint subCat = (HeatActionsList[currentWep].ContainsKey(subCategory) ? subCategory : 0u);
 
+            //Possible optimization: stop if we have atleast one hact we can perform? (Due to priority of RMB)
             foreach (HeatAction act in HeatActionsList[currentWep][subCat])
             {
                 if (distToNearestEnemy > act.dist || validEnemies.Length < act.numTargets)
                     continue;
 
                 if (act.CheckConditions(kasuga, validEnemies))
-                    ExecHeatAction(act, kasuga, validEnemies);
+                {
+                    hacts.Add(act);
+#if !DEBUG
+                    break;
+#endif
+                }
             }
 
-            return false;
+            return hacts;
         }
-
 
         private static void ExecHeatAction(HeatAction act, Fighter attacker, Fighter[] enemies)
         {

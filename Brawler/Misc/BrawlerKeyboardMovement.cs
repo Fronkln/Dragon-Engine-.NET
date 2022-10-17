@@ -19,7 +19,7 @@ namespace Brawler
     {
         public static bool IsKeyboard = false;
 
-        private static ViGEmClient VigCli = new ViGEmClient();
+        private static ViGEmClient VigCli;
 #if USE_XBOX
         internal static IXbox360Controller ControllerSim;
 #else
@@ -32,20 +32,28 @@ namespace Brawler
         private static byte m_RX;
         private static byte m_RY;
 
-
         private static DateTime m_noTimeSinceEmulation;
+        private static bool m_vigemFail = false;
 
         static BrawlerKeyboardMovement()
         {
-            VigCli = new ViGEmClient();
+            try
+            {
+                VigCli = new ViGEmClient();
 #if USE_XBOX
             ControllerSim = VigCli.CreateXbox360Controller();
 #else
-            ControllerSim = VigCli.CreateDualShock4Controller();
+                ControllerSim = VigCli.CreateDualShock4Controller();
 #endif
 
-            ControllerSim.Connect();
-            System.Console.WriteLine(DualShock4Axis.LeftThumbX + " " + DualShock4Axis.LeftThumbX);
+                ControllerSim.Connect();
+                Console.WriteLine("[LIKE A BRAWLER] Vigem start");
+            }
+            catch(Nefarius.ViGEm.Client.Exceptions.VigemBusNotFoundException ex)
+            {
+                Console.WriteLine("[LIKE A BRAWLER] !!!!!!!!!!!!!!!!!!VIGEMBUS NOT INSTALLED, KEYBOARD MOVEMENT WILL NOT WORK!!!!!!!!!!!!!!!!!!");
+                m_vigemFail = true;
+            }
         }
 
         public static void Clear()
@@ -53,30 +61,36 @@ namespace Brawler
 
         }
 
+        //14.10.2022: No longer a while loop, when i formatted my computer, this section flared up and lagged my PC prolly because it was executing too much
+        //It's no longer seperate thread but managed by BattleManager and it works because we dont check for presses we check for holds
+        //It executes less frequently now, we'll see if this causes problems later down the line
         public static void Update()
         {
-            while (true)
-            {
-                if (BattleTurnManager.CurrentPhase != BattleTurnManager.TurnPhase.Action || (BrawlerPlayer.FreezeInput || !Mod.IsGameFocused) || (!BrawlerBattleManager.BattleStartDoOnce || BrawlerBattleManager.HActIsPlaying))
-                {
+
+                if (m_vigemFail)
+                    return;
+
+                    if (BattleTurnManager.CurrentPhase != BattleTurnManager.TurnPhase.Action || (BrawlerPlayer.FreezeInput || !Mod.IsGameFocused) || (!BrawlerBattleManager.BattleStartDoOnce || BrawlerBattleManager.HActIsPlaying))
+                    {
 #if USE_XBOX
                     ControllerSim.SetAxisValue(Xbox360Axis.LeftThumbX, 0);
                     ControllerSim.SetAxisValue(Xbox360Axis.LeftThumbY, 0);
 #else
-                    ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 128);
-                    ControllerSim.SetAxisValue(DualShock4Axis.RightThumbX, 128);
 
-                    m_LX = 128;
-                    m_RX = 128;
+                        ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 128);
+                        ControllerSim.SetAxisValue(DualShock4Axis.RightThumbX, 128);
 
-                    ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 128);
-                    ControllerSim.SetAxisValue(DualShock4Axis.RightThumbY, 128);
+                        m_LX = 128;
+                        m_RX = 128;
 
-                    m_LY = 128;
-                    m_RY = 128;
+                        ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 128);
+                        ControllerSim.SetAxisValue(DualShock4Axis.RightThumbY, 128);
+
+                        m_LY = 128;
+                        m_RY = 128;
 #endif
-                    continue;
-                }
+                        return;
+                    }
 
 #if USE_XBOX
                 if(DragonEngine.IsKeyHeld(VirtualKey.W))
@@ -94,68 +108,67 @@ namespace Brawler
                     ControllerSim.SetAxisValue(Xbox360Axis.LeftThumbX, 0);
 #else
 
-                bool set = false;
+                    bool set = false;
 
-                if (DragonEngine.IsKeyHeld(VirtualKey.W))
-                {
-                    ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 0);
-                    m_LY = 0;
+                    if (DragonEngine.IsKeyHeld(VirtualKey.W))
+                    {
+                        ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 0);
+                        m_LY = 0;
 
-                    set = true;
-                }
-                else if (DragonEngine.IsKeyHeld(VirtualKey.S))
-                {
-                    ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 255);
-                    m_LY = 255;
-                    set = true;
-                }
-                else
-                {
-                    m_LY = 128;
-                    m_RY = 128;
+                        set = true;
+                    }
+                    else if (DragonEngine.IsKeyHeld(VirtualKey.S))
+                    {
+                        ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 255);
+                        m_LY = 255;
+                        set = true;
+                    }
+                    else
+                    {
+                        m_LY = 128;
+                        m_RY = 128;
 
-                    ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 128);
-                    ControllerSim.SetAxisValue(DualShock4Axis.RightThumbY, 128);
-                }
+                        ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbY, 128);
+                        ControllerSim.SetAxisValue(DualShock4Axis.RightThumbY, 128);
+                    }
 
-                if (DragonEngine.IsKeyHeld(VirtualKey.A))
-                {
-                    ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 0);
-                    m_LY = 0;
-                    set = true;
-                }
-                else if (DragonEngine.IsKeyHeld(VirtualKey.D))
-                {
-                    ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 255);
-                    m_LX = 255;
-                    set = true;
-                }
-                else
-                {
-                    m_LX = 128;
-                    m_RX = 128;
+                    if (DragonEngine.IsKeyHeld(VirtualKey.A))
+                    {
+                        ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 0);
+                        m_LY = 0;
+                        set = true;
+                    }
+                    else if (DragonEngine.IsKeyHeld(VirtualKey.D))
+                    {
+                        ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 255);
+                        m_LX = 255;
+                        set = true;
+                    }
+                    else
+                    {
+                        m_LX = 128;
+                        m_RX = 128;
 
-                    ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 128);
-                    ControllerSim.SetAxisValue(DualShock4Axis.RightThumbX, 128);
-                }
+                        ControllerSim.SetAxisValue(DualShock4Axis.LeftThumbX, 128);
+                        ControllerSim.SetAxisValue(DualShock4Axis.RightThumbX, 128);
+                    }
 
-                if (set)
-                {
-                    IsKeyboard = true;
-                    m_noTimeSinceEmulation = DateTime.Now;
-                }
-                else
-                {
+                    if (set)
+                    {
+                        IsKeyboard = true;
+                        m_noTimeSinceEmulation = DateTime.Now;
+                    }
+                    else
+                    {
 
 
-                    if (m_LX == 128 && m_LY == 128 && m_RX == 128 && m_RY == 128)
-                        if ((DateTime.Now - m_noTimeSinceEmulation).Seconds >= 2)
-                            if (BrawlerBattleManager.Kasuga.IsValid())
-                                if (BrawlerBattleManager.KasugaChara.HumanModeManager.IsMove())
-                                    IsKeyboard = false;
-                }
+                        if (m_LX == 128 && m_LY == 128 && m_RX == 128 && m_RY == 128)
+                            if ((DateTime.Now - m_noTimeSinceEmulation).Seconds >= 2)
+                                if (BrawlerBattleManager.Kasuga.IsValid())
+                                    if (BrawlerPlayer.Info.IsMove)
+                                        IsKeyboard = false;
+                    }
 #endif
-            }
+                }     
         }
     }
-}

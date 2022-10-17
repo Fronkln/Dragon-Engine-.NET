@@ -14,6 +14,9 @@ namespace Brawler
 
         public bool ShouldBlockAttack(BattleDamageInfo dmgInf)
         {
+            if (AI.EvasionModule.IsCounterAttacking)
+                return false;
+
             if (AI.LastGuardTime > 2f)
                 GuaranteedBlocks = 0;
 
@@ -40,7 +43,7 @@ namespace Brawler
         {
             if (AI.EvasionModule.ShouldDoCounterAttack())
             {
-                AI.EvasionModule.DoCounterAttack();
+                AI.EvasionModule.DoCounterAttack(true);
                 return true;
             }
 

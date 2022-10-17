@@ -66,6 +66,13 @@ namespace Brawler
                 m_playerDownDoOnce = false;
         }
 
+        public static EnemyAI GetAI(Fighter enemy)
+        {
+            if (!enemy.IsValid() || !EnemyAIs.ContainsKey(enemy.Character.UID))
+                return null;
+            return EnemyAIs[enemy.Character.UID];
+        }
+
         public static void Update()
         {
             if (BrawlerBattleManager.Enemies.Length <= 0)

@@ -288,6 +288,7 @@
     <Compile Include="MarshallingTests.cs" />
     <Compile Include="Entity\Yakuza 7\MGHomelessCan.cs" />
     <Compile Include="PXD.cs" />
+    <Compile Include="Screen.cs" />
     <Compile Include="Structs\AuthNodeInfo.cs" />
     <Compile Include="Structs\BattleDamageInfo.cs" />
     <Compile Include="Structs\BattleFighterInfo.cs" />
@@ -316,6 +317,7 @@
     <Compile Include="Structs\RequestRagdollOptions.cs" />
     <Compile Include="Structs\Shapes.cs" />
     <Compile Include="Structs\TimingInfoDamage.cs" />
+    <Compile Include="Structs\Vector2.cs" />
     <Compile Include="Third Party\RMM.cs" />
     <Compile Include="Structs\AIUtil.cs" />
     <Compile Include="Structs\CharacterAttributes.cs" />

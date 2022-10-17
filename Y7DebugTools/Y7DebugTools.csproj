@@ -69,6 +69,7 @@
     <Compile Include="BattleTurnManagerMenu.cs" />
     <Compile Include="DBMenu.cs" />
     <Compile Include="EffectEventMenu.cs" />
+    <Compile Include="EntityMenu.cs" />
     <Compile Include="FighterCommandMenu.cs" />
     <Compile Include="HActPlayer.cs" />
     <Compile Include="JobCounter.cs" />

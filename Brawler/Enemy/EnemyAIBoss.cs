@@ -99,12 +99,14 @@ namespace Brawler
         //This is important to reduce heat action damage when its spammed.
         public override long ProcessHActDamage(TalkParamID hact, long dmg)
         {
+            const float h_dmgReductionFactor = 0.45f;
+
             m_lastDamagedHact = hact;
 
             if (dmg > 1 && m_damagedHacts.Contains(hact))
             {
-                dmg -= (long)(dmg * 0.3f);
-                Console.WriteLine("Reduced damage for spammed hact " + hact);
+                dmg -= (long)(dmg * h_dmgReductionFactor);
+                Console.WriteLine("Reduced damage for spammed hact " + hact + " by " + h_dmgReductionFactor.ToString());
             }
 
             return dmg;

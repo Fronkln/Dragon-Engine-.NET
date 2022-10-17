@@ -36,6 +36,8 @@ namespace Brawler
 
         public static bool FreezeInput = false;
 
+        public static event Action OnPlayerGuard;
+
         public static void Init()
         {
             m_Styles = GetStyles();
@@ -77,7 +79,7 @@ namespace Brawler
 
             AssetArmsCategoryID wepCategory = Asset.GetArmsCategory(unit.AssetID);
 
-            switch(wepCategory)
+            switch (wepCategory)
             {
                 default:
                     BrawlerBattleManager.KasugaChara.GetMotion().RequestGMT(17075);
@@ -127,6 +129,11 @@ namespace Brawler
             return TutorialManager.AllowPlayerDamage();
         }
 
+        public static void OnGuard()
+        {
+            OnPlayerGuard?.Invoke();
+        }
+
         public static void InputUpdate()
         {
             if (FreezeInput || !Mod.IsGameFocused)
@@ -147,75 +154,74 @@ namespace Brawler
                     m_lastMove = null;
                 }
             }
-            else
+
+            AssetUnit unit = kasugaFighter.GetWeapon(AttachmentCombinationID.right_weapon).Unit;
+            bool heatActionUpdate = false;
+
+            if (m_lastMove == null || m_lastMove.AllowHActWhileExecuting())
+                heatActionUpdate = HeatActionManager.InputUpdate(Asset.GetArmsCategory(unit.AssetID), Asset.GetArmsCategorySub(unit.AssetID));
+
+
+            //we executed a heat action.
+            if (heatActionUpdate || m_lastMove != null)
+                return;
+
+
+            bool wepUpdate = WeaponManager.InputUpdate(unit);
+
+            if (!wepUpdate)
             {
+                //cheap fix
+                if (!IsEXGamer)
+                    CurrentMoveset = m_currentStyle.CommandSet;
+                // kasugaFighter.ThrowEquipAsset(false, true);
+                if (DragonEngine.IsKeyHeld(VirtualKey.N1))
+                    ChangeStyle(m_Styles[0]);
+                else if (DragonEngine.IsKeyHeld(VirtualKey.N2))
+                    ChangeStyle(m_Styles[1]);
+                else if (DragonEngine.IsKeyHeld(VirtualKey.N3))
+                    ChangeStyle(m_Styles[2]);
+            }
 
-                AssetUnit unit = kasugaFighter.GetWeapon(AttachmentCombinationID.right_weapon).Unit;
-                bool heatActionUpdate = HeatActionManager.InputUpdate(Asset.GetArmsCategory(unit.AssetID), Asset.GetArmsCategorySub(unit.AssetID));
 
-                //we executed a heat action.
-                if (heatActionUpdate)
-                    return;
+            if (Mod.Input[BattleInput.Q].Pressed && !WantTransform)
+            {
+                RPGJobID job = Player.GetCurrentJob(Player.ID.kasuga);
 
-
-                bool wepUpdate = WeaponManager.InputUpdate(unit);
-
-                if (!wepUpdate)
+                if (!IsEXGamer)
                 {
-                    //cheap fix
-                    if(!IsEXGamer)
-                        CurrentMoveset = m_currentStyle.CommandSet;
-                       // kasugaFighter.ThrowEquipAsset(false, true);
-                    if (DragonEngine.IsKeyHeld(VirtualKey.N1))
-                        ChangeStyle(m_Styles[0]);
-                    else if (DragonEngine.IsKeyHeld(VirtualKey.N2))
-                        ChangeStyle(m_Styles[1]);
-                    else if (DragonEngine.IsKeyHeld(VirtualKey.N3))
-                        ChangeStyle(m_Styles[2]);
-                }
-
-
-                if (Mod.Input[BattleInput.Q].Pressed && !WantTransform)
-                {
-                    RPGJobID job = Player.GetCurrentJob(Player.ID.kasuga);
-
-                    if (!IsEXGamer)
+                    if (kasugaFighter.GetStatus().Heat > 0)
                     {
-                        if (kasugaFighter.GetStatus().Heat > 0)
-                        {
-                            IsEXGamer = true;
-                            WantTransform = true;
-                        }
-                    }
-                    else
-                    {
-                        IsEXGamer = false;
+                        IsEXGamer = true;
                         WantTransform = true;
                     }
                 }
-
-                Fighter[] allEnemies = BrawlerBattleManager.Enemies;
-
-                if (CommonMoves != null)
+                else
                 {
-                    foreach (MoveBase move in CommonMoves.Moves)
-                        if (move.AreInputKeysPressed() && move.CheckConditions(kasugaFighter, allEnemies))
-                        {
-                            ExecuteMove(move, kasugaFighter, allEnemies);
-                            return; //else the code below for currentmoveset will execute
-                        }
+                    IsEXGamer = false;
+                    WantTransform = true;
                 }
-
-                if (CurrentMoveset != null)
-                    foreach (MoveBase move in CurrentMoveset.Moves)
-                        if (move.AreInputKeysPressed() && move.CheckConditions(kasugaFighter, allEnemies))
-                        {
-                            ExecuteMove(move, kasugaFighter, allEnemies);
-                            break;
-                        }
-
-
             }
+
+            Fighter[] allEnemies = BrawlerBattleManager.Enemies;
+
+            if (CommonMoves != null)
+            {
+                foreach (MoveBase move in CommonMoves.Moves)
+                    if (move.AreInputKeysPressed() && move.CheckConditions(kasugaFighter, allEnemies))
+                    {
+                        ExecuteMove(move, kasugaFighter, allEnemies);
+                        return; //else the code below for currentmoveset will execute
+                    }
+            }
+
+            if (CurrentMoveset != null)
+                foreach (MoveBase move in CurrentMoveset.Moves)
+                    if (move.AreInputKeysPressed() && move.CheckConditions(kasugaFighter, allEnemies))
+                    {
+                        ExecuteMove(move, kasugaFighter, allEnemies);
+                        break;
+                    }
         }
 
         public static void GameUpdate()
@@ -323,8 +329,12 @@ namespace Brawler
             m_lastMove = move;
 
             m_attackCooldown = move.cooldown;
-            attackCancelTimer = new Timer() { Enabled = true, Interval = TimeSpan.FromSeconds(move.cooldown).TotalMilliseconds, AutoReset = false };
-            attackCancelTimer.Elapsed += delegate { attacker.Character.HumanModeManager.ToEndReady(); };
+
+            if (move.cooldown > 0.1f)
+            {
+                attackCancelTimer = new Timer() { Enabled = true, Interval = TimeSpan.FromSeconds(move.cooldown).TotalMilliseconds, AutoReset = false };
+                attackCancelTimer.Elapsed += delegate { attacker.Character.HumanModeManager.ToEndReady(); };
+            }
 
             m_currentAttackTime = 0;
             move.Execute(attacker, enemy);
@@ -390,10 +400,23 @@ namespace Brawler
                     new MoveInput(BattleInput.LeftMouse, false)
                 }, MoveSimpleConditions.FighterIsNotDown),
 
-                new MoveRPG((RPGSkillID)246, 3.5f, new MoveInput[]
+                new MoveGrab(new MoveInput[] { new MoveInput(BattleInput.E, false) }, MoveSimpleConditions.FighterIsNotDown)
+                {
+                    Grab = (RPGSkillID)194,
+                    GrabAnim = (MotionID)17096, //p_yag_btl_mai_sy0_gsp_lp
+                    GrabSync = (RPGSkillID)1759,
+                    ShakeOff = (RPGSkillID)1754,
+                    HitThrow = (RPGSkillID)1755,
+                    HitLight = new RPGSkillID[] { (RPGSkillID)1756, (RPGSkillID)1757, (RPGSkillID)1758 },
+                    HitHeavy = (RPGSkillID)1760
+                },
+
+                /*
+                new MoveRPG((RPGSkillID)246, 0.001f, new MoveInput[]
                 {
                     new MoveInput(BattleInput.E, false)
-                }, MoveSimpleConditions.FighterIsNotDown),
+                }, MoveSimpleConditions.FighterIsNotDown, 3.5f),
+                */
 
                 /*
                 new MoveRPG((RPGSkillID)243, 2.5f, new MoveInput[]
@@ -462,7 +485,7 @@ namespace Brawler
 
             EXMovesets = new Dictionary<AssetArmsCategoryID, Moveset>()
             {
-                [AssetArmsCategoryID.invalid] =  new Moveset
+                [AssetArmsCategoryID.invalid] = new Moveset
             (
                 (RPGSkillID)1751,
                 new MoveSidestep(0.25f, new MoveInput[]
@@ -506,7 +529,7 @@ namespace Brawler
                 }, MoveSimpleConditions.FighterIsNotDown)
 
             )
-        };
+            };
 
             Style legendStyle = new Style((MotionID)17033, legendMoveSet);
             Style rushStyle = new Style(MotionID.E_KRH_BTL_SUD_styl_change, rushMoveSet);

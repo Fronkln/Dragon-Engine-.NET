@@ -57,6 +57,7 @@ namespace Brawler
         public static Character KasugaChara;
 
         public static Fighter[] Enemies;
+        public static Fighter[] EnemiesNearest;
 
         //Needs to be checked properly to ensure they are actually alive and kicking
         public static Fighter CurrentAttacker = new Fighter((IntPtr)0);
@@ -97,6 +98,11 @@ namespace Brawler
         private static void StartAura()
         {
             KasugaChara.Components.EffectEvent.Get().PlayEvent(LastAura.Loop);
+        }
+
+        public static bool IsThereAnyBoss()
+        {
+            return Enemies.FirstOrDefault(x => x.IsBoss()) != null;
         }
 
         private static bool ShouldShowHeatAura()
@@ -162,18 +168,21 @@ namespace Brawler
                 theme = JobThemes[playerJob];
 
 
-            SoundManager.PlayBGM(theme.Cuesheet, theme.ID);
+            if(!IsThereAnyBoss())
+                SoundManager.PlayBGM(theme.Cuesheet, theme.ID);
         }
 
         public static void OnEXGamerOFF()
         {
+            if (!IsThereAnyBoss())
+            {
+                if (m_bgmID == 0)
+                    Console.WriteLine("!!!!!!!!!!!!!!!!!EX GAMER OFF: BGM ID IS 0!!!!!!!!!!!!!!!!");
 
-            if (m_bgmID == 0)
-                Console.WriteLine("!!!!!!!!!!!!!!!!!EX GAMER OFF: BGM ID IS 0!!!!!!!!!!!!!!!!");
+                SoundManager.PlayBGM(m_bgmID, (uint)TimeSpan.FromSeconds(m_bgmTime).TotalMilliseconds);
+            }
 
-            SoundManager.PlayBGM(m_bgmID, (uint)TimeSpan.FromSeconds(m_bgmTime).TotalMilliseconds);
             SoundManager.PlayCue(SoundCuesheetID.battle_common, 5, 4);
-
 
             Fighter kasugaFighter = FighterManager.GetFighter(0);
             BrawlerPlayer.FreezeInput = true;
@@ -203,6 +212,7 @@ namespace Brawler
                 x.Character.Attributes.ctrl_type == BattleControlType.boss_crane_truck);
 
             //Special fight against machinery. Disable locking on
+            //Else Ichiban will lock into their arms and not the body (which is annoying)
             if (machinery.Count() > 0)
                 DisableTargetingOnce = true;
         }
@@ -212,7 +222,7 @@ namespace Brawler
             SoundManager.LoadCuesheet((SoundCuesheetID)5568); //bbg_brawler
             SoundManager.LoadCuesheet((SoundCuesheetID)2546); //act_player
 
-            m_ResourcesLoaded = false;
+            m_ResourcesLoaded = true;
         }
         public static void Update()
         {
@@ -220,6 +230,7 @@ namespace Brawler
             KasugaChara = DragonEngine.GetHumanPlayer();
 
             Enemies = FighterManager.GetAllEnemies().Where(x => !x.IsDead()).ToArray();
+            EnemiesNearest = Enemies.OrderBy(x => Vector3.Distance((Vector3)Kasuga.Character.Transform.Position, (Vector3)x.Character.Transform.Position)).ToArray();
 
             DETaskManager.Update();
 
@@ -228,6 +239,7 @@ namespace Brawler
                 return;
 #endif
             HActIsPlaying = HActManager.IsPlaying();
+            BrawlerKeyboardMovement.Update();
 
             Mod.IsGameFocused = Mod.ApplicationIsActivated();
 
@@ -243,11 +255,15 @@ namespace Brawler
             //Updates that concern combat start from here
             if (!Kasuga.IsValid())
             {
+                //Mod combat music cuesheet
+                //It is EXTREMELY important to unload this the SECOND we dont need it
+                //Else it will break the music of several bosses (e.g Sawashiro 2)
+                //This is why we constantly check if its loaded in update loop compared to others.
+                if (SoundManager.IsCuesheetLoaded((SoundCuesheetID)5568))
+                    SoundManager.UnloadCuesheet((SoundCuesheetID)5568); //bbg_brawler
+
                 if (BattleStartDoOnce)
                 {
-                    //Mod combat music cuesheet
-                    SoundManager.UnloadCuesheet((SoundCuesheetID)5568);
-
                     KasugaChara.SetCommandSet(BattleCommandSetID.p_kasuga_job_01);
                     AllowPlayerTransformationDoOnce = false;
 
@@ -288,39 +304,8 @@ namespace Brawler
                     {
                         LoadBattleResources();
                         m_ResourcesLoaded = true;
-                        //Testing
-                        TutorialManager.Initialize(
-                            new TutorialSegment[]
-                            {
-                                new TutorialSegment()
-                                {
-                                    Instructions = "Test!",
-                                    TimeToComplete = 0.25f,
-                                    OnStart = delegate{BattleTurnManager.RequestHActEvent(new HActRequestOptions(){id = (TalkParamID)12902, is_force_play = true}); },
-                                    Silent = true
-                                },
-                                new TutorialSegment()
-                                {
-                                    Instructions = "",
-                                    TimeToComplete = 0.5f,
-                                    OnStart = delegate{BattleTurnManager.RequestHActEvent(new HActRequestOptions(){id = (TalkParamID)12903, is_force_play = true}); },
-                                    Silent = true
-                                },
-                                new TutorialSegment()
-                                {
-                                    Instructions = "",
-                                    Modifiers = TutorialModifier.PlayerDontTakeDamage,
-                                    TimeoutIsSuccess = true,
-                                    IsCompleteDelegate = delegate{return false; },
-                                    TimeToComplete = 25,
-                                    UpdateDelegate =
-                                    delegate
-                                    {
-                                        string lightFmt = TutorialManager.GetFormattedButtonStr(TutorialButton.LightAttack);
-                                        TutorialManager.SetText($"{lightFmt}{lightFmt}{lightFmt}{lightFmt}\nRush Combo");
-                                    }
-                                }
-                            });
+
+                        SpecialBattleManager.OnCombatStart();
                     }
 
                 if (!BattleStartDoOnce)
