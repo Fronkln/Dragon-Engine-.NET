@@ -38,11 +38,9 @@ namespace Brawler
                 DoCounterAttack();
         }
 
-        public bool ShouldEvade(BattleDamageInfo inf)
+        public bool ShouldEvade(BattleDamageInfoSafe inf)
         {
-            //Maybe instead of blanket banning super armor evasions
-            //Set a flag for when we dont want to dodge during certain parts
-            //Example: Sawashiro 2 charged attack being cancelled out by evasion bug
+            //get ismuteki instead of hyperarmor 
 
             //replace with is counter attacking
             if (AI.IsAttacking())
@@ -54,8 +52,10 @@ namespace Brawler
             if (AI.Character.GetStatus().IsSuperArmor())
                 return false;
 
+            /*
             if (AI.BlockModule.ShouldBlockAttack(inf))
                 return false;
+            */
 
             bool firstEvasion = ShouldEvadeFirstAttack();
 

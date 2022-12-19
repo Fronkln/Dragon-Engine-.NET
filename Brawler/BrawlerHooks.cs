@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using DragonEngineLibrary;
 using MinHook.NET;
 
@@ -18,7 +19,16 @@ namespace Brawler
         private delegate void BattleTurnManagerRequestShowMiss(IntPtr mng, IntPtr fighter);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private delegate bool BattleTurnManagerExecPhaseCleanup(IntPtr mngr);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private delegate bool HumanModeManagerIsInputKamae(IntPtr mng);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private unsafe delegate bool HumanModeManagerTransitDamage(IntPtr mng, void* battleDamageInf);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private unsafe delegate bool HumanModeManagerDamageExecValid(IntPtr mng, void* battleDamageInf);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private unsafe delegate bool HumanModeManagerTransitDamageCounter(IntPtr thisPtr, IntPtr args);
@@ -45,12 +55,33 @@ namespace Brawler
         private delegate void BattleTurnManagerChangePhase(IntPtr mng, BattleTurnManager.TurnPhase phase);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private delegate void BattleTurnManagerChangeActionStep(IntPtr mng, BattleTurnManager.ActionStep phase);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private unsafe delegate void TimingDropAssetPlay(IntPtr node, uint tick, IntPtr matrix, uint* parentHandle);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private unsafe delegate void GuardReactionSetMotionID(IntPtr guardReactionOb);
 
-        public static void Init()
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private unsafe delegate void BattleStartActionRequestMotion(IntPtr fighterMode, uint gmtID);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private unsafe delegate bool BattleStartManagerIsTransformDelay(IntPtr battleStartMng);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private unsafe delegate void FighterModeHumanDamageRequestMotion(IntPtr fighterModeDamage, MotionID id);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private unsafe delegate bool FighterModeHumanDamageIsDown(IntPtr fighterModeDamage);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private unsafe delegate bool HumanModeManagerTransitCounter(IntPtr humanMode, IntPtr battleDamageInfo);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private unsafe delegate bool CameraFreeIsRotateBehind(IntPtr cam);
+
+        public unsafe static void Init()
         {
             _kamaeDeleg = new HumanModeManagerIsInputKamae(HumanModeManager_IsInputKamae);
             _guardDeleg = new HumanModeManagerIsInputKamae(HumanModeManager_IsInputGuard);
@@ -60,9 +91,19 @@ namespace Brawler
             _btlTurnManagerRequestShowMissDeleg = new BattleTurnManagerRequestShowMiss(BattleTurnManager_RequestShowMiss);
             _btlTurnManagerRequestWarpFighterDeleg = new BattleTurnManagerRequestWarpFighter(BattleTurnManager_RequestWarpFighter);
             _btlTurnManagerChangePhaseDeleg = new BattleTurnManagerChangePhase(BattleTurnManager_ChangePhase);
+            _btlTurnManagerChangeActionStepDeleg = new BattleTurnManagerChangeActionStep(BattleTurnManager_ChangeActionStep);
+            _execPhaseCleanupDeleg = new BattleTurnManagerExecPhaseCleanup(BattleTurnManager_ExecPhaseCleanup);
             _ecRenderCharacterBattleTransformOnDeleg = new ECRenderCharacterBattleTransformOn(ECRenderCharacter_BattleTransformOn);
             _dmgDeleg = new DamageNodeProcHook(DmgProc);
             _calcHpDeleg = new UICalcHealthGaugeWidth(CalcHealthGaugeWidth);
+            _btlStartReqMotDeleg = new BattleStartActionRequestMotion(BattleStartAction_RequestMotion);
+            _btlStartManagerIsDelayTransformDeleg = new BattleStartManagerIsTransformDelay(BattleStartManager_IsDelayTransform);
+            _fighterModeDamageRequestMotionDeleg = new FighterModeHumanDamageRequestMotion(FighterModeHumanDamage_RequestMotion);
+            _humanModeTransitDamageDeleg = new HumanModeManagerTransitDamage(HumanModeManager_TransitDamage);
+            _fighterModeHumanDamageIsDownDeleg = new FighterModeHumanDamageIsDown(FighterModeHumanDamage_IsDown);
+            _humanModeTransitDmgCounterDeleg = new HumanModeManagerTransitDamageCounter(HumanModeManager_TransitCounterDamage);
+            _damageExecValidDeleg = new HumanModeManagerDamageExecValid(HumanModeManager_DamageExecValid);
+            _cameraFreeIsRotateBehindDeleg = new CameraFreeIsRotateBehind(CameraFree_IsRotateBehind);
 
             unsafe
             {
@@ -89,9 +130,22 @@ namespace Brawler
             MinHookHelper.createHook((IntPtr)0x140FF0ED0, _btlTurnManagerRequestShowMissDeleg, out _btlTurnManagerDmgRequestShowMissTrampoline);
             MinHookHelper.createHook((IntPtr)0x1404DDEF0, _btlTurnManagerRequestWarpFighterDeleg, out _btlTurnManagerRequestWarpFighterTrampoline);
             MinHookHelper.createHook((IntPtr)0x1404C8AE0, _btlTurnManagerChangePhaseDeleg, out _btlTurnManagerChangePhaseTrampoline);
+            MinHookHelper.createHook((IntPtr)0x1404C9850, _btlTurnManagerChangeActionStepDeleg, out _btlTurnManagerChangeActionStepTrampoline);
             MinHookHelper.createHook((IntPtr)0x1407E2B20, _ecRenderCharacterBattleTransformOnDeleg, out _ecRenderCharacterBattleTransformOnTrampoline);
             MinHookHelper.createHook((IntPtr)0x140944EE0, _justCounterValidEventDeleg, out _justCounterValidEventTrampoline);
             MinHookHelper.createHook((IntPtr)0x157A9E640, _dropPlayDeleg, out _dropPlayTrampoline);
+            //    MinHookHelper.createHook((IntPtr)0x1406EB940, _btlStartReqMotDeleg, out _btlStartReqMotTrampoline);
+            MinHookHelper.createHook((IntPtr)0x1409AB480, _btlStartManagerIsDelayTransformDeleg, out _btlStartManagerIsDelayTransformTrampoline);
+            MinHookHelper.createHook((IntPtr)0x1406E1490, _fighterModeDamageRequestMotionDeleg, out _fighterModeDamageRequestMotionTrampoline);
+            MinHookHelper.createHook((IntPtr)0x1406DE9F0, _humanModeTransitDamageDeleg, out _humanModeTransitDamageTrampoline);
+            MinHookHelper.createHook((IntPtr)0x1406E24C0, _fighterModeHumanDamageIsDownDeleg, out _fighterModeHumanDamageIsDownTrampoline);
+            MinHookHelper.createHook((IntPtr)0x1406F22D0, _humanModeTransitDmgCounterDeleg, out _humanModeTransitDmgCounterTrampoline);
+            MinHookHelper.createHook((IntPtr)0x1406DE870, _damageExecValidDeleg, out _damageExecValidTrampoline);
+            MinHookHelper.createHook((IntPtr)0x1404D5920, _execPhaseCleanupDeleg, out _execPhaseCleanupTrampoline);
+            MinHookHelper.createHook((IntPtr)0x140795190, _cameraFreeIsRotateBehindDeleg, out _cameraFreeIsRotateBehindTrampoline);
+
+            //COMBAT: Ensuring smoother combat transitions by removing the battle end fade.
+            DragonEngineLibrary.Unsafe.CPP.NopMemory((IntPtr)0x1404C84C9, 5);
 
             //JUDGMENT UI GAUGE: Replace the Judgment check with Yazawa (YLAD)
             DragonEngineLibrary.Unsafe.CPP.PatchMemory((IntPtr)0x1410E4C8C, new byte[] { 0x7 });
@@ -106,7 +160,10 @@ namespace Brawler
 
             //CRANE TRUCK: prevent teleportation
             DragonEngineLibrary.Unsafe.CPP.NopMemory((IntPtr)0x140256BCF, 5);
-            DragonEngineLibrary.Unsafe.CPP.NopMemory((IntPtr)0x140257156, 5); 
+            DragonEngineLibrary.Unsafe.CPP.NopMemory((IntPtr)0x140257156, 5);
+
+            //HUMANMODEMANAGER: Disable hardcoded any hardcoded counters. Our AI will take care of it.
+            //    DragonEngineLibrary.Unsafe.CPP.PatchMemory((IntPtr)0x1406F22D0, new byte[] { 0xB0, 0x00, 0xC3 });
 
             DragonEngineLibrary.Unsafe.CPP.NopMemory((IntPtr)0x157B1E080, 7);
             DragonEngineLibrary.Unsafe.CPP.PatchMemory((IntPtr)0x157B1E087, 0x84, 0xC0, 0x90);
@@ -121,6 +178,15 @@ namespace Brawler
             MinHookHelper.enableAllHook();
         }
 
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate bool ExecPhaseBattleResult(IntPtr mng);
+
+        public static void TestExec(IntPtr rawPtr)
+        {
+            ExecPhaseBattleResult resFunc = (ExecPhaseBattleResult)Marshal.GetDelegateForFunctionPointer((IntPtr)0x1404D6060, typeof(ExecPhaseBattleResult));
+            resFunc.Invoke(rawPtr);
+        }
 
         private static GuardReactionSetMotionID _guardReactionIDDeleg;
         private static GuardReactionSetMotionID _guardReactionIDTrampoline;
@@ -152,7 +218,7 @@ namespace Brawler
             else
             {
                 //TODO: Fix AI code. Add boss traits to goons but never activate them
-                if(ai.IsBoss())
+                if (ai.IsBoss())
                 {
                     if ((ai as EnemyAIBoss).BlockModule.OnBlockedAnimEvent())
                         return;
@@ -225,7 +291,7 @@ namespace Brawler
                 TimingInfoDamage* damage = (TimingInfoDamage*)dmg;
 
                 //Bep/Sync damage
-                if (damage->attaker > 5 || !HActManager.IsPlaying())
+                if (damage->attaker > 5 || !BrawlerBattleManager.HActIsPlaying)
                 {
                     _dmgTrampoline(node, dmg, fighter);
                     return;
@@ -276,7 +342,7 @@ namespace Brawler
                     if (damage->damage > 1)
                     {
                         long atkIncrease = (long)(playerAttack * atkRatio);
-                        long dmgReduction = (long)(victimDefense * defRatio); 
+                        long dmgReduction = (long)(victimDefense * defRatio);
 
                         calculatedDamage = damage->damage + atkIncrease - dmgReduction;
                     }
@@ -308,7 +374,7 @@ namespace Brawler
                         long cappedDamage = (long)(victimStatus.MaxHP * damageCap);
 
                         //enemy has so little health this failed, 10% HP cap instead
-                        if(cappedDamage == 0)
+                        if (cappedDamage == 0)
                             cappedDamage = (long)(victimStatus.MaxHP * 0.1f);
 
                         if (finalDmg > cappedDamage)
@@ -351,117 +417,74 @@ namespace Brawler
 
 
         //This hook will be utilized for attack counters
+        //This hook will be utilized for attack counters/special damage events.
+        private static HumanModeManagerDamageExecValid _damageExecValidDeleg;
+        private static HumanModeManagerDamageExecValid _damageExecValidTrampoline;
+        private unsafe static bool HumanModeManager_DamageExecValid(IntPtr humanModePtr, void* damageInfo)
+        {
+            BattleDamageInfoSafe safeDmg = new BattleDamageInfoSafe((IntPtr)damageInfo);
+            Fighter attacker = safeDmg.Attacker.Get().GetFighter();
+            Fighter victim = new HumanModeManager() { Pointer = humanModePtr }.Human.GetFighter();
+
+            //Enemy on hit procedure
+            if (!victim.IsPlayer())
+            {
+                EnemyAI ai = EnemyManager.GetAI(victim);
+
+                if (!ai.AllowDamage())
+                    safeDmg.Damage = 0;
+
+                if (ai != null)
+                {
+                    ai.DamageTransit(safeDmg);
+
+                    bool attackCountered = ai.DamageTransit(safeDmg);
+
+                    //we have intercepted/countered the attack.
+                    if (attackCountered)
+                    {
+                        ai.BlockModule.BlockProcedure = false;
+
+                        return true;
+                    }
+                }
+
+                return _damageExecValidTrampoline(humanModePtr, damageInfo);
+            }
+
+            if (!BrawlerPlayer.AllowDamage((*(BattleDamageInfo*)damageInfo)))
+                safeDmg.Damage = 0;
+
+            if (BrawlerPlayer.DamageTransit(safeDmg))
+                return true;
+
+               
+            return _damageExecValidTrampoline(humanModePtr, damageInfo);
+        }
+
+        //This hook will be utilized for attack counters
         private static HumanModeManagerTransitDamageCounter _justCounterValidEventDeleg;
         private static HumanModeManagerTransitDamageCounter _justCounterValidEventTrampoline;
         private unsafe static bool JustGuard_ValidEvent(IntPtr thisPtr, IntPtr args)
         {
             Fighter victim = new Fighter((IntPtr)(((CalcDamageEventArgs*)args)->damage_fighter_));
+
+            if (victim.IsPlayer())
+                return true;
+
             CalcDamageEventArgs* argsPtr = (CalcDamageEventArgs*)args;
             BattleDamageInfo* damageInf = argsPtr->info;
-            
-            //Player
-            bool guarded = false;
+            BattleDamageInfoSafe safeDmg = new BattleDamageInfoSafe((IntPtr)damageInf);
 
-            if (!victim.IsPlayer())
-            {
-                Fighter fighter = victim;
-                EnemyAI ai = EnemyManager.GetAI(fighter);
+            EnemyAI ai = EnemyManager.GetAI(victim);
 
-                if (ai == null)
-                    return false;
-
-                if (!BrawlerPlayer.IsEXGamer)
-                {
-                    ECBattleStatus kasugaStatus = BrawlerBattleManager.Kasuga.GetStatus();
-                    int maxHeat = Player.GetHeatMax(Player.ID.kasuga);
-
-                    //player will recover 5% heat for each hit
-                    if (kasugaStatus.Heat < maxHeat)
-                        kasugaStatus.Heat = kasugaStatus.Heat + (int)(maxHeat * 0.05f);
-                }
-
-                bool special = (ai.Info.IsSync ? false : ai.DoSpecial(*argsPtr->info));
-                bool blocked = (special ? false : ai.ShouldBlockAttack(*argsPtr->info));
-
-                //BUG: guard break interrupts counter attack
-                if (blocked)
-                {
-                    uint brawlerSpecialProperty = *((uint*)((uint)damageInf + 0xE8));
-
-                    bool wouldHaveCounterAttacked = ai.EvasionModule.ShouldDoCounterAttack();
-
-                    //YLAD Brawler: Guard Break
-                    if (!wouldHaveCounterAttacked && brawlerSpecialProperty == 99999)
-                        ai.OnGuardBroke();
-                    else
-                        ai.OnBlocked();
-                }
-
-                bool allowDamage = ai.AllowDamage();
-
-                if(special || !allowDamage)
-                {
-                    uint* dmg = (uint*)((long)argsPtr->info + 0x64);
-                    bool* miss = (bool*)((long)argsPtr->info + 0xA9);
-
-                    *dmg = 0;
-
-                    if(special)
-                        *miss = true;
-                }
-
-                ai.OnHit();
-
-                return blocked;
-            }
-            else
-            {
-               
-                if (!BrawlerPlayer.AllowDamage(*damageInf))
-                {
-                    uint* dmg = (uint*)((long)argsPtr->info + 0x64);
-                    bool* miss = (bool*)((long)argsPtr->info + 0xA9);
-
-                    *dmg = 0;
-                }
-
-                guarded = true;
-            }
-
-            if (BrawlerPlayer.CurrentMoveset.RepelCounter == RPGSkillID.invalid)
+            if (ai == null)
                 return false;
 
-            Character attacker = new EntityHandle<Character>(*((uint*)((long)argsPtr->info + 0x58)));
+            ai.OnHit();
+            BrawlerPlayer.OnHitEnemy(victim, safeDmg);
 
-            if (Vector3.Distance((Vector3)victim.Character.Transform.Position, (Vector3)attacker.Transform.Position) > 1.8f)
-                return false;
-
-            //Locked into the enemy that tried to attack us.
-            if (BrawlerPlayer.GetLockOnTarget(BrawlerBattleManager.Kasuga, BrawlerBattleManager.Enemies).Character.UID == attacker.UID)
-            {
-                //We perfect guarded
-                if (Mod.Input[BattleInput.LeftShift].TimeHeld > 0 && Mod.Input[BattleInput.LeftShift].TimeHeld <= 0.7f)
-                {
-                    uint* dmg = (uint*)((long)argsPtr->info + 0x64);
-                    bool* miss = (bool*)((long)argsPtr->info + 0xA9);
-
-                    *dmg = 0;
-                    *miss = true;
-
-                    BattleTurnManager.ForceCounterCommand(victim, attacker.GetFighter(), BrawlerPlayer.CurrentMoveset.RepelCounter);
-                    guarded = false;
-                }
-            }
-
-            //Player
-            if (guarded)
-            {
-                BrawlerPlayer.OnGuard();
-                return true;
-            }
-
-            //Removed perfect guarding
-            return false;
+            return ai.GuardProcedure();
         }
 
         private static HumanModeManagerIsInputKamae _kamaeDeleg;
@@ -478,10 +501,10 @@ namespace Brawler
             {
                 MotionID gmt = BrawlerBattleManager.KasugaChara.GetMotion().GmtID;
 
-                if (BrawlerPlayer.Info.IsDown || 
-                    BrawlerPlayer.FreezeInput || 
+                if (BrawlerPlayer.Info.IsDown ||
+                    BrawlerPlayer.FreezeInput ||
                     gmt > 0)
-                    
+
                     return false;
 
                 if (DragonEngine.IsKeyHeld(VirtualKey.MiddleButton))
@@ -593,7 +616,6 @@ namespace Brawler
         private static BattleTurnManagerChangePhase _btlTurnManagerChangePhaseTrampoline;
         private static void BattleTurnManager_ChangePhase(IntPtr mng, BattleTurnManager.TurnPhase phase)
         {
-
             //TODO:
             //Shitty fix. The game will directly need to be altered
             //To not do stupid shit while doing brawler hacts
@@ -613,10 +635,14 @@ namespace Brawler
                 return;
             }
 
-            if (phase == BattleTurnManager.TurnPhase.Start)
+            if (phase == BattleTurnManager.TurnPhase.Action)
             {
-                BattleTurnManager.ChangePhase(BattleTurnManager.TurnPhase.Action);
-                BattleTurnManager.ChangeActionStep(BattleTurnManager.ActionStep.Init);
+                // _btlTurnManagerChangePhaseTrampoline(mng, phase);
+                // BattleTurnManager.ChangePhase(BattleTurnManager.TurnPhase.Action);
+                //  BattleTurnManager.ChangeActionStep(BattleTurnManager.ActionStep.Init);
+
+                if (BrawlerBattleManager.IsEncounter)
+                    BrawlerBattleManager.KasugaChara.HumanModeManager.ToEndReady();
             }
 
             Console.WriteLine(BattleTurnManager.CurrentPhase + " -> " + phase);
@@ -624,10 +650,19 @@ namespace Brawler
 
             _btlTurnManagerChangePhaseTrampoline(mng, phase);
 
+            /*
             if (phase == BattleTurnManager.TurnPhase.BattleResult)
             {
                 new SimpleTimer(0.1f, delegate { BattleTurnManager.ChangePhase(BattleTurnManager.TurnPhase.End); });
             }
+            */
+        }
+
+        private static BattleTurnManagerChangeActionStep _btlTurnManagerChangeActionStepDeleg;
+        private static BattleTurnManagerChangeActionStep _btlTurnManagerChangeActionStepTrampoline;
+        private static void BattleTurnManager_ChangeActionStep(IntPtr mng, BattleTurnManager.ActionStep actionStep)
+        {
+            _btlTurnManagerChangeActionStepTrampoline(mng, actionStep);
         }
 
         private static TimingDropAssetPlay _dropPlayDeleg;
@@ -636,6 +671,158 @@ namespace Brawler
         {
             Character chara = new EntityHandle<Character>(*parentHandle).Get();
             chara.GetFighter().DropWeapon(new DropWeaponOption(AttachmentCombinationID.right_weapon, false));
+        }
+
+        private static BattleStartActionRequestMotion _btlStartReqMotDeleg;
+        private static BattleStartActionRequestMotion _btlStartReqMotTrampoline;
+        private unsafe static void BattleStartAction_RequestMotion(IntPtr fighterMode, uint gmtID)
+        {
+            //TEMP:
+
+            gmtID = 0;
+            return;
+        }
+
+        private static BattleStartManagerIsTransformDelay _btlStartManagerIsDelayTransformDeleg;
+        private static BattleStartManagerIsTransformDelay _btlStartManagerIsDelayTransformTrampoline;
+        private unsafe static bool BattleStartManager_IsDelayTransform(IntPtr startManager)
+        {
+            return false;
+        }
+
+        private static FighterModeHumanDamageRequestMotion _fighterModeDamageRequestMotionDeleg;
+        private static FighterModeHumanDamageRequestMotion _fighterModeDamageRequestMotionTrampoline;
+        private static unsafe void FighterModeHumanDamage_RequestMotion(IntPtr fighterMode, MotionID gmt)
+        {
+            long* mngPtr = (long*)(fighterMode.ToInt64() + 0x28);
+            HumanModeManager manager = new HumanModeManager() { Pointer = (IntPtr)(*mngPtr) };
+
+            EnemyAI ai = EnemyManager.GetAI(manager.Human.GetFighter());
+
+            //Only enemies can be juggled
+            if (ai == null || !ai.IsBeingJuggled())
+            {
+                _fighterModeDamageRequestMotionTrampoline(fighterMode, gmt);
+                return;
+            }
+
+            IntPtr damageInfoPtr = (IntPtr)(fighterMode.ToInt64() + 0x90);
+            Vector4* pos = (Vector4*)(damageInfoPtr + 0x40);
+
+            Vector4 charaPos = manager.Human.Transform.Position;
+            charaPos.y = pos->y + 0.15f;
+
+            if (charaPos != Vector4.zero)
+                ai.OnJuggleHit(charaPos);
+
+            _fighterModeDamageRequestMotionTrampoline(fighterMode, (MotionID)17100);
+            manager.Human.GetMotion().RequestGMT(17100);
+
+        }
+
+        private static HumanModeManagerTransitDamage _humanModeTransitDamageDeleg;
+        private static HumanModeManagerTransitDamage _humanModeTransitDamageTrampoline;
+        private static unsafe bool HumanModeManager_TransitDamage(IntPtr humanModeManagerPtr, void* battleDamageInfo)
+        {
+            //DE moment: i have to do this extra hook for juggies
+
+            HumanModeManager manager = new HumanModeManager() { Pointer = humanModeManagerPtr };
+
+            bool result = _humanModeTransitDamageTrampoline(humanModeManagerPtr, battleDamageInfo);
+
+            if (!result)
+                return result;
+
+            EnemyAI enemyAI = EnemyManager.GetAI(manager.Human.GetFighter());
+
+            if (enemyAI == null)
+                return result;
+
+            if (enemyAI.IsBeingJuggled())
+            {
+                if (enemyAI.JuggleModule.JuggleCount <= 1)
+                    return result;
+
+                enemyAI.Chara.Get().GetMotion().RequestGMT(17100);
+                enemyAI.JuggleModule.OnJuggleHit(*(Vector4*)((long)battleDamageInfo + 0x40));
+            }
+
+            return result;
+        }
+
+        private static FighterModeHumanDamageIsDown _fighterModeHumanDamageIsDownDeleg;
+        private static FighterModeHumanDamageIsDown _fighterModeHumanDamageIsDownTrampoline;
+        private static unsafe bool FighterModeHumanDamage_IsDown(IntPtr fighterMode)
+        {
+            long* mngPtr = (long*)(fighterMode.ToInt64() + 0x28);
+            HumanModeManager manager = new HumanModeManager() { Pointer = (IntPtr)(*mngPtr) };
+
+            EnemyAI ai = EnemyManager.GetAI(manager.Human.GetFighter());
+
+            if (ai == null)
+                return _fighterModeHumanDamageIsDownTrampoline(fighterMode);
+
+            if (ai.IsBeingJuggled())
+                return true;
+            else
+                return _fighterModeHumanDamageIsDownTrampoline(fighterMode);
+        }
+
+
+        private static HumanModeManagerTransitDamageCounter _humanModeTransitDmgCounterDeleg;
+        private static HumanModeManagerTransitDamageCounter _humanModeTransitDmgCounterTrampoline;
+        private static unsafe bool HumanModeManager_TransitCounterDamage(IntPtr humanModeManager, IntPtr damagePtr)
+        {
+            return false;
+        }
+
+
+        private static BattleTurnManagerExecPhaseCleanup _execPhaseCleanupDeleg;
+        private static BattleTurnManagerExecPhaseCleanup _execPhaseCleanupTrampoline;
+        private static bool m_cleanupProcedureDoOnce = false;
+        private static unsafe bool BattleTurnManager_ExecPhaseCleanup(IntPtr mng)
+        {
+            Fighter[] deadEnemies = FighterManager.GetAllEnemies();
+
+            //Wait for enemies to complete their dead anim
+            if (deadEnemies.Length > 0 && deadEnemies[0].Character.GetMotion().RequestedAnimPlaying())
+                return true;
+
+            if (BrawlerBattleManager.Kasuga.IsSync() || BrawlerBattleManager.KasugaChara.GetMotion().RequestedAnimPlaying())
+                return true;
+
+            if (!m_cleanupProcedureDoOnce)
+            {
+                DETaskTime time = new DETaskTime(1f,
+                    delegate
+                    {
+                        //Played through soundmanager so that its 2D and easier to hear
+                        if (!BrawlerBattleManager.Kasuga.IsBrawlerCriticalHP())
+                            SoundManager.PlayCue(SoundCuesheetID.gv_fighter_kasuga, 84, 0);
+                        else
+                            SoundManager.PlayCue(SoundCuesheetID.gv_fighter_kasuga, 86, 0);
+
+                        BattleTurnManager.ChangePhase(BattleTurnManager.TurnPhase.BattleResult);
+                        TestExec(mng);
+                        BattleTurnManager.ChangePhase(BattleTurnManager.TurnPhase.End);
+
+                        m_cleanupProcedureDoOnce = false;
+                    });
+                m_cleanupProcedureDoOnce = true;
+            }
+
+
+            return true;
+        }
+
+        private static CameraFreeIsRotateBehind _cameraFreeIsRotateBehindDeleg;
+        private static CameraFreeIsRotateBehind _cameraFreeIsRotateBehindTrampoline;
+        private static unsafe bool CameraFree_IsRotateBehind(IntPtr camera)
+        {
+            if (BrawlerBattleManager.Kasuga.IsValid())
+                return false;
+
+            return true;
         }
     }
 }

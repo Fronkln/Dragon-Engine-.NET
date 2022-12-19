@@ -62,6 +62,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_ACTION_COMMAND", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_ECBattleStatus_Setter_ActionCommand(IntPtr battlestatus, BattleCommandSetID set);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GET_ARTS", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_ECBattleStatus_Get_Arts(IntPtr battlestatus);
+
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_RPG_COMMAND", CallingConvention = CallingConvention.Cdecl)]
         internal static extern BattleCommandSetID DELibrary_ECBattleStatus_Getter_RPGCommand(IntPtr battlestatus);
@@ -230,6 +233,11 @@ namespace DragonEngineLibrary
         public bool IsSuperArmor()
         {
            return DELibrary_ECBattleStatus_IsSuperArmor(Pointer);
+        }
+
+        public uint GetArts()
+        {
+            return DELibrary_ECBattleStatus_Get_Arts(Pointer);
         }
 
         public void AddDamageInfo(BattleDamageInfo inf)

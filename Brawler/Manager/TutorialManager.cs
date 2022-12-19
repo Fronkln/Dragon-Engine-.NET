@@ -125,7 +125,7 @@ namespace Brawler
 
         public static void Update()
         {
-            if (!Active  || HActManager.IsPlaying() || IsTutorialPromptVisible() || m_wait)
+            if (!Active  || BrawlerBattleManager.HActIsPlaying || IsTutorialPromptVisible() || m_wait)
                 return;
 
             if(m_curSegment >= m_tutorialSegments.Length)

@@ -19,12 +19,13 @@ namespace Brawler
             SoundManager.LoadCuesheet(5572);
         }
 
-        public override bool ShouldBlockAttack(BattleDamageInfo dmgInf)
+        /*
+        public override bool ShouldBlockAttack(BattleDamageInfoSafe dmgInf)
         {
             return false;
         }
-
-        public override bool DoSpecial(BattleDamageInfo inf)
+        */
+        public override bool DoSpecial(BattleDamageInfoSafe inf)
         {
             if(IsBeingSpammed())
             {

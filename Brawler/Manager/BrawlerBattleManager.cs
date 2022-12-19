@@ -37,6 +37,8 @@ namespace Brawler
         public static bool BattleStartDoOnce = false;
         public static float BattleTime = 0;
 
+        public static bool IsEncounter = false;
+
         public static bool HActIsPlaying = false;
 
         /// <summary>
@@ -53,16 +55,19 @@ namespace Brawler
         private static uint m_bgmID;
         private static float m_bgmTime;
 
-        public static Fighter Kasuga;
-        public static Character KasugaChara;
+        public static Fighter Kasuga = new Fighter(IntPtr.Zero);
+        public static Character KasugaChara = new Character() { Pointer = IntPtr.Zero };
 
-        public static Fighter[] Enemies;
-        public static Fighter[] EnemiesNearest;
+        public static Fighter[] Enemies = new Fighter[0];
+        public static Fighter[] EnemiesNearest = new Fighter[0];
 
         //Needs to be checked properly to ensure they are actually alive and kicking
         public static Fighter CurrentAttacker = new Fighter((IntPtr)0);
 
         private static bool m_ResourcesLoaded = false;
+
+        private static bool m_actionDoOnce = false;
+
 
 
         static BrawlerBattleManager()
@@ -252,6 +257,12 @@ namespace Brawler
             else
                 StartAura();
 
+            TalkParamID curHactID = AuthManager.PlayingScene.Get().TalkParamID;
+
+            if (BattleTurnManager.CurrentPhase == BattleTurnManager.TurnPhase.Start)
+                if (curHactID == TalkParamID.yazawa_btlst_eb_zako_no_trans || curHactID == TalkParamID.BTLst_eb_zako_test)
+                    IsEncounter = true;
+
             //Updates that concern combat start from here
             if (!Kasuga.IsValid())
             {
@@ -262,11 +273,13 @@ namespace Brawler
                 if (SoundManager.IsCuesheetLoaded((SoundCuesheetID)5568))
                     SoundManager.UnloadCuesheet((SoundCuesheetID)5568); //bbg_brawler
 
+                IsEncounter = false;
+
                 if (BattleStartDoOnce)
                 {
                     KasugaChara.SetCommandSet(BattleCommandSetID.p_kasuga_job_01);
+                   
                     AllowPlayerTransformationDoOnce = false;
-
                     DisableTargetingOnce = false;
                     m_ResourcesLoaded = false;
                 }
@@ -280,7 +293,6 @@ namespace Brawler
 
                 return;
             }
-
 
             if (!Kasuga.IsDead())
             {
@@ -316,10 +328,8 @@ namespace Brawler
                     {
                         CheckSpecialBattle();
 
-                        BrawlerPlayer.ChangeStyle(null, true);
+                        //BrawlerPlayer.ChangeStyle(null, true);
                         BattleStartDoOnce = true;
-
-   
                     }
                 }
 
@@ -328,6 +338,7 @@ namespace Brawler
                     EnemyManager.Update();
 
                 WeaponManager.Update(Kasuga.GetWeapon(AttachmentCombinationID.right_weapon).Unit.Get());
+                HeatActionManager.Update();
                 HeatModule.Update();
                 EXModule.Update();
                 EXFollowups.Update();

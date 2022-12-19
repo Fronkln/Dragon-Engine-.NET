@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
@@ -70,6 +71,19 @@ namespace DragonEngineLibrary
             {
                 return new Vector3(-1, 0, 0);
             }
+        }
+
+        public float magnitude
+        {
+            get 
+            { 
+                return (float)Math.Sqrt(x * x + y * y + z * z); 
+            }
+        }
+
+        public Vector3 normalized
+        {
+            get { return Normalize(this); }
         }
 
         public override string ToString()
@@ -150,15 +164,6 @@ namespace DragonEngineLibrary
             return new Vector3(a.x / d, a.y / d, a.z / d);
         }
 
-        public static float Distance(Vector3 a, Vector3 b)
-        {
-            float diff_x = a.x - b.x;
-            float diff_y = a.y - b.y;
-            float diff_z = a.z - b.z;
-
-            return (float)Math.Sqrt(diff_x * diff_x + diff_y * diff_y + diff_z * diff_z);
-        }
-
         public static bool operator ==(Vector3 v1, Vector3 v2)
         {
             return (v1.x == v2.x && v1.y == v2.y  && v1.z == v2.z);
@@ -168,5 +173,32 @@ namespace DragonEngineLibrary
         {
             return (v1.x != v2.x || v1.y != v2.y || v1.z != v2.z);
         }
+
+        public static float Distance(Vector3 a, Vector3 b)
+        {
+            float diff_x = a.x - b.x;
+            float diff_y = a.y - b.y;
+            float diff_z = a.z - b.z;
+
+            return (float)Math.Sqrt(diff_x * diff_x + diff_y * diff_y + diff_z * diff_z);
+        }
+
+        public static float Dot(Vector3 lhs, Vector3 rhs)
+        {
+            return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+        }
+
+        public static Vector3 Normalize(Vector3 vec)
+        {
+            float mag = vec.magnitude;
+
+            if (mag > 0.00001f)
+                return vec / mag;
+            else
+                return zero;
+        }
+
+
+
     }
 }

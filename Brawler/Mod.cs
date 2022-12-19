@@ -226,9 +226,9 @@ namespace Brawler
                     if (DragonEngine.IsKeyDown(VirtualKey.Numpad9))
                     {
                         ECBattleStatus status = DragonEngine.GetHumanPlayer().GetBattleStatus();
-                        status.AttackPower = 200;
+                        status.AttackPower = 3500;
 
-                        DragonEngine.Log("200 damage");
+                        DragonEngine.Log("3500 damage");
                     }
 
                     if (DragonEngine.IsKeyDown(VirtualKey.T))

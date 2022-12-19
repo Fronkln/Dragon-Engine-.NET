@@ -85,6 +85,22 @@ namespace DragonEngineLibrary
             );
         }
 
+        public static bool operator !=(Vector4 a, Vector4 b)
+        {
+            return a.x != b.x ||
+                a.y != b.y ||
+                a.z != b.z ||
+                a.w != b.w;
+        }
+
+        public static bool operator==(Vector4 a, Vector4 b)
+        {
+            return a.x == b.x &&
+                a.y == b.y &&
+                a.z == b.z &&
+                a.w == b.w;
+        }
+
         public static Vector4 operator +(Vector4 a, Vector4 b)
         {
             Vector4 outVec;

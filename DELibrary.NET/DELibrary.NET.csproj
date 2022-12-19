@@ -157,6 +157,7 @@
     <Compile Include="Entity\EffectEventManager.cs" />
     <Compile Include="Entity\EntityComponentMap.cs" />
     <Compile Include="Entity\EntityComponentMapSync.cs" />
+    <Compile Include="Entity\GameVarManager.cs" />
     <Compile Include="Entity\HumanMode.cs" />
     <Compile Include="Entity\HumanModeManager.cs" />
     <Compile Include="Entity\Item.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Enums\BattleGroupID.cs" />
     <Compile Include="Enums\DbID.cs" />
     <Compile Include="Enums\DEGames.cs" />
+    <Compile Include="Enums\GameVarID.cs" />
     <Compile Include="Enums\HActRangeType.cs" />
     <Compile Include="Enums\Kiwami 2\ECSlotIDYK2.cs" />
     <Compile Include="Enums\ParticleInterface.cs" />
@@ -287,10 +289,12 @@
     <Compile Include="Entity\Player.cs" />
     <Compile Include="MarshallingTests.cs" />
     <Compile Include="Entity\Yakuza 7\MGHomelessCan.cs" />
+    <Compile Include="MathUtils.cs" />
     <Compile Include="PXD.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Structs\AuthNodeInfo.cs" />
     <Compile Include="Structs\BattleDamageInfo.cs" />
+    <Compile Include="Structs\BattleDamageInfoSafe.cs" />
     <Compile Include="Structs\BattleFighterInfo.cs" />
     <Compile Include="Structs\BattleSelectCommandInfo.cs" />
     <Compile Include="Structs\CalcDamageEventArgs.cs" />

@@ -68,12 +68,15 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enemy\EnemyAIKiryu.cs" />
+    <Compile Include="Enemy\EnemyJuggleModule.cs" />
     <Compile Include="Ini.cs" />
     <Compile Include="IniSettings.cs" />
-    <Compile Include="Manager\BattleManager.cs" />
+    <Compile Include="Manager\BrawlerBattleManager.cs" />
     <Compile Include="BrawlerFighterInfo.cs" />
     <Compile Include="BrawlerGaugeRestore.cs" />
     <Compile Include="BrawlerHooks.cs" />
+    <Compile Include="Manager\EncounterManager.cs" />
     <Compile Include="Manager\SpecialBattleManager.cs" />
     <Compile Include="Manager\TutorialManager.cs" />
     <Compile Include="Misc\BrawlerKeyboardMovement.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="Types\Tutorial\TutorialButton.cs" />
     <Compile Include="Types\Tutorial\TutorialModifier.cs" />
     <Compile Include="Types\Tutorial\TutorialSegment.cs" />
+    <Compile Include="Unsafe Native\FighterModeDamage.cs" />
     <Compile Include="Utils\DETaskWaitRequestedAnim.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Module\EXModule.cs" />

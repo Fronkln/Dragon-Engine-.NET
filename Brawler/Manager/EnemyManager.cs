@@ -201,6 +201,9 @@ namespace Brawler
                 case BattleControlType.boss_sawashiro_e:
                     ai = new EnemyAISawashiro2();
                     break;
+                case BattleControlType.boss_kiryu:
+                    ai = new EnemyAIKiryu();
+                    break;
             }
 
             ai.Character = enemy;

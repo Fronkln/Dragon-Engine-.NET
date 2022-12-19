@@ -26,6 +26,9 @@ namespace Brawler
         public static float m_attackCooldown = 0;
         public static float m_currentAttackTime = 0;
 
+        public static float GuardTime = 0;
+        public static int GuardedAttacks = 0;
+
         public static Timer attackCancelTimer = null;
 
         public static bool ThrowingWeapon = false;
@@ -134,6 +137,43 @@ namespace Brawler
             OnPlayerGuard?.Invoke();
         }
 
+        /// <summary>
+        /// Used in damage execution functions, don't use individually on normal game loop
+        /// </summary>
+        public unsafe static bool CanCounterAttack(BattleDamageInfoSafe info)
+        {
+            if (CurrentMoveset.RepelCounter == RPGSkillID.invalid)
+                return false;
+
+            Character attacker = info.Attacker.Get();
+
+            if (Vector3.Distance((Vector3)BrawlerBattleManager.KasugaChara.Transform.Position, (Vector3)attacker.Transform.Position) > 1.8f)
+                return false;
+
+            //Are we locked into the enemy that tried to attack us.
+            if (GetLockOnTarget(BrawlerBattleManager.Kasuga, BrawlerBattleManager.Enemies).Character.UID != attacker.UID)
+                return false;
+
+            if (Mod.Input[BattleInput.LeftShift].TimeHeld > 0 && Mod.Input[BattleInput.LeftShift].TimeHeld <= 0.7f)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Would this attack kill the player (takes revive items/RNG into account)
+        /// </summary>
+        //TODO: Check inv for sacrifice stone
+        public unsafe static bool WouldDie(BattleDamageInfoSafe dmg)
+        {
+            ECBattleStatus status = BrawlerBattleManager.Kasuga.GetStatus();
+
+            if (status.CurrentHP - dmg.Damage <= 0)
+                return true;
+            else
+                return false;
+        }
+        
         public static void InputUpdate()
         {
             if (FreezeInput || !Mod.IsGameFocused)
@@ -177,10 +217,6 @@ namespace Brawler
                 // kasugaFighter.ThrowEquipAsset(false, true);
                 if (DragonEngine.IsKeyHeld(VirtualKey.N1))
                     ChangeStyle(m_Styles[0]);
-                else if (DragonEngine.IsKeyHeld(VirtualKey.N2))
-                    ChangeStyle(m_Styles[1]);
-                else if (DragonEngine.IsKeyHeld(VirtualKey.N3))
-                    ChangeStyle(m_Styles[2]);
             }
 
 
@@ -249,7 +285,18 @@ namespace Brawler
                 }
             }
 
+            bool guardInput = BrawlerHooks.HumanModeManager_IsInputGuard(BrawlerBattleManager.KasugaChara.HumanModeManager.Pointer);
+
             float timeDelta = DragonEngine.deltaTime;
+
+            if (!guardInput)
+            {
+                GuardedAttacks = 0;
+                GuardTime = 0;
+            }
+            else
+                GuardTime += timeDelta;
+           
 
             if (m_attackCooldown > 0)
             {
@@ -315,6 +362,43 @@ namespace Brawler
                     kv.Value.Pressed = false;
             }
 
+        }
+
+        public static bool DamageTransit(BattleDamageInfoSafe dmg)
+        {
+            Fighter attacker = dmg.Attacker.Get().GetFighter();
+
+            if (!CanCounterAttack(dmg))
+            {
+                if (WouldDie(dmg))
+                {
+                    bool specialFinish = EnemyManager.GetAI(attacker).DoFinisher(dmg);
+
+                    if (specialFinish)
+                        return true;
+                    else
+                        return false;
+                }
+
+                return false;
+            }
+
+            BattleTurnManager.ForceCounterCommand(BrawlerBattleManager.Kasuga, attacker, CurrentMoveset.RepelCounter);
+
+            return true;
+        }
+
+        public static void OnHitEnemy(Fighter enemy, BattleDamageInfoSafe dmg)
+        {
+            if (!IsEXGamer)
+            {
+                ECBattleStatus kasugaStatus = BrawlerBattleManager.Kasuga.GetStatus();
+                int maxHeat = Player.GetHeatMax(Player.ID.kasuga);
+
+                //player will recover 2.5% heat for each hit
+                if (kasugaStatus.Heat < maxHeat)
+                    kasugaStatus.Heat = kasugaStatus.Heat + (int)(maxHeat * 0.025f);
+            }
         }
 
         //Standard attacking, does not include heat actions
@@ -425,11 +509,13 @@ namespace Brawler
                 }, MoveSimpleConditions.FighterIsNotDown),
                 */
 
+#if DEBUG
                 new MoveRPG(RPGSkillID.boss_kiryu_legend_atk_c, 1f, new MoveInput[]
                 {
                     new MoveInput(BattleInput.LeftShift, true),
                     new MoveInput(BattleInput.RightMouse, false)
                 }, MoveSimpleConditions.FighterIsNotDown)
+#endif
 
             );
 
@@ -538,8 +624,6 @@ namespace Brawler
             return new Style[]
             {
                 legendStyle,
-                rushStyle,
-                crashStyle,
             };
         }
     }

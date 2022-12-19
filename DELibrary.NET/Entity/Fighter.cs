@@ -71,6 +71,14 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_IsDown(IntPtr fighterPtr);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_IS_MUTEKI", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Fighter_IsMuteki(IntPtr fighterPtr);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_IS_CAN_STAND_ACTION", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Fighter_IsCanStandAction(IntPtr fighterPtr);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_CALC_ROOT_MATRIX", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_CalcRootMatrix(IntPtr fighterPtr);
 
@@ -195,6 +203,20 @@ namespace DragonEngineLibrary
         public bool IsAlly()
         {
             return !IsPlayer() && !IsEnemy();
+        }
+
+        /// <summary>
+        /// Are we invincible? (Includes hyperarmor frames)
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInvincible()
+        {
+            return DELib_Fighter_IsMuteki(_ptr);
+        }
+
+        public bool IsCanStandAction()
+        {
+            return DELib_Fighter_IsCanStandAction(_ptr);
         }
 
         /// <summary>

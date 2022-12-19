@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Brawler.Enemy;
 using DragonEngineLibrary;
 
 namespace Brawler
@@ -19,10 +20,13 @@ namespace Brawler
         public EntityHandle<Character> Chara;
 
         public BrawlerFighterInfo Info;
+        public BrawlerFighterInfo PreviousInfo;
         public BrawlerAIFlags Flags;
 
         public float LastHitTime = 10000;
         public float LastGuardTime = 10000;
+
+        public float DistanceToPlayer { get; protected set; }
 
         //counter attacking
 
@@ -47,6 +51,7 @@ namespace Brawler
         public EnemyEvasionModule EvasionModule = null;
         public EnemyBlockModule BlockModule = null;
         public EnemySyncHActModule SyncHActModule = null;
+        public EnemyJuggleModule JuggleModule = null;
 
         /// <summary>
         /// List of heat actions we have done.
@@ -58,6 +63,7 @@ namespace Brawler
             BlockModule = new EnemyBlockModule() { AI = this };
             EvasionModule = new EnemyEvasionModule() { AI = this };
             SyncHActModule = new EnemySyncHActModule() { AI = this };
+            JuggleModule = new EnemyJuggleModule() { AI = this};
 #if DEBUG
             Console.WriteLine(Chara.Get().Attributes.soldier_data_id + " " + Chara.Get().Attributes.enemy_id + " " + Chara.Get().Attributes.ctrl_type);
 #endif
@@ -97,6 +103,8 @@ namespace Brawler
 
         public void Update()
         {
+            PreviousInfo = Info;
+            Info = new BrawlerFighterInfo() { Fighter = Character };
             Info.Update(Character);
             ReadPlayerInput();
 
@@ -126,6 +134,7 @@ namespace Brawler
             BlockModule.Update();
             EvasionModule.Update();
             SyncHActModule.Update();
+            JuggleModule.Update();
 
             if (m_getupHyperArmorDoOnce && !m_gettingUp)
             {
@@ -137,7 +146,90 @@ namespace Brawler
             {
                 m_getupHyperArmorDoOnce = true;
                 Character.GetStatus().SetSuperArmor(true);
+
+                OnStartGettingUp();
             }
+        }
+
+
+        /// <summary>
+        /// Returns true: Attack has been "processed" (aka it wont deal dmg)
+        /// </summary>
+        public unsafe virtual bool DamageTransit(BattleDamageInfoSafe dmg)
+        {
+            if (CanCounter() && DamageTransitCounter(dmg))
+            {
+                Chara.Get().Components.EffectEvent.Get().PlayEvent((EffectEventCharaID)206);
+                SoundManager.PlayCue(SoundCuesheetID.battle_common, 5, 0);
+
+                return true;
+            }
+
+            if(!BlockModule.BlockProcedure)
+            {
+                bool startedBlocking = DamageTransitGuard();
+
+                if (!startedBlocking)
+                    RecentHitsWithoutDefensiveMove++;
+                else
+                {
+                    BlockModule.BlockProcedure = true;
+
+                    if (IsBoss())
+                        BlockModule.GuaranteedBlocks = new Random().Next(3, 6);
+                    else
+                        BlockModule.GuaranteedBlocks = new Random().Next(5, 10);
+                }
+
+            }
+
+            //Started guarding/guarding
+            if (BlockModule.BlockProcedure)
+            {
+                uint brawlerSpecialProperty = *((uint*)(dmg._ptr.ToInt64() + 0xE8));
+                bool weakEnemyBlockOver = !IsBoss() && BlockModule.GuaranteedBlocks <= 1;
+
+                if (brawlerSpecialProperty == 99999 || weakEnemyBlockOver)
+                    OnGuardBroke();
+                else
+                    OnBlocked();
+            }
+
+            return false;
+        }
+
+
+        /// <summary>
+        /// Called on Damage Exec Valid, determines if the character should start blocking
+        /// <br></br>
+        /// Will start guard procedure.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool DamageTransitGuard()
+        {
+            if (BlockModule.ShouldBlockAttack())
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Return true: Attack cancelled out by a counter attack!
+        /// </summary>
+        /// <param name="dmg"></param>
+        /// <returns></returns>
+        public virtual bool DamageTransitCounter(BattleDamageInfoSafe dmg)
+        {
+            return false;
+        }
+
+
+        /// <summary>
+        /// Called on JustGuard.ValidEvent to determine if the enemy will block.
+        /// </summary>
+        /// <returns></returns>
+        public bool GuardProcedure()
+        {
+            return BlockModule.BlockProcedure;
         }
 
         public virtual void HActProcedure()
@@ -151,6 +243,14 @@ namespace Brawler
         }
 
 
+        public bool CanCounter()
+        {
+            if (Character.IsDown() || Character.IsDead() || !Character.IsCanStandAction())
+                return false;
+
+            return true;
+        }
+
         public virtual bool AllowDamage()
         {
             return TutorialManager.AllowEnemyDamage();
@@ -163,6 +263,16 @@ namespace Brawler
             return false;
         }
 
+        public bool IsBeingJuggled()
+        {
+            MotionID gmtID = Chara.Get().GetMotion().GmtID;
+
+            return gmtID == (MotionID)12627 || 
+                gmtID == (MotionID)12628 || 
+                gmtID == (MotionID)12901 || 
+                gmtID == (MotionID)12902 || 
+                gmtID == (MotionID)17100;
+        }
         public virtual bool IsAttacking()
         {
             return BrawlerBattleManager.CurrentAttacker.Character.UID == Chara.UID &&
@@ -183,9 +293,9 @@ namespace Brawler
 
 
             Vector3 playerPos = (Vector3)BrawlerBattleManager.Kasuga.Character.Transform.Position;
-            float distToPlayer = Vector3.Distance((Vector3)Chara.Get().Transform.Position, playerPos);
+            DistanceToPlayer = Vector3.Distance((Vector3)Chara.Get().Transform.Position, playerPos);
 
-            if(distToPlayer > 13 || Info.IsDown)
+            if(DistanceToPlayer > 13 || Info.IsDown)
             {
                 EnemyManager._OverrideNextAttackerOnce = BrawlerBattleManager.Enemies[0];
                 BattleTurnManager.ChangeActionStep(BattleTurnManager.ActionStep.ActionEnd);
@@ -205,8 +315,20 @@ namespace Brawler
 
             //Processed by SetMotionID guardbreak reaction
             Flags.ShouldGuardBreakFlag = true;
+
+            if(!IsBoss())
+            {
+                BlockModule.BlockProcedure = false;
+                BlockModule.GuaranteedBlocks = 0;
+                BlockModule.BlockPenalty = 2.5f;
+            }
         }
 
+
+        protected virtual void OnStartGettingUp()
+        {
+
+        }
 
         public void Sway()
         {
@@ -218,27 +340,17 @@ namespace Brawler
 
         }
 
-        public virtual bool DoSpecial(BattleDamageInfo inf)
+        /// <summary>
+        /// Player is about to die, nothing can save him. The boss could play a hact where they finish off Ichiban.
+        /// </summary>
+        public virtual bool DoFinisher(BattleDamageInfoSafe dmgInf)
         {
             return false;
         }
-        public virtual bool ShouldBlockAttack(BattleDamageInfo dmgInf)
+
+        public virtual bool DoSpecial(BattleDamageInfoSafe inf)
         {
-            //It doesnt matter when they have super armor
-            if (Character.GetStatus().IsSuperArmor())
-                return false;
-
-            if (Character.IsSync())
-                return false;
-
-            if (m_gettingUp)
-                return false;
-
-            if (Info.IsDown)
-                return false;
-
-            Random rnd = new Random();
-            return rnd.Next(0, 101) <= BlockModule.BlockChance;
+            return false;
         }
 
         public virtual bool IsBoss()
@@ -285,10 +397,19 @@ namespace Brawler
 
         }
 
-        public void DoHAct(TalkParamID hact, params Fighter[] allies)
+        public virtual void OnJuggleHit(Vector4 hitPos)
+        {
+           JuggleModule.OnJuggleHit(hitPos);
+        }
+
+        public void DoHAct(TalkParamID hact, Vector4 position, params Fighter[] allies)
         {
             HActRequestOptions opts = new HActRequestOptions();
             opts.base_mtx.matrix = Chara.Get().GetPosture().GetRootMatrix();
+
+            if (position != Vector4.zero)
+                opts.base_mtx.matrix.m_vm3 = position;
+
             opts.id = hact;
             opts.is_force_play = true;
 

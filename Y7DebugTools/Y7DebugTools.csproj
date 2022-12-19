@@ -71,6 +71,7 @@
     <Compile Include="EffectEventMenu.cs" />
     <Compile Include="EntityMenu.cs" />
     <Compile Include="FighterCommandMenu.cs" />
+    <Compile Include="GameVarMenu.cs" />
     <Compile Include="HActPlayer.cs" />
     <Compile Include="JobCounter.cs" />
     <Compile Include="NoclipMode.cs" />

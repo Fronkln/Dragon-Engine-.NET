@@ -35,7 +35,7 @@ namespace Brawler
         {
             if (!m_performedHacts.Contains(m_ushioHact))
                 if (Character.IsHPBelowRatio(0.4f))
-                    DoHAct(m_ushioHact);
+                    DoHAct(m_ushioHact, Vector4.zero);
         }
     }
 }

@@ -70,7 +70,7 @@ namespace Brawler
                 if (m_vigemFail)
                     return;
 
-                    if (BattleTurnManager.CurrentPhase != BattleTurnManager.TurnPhase.Action || (BrawlerPlayer.FreezeInput || !Mod.IsGameFocused) || (!BrawlerBattleManager.BattleStartDoOnce || BrawlerBattleManager.HActIsPlaying))
+                    if (BattleTurnManager.CurrentPhase != BattleTurnManager.TurnPhase.Action || (BrawlerPlayer.FreezeInput || !Mod.IsGameFocused) || (!BrawlerBattleManager.BattleStartDoOnce || BrawlerBattleManager.HActIsPlaying && BattleTurnManager.CurrentPhase == BattleTurnManager.TurnPhase.Event))
                     {
 #if USE_XBOX
                     ControllerSim.SetAxisValue(Xbox360Axis.LeftThumbX, 0);

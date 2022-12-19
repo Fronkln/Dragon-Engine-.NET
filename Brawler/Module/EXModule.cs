@@ -14,7 +14,7 @@ namespace Brawler
 
         public static void Update()
         {
-            if (!BrawlerPlayer.IsEXGamer || HActManager.IsPlaying())
+            if (!BrawlerPlayer.IsEXGamer || BrawlerBattleManager.HActIsPlaying)
             {
                 m_exHeatDecay.Paused = true;
                 return;
@@ -22,7 +22,7 @@ namespace Brawler
 
             m_exHeatDecay.Paused = false;
 
-            if (BrawlerPlayer.IsEXGamer && !HActManager.IsPlaying())
+            if (BrawlerPlayer.IsEXGamer && !BrawlerBattleManager.HActIsPlaying)
             {
                 int heat = BrawlerBattleManager.Kasuga.GetStatus().Heat;
 

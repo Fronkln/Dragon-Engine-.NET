@@ -38,7 +38,7 @@ namespace DragonEngineLibrary
     }
 
     [StructLayout(LayoutKind.Explicit)]
-    public struct CharacterAttributes
+    public unsafe struct CharacterAttributes
     {
         [FieldOffset(0x0)] public Vector4 InitPos;
         [FieldOffset(0x10)] [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x1F0)] public byte[] dispose_data;

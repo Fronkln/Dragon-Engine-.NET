@@ -10,6 +10,8 @@ namespace Brawler
         public static Dictionary<AssetArmsCategoryID, Dictionary<uint, HeatAction[]>> HeatActionsList = new Dictionary<AssetArmsCategoryID, Dictionary<uint, HeatAction[]>>();
         public static List<HeatAction> PerformableHacts = new List<HeatAction>();
 
+        private static float m_heatCd = 0;
+
         public static void Init()
         {
             HeatAction[] unarmedAttacks = new HeatAction[]
@@ -80,8 +82,17 @@ namespace Brawler
             return true; 
         }
 
+        public static void Update()
+        {
+            if (m_heatCd > 0)
+                m_heatCd -= DragonEngine.deltaTime;
+        }
+
         public static bool CanHAct()
         {
+            if (m_heatCd > 0)
+                return false;
+
             if (DragonEngine.IsKeyHeld(VirtualKey.R))
                 return false;
 
@@ -91,7 +102,7 @@ namespace Brawler
             if (BrawlerBattleManager.Kasuga.IsDead())
                 return false;
 
-            if (HActManager.IsPlaying())
+            if (BrawlerBattleManager.HActIsPlaying)
                 return false;
 
             if (PerformableHacts.Count <= 0)
@@ -139,6 +150,7 @@ namespace Brawler
             Player.SetHeatNow(Player.ID.kasuga, 0);
            // attacker.Character.GetBattleStatus().Heat = 0;
             BrawlerPlayer.ExecuteMove(act, attacker, enemies);
+            m_heatCd = 3.5f;
         }
     }
 }

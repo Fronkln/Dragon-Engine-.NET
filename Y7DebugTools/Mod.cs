@@ -33,6 +33,7 @@ namespace Y7DebugTools
                 ImGui.Checkbox("NPC", ref m_npcMenuEnabled);
                 ImGui.Checkbox("Scene Info", ref SceneInfo.Open);
                 ImGui.Checkbox("Entity", ref EntityMenu.Open);
+                ImGui.Checkbox("Game Var Manager", ref GameVarMenu.Open);
                 ImGui.Checkbox("Scenario", ref ScenarioMenu.Open);
                 ImGui.Checkbox("FighterManager", ref m_fighterManagerMenuEnabled);
                 ImGui.Checkbox("BattleTurnManager", ref m_battleTurnManagerMenuEnabled);
@@ -88,6 +89,9 @@ namespace Y7DebugTools
 
                 if (EntityMenu.Open)
                     EntityMenu.Draw();
+
+                if (GameVarMenu.Open)
+                    GameVarMenu.Draw();
 
                 if (m_jobMenuEnabled)
                 {

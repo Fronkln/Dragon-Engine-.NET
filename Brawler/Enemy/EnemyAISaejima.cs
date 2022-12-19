@@ -26,7 +26,7 @@ namespace Brawler
             {
                 Sync = (RPGSkillID)193,
                 GrabbedAnim = (MotionID)2168,
-                OnHitSuccess = delegate { DoHAct((TalkParamID)12898, Kyodai); }
+                OnHitSuccess = delegate { DoHAct((TalkParamID)12898, Vector4.zero, Kyodai); }
             };
 
             Kyodai = BrawlerBattleManager.Enemies.FirstOrDefault(x => EnemyManager.EnemyAIs[x.Character.UID] is EnemyAIMajima);

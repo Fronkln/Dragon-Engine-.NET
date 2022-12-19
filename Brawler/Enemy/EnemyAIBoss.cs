@@ -32,8 +32,9 @@ namespace Brawler
         {
             return true;
         }
-
-        public override bool ShouldBlockAttack(BattleDamageInfo dmgInf)
+        
+        /*
+        public override bool ShouldBlockAttack(BattleDamageInfoSafe dmgInf)
         {
             //Wow! We really took a lot of hits and the RNG hasnt gotten our back!
             if(RecentHitsWithoutDefensiveMove >= 6)
@@ -48,6 +49,7 @@ namespace Brawler
             else
                 return base.ShouldBlockAttack(dmgInf);
         }
+        */
 
         public override void CombatUpdate()
         {
@@ -87,7 +89,7 @@ namespace Brawler
         {
             base.HActProcedure();
 
-            if (!HActManager.IsPlaying())
+            if (!BrawlerBattleManager.HActIsPlaying)
                 if (m_lastDamagedHact != TalkParamID.invalid)
                 {
                     m_damagedHacts.Add(m_lastDamagedHact);
@@ -124,16 +126,16 @@ namespace Brawler
             return EvasionModule.ShouldDoCounterAttack();
         }
 
-        public override bool DoSpecial(BattleDamageInfo inf)
+        public override bool DoSpecial(BattleDamageInfoSafe inf)
         {
-            // Character.Character.GetMotion().RequestGMT(11);
+            return false;
 
-            if (Character.GetStatus().IsSuperArmor())
+            if (Character.IsInvincible())
                 return false;
 
             //Respect the boundaries of guaranteed blocks and dont ignore it
-            if (BlockModule.ShouldBlockAttack(inf))
-                return false;
+         //   if (BlockModule.ShouldBlockAttack(inf))
+              //  return false;
 
             bool shouldEvade = EvasionModule.ShouldEvade(inf);       
 
