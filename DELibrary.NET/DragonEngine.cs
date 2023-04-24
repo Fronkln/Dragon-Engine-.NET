@@ -87,6 +87,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_GET_DELTATIME", CallingConvention = CallingConvention.Cdecl)]
         private static extern float DELib_GetDeltaTime();
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_GET_FRAMERATE", CallingConvention = CallingConvention.Cdecl)]
+        private static extern float DELib_GetFrameRate();
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_SET_SPEED", CallingConvention = CallingConvention.Cdecl)]
         private static extern void DELib_SetSpeed(DESpeedType speedType, float speed);
 
@@ -245,6 +248,17 @@ namespace DragonEngineLibrary
             get
             {
                 return DELib_GetDeltaTime();
+            }
+        }
+
+        /// <summary>
+        /// Current FPS (Frames per second) of the engine.
+        /// </summary>
+        public static float frameRate
+        {
+            get
+            {
+                return DELib_GetFrameRate();
             }
         }
 
