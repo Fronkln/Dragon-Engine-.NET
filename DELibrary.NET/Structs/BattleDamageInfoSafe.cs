@@ -46,6 +46,14 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_BattleDamageInfo_Getter_IsDirect(IntPtr dmgInf);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLEDAMAGEINFO_GETTER_IS_GUARD", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_BattleDamageInfo_Getter_IsGuard(IntPtr dmgInf);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLEDAMAGEINFO_GETTER_IS_JUST_GUARD", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_BattleDamageInfo_Getter_IsJustGuard(IntPtr dmgInf);
+
         public EntityHandle<Character> Attacker { get { return new EntityHandle<Character>(DELib_BattleDamageInfo_Getter_Attacker(_ptr)); } }
 
         public int BaseDamage { get { return DELib_BattleDamageInfo_Getter_BaseDamage(_ptr); } set { DELib_BattleDamageInfo_Setter_BaseDamage(_ptr, value); } }
@@ -57,6 +65,9 @@ namespace DragonEngineLibrary
 
         public bool IsSyncStartDmg { get { return DELib_BattleDamageInfo_Getter_IsSyncStartDmg(_ptr); } }
         public bool IsDirect { get { return DELib_BattleDamageInfo_Getter_IsDirect(_ptr); } }
+
+        public bool IsGuard { get { return DELib_BattleDamageInfo_Getter_IsGuard(_ptr); } }
+        public bool IsJustGuard { get { return DELib_BattleDamageInfo_Getter_IsJustGuard(_ptr); } }
 
         public BattleDamageInfoSafe(IntPtr addr)
         {

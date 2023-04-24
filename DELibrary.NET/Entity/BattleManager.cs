@@ -5,13 +5,17 @@ namespace DragonEngineLibrary
 {
     public static class BattleManager
     {
-        [DllImport("Y7Internal.dll", EntryPoint = "CBATTLE_MANAGER_IS_TIMING_PUSH", CallingConvention = CallingConvention.Cdecl)]
-        [return:MarshalAs(UnmanagedType.U1)]
-        internal static extern bool DELib_BattleManager_IsTimingPush(uint battleButton, uint tick);
+        [DllImport("Y7Internal.dll", EntryPoint = "CBATTLE_MANAGER_GETTER_PAD", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_BattleManager_Getter_Pad();
 
-        public static bool IsTimingPush(uint battleButton, GameTick tick)
+        public static PadInputInfo PadInfo
         {
-            return DELib_BattleManager_IsTimingPush(battleButton, tick.Tick);
+            get
+            {
+                return new PadInputInfo() { Pointer = DELib_BattleManager_Getter_Pad() };
+            }
         }
     }
 }
+
+

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Reflection;
+using static System.Collections.Specialized.BitVector32;
+using System.Security.Cryptography;
 
 namespace DragonEngineLibrary
 {
@@ -43,6 +45,7 @@ namespace DragonEngineLibrary
     public static class DragonEngine
     {
         internal delegate void RegisterJobDelegate();
+        internal delegate void RegisterWndProcDelegate(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
 
         internal class JobRegisterInfo
         {
@@ -62,6 +65,7 @@ namespace DragonEngineLibrary
             }
         }
         internal static List<JobRegisterInfo> _jobDelegates = new List<JobRegisterInfo>();
+        internal static List<RegisterWndProcDelegate> _wndprocDelegates = new List<RegisterWndProcDelegate>();
 
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_MODULE_ADDRESS", CallingConvention = CallingConvention.Cdecl)]
@@ -108,6 +112,9 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UNREGISTER_DE_JOB", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_UnregisterJob(IntPtr deleg, DEJob type);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_REGISTER_WNDPROC", CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint DELib_RegisterWndProc(IntPtr deleg);
 
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
@@ -192,6 +199,14 @@ namespace DragonEngineLibrary
 
 
             Log("Job for phase " + jobID.ToString() + " registered.");
+        }
+
+        public static void RegisterWndProc(Action<IntPtr, int, IntPtr, IntPtr> func)
+        {
+            RegisterWndProcDelegate del = new RegisterWndProcDelegate(func);
+            DELib_RegisterWndProc(Marshal.GetFunctionPointerForDelegate(del));
+
+            _wndprocDelegates.Add(del);
         }
 
 

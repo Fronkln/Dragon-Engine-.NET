@@ -26,7 +26,7 @@ namespace DragonEngineLibrary
         [FieldOffset(0x0)]
         public uint uid;
 
-        public T ToHandle<T>() where T : CTask, new()
+        public T ToHandle<T>() where T : EntityBase, new()
         {
             EntityHandle<T> handle = new EntityHandle<T>();
             handle.UID = uid;
@@ -35,7 +35,7 @@ namespace DragonEngineLibrary
         }
 
 
-        public static implicit operator DEHandleMarshal(EntityHandle<CTask> handle)
+        public static implicit operator DEHandleMarshal(EntityHandle<EntityBase> handle)
         {
             DEHandleMarshal marshal = new DEHandleMarshal();
             marshal.uid = handle.UID;
@@ -47,7 +47,7 @@ namespace DragonEngineLibrary
     /// <summary>
     /// How Dragon Engine safely stores references to objects
     /// </summary>
-    public struct EntityHandle<T> where T : CTask, new()
+    public struct EntityHandle<T> where T : EntityBase, new()
     {
         /// <summary>
         /// Don't change if you don't know what you are doing
@@ -96,12 +96,39 @@ namespace DragonEngineLibrary
 
             return handle;
         }
+
+        public static bool operator ==(EntityHandle<T> v1, EntityHandle<T> v2)
+        {
+            if (ReferenceEquals(v1, null) && ReferenceEquals(v2, null))
+                return true;
+
+            if (ReferenceEquals(v1, null) || ReferenceEquals(v2, null))
+                return false;
+
+            return v1.UID == v2.UID;
+        }
+
+        public static bool operator !=(EntityHandle<T> v1, EntityHandle<T> v2)
+        {
+            if (ReferenceEquals(v1, null) && ReferenceEquals(v2, null))
+                return false;
+
+            if (ReferenceEquals(v1, null) || ReferenceEquals(v2, null))
+                return true;
+
+            return v1.UID == v2.UID;
+        }
+
+        public override string ToString()
+        {
+            return UID.ToString();
+        }
     }
 
     /// <summary>
     /// Same as EntityHandle, but for components (DE processes them differently)
     /// </summary>
-    public struct EntityComponentHandle<T> where T : CTask, new()
+    public struct EntityComponentHandle<T> where T : EntityComponent, new()
     {
         /// <summary>
         /// Don't change if you don't know what you are doing
@@ -148,6 +175,11 @@ namespace DragonEngineLibrary
             handle.UID = ent.UID;
 
             return handle;
+        }
+
+        public override string ToString()
+        {
+            return UID.ToString();
         }
     }
 }

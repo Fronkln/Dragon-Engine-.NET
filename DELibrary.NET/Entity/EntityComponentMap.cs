@@ -11,7 +11,7 @@ namespace DragonEngineLibrary
         private static extern uint DELib_EntityComponentMap_GetComponent(IntPtr componentmap, ECSlotID slot);
 
         ///<summary>Gets the specified entity component if it exists.</summary>
-        public EntityHandle<EntityComponent> GetComponent(ECSlotID slot)
+        public EntityComponentHandle<EntityComponent> GetComponent(ECSlotID slot)
         {
             return DELib_EntityComponentMap_GetComponent(Pointer, slot);
         }

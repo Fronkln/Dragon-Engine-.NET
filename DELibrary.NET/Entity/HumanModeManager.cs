@@ -40,6 +40,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOSWAY", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HumanModeManager_ToSway(IntPtr manager);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOPICKUP", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_HumanModeManager_ToPickup(IntPtr manager, IntPtr asset);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOBATTOU", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HumanModeManager_ToBattou(IntPtr manager, AssetID id);
 
@@ -51,13 +55,52 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HumanModeManager_IsMove(IntPtr manager);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISDAMAGE", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsDamage(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISATTACK", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsAttack(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISINPUTMOVE", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsInputMove(IntPtr manager);
+
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISSTANDUP", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HumanModeManager_IsStandup(IntPtr manager);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISWALKING", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsWalking(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISRUNNING", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsRunning(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISGUARDING", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsGuarding(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISPICKUP", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsPickup(IntPtr manager);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_COMMANDSETMODEL", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_HumanModeManager_Getter_CommandsetModel(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_MODENAME", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_HumanModeManager_Getter_ModeName(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_CURRENTMODE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_HumanModeManager_Getter_CurrentMode(IntPtr manager);
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_NEXTMODE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_HumanModeManager_Getter_NextMode(IntPtr manager);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_CHANGEMODE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_HumanModeManager_ChangeMode(IntPtr manager);
 
         public enum RequireType
         {
@@ -89,6 +132,28 @@ namespace DragonEngineLibrary
             }
         }
 
+
+        public HumanMode CurrentMode
+        {
+            get
+            {
+                return new HumanMode() { m_pointer = DELib_HumanModeManager_Getter_CurrentMode(Pointer) };
+            }
+        }
+
+        public HumanMode NextMode
+        {
+            get
+            {
+                return new HumanMode() { m_pointer = DELib_HumanModeManager_Getter_NextMode(Pointer) };
+            }
+        }
+
+        public void ChangeMode()
+        {
+            DELib_HumanModeManager_ChangeMode(Pointer);
+        }
+
         ///<summary>Don't use.</summary>
         public void To(HumanMode mode)
         {
@@ -103,6 +168,11 @@ namespace DragonEngineLibrary
 #else
             DELib_HumanModeManager_ToAttackMode(Pointer, inf);
 #endif
+        }
+
+        public bool IsInputMove()
+        {
+            return DELib_HumanModeManager_IsInputMove(Pointer);
         }
 
         ///<summary>Equip a weapon.</summary>
@@ -123,6 +193,9 @@ namespace DragonEngineLibrary
         public void ToMove(bool no_blend) => DELib_HumanModeManager_ToMove(Pointer, no_blend);
         ///<summary>Makes the character sidestep.</summary>
         public void ToSway() =>  DELib_HumanModeManager_ToSway(Pointer);
+
+        ///<summary>Makes the character pick up asset.</summary>
+        public void ToPickup(AssetUnit asset) => DELib_HumanModeManager_ToPickup(Pointer, asset.Pointer);
         ///<summary>Equip a weapon.</summary>
         public void ToBattou(AssetID asset) => DELib_HumanModeManager_ToBattou(Pointer, asset);
 
@@ -131,6 +204,28 @@ namespace DragonEngineLibrary
         ///<summary>Are we getting up?</summary>
         public bool IsStandup() { return DELib_HumanModeManager_IsStandup(Pointer); }
 
+        ///<summary>Are we walking?</summary>
+        public bool IsWalking() { return DELib_HumanModeManager_IsWalking(Pointer); }
+        ///<summary>Are we running?</summary>
+        public bool IsRunning() { return DELib_HumanModeManager_IsRunning(Pointer); }
+        ///<summary>Are we guarding?</summary>
+        public bool IsGuarding() { return DELib_HumanModeManager_IsGuarding(Pointer); }
+        public bool IsPickup() { return DELib_HumanModeManager_IsPickup(Pointer); }
+
         public bool IsMove() { return DELib_HumanModeManager_IsMove(Pointer); }
+
+        public bool IsAttack() { return DELib_HumanModeManager_IsAttack(Pointer); }
+
+        public bool IsDamage() { return DELib_HumanModeManager_IsDamage(Pointer); }
+
+        public unsafe void ToNormalStand()
+        {
+            IntPtr status = Human.Status.pointer;
+
+            uint* flags = (uint*)(status.ToInt64() + 0x1150);
+            uint flag = *flags;
+
+            *flags = flag &= 0x1000;
+        }
     }
 }

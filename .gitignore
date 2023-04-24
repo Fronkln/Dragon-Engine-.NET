@@ -6,6 +6,11 @@
 *.lo
 *.o
 *.obj
+*.recipe
+*.tlh
+*.tli
+*.idb
+*.ilk
 
 # Precompiled Headers
 *.gch

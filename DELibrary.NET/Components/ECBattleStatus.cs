@@ -86,6 +86,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_ADD_DAMAGE_INFO", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_ECBattleStatus_AddDamageInfo(IntPtr battlestatus, ref BattleDamageInfo info);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_HACT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_ECBattleStatus_Getter_Hact(IntPtr battlestatus);
+
         public static EntityComponentHandle<ECBattleStatus> Attach(Character character)
         {
             return DELibrary_ECBattleStatus_Attach(character.Pointer);
@@ -188,6 +191,14 @@ namespace DragonEngineLibrary
         {
             get { return DELibrary_ECBattleStatus_Getter_DefensePower(Pointer); }
             set { DELibrary_ECBattleStatus_Setter_DefensePower(Pointer, value); }
+        }
+
+        public ECHAct HAct
+        {
+            get
+            {
+                return new EntityComponentHandle<ECHAct>(DELibrary_ECBattleStatus_Getter_Hact(Pointer));
+            }
         }
 
         ///<summary>Set current alive HP?? What??</summary>

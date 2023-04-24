@@ -31,6 +31,5 @@
         hit_wall_safety,         // constant 0x1A
         battle_space,        // constant 0x1B
         battle_result,       // constant 0x1C
-        num,		 // constant 0x1D
     }
 }

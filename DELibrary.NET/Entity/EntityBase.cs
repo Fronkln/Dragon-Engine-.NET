@@ -12,7 +12,7 @@ namespace DragonEngineLibrary
         internal EntityBase _owner;
 
         ///<summary>The position of this entity.</summary>
-        public Vector4 Position
+        public Vector3 Position
         {
             get{ return _owner.GetPosCenter(); }
             set { _owner.SetPosCenter(value); }
@@ -128,9 +128,9 @@ namespace DragonEngineLibrary
         /// <summary>
         /// Get the entity's center position.
         /// </summary>
-        public Vector4 GetPosCenter()
+        public Vector3 GetPosCenter()
         {
-            return DELibrary_EntityBase_GetPosCenter(_objectAddress);
+            return (Vector3)DELibrary_EntityBase_GetPosCenter(_objectAddress);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace DragonEngineLibrary
         /// Only use this if you know the type of scene entity you are accessing. Improper use will cause crashes
         /// </summary>
         /// <returns></returns>
-        public EntityHandle<T> GetSceneEntity<T>(SceneEntity sceneEnt) where T : CTask, new()
+        public EntityHandle<T> GetSceneEntity<T>(SceneEntity sceneEnt) where T : EntityBase, new()
         {
             //Implicit operator automatically converts to handle
             return GetSceneEntity(sceneEnt).UID;

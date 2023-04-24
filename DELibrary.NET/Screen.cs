@@ -8,9 +8,13 @@ namespace DragonEngineLibrary
 {
     public static class Screen
     {
-        public static void ConvertResolution(Vector2 sourceRes, Vector2 targetRes)
+        public static Vector2 ConvertResolution(Vector2 value, Vector2 sourceRes, Vector2 targetRes)
         {
+            Vector2 vec = new Vector2();
+            vec.x = (value.x * targetRes.x) / sourceRes.x;
+            vec.y = (value.y * targetRes.y) / sourceRes.y;
 
+            return vec;
         }
     }
 }

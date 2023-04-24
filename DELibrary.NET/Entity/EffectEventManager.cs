@@ -14,5 +14,8 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEFFECT_EVENT_MANAGER_PLAY_SCREEN", CallingConvention = CallingConvention.Cdecl)]
         public static extern void PlayScreen(uint id, bool loop = false, bool fade = false, float fadeSpeed = 1, bool ignoreSpeed = false);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEFFECT_EVENT_MANAGER_STOP_SCREEN", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void StopScreen(uint id, bool immediate = true);
     }
 }

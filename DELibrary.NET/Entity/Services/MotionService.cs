@@ -34,13 +34,18 @@ namespace DragonEngineLibrary.Service
             }
         }
 
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSERVICE_MOTION_GET_FRAMES", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint MotionService_GetFrames(uint gmtID);
+
         /// <summary>
         /// Not implemented yet sorry trolled
         /// </summary>
         /// <param name="motion"></param>
-        public static void GetFrames(MotionID motion)
+        public static GameTick GetFrames(MotionID motion)
         {
-
+            return new GameTick(MotionService_GetFrames((uint)motion));
         }
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSERVICE_MOTION_SEARCH_TIMING", CallingConvention = CallingConvention.Cdecl)]

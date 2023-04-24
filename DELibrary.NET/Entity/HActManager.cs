@@ -17,6 +17,10 @@ namespace DragonEngineLibrary
         [return:MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HActManager_RequestHAct(ref HActRequestOptions opt);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_REQUESTPRELOAD", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_HActManager_RequestPreload(uint talkID);
+
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_SKIP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HActManager_Skip();
 
@@ -51,6 +55,14 @@ namespace DragonEngineLibrary
         public static bool RequestNextHAct(HActRequestOptions opt)
         {
             return DELib_HActManager_RequestNextHAct(ref opt);
+        }
+
+        /// <summary>
+        /// Preload HAct.
+        /// </summary>
+        public static EntityHandle<AuthPlay> RequestPreload(TalkParamID id)
+        {
+            return DELib_HActManager_RequestPreload((uint)id);
         }
 
         ///<summary>Are any HActs playing?</summary>

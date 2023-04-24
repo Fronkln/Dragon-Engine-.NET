@@ -46,8 +46,6 @@ namespace DragonEngineLibrary
         internal extern static void DELib_Player_SetHeatNow(ID player, int val);
 
 #if YLAD
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_RPGBTLMENU_SETCURRENTHEAT", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void DELib_RPGBtlMenu_SetCurrentHeat(uint index, uint amount);
 
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetLevel(uint level, ID playerID, IntPtr saveData = default(IntPtr));
@@ -96,8 +94,6 @@ namespace DragonEngineLibrary
         public static void SetHeatNow(ID playerID, int val)
         {
             DELib_Player_SetHeatNow(playerID, val);
-            DELib_RPGBtlMenu_SetCurrentHeat(0, (uint)val);
-
 #endif
     }
 

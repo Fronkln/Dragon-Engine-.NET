@@ -34,13 +34,17 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSOUND_MANAGER_GET_BGM_PLAYTIME_SEC", CallingConvention = CallingConvention.Cdecl)]
         internal static extern float DELib_SoundManager_GetBGMPlaytimeSec(uint bgmSlot);
 
-        /// <summary>
-        /// Is it me or does this always return true?
-        /// </summary>
         [DECompatibility(DEGames.YLAD)]
         public static bool IsCuesheetLoaded(SoundCuesheetID cuesheetID)
         {
             return DELib_SoundManager_IsCuesheetLoaded(cuesheetID);
+        }
+
+
+        [DECompatibility(DEGames.YLAD)]
+        public static bool IsCuesheetLoaded(uint cuesheetID)
+        {
+            return DELib_SoundManager_IsCuesheetLoaded((SoundCuesheetID)cuesheetID);
         }
 
         /// <summary>

@@ -16,5 +16,15 @@ namespace DragonEngineLibrary
             this.x = x;
             this.y = y;
         }
+
+        public static implicit operator Vector3(Vector2 vec)
+        {
+            return new Vector3(vec.x, vec.y, 0);
+        }
+
+        public static implicit operator Vector4(Vector2 vec)
+        {
+            return new Vector4(vec.x, vec.y, 0, 0);
+        }
     }
 }

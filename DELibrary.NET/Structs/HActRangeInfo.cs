@@ -18,5 +18,16 @@ namespace DragonEngineLibrary
         [FieldOffset(0x30)] public byte id;
         [FieldOffset(0x31)] public bool is_large_ok;
         [FieldOffset(0x32)] public bool is_play_range_in;
+
+        public Matrix4x4 GetMatrix()
+        {
+            Matrix4x4 mtx = new Matrix4x4();
+            mtx.Position = Pos;
+            mtx.ForwardDirection = Rot * Vector3.forward;
+            mtx.UpDirection = Rot * Vector3.up;
+            mtx.LeftDirection = Rot * -Vector3.right;
+
+            return mtx;
+        }
     };
 }

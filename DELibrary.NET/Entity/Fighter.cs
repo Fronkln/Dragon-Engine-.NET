@@ -55,6 +55,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_THROWEQUIPASSET", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Fighter_ThrowEquipAsset(IntPtr fighterPtr, bool leftHand, bool rightHand);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETREACTIONTYPE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_Fighter_GetReactionType(IntPtr fighterPtr);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETSYNCPAIR", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_Fighter_GetSyncPair(IntPtr fighterPtr);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETID", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_Fighter_GetID(IntPtr fighterPtr);
 
@@ -151,6 +157,13 @@ namespace DragonEngineLibrary
             return Character.HumanModeManager.IsDown();
             //  return Character.IsRagdoll();
             //  return inf.is_stand_up_;
+        }
+
+        public bool IsFaceDown()
+        {
+            uint reactionType = GetReactionType();
+
+            return IsDown() && (reactionType == 7 || reactionType == 49);
         }
 
         ///<summary>Is the fighter in a sync move?</summary>
@@ -280,6 +293,17 @@ namespace DragonEngineLibrary
             ai.Pointer = addr;
 
             return ai;
+        }
+
+        public uint GetReactionType()
+        {
+            return DELib_Fighter_GetReactionType(_ptr);
+        }
+
+        //
+        public EntityHandle<Character> GetSyncPair()
+        {
+            return DELib_Fighter_GetSyncPair(_ptr);
         }
 
         ///<summary>Get the root matrix of this fighter.</summary>

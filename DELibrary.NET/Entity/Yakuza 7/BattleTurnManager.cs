@@ -68,6 +68,8 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_UI_ROOT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_BattleTurnManager_Getter_UI_Root();
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_RPGBTLMENU_GET_RPG_MENU", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_BattleTurnManager_GetRpgMenu();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_HACT_READY_UI", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_BattleTurnManager_Getter_HAct_Ready_UI_Root();
@@ -129,6 +131,14 @@ namespace DragonEngineLibrary
             get
             {
                 return new UIHandleBase() { Handle = DELib_BattleTurnManager_Getter_UI_Root() };
+            }
+        }
+
+        public static IntPtr RpgUI
+        {
+            get
+            {
+                return DELib_BattleTurnManager_GetRpgMenu(); 
             }
         }
 

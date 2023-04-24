@@ -40,6 +40,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_REQUEST_WARP_POSE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Character_RequestWarpPose(IntPtr chara, IntPtr inf);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_REQUEST_MOVE_POSE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_Character_RequestMovePose(IntPtr chara, IntPtr inf);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GET_CONSTRUCTOR", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_GetConstructor(IntPtr chara);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_HUMANMODEMANAGER", CallingConvention = CallingConvention.Cdecl)]
@@ -52,6 +55,10 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_ECBATTLETARGETDECIDE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Getter_ECBattleTargetDecide(IntPtr chara);
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_PAD", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_Getter_Pad(IntPtr chara);
 
 #if YLAD
         ///<summary>Target select module of the character.</summary>
@@ -104,6 +111,13 @@ namespace DragonEngineLibrary
             }
         }
 
+        public PadInputInfo Pad
+        {
+            get
+            {
+                return new PadInputInfo() { Pointer = DELib_Character_Getter_Pad(Pointer) };
+            }
+        }
 
 
         ///<summary>Get the Y angle of this character.</summary>
@@ -139,6 +153,15 @@ namespace DragonEngineLibrary
         {
             IntPtr infPtr = inf.ToIntPtr();
             DELib_Character_RequestWarpPose(_objectAddress, infPtr);
+
+            Marshal.FreeHGlobal(infPtr);
+        }
+
+        ///<summary>Request to move to the coordinates obeying physics and collision.</summary>
+        public void RequestMovePose(PoseInfo inf)
+        {
+            IntPtr infPtr = inf.ToIntPtr();
+            DELib_Character_RequestMovePose(_objectAddress, infPtr);
 
             Marshal.FreeHGlobal(infPtr);
         }
