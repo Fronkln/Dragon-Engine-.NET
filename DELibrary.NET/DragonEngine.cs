@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Reflection;
-using static System.Collections.Specialized.BitVector32;
-using System.Security.Cryptography;
+
 
 namespace DragonEngineLibrary
 {
@@ -133,7 +128,6 @@ namespace DragonEngineLibrary
         /// Initialize Dragon Engine library. Important for it to properly function.
         /// </summary>
         /// 
-
         public static void Initialize()
         {
             DELib_Init();
@@ -159,13 +153,16 @@ namespace DragonEngineLibrary
             return DELib_IsEngineInitialized();
         }
 
-        public static void Log(object value)
+        public static void Log(object value, Logger.Event eventType = Logger.Event.INFORMATION)
         {
             string valueStr = value.ToString();
+            Logger.LogLineEvent(valueStr, eventType, Assembly.GetCallingAssembly().GetName().Name);
+        }
 
-            Console.WriteLine(valueStr);
-            // DELib_TEMP_CPP_COUT(valueStr + "\n");
-            // File.AppendAllText("dotnetlog.txt", valueStr + "\n");
+        private static void Log(object value, string source, Logger.Event eventType = Logger.Event.INFORMATION)
+        {
+            string valueStr = value.ToString();
+            Logger.LogLineEvent(valueStr, eventType, source);
         }
 
         public static bool IsCursorForcedVisible()
@@ -200,8 +197,7 @@ namespace DragonEngineLibrary
 
             DELib_RegisterJob(inf.delPointer, jobID, after);
 
-
-            Log("Job for phase " + jobID.ToString() + " registered.");
+            Log("Job for phase " + jobID.ToString() + " registered.", Assembly.GetCallingAssembly().GetName().Name, Logger.Event.DEBUG);
         }
 
         public static void RegisterWndProc(Action<IntPtr, int, IntPtr, IntPtr> func)
@@ -229,6 +225,8 @@ namespace DragonEngineLibrary
                     if (job.funcRaw == func)
                     {
                         DELib_UnregisterJob(job.delPointer, phase);
+
+                        Log("Job for phase " + phase.ToString() + " unregistered.", Assembly.GetCallingAssembly().GetName().Name, Logger.Event.DEBUG);
                     }
         }
 
@@ -273,50 +271,70 @@ namespace DragonEngineLibrary
             return new EntityHandle<Character>(DELib_GetHumanPlayer());
         }
 
-        internal static bool InitializeModLibrary(string path)
+        internal static bool InitializeModLibrary(string path) //TODO: This should be replaced with a better system
         {
             if (string.IsNullOrEmpty(path))
                 return false;
 
             if (!File.Exists(path))
             {
-                Log(Directory.GetCurrentDirectory());
-                Log(path + " does not exist.");
+                Log(Directory.GetCurrentDirectory(), Logger.Event.DEBUG);
+                Log(path + " does not exist.", Logger.Event.ERROR);
                 return false;
             }
 
             try
             {
-                Assembly loadedAssembly = Assembly.LoadFrom(path);
-                Type modInfoType = typeof(DEModInfo);
+                if (CheckAssemblyForDEMod(path))
+                {
+                    Assembly loadedAssembly = Assembly.LoadFrom(path);
+                    Type modInfoType = typeof(DEModInfo);
 
-                foreach (CustomAttributeData dat in loadedAssembly.CustomAttributes)
-                    if (dat.AttributeType.FullName == typeof(DEModInfo).FullName) // type comparing didnt work. so we compare names
-                    {
-                        ProcessDEMod(dat.ConstructorArguments);
-                        return true;
-                    }
+                    foreach (CustomAttributeData dat in loadedAssembly.CustomAttributes)
+                        if (dat.AttributeType.FullName == typeof(DEModInfo).FullName)
+                        {
+                            ProcessDEMod(dat.ConstructorArguments, loadedAssembly);
+                            return true;
+                        }
+                }
+                else
+                {
+                    return false;
+                }
 
-                return false;
+                return true;
             }
             catch (Exception ex)
             {
                 //It was a valid C# Dragon Engine .NET library but there was an error
                 if (ex as BadImageFormatException == null)
-                    Log("Failed to load library, error: " + Environment.StackTrace + "\n" + ex.Message + "\n" + ex.InnerException);
+                    Log("Failed to load library, error: " + Environment.StackTrace + "\n" + ex.Message + "\n" + ex.InnerException, Logger.Event.ERROR);
 
                 return false;
             }
         }
 
-        internal static void ProcessDEMod(IList<CustomAttributeTypedArgument> modInfo)
+        //Checks if the assembly is a Dragon Engine mod or not
+        internal static bool CheckAssemblyForDEMod(string path)
+        {
+            Random rnd = new Random();
+            string name = $"AssemblyCheckTempDomain.{rnd.Next(9999)}";
+            AppDomain domain = AppDomain.CreateDomain(name);
+            var asmLoaderProxy = (ProxyDomain)domain.CreateInstanceAndUnwrap(Assembly.GetAssembly(typeof(ProxyDomain)).FullName, typeof(ProxyDomain).FullName);
+            bool isDEMod = asmLoaderProxy.CheckAssembly(path);
+            AppDomain.Unload(domain);
+            if (isDEMod) return true;
+            return false;
+        }
+
+        internal static void ProcessDEMod(IList<CustomAttributeTypedArgument> modInfo, Assembly modAssembly)
         {
             string modName = (string)modInfo[0].Value;
             Type modType = (Type)modInfo[1].Value;
 
             if (modType == null)
             {
-                Log($"The mod {modName} does not have a valid mod initialization class");
+                Log($"The mod {modName} does not have a valid mod initialization class", Logger.Event.ERROR);
                 return;
             }
 
@@ -326,13 +344,40 @@ namespace DragonEngineLibrary
                 object createdObj = Activator.CreateInstance(modType);
 
                 if (createdObj != null)
+                {
                     modType.GetMethod("OnModInit", BindingFlags.Public | BindingFlags.Instance).Invoke(createdObj, null);
+                    Diagnostics.AssemblyManager.RegisterModAssembly(modAssembly, modName);
+                }
                 else
-                    Log("Mod class initialization failed!");
+                    Log("Mod class initialization failed!", Logger.Event.ERROR);
             }
             else
-                Log(modName + "'s initialization class does not derive from DragonEngineMod!");
+                Log(modName + "'s initialization class does not derive from DragonEngineMod!", Logger.Event.ERROR);
 
+        }
+    }
+
+
+    internal class ProxyDomain : MarshalByRefObject
+    {
+        public bool CheckAssembly(string path)
+        {
+            try
+            {
+                Assembly.Load("DELibrary.NET");
+                Assembly asm = Assembly.LoadFrom(path);
+                foreach (CustomAttributeData dat in asm.CustomAttributes)
+                    if (dat.AttributeType.FullName == typeof(DEModInfo).FullName)
+                    {
+                        return true;
+                    }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                DragonEngine.Log($"[{AppDomain.CurrentDomain.FriendlyName}] - {ex.Message}", Logger.Event.WARNING);
+                return false;
+            }
         }
     }
 
