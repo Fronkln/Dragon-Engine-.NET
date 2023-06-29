@@ -20,6 +20,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_CHARACTER_EFFECT_EVENT_ATTACH", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_ECCharacterEffectEvent_Attach(IntPtr chara, ref bool b_new);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_CHARACTER_EFFECT_EVENT_IS_PLAYING_EVENT", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELibrary_ECCharacterEffectEvent_IsPlayingEvent(IntPtr chara, EffectEventCharaID effectID);
+
         /// <summary>
         /// Attach the component to character.
         /// </summary>
@@ -64,6 +68,12 @@ namespace DragonEngineLibrary
         public void StopEvent(EffectEventCharaID effectID, bool fadeOut)
         {
             DELibrary_ECCharacterEffectEvent_StopEvent(_objectAddress, effectID, fadeOut);
+        }
+
+        ///<summary>Is the Effect ID playing?</summary>
+        public bool IsPlayingEvent(EffectEventCharaID effectID)
+        {
+            return DELibrary_ECCharacterEffectEvent_IsPlayingEvent(_objectAddress, effectID);
         }
     }
 }

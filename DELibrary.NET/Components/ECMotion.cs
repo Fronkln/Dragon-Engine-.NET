@@ -137,7 +137,7 @@ namespace DragonEngineLibrary
         {
             get
             {
-                return DELib_ECMotion_GetFrame(Pointer);
+                return DELib_ECMotion_GetFrame(Pointer) / 100;
             }
         }
 
@@ -145,7 +145,7 @@ namespace DragonEngineLibrary
         {
             get
             {
-                return DELib_ECMotion_GetFrames(Pointer);
+                return DELib_ECMotion_GetFrames(Pointer) / 100; 
             }
         }
 

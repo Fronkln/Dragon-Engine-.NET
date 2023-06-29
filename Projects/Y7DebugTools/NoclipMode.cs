@@ -35,6 +35,9 @@ namespace Y7DebugTools
 
         private static void Update()
         {
+            if (GameVarManager.GetValueBool(GameVarID.is_pause))
+                return;
+
             Character player = DragonEngine.GetHumanPlayer();
             Fighter fighterChara = player.GetFighter();
             EntityBase camera = player.GetSceneEntity<EntityBase>(SceneEntity.camera_free);

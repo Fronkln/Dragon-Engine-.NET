@@ -27,7 +27,8 @@ namespace Y7DebugTools
             ImGui.Text("Forward Direction: " + mtx.ForwardDirection);
             ImGui.Text("Up Direction: " + mtx.UpDirection);
             ImGui.Text("Left Direction: " + mtx.LeftDirection);
-         
+
+            ImGui.Text("Character ID: " + chara.GetRender().CharacterID);
             ImGui.Text("HumanMode: " + chara.HumanModeManager.CurrentMode.ModeName);
             ImGui.Text("Next HumanMode: " + chara.HumanModeManager.NextMode.ModeName);
 

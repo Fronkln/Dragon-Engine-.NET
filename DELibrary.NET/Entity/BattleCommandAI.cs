@@ -12,6 +12,9 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_BattleCommandAI_Getter_IsInitialized(IntPtr commandAI);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLECOMMANDAI_SWITCHENEMYIDSET", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_BattleCommandAI_SwitchEnemyIDSet(IntPtr commandAI, uint id);
+
         /// <summary>
         /// Owner of this AI.
         /// </summary>
@@ -33,6 +36,11 @@ namespace DragonEngineLibrary
         public bool IsInitialized()
         {
             return DELib_BattleCommandAI_Getter_IsInitialized(Pointer);
+        }
+
+        public void SwitchEnemyIDSet(uint id)
+        {
+            DELib_BattleCommandAI_SwitchEnemyIDSet(Pointer, id);
         }
     }
 }

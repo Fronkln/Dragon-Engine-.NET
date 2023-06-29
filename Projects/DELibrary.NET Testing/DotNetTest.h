@@ -162,7 +162,7 @@ int Test()
 
     //Change exe path to yours
     //I made this an absolute path because i didnt want to copy files around for each change to my own code tests
-    if (!readBinFile("DELibrary.NET.dll", ptrBinary, lenBinary))
+    if (!readBinFile("DELibrary.Loader.dll", ptrBinary, lenBinary))
         return -1;
 
     printf(" --- Try to Fetch .NET Framework v4.6.1 ---\n");

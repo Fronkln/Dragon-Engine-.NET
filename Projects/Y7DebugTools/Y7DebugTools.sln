@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y7DebugTools", "Y7DebugTools.csproj", "{4161B440-05F3-4409-96BC-242A69BCBE01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DELibrary.NET", "..\..\DELibrary.NET\DELibrary.NET.csproj", "{9900112C-25D6-427D-846A-A90E31CF8FE3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImGui.NET", "..\..\ImGui.NET-master\ImGui.NET-master\src\ImGui.NET\ImGui.NET.csproj", "{952D698E-B930-4CF4-AFE7-DA1B487CB11D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		YLAD Debug|Any CPU = YLAD Debug|Any CPU
+		YLAD Debug|x64 = YLAD Debug|x64
+		YLAD Release|Any CPU = YLAD Release|Any CPU
+		YLAD Release|x64 = YLAD Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Debug|x64.Build.0 = Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|x64.ActiveCfg = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|x64.Build.0 = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Debug|Any CPU.ActiveCfg = YLAD Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Debug|Any CPU.Build.0 = YLAD Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Debug|x64.ActiveCfg = YLAD Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Debug|x64.Build.0 = YLAD Debug|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Release|Any CPU.ActiveCfg = YLAD Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Release|Any CPU.Build.0 = YLAD Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Release|x64.ActiveCfg = YLAD Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Release|x64.Build.0 = YLAD Release|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Debug|x64.ActiveCfg = Debug|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Debug|x64.Build.0 = Debug|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Release|x64.ActiveCfg = Release|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Release|x64.Build.0 = Release|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Debug|Any CPU.ActiveCfg = YLAD Debug|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Debug|Any CPU.Build.0 = YLAD Debug|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Debug|x64.ActiveCfg = YLAD Debug|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Debug|x64.Build.0 = YLAD Debug|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Release|Any CPU.ActiveCfg = YLAD Release|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Release|Any CPU.Build.0 = YLAD Release|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Release|x64.ActiveCfg = YLAD Release|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Release|x64.Build.0 = YLAD Release|x64
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Debug|x64.Build.0 = Debug|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Release|x64.ActiveCfg = Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Release|x64.Build.0 = Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Debug|Any CPU.ActiveCfg = YLAD Debug|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Debug|Any CPU.Build.0 = YLAD Debug|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Debug|x64.ActiveCfg = YLAD Debug|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Debug|x64.Build.0 = YLAD Debug|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Release|Any CPU.ActiveCfg = YLAD Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Release|Any CPU.Build.0 = YLAD Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Release|x64.ActiveCfg = YLAD Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Release|x64.Build.0 = YLAD Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {052DE156-795E-4973-A35A-CEDF255C40AF}
+	EndGlobalSection
+EndGlobal

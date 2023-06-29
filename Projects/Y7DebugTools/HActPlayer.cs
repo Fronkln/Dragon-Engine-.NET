@@ -252,7 +252,7 @@ namespace Y7DebugTools
                         {
 
                             HActRangeInfo inf = new HActRangeInfo();
-                            ImGui.Text(m_enumNames_HactRange[i] + " " + kasugaFighter.GetStatus().HAct.GetPlayInfo(ref inf, (HActRangeType)i));
+                            ImGui.Text(m_enumNames_HactRange[i] + " " + kasugaFighter.GetStatus().HAct.GetPlayInfo(ref inf, (HActRangeType)i) + " " + inf.is_play_range_in);
                         }
                     }
 

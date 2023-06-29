@@ -46,6 +46,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_ACTIONTYPE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern ActionType DELib_BattleTurnManager_Getter_ActionType();
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_ENDSTATE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleTurnManager_Getter_EndState();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_BATTLECONFIGID", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleTurnManager_Getter_BattleConfigID();
+
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_REQ_PLAY_START_HACT", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
@@ -122,6 +128,10 @@ namespace DragonEngineLibrary
         public static TurnPhase CurrentPhase { get { return DELib_BattleTurnManager_Getter_CurrentPhase(); } }
         public static ActionStep CurrentActionStep { get { return DELib_BattleTurnManager_Getter_CurrentActionStep(); } }
         public static ActionType CurrentActionType { get { return DELib_BattleTurnManager_Getter_ActionType(); } }
+
+        public static uint EndState { get { return DELib_BattleTurnManager_Getter_EndState(); } }
+
+        public static uint BattleConfigID { get { return DELib_BattleTurnManager_Getter_BattleConfigID(); } }
 
         internal delegate IntPtr OverrideAttackerSelectionDelegate(IntPtr battleTurnManager, bool readOnly, bool getNextFighter);
 

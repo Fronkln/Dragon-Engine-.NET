@@ -99,7 +99,7 @@ namespace DragonEngineLibrary
 
         public bool IsValid()
         {
-            return Character.IsValid() && Character.GetFighter()._ptr == _ptr;
+            return _ptr != IntPtr.Zero && Character.IsValid() && Character.GetFighter()._ptr == _ptr;
         }
 
         public Fighter(IntPtr pointer)

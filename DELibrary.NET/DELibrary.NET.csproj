@@ -154,6 +154,7 @@
     <Compile Include="Entity\Battle.cs" />
     <Compile Include="Entity\BattleCommandAI.cs" />
     <Compile Include="Entity\BattleManager.cs" />
+    <Compile Include="Entity\BattleProperty.cs" />
     <Compile Include="Entity\BattleResourceManager.cs" />
     <Compile Include="Entity\CameraBase.cs" />
     <Compile Include="Entity\DB.cs" />

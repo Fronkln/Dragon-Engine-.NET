@@ -94,12 +94,12 @@
     <Compile Include="UIPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DELibrary.NET\DELibrary.NET.csproj">
+    <ProjectReference Include="..\..\DELibrary.NET\DELibrary.NET.csproj">
       <Project>{9900112c-25d6-427d-846a-a90e31cf8fe3}</Project>
       <Name>DELibrary.NET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ImGui.NET-master\ImGui.NET-master\src\ImGui.NET\ImGui.NET.csproj">
-      <Project>{a99195d9-ae49-41f5-8ff0-c7d9eef9c3ab}</Project>
+    <ProjectReference Include="..\..\ImGui.NET-master\ImGui.NET-master\src\ImGui.NET\ImGui.NET.csproj">
+      <Project>{952d698e-b930-4cf4-afe7-da1b487cb11d}</Project>
       <Name>ImGui.NET</Name>
     </ProjectReference>
   </ItemGroup>
