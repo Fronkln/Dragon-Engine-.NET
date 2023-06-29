@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.IO;
+using System.Windows.Input;
 
 namespace DragonEngineLibrary
 {
@@ -12,7 +18,7 @@ namespace DragonEngineLibrary
             try
             {
 
-                DragonEngine.Log("Dragon Engine Library .NET Thread Start", Logger.Event.INFORMATION);
+                DragonEngine.Log("\nDragon Engine Library .NET Thread Start");
 
                 while(!DragonEngine.IsEngineInitialized())
                 {
@@ -21,13 +27,13 @@ namespace DragonEngineLibrary
                 }
 
                 DragonEngine.RegisterJob(DragonEngine.LibUpdate, DEJob.Update);
-                DragonEngine.Log("Dragon Engine initialized, initializing the library.", Logger.Event.INFORMATION);
+                DragonEngine.Log("Dragon Engine initialized, initializing the library.\n");
 
                 StartEngine();
             }
             catch(Exception ex)
             {
-                DragonEngine.Log("Failed to initialize\nError:" + ex.Message + "\n\nStacktrace:\n" + ex.StackTrace, Logger.Event.FATAL);
+                DragonEngine.Log("\n\n\nFailed to initialize\nError:" + ex.Message + "\n\nStacktrace:\n" + ex.StackTrace);
             }
 
 
@@ -41,9 +47,6 @@ namespace DragonEngineLibrary
 
             Thread modsThread = new Thread(LibThread);
             modsThread.Start();
-
-            Diagnostics.LibraryAssembly.Init();
-            StartInterface();
         }
 
         public static void LibThread()
@@ -62,30 +65,20 @@ namespace DragonEngineLibrary
                 }
             }
 
-            DragonEngine.Log("All mods have been initialized.");
-            DragonEngine.Log("This is a test information log", Logger.Event.INFORMATION);
-            DragonEngine.Log("This is a test debug log", Logger.Event.DEBUG);
-            DragonEngine.Log("This is a test warning log", Logger.Event.WARNING);
-            DragonEngine.Log("This is a test error log", Logger.Event.ERROR);
-            DragonEngine.Log("This is a test fatal log", Logger.Event.FATAL);
+            DragonEngine.Log("\n\nAll mods have been initialized.");
 
             //dont let the thread die
             while (true) { }
         }
 
-
-        public static void StartInterface()
-        {
-            Advanced.ImGui.Init();
-            Advanced.ImGui.RegisterUIUpdate(Interface.DevInterface.Draw);
-            Thread inputThread = new Thread(Interface.DevInterface.InputThread);
-            inputThread.Start();
-        }
-
-
         // This method will be called by native code inside the target process…
         public static void Main(string[] args)
         {
+            //Initialize logging file
+            //File.Create("dotnetlog.txt").Close();
+            // DragonEngine._logStream = new MemoryStream();
+            // DragonEngine._logWriter = new StreamWriter(DragonEngine._logStream);
+
             //Create seperate thread for our C# library
             DragonEngine.Log("DragonEngine Library .Net Main Start");
             DragonEngine.Initialize();
