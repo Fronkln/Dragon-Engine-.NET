@@ -12,11 +12,13 @@ namespace DragonEngineLibrary
         public float z;
         public float w;
 
+        private static readonly Quaternion _identity = new Quaternion();
+
         public static Quaternion identity
         {
             get
             {
-                return  new Quaternion();
+                return _identity;
             }
         }
 

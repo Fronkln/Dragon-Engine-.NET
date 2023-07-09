@@ -82,9 +82,6 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_GET_DELTATIME", CallingConvention = CallingConvention.Cdecl)]
         private static extern float DELib_GetDeltaTime();
 
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_GET_FRAMERATE", CallingConvention = CallingConvention.Cdecl)]
-        private static extern float DELib_GetFrameRate();
-
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_SET_SPEED", CallingConvention = CallingConvention.Cdecl)]
         private static extern void DELib_SetSpeed(DESpeedType speedType, float speed);
 
@@ -122,7 +119,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_TEMP_CPP_COUT", CallingConvention = CallingConvention.Cdecl)]
         private static extern void DELib_TEMP_CPP_COUT(string text);
 
-        public static IntPtr BaseAddress { get { return GetModuleHandle(); } }
+        public static IntPtr BaseAddress => GetModuleHandle();
 
         /// <summary>
         /// Initialize Dragon Engine library. Important for it to properly function.
@@ -197,7 +194,7 @@ namespace DragonEngineLibrary
 
             DELib_RegisterJob(inf.delPointer, jobID, after);
 
-            Log("Job for phase " + jobID.ToString() + " registered.", Assembly.GetCallingAssembly().GetName().Name, Logger.Event.DEBUG);
+            Log($"Job for phase {nameof(jobID)} registered.", Assembly.GetExecutingAssembly().GetName().Name, Logger.Event.DEBUG);
         }
 
         public static void RegisterWndProc(Action<IntPtr, int, IntPtr, IntPtr> func)
@@ -254,10 +251,8 @@ namespace DragonEngineLibrary
         /// </summary>
         public static float frameRate
         {
-            get
-            {
-                return DELib_GetFrameRate();
-            }
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_GET_FRAMERATE", CallingConvention = CallingConvention.Cdecl)]
+            get;
         }
 
         public static void SetSpeed(DESpeedType speedType, float speed)

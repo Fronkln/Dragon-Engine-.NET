@@ -17,7 +17,6 @@ namespace DragonEngineLibrary
                 while(!DragonEngine.IsEngineInitialized())
                 {
                     DragonEngine.RefreshOffsets();
-                    continue;
                 }
 
                 DragonEngine.RegisterJob(DragonEngine.LibUpdate, DEJob.Update);
@@ -35,42 +34,47 @@ namespace DragonEngineLibrary
 
         private static void StartEngine()
         {
-            DragonEngine.Log("Starting initializaton of all mods.");
-            DragonEngine.Log("Path: " + AppDomain.CurrentDomain.BaseDirectory + "\n");
+            DragonEngine.Log("Starting initialization of all mods.");
+            DragonEngine.Log("Path: " + AppDomain.CurrentDomain.BaseDirectory);
 
-
-            Thread modsThread = new Thread(LibThread);
-            modsThread.Start();
-
+            new Thread(LibThread).Start();
             Diagnostics.LibraryAssembly.Init();
             StartInterface();
         }
 
         public static void LibThread()
         {
-            if (Directory.Exists("mods"))
+            string modDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods");
+            if (Directory.Exists(modDirectoryPath))
             {
-                foreach (string directory in Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods")))
-                {
-                    foreach (string dllFile in Directory.GetFiles(directory, "*.dll"))
-                    {
-                        bool loadRes = DragonEngine.InitializeModLibrary(dllFile);
-
-                        if (loadRes)
-                            DragonEngine.Log("Successfully loaded DLL library in " + new DirectoryInfo(directory).Name);
-                    }
-                }
+                LoadMods(modDirectoryPath);
             }
 
             DragonEngine.Log("All mods have been initialized.");
+            LogTestMessages();
+            Thread.Sleep(Timeout.Infinite);
+        }
+
+        private static void LoadMods(string modDirectoryPath)
+        {
+            foreach (string directory in Directory.GetDirectories(modDirectoryPath))
+            {
+                foreach (string dllFile in Directory.GetFiles(directory, "*.dll"))
+                {
+                    bool loadRes = DragonEngine.InitializeModLibrary(dllFile);
+                    if (loadRes)
+                        DragonEngine.Log("Successfully loaded DLL library in " + new DirectoryInfo(directory).Name);
+                }
+            }
+        }
+
+        private static void LogTestMessages()
+        {
             DragonEngine.Log("This is a test information log", Logger.Event.INFORMATION);
             DragonEngine.Log("This is a test debug log", Logger.Event.DEBUG);
             DragonEngine.Log("This is a test warning log", Logger.Event.WARNING);
             DragonEngine.Log("This is a test error log", Logger.Event.ERROR);
             DragonEngine.Log("This is a test fatal log", Logger.Event.FATAL);
-
-            //dont let the thread die
-            while (true) { }
         }
 
 
@@ -78,8 +82,7 @@ namespace DragonEngineLibrary
         {
             Advanced.ImGui.Init();
             Advanced.ImGui.RegisterUIUpdate(Interface.DevInterface.Draw);
-            Thread inputThread = new Thread(Interface.DevInterface.InputThread);
-            inputThread.Start();
+            new Thread(Interface.DevInterface.InputThread).Start();
         }
 
 
@@ -90,9 +93,7 @@ namespace DragonEngineLibrary
             DragonEngine.Log("DragonEngine Library .Net Main Start");
             DragonEngine.Initialize();
 
-
-            Thread thread1 = new Thread(ThreadTest);
-            thread1.Start();
+            new Thread(ThreadTest).Start();
         }
     }
 }
