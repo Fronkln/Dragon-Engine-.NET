@@ -71,7 +71,7 @@ namespace DragonEngineLibrary.Interface
                     ImGui.Spacing();
                     ImGui.TextDisabled(ImGui.GetFrameCount().ToString("D8"));
                     ImGui.Spacing();
-                    ImGui.TextDisabled($"FPS:{Convert.ToInt32(DragonEngine.frameRate).ToString("D3")}");
+                    ImGui.TextDisabled($"FPS:{Convert.ToInt32(DragonEngine.FrameRate).ToString("D3")}");
                     ImGui.Spacing();
                     ImGui.TextDisabled($"W:{Diagnostics.Util.FormatBytes(Diagnostics.LibraryAssembly.GetProcessWorkingSet64())}");
                     ImGui.Spacing();

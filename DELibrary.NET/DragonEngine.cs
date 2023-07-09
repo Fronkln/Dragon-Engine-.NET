@@ -97,6 +97,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_IS_CURSOR_FORCED_VISIBLE", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool DELib_IsCursorForcedVisible();
+        
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_GET_FRAMERATE", CallingConvention = CallingConvention.Cdecl)]
+        private static extern float GetFrameRate();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_IS_ALT_TAB_PAUSE_ALLOWED", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
@@ -249,11 +252,7 @@ namespace DragonEngineLibrary
         /// <summary>
         /// Current FPS (Frames per second) of the engine.
         /// </summary>
-        public static float frameRate
-        {
-            [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_GET_FRAMERATE", CallingConvention = CallingConvention.Cdecl)]
-            get;
-        }
+        public static float FrameRate = GetFrameRate();
 
         public static void SetSpeed(DESpeedType speedType, float speed)
         {
