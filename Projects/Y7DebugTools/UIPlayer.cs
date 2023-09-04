@@ -19,6 +19,8 @@ namespace Y7DebugTools
         private static float m_scaleX;
         private static float m_scaleY;
 
+        private static int m_visibilityID = 0;
+
         public static bool Open;
 
         public static bool ToCreate = false;
@@ -125,6 +127,9 @@ namespace Y7DebugTools
                 if (ImGui.InputInt("Texture", ref m_texture))
                     m_selectedUI.SetTexture((uint)m_texture);
 
+                if (ImGui.InputInt("Visibility ID", ref m_visibilityID))
+                    m_selectedUI.SetVisibilityID((uint)m_visibilityID);
+
                 ImGui.InputInt("Animation Set", ref m_animation_set);
 
                 if (ImGui.Button("Play Anim"))
@@ -160,6 +165,7 @@ namespace Y7DebugTools
                     m_controlY = m_selectedUI.GetPosition().y;
                     m_scaleX = m_selectedUI.GetControlBase().GetPlayer().Scale.x;
                     m_scaleY = m_selectedUI.GetControlBase().GetPlayer().Scale.y;
+                    m_visibilityID = (int)m_selectedUI.GetVisibilityID();
                 }
 
                 if (ImGui.TreeNode("Children"))

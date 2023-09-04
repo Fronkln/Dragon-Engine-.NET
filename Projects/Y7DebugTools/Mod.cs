@@ -3,6 +3,7 @@ using System.Threading;
 using System.Collections.Generic;
 using DragonEngineLibrary;
 using ImGuiNET;
+using MinHook.NET;
 
 namespace Y7DebugTools
 {
@@ -33,11 +34,14 @@ namespace Y7DebugTools
                 ImGui.Checkbox("NPC", ref m_npcMenuEnabled);
                 ImGui.Checkbox("Scene Info", ref SceneInfo.Open);
                 ImGui.Checkbox("Entity", ref EntityMenu.Open);
+                ImGui.Checkbox("World", ref WorldMenu.Open);
                 ImGui.Checkbox("Game Var Manager", ref GameVarMenu.Open);
+                ImGui.Checkbox("Particle", ref ParticleMenu.Open);
                 ImGui.Checkbox("Scenario", ref ScenarioMenu.Open);
                 ImGui.Checkbox("FighterManager", ref m_fighterManagerMenuEnabled);
                 ImGui.Checkbox("BattleTurnManager", ref m_battleTurnManagerMenuEnabled);
                 ImGui.Checkbox("HAct Player", ref m_hactPlayerMenuEnabled);
+                ImGui.Checkbox("Camera", ref CameraMenu.Open);
                 ImGui.Checkbox("Effect", ref m_effectMenuEnabled);
                 ImGui.Checkbox("Fighter CFC", ref FighterCommandMenu.Open);
                 ImGui.Checkbox("Cue Player", ref SoundPlayer.Open);
@@ -70,6 +74,9 @@ namespace Y7DebugTools
                 if (m_hactPlayerMenuEnabled)
                     HActPlayer.Draw();
 
+                if (ParticleMenu.Open)
+                    ParticleMenu.Draw();
+
                 if (FighterCommandMenu.Open)
                     FighterCommandMenu.Draw();
 
@@ -96,6 +103,12 @@ namespace Y7DebugTools
                 
                 if(ScreenEffectMenu.Open)
                     ScreenEffectMenu.Draw();
+
+                if (CameraMenu.Open)
+                    CameraMenu.Draw();
+
+                if (WorldMenu.Open)
+                    WorldMenu.Draw();
 
                 if (m_jobMenuEnabled)
                 {
@@ -183,6 +196,14 @@ namespace Y7DebugTools
 
             Thread inputThread = new Thread(InputThread);
             inputThread.Start();
+            try
+            {
+                MinHookHelper.initialize();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

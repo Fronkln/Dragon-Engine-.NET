@@ -12,6 +12,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_PAUSE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_UIHandleBase_Pause(ulong handle);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_RELEASE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_UIHandleBase_Release(ulong handle);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_SET_VALUE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_UIHandleBase_SetValue(ulong handle, float value);
 
@@ -35,6 +38,12 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_GET_TEXTURE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_UIHandleBase_GetTexture(ulong handle);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_SET_VISIBILITY_ID", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_UIHandleBase_SetVisibilityID(ulong handle, uint texture);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_GET_VISIBILITY_ID", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_UIHandleBase_GetVisibilityID(ulong handle);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_GET_POSITION_V", CallingConvention = CallingConvention.Cdecl)]
         internal static extern Vector4 DELib_UIHandleBase_GetPositionV(ulong handle);
@@ -149,6 +158,16 @@ namespace DragonEngineLibrary
             return DELib_UIHandleBase_GetTexture(Handle);
         }
 
+        public uint GetVisibilityID()
+        {
+            return DELib_UIHandleBase_GetVisibilityID(Handle);
+        }
+
+        public void SetVisibilityID(uint id)
+        {
+            DELib_UIHandleBase_SetVisibilityID(Handle, id);
+        }
+
         public UIControlID GetControlID()
         {
             return (UIControlID)DELib_UIHandleBase_GetControlID(Handle);
@@ -172,6 +191,12 @@ namespace DragonEngineLibrary
         public void Deactivate()
         {
             DELib_UIHandleBase_Deactivate(Handle);
+        }
+
+        ///<summary>Destroy the UI.</summary>
+        public void Release()
+        {
+            DELib_UIHandleBase_Release(Handle);
         }
 
         public void SetItemDisabled(int index, bool callFromChild = false)

@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Release|AnyCPU'">
     <OutputPath>bin\YLAD Release\</OutputPath>
@@ -40,6 +42,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -49,8 +52,12 @@
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MinHookCSharpWrapper">
+      <HintPath>..\TestProject\MinHookCSharpWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -67,6 +74,7 @@
   <ItemGroup>
     <Compile Include="AnimPlayer.cs" />
     <Compile Include="BattleTurnManagerMenu.cs" />
+    <Compile Include="CameraMenu.cs" />
     <Compile Include="DBMenu.cs" />
     <Compile Include="EffectEventMenu.cs" />
     <Compile Include="EntityMenu.cs" />
@@ -76,6 +84,7 @@
     <Compile Include="JobCounter.cs" />
     <Compile Include="NoclipMode.cs" />
     <Compile Include="PlayermodelChanger.cs" />
+    <Compile Include="ParticleMenu.cs" />
     <Compile Include="ScenarioMenu.cs" />
     <Compile Include="SceneInfo.cs" />
     <Compile Include="ScreenEffectMenu.cs" />
@@ -92,6 +101,7 @@
     <Compile Include="Submenu\EntityRender.cs" />
     <Compile Include="Submenu\PadInfoRender.cs" />
     <Compile Include="UIPlayer.cs" />
+    <Compile Include="WorldMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DELibrary.NET\DELibrary.NET.csproj">

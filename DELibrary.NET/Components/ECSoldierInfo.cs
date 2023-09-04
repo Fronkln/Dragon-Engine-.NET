@@ -8,6 +8,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_SOLDIER_INFO_GETTER_HEALTH_GAUGE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_ECSoldierInfo_Getter_HealthGauge(IntPtr agent);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_SOLDIER_INFO_GETTER_NAME", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_ECSoldierInfo_Getter_Name(IntPtr inf);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_SOLDIER_INFO_GETTER_HP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern long DELib_ECSoldierInfo_Getter_Hp(IntPtr inf);
 
@@ -67,6 +70,14 @@ namespace DragonEngineLibrary
         public EntityComponentHandle<UIEntityComponentEnemyLifeGauge> HealthGauge
         {
             get { return DELib_ECSoldierInfo_Getter_HealthGauge(Pointer); }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(DELib_ECSoldierInfo_Getter_Name(Pointer));
+            }
         }
     }
 }

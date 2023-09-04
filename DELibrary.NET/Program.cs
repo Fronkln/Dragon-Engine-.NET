@@ -51,6 +51,16 @@ namespace DragonEngineLibrary
 
         public static void LibThread()
         {
+            AppDomain.CurrentDomain.AssemblyResolve += delegate (object sender, ResolveEventArgs args)
+            {
+                string assemblyName = args.Name.Split(',')[0];
+
+                if (assemblyName == "DELibrary.NET")
+                    return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "DELibrary.NET");
+                
+                return null;
+            };
+
             if (Directory.Exists("mods"))
             {
                 foreach (string directory in Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods")))
@@ -84,6 +94,7 @@ namespace DragonEngineLibrary
             DragonEngine.Initialize();
 
 
+            DragonEngine.Log("moving on!");
             Thread thread1 = new Thread(ThreadTest);
             thread1.Start();
         }

@@ -3,9 +3,39 @@
 #include <iostream>
 #include "DotNetTest.h"
 
+extern "C"
+{
+    __declspec(dllexport) inline void InitializeASI() 
+    {
+        /**
+        AllocConsole();
+        FILE* f;
+        freopen_s(&f, "CONOUT$", "w", stdout);
+
+        Test();
+
+        std::cout << "Loader Finished" << std::endl;
+
+        while (true)
+        {
+            Sleep(1);
+
+            if (GetAsyncKeyState(VK_END))
+                break;
+        }
+
+        fclose(f);
+        FreeConsole();
+       // FreeLibraryAndExitThread(hModule, 0);
+       */
+    }
+}
+
+
 
 DWORD WINAPI NetThread(HMODULE hModule)
 {
+    
     //Create Console
     AllocConsole();
     FILE* f;
@@ -15,6 +45,8 @@ DWORD WINAPI NetThread(HMODULE hModule)
     Sleep(5000);
 
     Test();
+
+    std::cout << "Loader Finished" << std::endl;
 
     while (true)
     {
@@ -27,6 +59,7 @@ DWORD WINAPI NetThread(HMODULE hModule)
     fclose(f);
     FreeConsole();
     FreeLibraryAndExitThread(hModule, 0);
+    
 
     return 0;
 }

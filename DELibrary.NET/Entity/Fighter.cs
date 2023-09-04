@@ -64,6 +64,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETID", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_Fighter_GetID(IntPtr fighterPtr);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETNAME", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Fighter_GetName(IntPtr fighterPtr, uint id);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_ISENEMY", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_IsEnemy(IntPtr fighterPtr);
@@ -134,6 +137,11 @@ namespace DragonEngineLibrary
         public void SetupWeapon()
         {
             DELib_Fighter_SetupWeapon(_ptr);
+        }
+
+        public string GetName(uint id)
+        {
+            return Marshal.PtrToStringAnsi(DELib_Fighter_GetName(_ptr, id));
         }
 
 

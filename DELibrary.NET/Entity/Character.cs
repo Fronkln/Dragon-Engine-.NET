@@ -43,6 +43,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_REQUEST_MOVE_POSE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Character_RequestMovePose(IntPtr chara, IntPtr inf);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_WARP_POS_AND_ORIENT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_Character_WarpPosAndOrient(IntPtr chara, ref Vector4 position, ref Quaternion rotation);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GET_CONSTRUCTOR", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_GetConstructor(IntPtr chara);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_HUMANMODEMANAGER", CallingConvention = CallingConvention.Cdecl)]
@@ -164,6 +168,11 @@ namespace DragonEngineLibrary
             DELib_Character_RequestMovePose(_objectAddress, infPtr);
 
             Marshal.FreeHGlobal(infPtr);
+        }
+
+        public void WarpPosAndOrient(Vector4 position, Quaternion rotation)
+        {
+            DELibrary_Character_WarpPosAndOrient(Pointer, ref position, ref rotation);
         }
 
         ///<summary>Kill this character.</summary>
