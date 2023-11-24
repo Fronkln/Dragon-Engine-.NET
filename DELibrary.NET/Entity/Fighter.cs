@@ -23,7 +23,7 @@ namespace DragonEngineLibrary
     /// <summary>
     /// Fighter objects only exist on combat.
     /// </summary>
-    public unsafe class Fighter
+    public unsafe struct Fighter
     {
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_PLAY_VOICE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Fighter_PlayVoice(IntPtr fighterPtr, uint id);
@@ -67,6 +67,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETNAME", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_GetName(IntPtr fighterPtr, uint id);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_ISPLAYER", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Fighter_IsPlayer(IntPtr fighterPtr);
+
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_ISENEMY", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_IsEnemy(IntPtr fighterPtr);
@@ -102,7 +108,7 @@ namespace DragonEngineLibrary
 
         public bool IsValid()
         {
-            return _ptr != IntPtr.Zero && Character.IsValid() && Character.GetFighter()._ptr == _ptr;
+            return _ptr != IntPtr.Zero && Character != null && Character.IsValid() && Character.GetFighter()._ptr == _ptr;
         }
 
         public Fighter(IntPtr pointer)
@@ -192,11 +198,7 @@ namespace DragonEngineLibrary
         /// </summary>
         public bool IsPlayer()
         {
-#if YLAD
-            return Character.Attributes.is_player;
-#else
-            return false;
-#endif
+            return DELib_Fighter_IsPlayer(_ptr);
         }
 
 
@@ -339,6 +341,9 @@ namespace DragonEngineLibrary
             if (ReferenceEquals(v1, null) || ReferenceEquals(v2, null))
                 return false;
 
+            if (v1.Character == null || v2.Character == null)
+                return false;
+
             return v1.Character.UID == v2.Character.UID;
         }
 
@@ -348,6 +353,9 @@ namespace DragonEngineLibrary
                 return false;
 
             if (ReferenceEquals(v1, null) || ReferenceEquals(v2, null))
+                return true;
+
+            if (v1.Character == null || v2.Character == null)
                 return true;
 
             return v1.Character.UID != v2.Character.UID;

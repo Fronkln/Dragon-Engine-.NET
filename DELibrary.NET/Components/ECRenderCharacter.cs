@@ -41,7 +41,7 @@ namespace DragonEngineLibrary
         /// </summary>
         public void Reload(CharacterID chara_id, bool is_change_chara_id = true)
         {
-#if YLAD
+#if YLAD_AND_GREATER
             bool characterFighting = new EntityHandle<Character>(Owner.UID).Get().GetFighter().IsValid();
 #else
             bool characterFighting = false;
@@ -50,7 +50,7 @@ namespace DragonEngineLibrary
             DELib_ECRenderCharacter_Reload(_objectAddress, chara_id, (characterFighting ? (byte)0x80 : (byte)0x1), false, is_change_chara_id);
         }
 
-#if YLAD
+#if TURN_BASED_GAME
         ///<summary>Battle transform the character.</summary>
         public bool BattleTransformationOn()
         {

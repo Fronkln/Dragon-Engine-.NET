@@ -1,6 +1,6 @@
 ﻿using System;
 
-#if YLAD
+#if YLAD_AND_UP
 namespace DragonEngineLibrary
 {
     public enum ECSlotID : ushort

@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Release|x64'">
     <OutputPath>bin\x64\YLAD Release\</OutputPath>
-    <DefineConstants>TRACE;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP</DefineConstants>
+    <DefineConstants>TRACE;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;TURN_BASED_GAME</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <RegisterForComInterop>true</RegisterForComInterop>
@@ -105,7 +105,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\YLAD Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;TURN_BASED_GAME</DefineConstants>
     <RegisterForComInterop>true</RegisterForComInterop>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -113,6 +113,54 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Infinite Wealth Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Infinite Wealth Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;IW;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;IW_AND_UP;TURN_BASED_GAME</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Release|AnyCPU'">
+    <OutputPath>bin\Infinite Wealth Release\</OutputPath>
+    <DefineConstants>TRACE;IW;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;IW_AND_UP;TURN_BASED_GAME</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Release|x64'">
+    <OutputPath>bin\x64\Infinite Wealth Release\</OutputPath>
+    <DefineConstants>TRACE;IW;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;IW_AND_UP;TURN_BASED_GAME</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -358,6 +406,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Binary\Retail\Y7Internal.dll" />

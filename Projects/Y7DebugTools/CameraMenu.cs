@@ -27,10 +27,12 @@ namespace Y7DebugTools
 
         static CameraMenu()
         {
+            /*
             _setInfDeleg = new CameraSetInfo(SetInfo);
 
             MinHookHelper.createHook((IntPtr)0x1402A4BF0, _setInfDeleg, out _setInfTrampoline);
             MinHookHelper.enableAllHook();
+            */
         }
 
         private static void SetInfo(IntPtr camPtr, IntPtr inf)
@@ -113,18 +115,14 @@ namespace Y7DebugTools
         {
             ImGui.Begin("Camera");
 
-            if(ImGui.Button("Create Static Camera Test"))
-            {
-                CameraStatic newCam = CameraStatic.Create(DragonEngineLibrary.Service.SceneService.CurrentScene.UID);
-                DragonEngine.Log("New Cam: " + newCam.UID + " " + newCam.Pointer.ToString("x"));
-            }
-
             if(ImGui.Checkbox("Freecam", ref Freecam))
             {
+                /*
                 m_pos = SceneService.CurrentScene.Get().GetSceneEntity<CameraBase>(SceneEntity.camera_free).Get().GetPosCenter();
 
                 if (Freecam)
                     getPosDoOnce = true;
+                */
             }
 
             ImGui.End();

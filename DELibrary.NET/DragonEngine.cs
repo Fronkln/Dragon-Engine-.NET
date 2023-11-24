@@ -9,6 +9,7 @@ using System.IO;
 using System.Reflection;
 using static System.Collections.Specialized.BitVector32;
 using System.Security.Cryptography;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DragonEngineLibrary
 {
@@ -29,6 +30,12 @@ namespace DragonEngineLibrary
 
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_UNSAFE_PATCH", CallingConvention = CallingConvention.Cdecl)]
             private static extern void Unsafe_NopMemory(IntPtr memory, IntPtr buf, int len);
+
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_PATTERN_SEARCH", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr PatternSearch(string pattern);
+
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_READ_RELATIVE_ADDRESS", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr ResolveRelativeAddress(IntPtr addr, int instructionLen);
 
             public static void PatchMemory(IntPtr addr, params byte[] bytes)
             {
@@ -129,6 +136,9 @@ namespace DragonEngineLibrary
 
         public static IntPtr BaseAddress { get { return GetModuleHandle(); } }
 
+        [DllImport("User32.dll", CharSet = CharSet.Unicode)]
+        public static extern int MessageBox(IntPtr h, string m, string c, int type);
+
         /// <summary>
         /// Initialize Dragon Engine library. Important for it to properly function.
         /// </summary>
@@ -136,11 +146,19 @@ namespace DragonEngineLibrary
 
         public static void Initialize()
         {
+#if DEBUG
+            DragonEngine.Log("Pre Y7Internal.dll import");
+#endif
             DELib_Init();
-#if YLAD
+
+#if TURN_BASED_GAME
             BattleTurnManager.OverrideAttackerSelectionInfo.deleg = new BattleTurnManager.OverrideAttackerSelectionDelegate(BattleTurnManager.ReturnManualAttackerSelectionResult);
             BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr = Marshal.GetFunctionPointerForDelegate(BattleTurnManager.OverrideAttackerSelectionInfo.deleg);
             DELib_RegisterAttackerOverrideFunc(BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr);
+#endif
+
+#if DEBUG
+            DragonEngine.Log("Post Y7Internal.dll import");
 #endif
 
             EngineHooks.Initialize();
@@ -149,7 +167,9 @@ namespace DragonEngineLibrary
 
         internal static void LibUpdate()
         {
+#if YLAD
             RefreshOffsets();
+#endif
         }
 
         /// <summary>
@@ -160,11 +180,13 @@ namespace DragonEngineLibrary
             return DELib_IsEngineInitialized();
         }
 
+        static readonly object m_writeLock = new object();
         public static void Log(object value)
         {
             string valueStr = value.ToString();
 
             Console.WriteLine(valueStr);
+            File.AppendAllText("de_log.txt", value + "\n");
             // DELib_TEMP_CPP_COUT(valueStr + "\n");
             // File.AppendAllText("dotnetlog.txt", valueStr + "\n");
         }
@@ -304,7 +326,12 @@ namespace DragonEngineLibrary
             {
                 //It was a valid C# Dragon Engine .NET library but there was an error
                 if (ex as BadImageFormatException == null)
-                    Log("Failed to load library, error: " + Environment.StackTrace + "\n" + ex.Message + "\n" + ex.InnerException);
+                {
+                    if (ex as FileLoadException != null && ex.InnerException as NotSupportedException != null)
+                        MessageBox((IntPtr)0, $"Failed to load {Path.GetFileName(path)}because it was untrusted by system, please unblock!", "Load Error", 0);
+                    else
+                        Log($"Failed to load library, Exception type: {ex.ToString()} Stacktrace:\n" + Environment.StackTrace + "\n" + "Message:\n" + ex.Message + "\nInnerException" + ex.InnerException);
+                }
 
                 return false;
             }

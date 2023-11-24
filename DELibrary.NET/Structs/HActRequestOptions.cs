@@ -3,7 +3,13 @@ using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
 {
+
+#if YLAD
     [StructLayout(LayoutKind.Explicit, Pack = 16, Size = 0x1120)]
+#endif
+#if IW_AND_UP
+    [StructLayout(LayoutKind.Explicit, Size = 0x1120)]
+#endif
     public struct HActRequestOptions
     {
 
@@ -22,6 +28,8 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTREQUESTOPTIONS_REGISTERWEAPON2", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HActRequestOptions_RegisterWeapon2(ref HActRequestOptions opt, AuthAssetReplaceID id, uint wep);
 
+
+#if YLAD
         [FieldOffset(0x0)] public DynamicsMatrix base_mtx;
         [FieldOffset(0x70)] public DynamicsMatrix base_mtx_sub;
         [FieldOffset(0xE0)] public TalkParamID id;
@@ -40,6 +48,14 @@ namespace DragonEngineLibrary
         [FieldOffset(0x1115)] [MarshalAs(UnmanagedType.U1)] public bool is_force_play;
         [FieldOffset(0x1116)] [MarshalAs(UnmanagedType.U1)] public bool can_skip;
         [FieldOffset(0x1117)] [MarshalAs(UnmanagedType.U1)] public bool is_last_frame_draw_stop;
+#endif
+
+#if IW_AND_UP
+        [FieldOffset(0x0)] public DynamicsMatrix base_mtx;
+        [FieldOffset(0x70)] public DynamicsMatrix base_mtx_sub;
+        [FieldOffset(0xE0)] public TalkParamID id;
+        [FieldOffset(0xE4)] public uint id_param;
+#endif
 
 
         public void Init()

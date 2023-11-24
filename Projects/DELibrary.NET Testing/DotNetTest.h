@@ -162,7 +162,7 @@ int Test()
 
     //Change exe path to yours
     //I made this an absolute path because i didnt want to copy files around for each change to my own code tests
-    if (!readBinFile("extensions/DE Library/DELibrary.NET.dll", ptrBinary, lenBinary))
+    if (!readBinFile("mods/OOE Library/OOELibrary.Loader.dll", ptrBinary, lenBinary))
     {
         std::cout << "DELibrary Loader does not exist!" << std::endl;
         return -1;

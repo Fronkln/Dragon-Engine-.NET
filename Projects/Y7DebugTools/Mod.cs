@@ -185,9 +185,13 @@ namespace Y7DebugTools
 
         public override void OnModInit()
         {
+            DragonEngine.Log("DebugTools Start");
+            
             DragonEngine.Initialize();
             DragonEngineLibrary.Advanced.ImGui.Init();
             DragonEngineLibrary.Advanced.ImGui.RegisterUIUpdate(ModUI);
+
+            DragonEngine.Log("DebugTools Imgui Update Registered");
 
             m_enumNames_VirtualKey = Enum.GetNames(typeof(VirtualKey));
             m_enumValues_VirtualKey = Enum.GetValues(typeof(VirtualKey));

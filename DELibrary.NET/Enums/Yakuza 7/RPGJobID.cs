@@ -27,5 +27,22 @@ namespace DragonEngineLibrary
         woman_nightqueen,        // constant 0x14
         dlc_01,      // constant 0x15
         woman_martial,       // constant 0x16
+#if IW_AND_UP
+        kiryu_01 = 23,
+        woman_kunoichi,
+        man_samurai,
+        man_actionstar,
+        man_marine,
+        man_footballer,
+        man_western,
+        man_firedancer,
+        woman_housekeeper,
+        woman_tropicaldancer,
+        woman_tennis,
+        chitose_01,
+        tomizawa_01,
+        sonhi_01,
+        kasuga_sujimon
+#endif
     };
 }

@@ -16,15 +16,19 @@ namespace DragonEngineLibrary.Advanced
 
         public static void RegisterUIUpdate(Action func)
         {
+#if !IW_AND_UP
             DX11Present del = new DX11Present(func);
             _dx11Delegates.Add(del);
 
             DXHook.DELibrary_DXHook_RegisterPresentFunc(Marshal.GetFunctionPointerForDelegate(del));
+#endif
         }
 
         public static void Init()
         {
+#if !IW_AND_UP
             DXHook.Init();
+#endif
         }
     }
 }

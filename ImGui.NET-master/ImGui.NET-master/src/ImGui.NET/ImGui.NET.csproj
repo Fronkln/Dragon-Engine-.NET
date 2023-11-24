@@ -14,13 +14,17 @@
     <PackageProjectUrl>https://github.com/mellinoe/imgui.net</PackageProjectUrl>
     <DocumentationFile Condition="'$(Configuration)' == 'Release'">$(OutputPath)\ImGui.NET.xml</DocumentationFile>
     <DocumentationFile Condition="'$(Configuration)'=='YLAD Release'">$(OutputPath)\ImGui.NET.xml</DocumentationFile>
+    <DocumentationFile Condition="'$(Configuration)'=='Infinite Wealth Release'">$(OutputPath)\ImGui.NET.xml</DocumentationFile>
     <RootNamespace>ImGuiNET</RootNamespace>
-    <Configurations>Debug;Release;YLAD Release;YLAD Debug</Configurations>
+    <Configurations>Debug;Release;YLAD Release;YLAD Debug;Infinite Wealth Debug;Infinite Wealth Release</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='YLAD Release|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Infinite Wealth Release|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>

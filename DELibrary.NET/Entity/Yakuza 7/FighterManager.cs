@@ -63,6 +63,22 @@ namespace DragonEngineLibrary
             return GetFighter(0);
         }
 
+        public static Fighter[] GetAllFighters()
+        {
+            List<Fighter> enemyFighters = new List<Fighter>();
+
+            //heuteristic, may not be accurate on extreme cases
+            for (uint i = 3; i < 48; i++)
+            {
+                Fighter fighter = GetFighter(i);
+
+                if (fighter.Character.IsValid())
+                        enemyFighters.Add(fighter);
+            }
+
+            return enemyFighters.ToArray();
+        }
+
         /// <summary>
         /// Get all enemies.
         /// </summary>

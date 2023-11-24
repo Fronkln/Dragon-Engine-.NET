@@ -91,10 +91,13 @@ namespace DragonEngineLibrary
 
             //Create seperate thread for our C# library
             DragonEngine.Log("DragonEngine Library .Net Main Start");
+            DragonEngine.Log("BaseDirectory: " + AppDomain.CurrentDomain.BaseDirectory);
+
+            Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library");
             DragonEngine.Initialize();
 
+            Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
 
-            DragonEngine.Log("moving on!");
             Thread thread1 = new Thread(ThreadTest);
             thread1.Start();
         }

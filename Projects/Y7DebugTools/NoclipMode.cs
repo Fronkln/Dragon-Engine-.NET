@@ -35,16 +35,10 @@ namespace Y7DebugTools
 
         private static void Update()
         {
-            if (GameVarManager.GetValueBool(GameVarID.is_pause))
-                return;
+           // if (GameVarManager.GetValueBool(GameVarID.is_pause))
+              //  return;
 
             Character player = DragonEngine.GetHumanPlayer();
-            Fighter fighterChara = player.GetFighter();
-            EntityBase camera = player.GetSceneEntity<EntityBase>(SceneEntity.camera_free);
-
-            if (!camera.IsValid())
-                DragonEngine.Log("Camera free is not valid");
-
 
             Vector3 movement = Vector3.zero;
             float rotation = 0;

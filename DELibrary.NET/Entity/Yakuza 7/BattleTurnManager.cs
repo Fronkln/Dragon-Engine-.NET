@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-#if YLAD
+#if TURN_BASED_GAME
 
 namespace DragonEngineLibrary
 {
@@ -197,10 +197,7 @@ namespace DragonEngineLibrary
                 Fighter result = OverrideAttackerSelectionInfo.overrideFunc(readOnly, getNextFighter);
                 IntPtr ptr;
 
-                if (result == null)
-                    ptr = IntPtr.Zero;
-                else
-                    ptr = result._ptr;
+                ptr = result._ptr;
 
                 return ptr;
             }

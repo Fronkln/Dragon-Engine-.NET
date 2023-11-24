@@ -45,7 +45,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_HEAT_NOW", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetHeatNow(ID player, int val);
 
-#if YLAD
+#if TURN_BASED_GAME
 
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_LEVEL", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetLevel(uint level, ID playerID, IntPtr saveData = default(IntPtr));
@@ -65,7 +65,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_SET_CURRENT_JOB", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DELib_Player_SetCurrentJob(ID player, RPGJobID job, bool recoverHPMPDifference);
 #endif
-#if YLAD
+#if TURN_BASED_GAME
         ///<summary>Get current HP of player.</summary>
         public static long GetHPNow(ID playerID)
         {
@@ -97,7 +97,7 @@ namespace DragonEngineLibrary
 #endif
     }
 
-#if YLAD
+#if TURN_BASED_GAME
         ///<summary>Set current level of player.</summary>
         public static void SetLevel(uint level, ID playerID)
         {
