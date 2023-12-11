@@ -13,7 +13,8 @@ namespace DragonEngineLibrary
 
         static InputInterface()
         {
-            m_keyboardActive = (KeyboardActiveDelegate)Marshal.GetDelegateForFunctionPointer((IntPtr)0x141830330, typeof(KeyboardActiveDelegate));
+            //TODO: Move to CPP
+            m_keyboardActive = (KeyboardActiveDelegate)Marshal.GetDelegateForFunctionPointer(Unsafe.CPP.PatternSearch("48 83 EC ? E8 ? ? ? ? FF C8 83 F8 ?"), typeof(KeyboardActiveDelegate));
         }
 
         public static bool IsKeyboardActive()

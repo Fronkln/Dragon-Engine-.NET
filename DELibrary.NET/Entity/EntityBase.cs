@@ -59,9 +59,9 @@ namespace DragonEngineLibrary
         internal static extern uint DELibrary_EntityBase_Getter_SceneRoot(IntPtr entity);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
-        public static extern Quaternion DELibrary_EntityBase_Getter_Orient(IntPtr entity);
+        internal static extern Quaternion DELibrary_EntityBase_Getter_Orient(IntPtr entity);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_SET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DELibrary_EntityBase_Setter_Orient(IntPtr entity, IntPtr res);
+        internal static extern void DELibrary_EntityBase_Setter_Orient(IntPtr entity, IntPtr res);
 
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_GLOBAL_ENTITY_FROM_UID", CallingConvention = CallingConvention.Cdecl)]
@@ -163,6 +163,17 @@ namespace DragonEngineLibrary
         public static EntityHandle<EntityBase> GetGlobalEntityFromUID(EntityUID uid)
         {
             return DELibrary_EntityBase_GetGlobalEntityFromUID(uid.UID);
+        }
+
+        public Matrix4x4 GetMatrix()
+        {
+            Matrix4x4 mtx = new Matrix4x4();
+            mtx.Position = Transform.Position;
+            mtx.ForwardDirection = Transform.forwardDirection;
+            mtx.LeftDirection = -Transform.rightDirection;
+            mtx.UpDirection = Transform.upDirection;
+
+            return mtx;
         }
     }
 }

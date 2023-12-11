@@ -64,6 +64,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_PAD", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Getter_Pad(IntPtr chara);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_SPEECH", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Character_Getter_Speech(IntPtr chara);
+
 #if YLAD
         ///<summary>Target select module of the character.</summary>
         public ECBattleTargetDecide TargetDecide
@@ -120,6 +124,14 @@ namespace DragonEngineLibrary
             get
             {
                 return new PadInputInfo() { Pointer = DELib_Character_Getter_Pad(Pointer) };
+            }
+        }
+
+        public IntPtr Speech
+        {
+            get
+            {
+                return DELib_Character_Getter_Speech(Pointer);
             }
         }
 

@@ -14,9 +14,6 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CUI_ENTITY_PLAYER_GAUGE_GETTER_GAUGE_NOW", CallingConvention = CallingConvention.Cdecl)]
         internal static extern ulong DELib_UIEntityPlayerGauge_Getter_Gauge_Now(IntPtr gauge);
 
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CUI_ENTITY_PLAYER_GAUGE_JOB_UPDATE", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void DELib_UIEntityPlayerGauge_JobUpdate(IntPtr gauge);
-
 
         public UIHandleBase LifeGauge
         {
@@ -43,12 +40,6 @@ namespace DragonEngineLibrary
             {
                 return new UIHandleBase() { Handle = DELib_UIEntityPlayerGauge_Getter_Gauge_Now(Pointer) };
             }
-        }
-
-
-        public void JobUpdate()
-        {
-            //DELib_UIEntityPlayerGauge_JobUpdate(Pointer);
         }
     }
 }

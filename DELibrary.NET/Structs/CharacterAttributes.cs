@@ -37,6 +37,7 @@ namespace DragonEngineLibrary
         public byte[] padding = new byte[0x1F0];
     }
 
+#if YLAD
     [StructLayout(LayoutKind.Explicit)]
     public unsafe struct CharacterAttributes
     {
@@ -101,7 +102,76 @@ namespace DragonEngineLibrary
         [FieldOffset(0x28A)] [MarshalAs(UnmanagedType.U1)] public bool is_wish_auto_invisible;
         [FieldOffset(0x28C)] public Player.ID player_id;
         [FieldOffset(0x290)] public Player.ID dmy_player_id;
-        [FieldOffset(0x294)] public FilePortCategory file_port;
-        
+        [FieldOffset(0x294)] public FilePortCategory file_port;     
     }
+#endif
+
+#if IW_AND_UP
+    [StructLayout(LayoutKind.Explicit)]
+    public unsafe struct CharacterAttributes
+    {
+        [FieldOffset(0x0)] public Vector4 InitPos;
+        [FieldOffset(0x10)][MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x210)] public byte[] dispose_data;
+        [FieldOffset(0x220)] public CharacterID chara_id;
+        [FieldOffset(0x224)] public CharacterModelID model_id;
+        [FieldOffset(0x228)] public CharacterBoneType bone_type;
+        [FieldOffset(0x22C)] public CharacterAnimalKind animal_kind;
+        [FieldOffset(0x230)] public CharacterBagType bag_type;
+        [FieldOffset(0x234)] public BattleControlType ctrl_type;
+        [FieldOffset(0x238)] public BattleRPGEnemyID enemy_id;
+        [FieldOffset(0x280)] public BattleCommandSetID command_set_id;
+        [FieldOffset(0x284)] public CharacterNPCSetup npc_setup;
+        [FieldOffset(0x288)] public BehaviorSetID behavior_set;
+        [FieldOffset(0x28C)] public SujimonID sujimon_id;
+        [FieldOffset(0x290)] public BehaviorGroupID behavior_group;
+        [FieldOffset(0x294)] public BehaviorActionID behavior_action;
+        [FieldOffset(0x298)] public CharacterHeightID chara_scale_id;
+        [FieldOffset(0x29C)] public MotionFacePattern base_face_pattern;
+        [FieldOffset(0x300)] public int flags;
+        [FieldOffset(0x304)] public float scale_rate;
+        [FieldOffset(0x208)] public float scale_rate_face;
+        [FieldOffset(0x30C)] public float auto_wrinkle_scale;
+
+        [FieldOffset(0x26C)] public CharacterNPCListID npc_list_id;
+        [FieldOffset(0x270)] public CharacterNPCSoldierPersonalDataID soldier_data_id;
+        [FieldOffset(0x2E4)] public CharacterVoicerID voicer_id;
+        /// <summary> https://youtu.be/OQYb-3n0tBk?t=10 </summary>
+        [FieldOffset(0x2E8)] public SoundShoeKind shoes_kind;
+        [FieldOffset(0x2EC)] public MissionKindID first_entry_mission_id;
+        [FieldOffset(0x2F0)] public CharacterNPCTagID tag_id;
+        [FieldOffset(0x2F4)] public CharacterNPCSpecialTypeID special_type;
+        [FieldOffset(0x2F8)] public CabaretIslandCastID caba_cast_id;
+        [FieldOffset(0x2FC)] public CharacterClassID model_class_id;
+        [FieldOffset(0x290)][MarshalAs(UnmanagedType.U1)] public bool fix_model_lod;
+        [FieldOffset(0x291)] public byte commander;
+        [FieldOffset(0x292)] public byte exist_level;
+        [FieldOffset(0x293)] public byte model_category_id;
+        [FieldOffset(0x294)] public byte model_age_id;
+        [FieldOffset(0x295)] public byte model_body_type_id;
+        [FieldOffset(0x296)] public byte proxy_type;
+        [FieldOffset(0x297)][MarshalAs(UnmanagedType.U1)] public bool is_player;
+        [FieldOffset(0x298)][MarshalAs(UnmanagedType.U1)] public bool is_supporter;
+        [FieldOffset(0x299)][MarshalAs(UnmanagedType.U1)] public bool is_npc;
+        [FieldOffset(0x29A)][MarshalAs(UnmanagedType.U1)] public bool is_soldier;
+        [FieldOffset(0x29B)][MarshalAs(UnmanagedType.U1)] public bool is_encounter;
+        [FieldOffset(0x29C)][MarshalAs(UnmanagedType.U1)] public bool is_exec_physics_ragdoll;
+        [FieldOffset(0x29D)][MarshalAs(UnmanagedType.U1)] public bool is_mob;
+        [FieldOffset(0x29E)][MarshalAs(UnmanagedType.U1)] public bool is_process_in_pause;
+        [FieldOffset(0x29F)][MarshalAs(UnmanagedType.U1)] public bool is_enable_chara_proxy;
+        [FieldOffset(0x300)][MarshalAs(UnmanagedType.U1)] public bool is_ever_fix_chara_proxy;
+        [FieldOffset(0x301)][MarshalAs(UnmanagedType.U1)] public bool is_disable_scale;
+        [FieldOffset(0x302)][MarshalAs(UnmanagedType.U1)] public bool is_adv_model;
+        [FieldOffset(0x303)][MarshalAs(UnmanagedType.U1)] public bool is_encount_btl_type;
+        [FieldOffset(0x304)][MarshalAs(UnmanagedType.U1)] public bool is_force_update_motion;
+        [FieldOffset(0x305)][MarshalAs(UnmanagedType.U1)] public bool is_shoes_off;
+        [FieldOffset(0x306)][MarshalAs(UnmanagedType.U1)] public bool is_force_visible;
+        [FieldOffset(0x307)][MarshalAs(UnmanagedType.U1)] public bool is_minimum_mode;
+        [FieldOffset(0x308)][MarshalAs(UnmanagedType.U1)] public bool is_use_human_sensor;
+        [FieldOffset(0x309)][MarshalAs(UnmanagedType.U1)] public bool is_keep_dead;
+        [FieldOffset(0x30A)][MarshalAs(UnmanagedType.U1)] public bool is_wish_auto_invisible;
+        [FieldOffset(0x30C)] public Player.ID player_id;
+        [FieldOffset(0x310)] public Player.ID dmy_player_id;
+        [FieldOffset(0x314)] public FilePortCategory file_port;
+    }
+#endif
 }

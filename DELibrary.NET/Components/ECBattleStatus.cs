@@ -5,9 +5,6 @@ namespace DragonEngineLibrary
 {
     public class ECBattleStatus : ECCharaComponent
     {
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_ATTACH", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern uint DELibrary_ECBattleStatus_Attach(IntPtr chara);
-
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETBATTLEAI", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELibrary_ECBattleStatus_GetBattleAI(IntPtr battlestatus);
 
@@ -88,11 +85,6 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_HACT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_ECBattleStatus_Getter_Hact(IntPtr battlestatus);
-
-        public static EntityComponentHandle<ECBattleStatus> Attach(Character character)
-        {
-            return DELibrary_ECBattleStatus_Attach(character.Pointer);
-        }
 
         public long HPLimit
         {

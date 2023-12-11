@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 namespace DragonEngineLibrary
 {
@@ -108,7 +109,16 @@ namespace DragonEngineLibrary
 
         public bool IsValid()
         {
-            return _ptr != IntPtr.Zero && Character != null && Character.IsValid() && Character.GetFighter()._ptr == _ptr;
+            if (_ptr == IntPtr.Zero)
+                return false;
+
+            if (Character == null)
+                return false;
+
+            if (!Character.IsValid())
+                return false;
+
+            return true;
         }
 
         public Fighter(IntPtr pointer)
@@ -247,7 +257,6 @@ namespace DragonEngineLibrary
         /// </summary>
         public FighterID GetID()
         {
-
             FighterID id = new FighterID();
             id.Handle = DELib_Fighter_GetID(_ptr);
 

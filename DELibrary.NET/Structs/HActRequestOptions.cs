@@ -8,7 +8,7 @@ namespace DragonEngineLibrary
     [StructLayout(LayoutKind.Explicit, Pack = 16, Size = 0x1120)]
 #endif
 #if IW_AND_UP
-    [StructLayout(LayoutKind.Explicit, Size = 0x1120)]
+    [StructLayout(LayoutKind.Explicit, Size = 0x14B0)]
 #endif
     public struct HActRequestOptions
     {
@@ -55,6 +55,22 @@ namespace DragonEngineLibrary
         [FieldOffset(0x70)] public DynamicsMatrix base_mtx_sub;
         [FieldOffset(0xE0)] public TalkParamID id;
         [FieldOffset(0xE4)] public uint id_param;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0xB60)]
+        [FieldOffset(0xE8)] public byte[] replace_character_list;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x460)]
+        [FieldOffset(0xC48)] public byte[] unk;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x2D8)]
+        [FieldOffset(0x10A8)] public byte[] unk1;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x118)]
+        [FieldOffset(0x1380)] public byte[] asset_replace_list;
+        [FieldOffset(0x14A4)] public byte range_type;
+        [FieldOffset(0x14A5)][MarshalAs(UnmanagedType.U1)] public bool is_player_action;
+        [FieldOffset(0x14A6)][MarshalAs(UnmanagedType.U1)] public bool is_large_ok;
+        [FieldOffset(0x14A7)][MarshalAs(UnmanagedType.U1)] public bool is_fixed;
+        [FieldOffset(0x14A8)][MarshalAs(UnmanagedType.U1)] public bool is_warp_return;
+        [FieldOffset(0x14A9)][MarshalAs(UnmanagedType.U1)] public bool is_force_play;
+        [FieldOffset(0x14AA)][MarshalAs(UnmanagedType.U1)] public bool can_skip;
+        [FieldOffset(0x14AB)][MarshalAs(UnmanagedType.U1)] public bool is_last_frame_draw_stop;
 #endif
 
 

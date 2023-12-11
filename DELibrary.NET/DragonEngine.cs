@@ -139,6 +139,9 @@ namespace DragonEngineLibrary
         [DllImport("User32.dll", CharSet = CharSet.Unicode)]
         public static extern int MessageBox(IntPtr h, string m, string c, int type);
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr LoadLibrary(string libname);
+
         /// <summary>
         /// Initialize Dragon Engine library. Important for it to properly function.
         /// </summary>
@@ -149,7 +152,10 @@ namespace DragonEngineLibrary
 #if DEBUG
             DragonEngine.Log("Pre Y7Internal.dll import");
 #endif
+
+            LoadLibrary(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library", "Y7Internal.dll"));
             DELib_Init();
+            Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
 
 #if TURN_BASED_GAME
             BattleTurnManager.OverrideAttackerSelectionInfo.deleg = new BattleTurnManager.OverrideAttackerSelectionDelegate(BattleTurnManager.ReturnManualAttackerSelectionResult);
@@ -167,9 +173,6 @@ namespace DragonEngineLibrary
 
         internal static void LibUpdate()
         {
-#if YLAD
-            RefreshOffsets();
-#endif
         }
 
         /// <summary>
@@ -328,7 +331,10 @@ namespace DragonEngineLibrary
                 if (ex as BadImageFormatException == null)
                 {
                     if (ex as FileLoadException != null && ex.InnerException as NotSupportedException != null)
-                        MessageBox((IntPtr)0, $"Failed to load {Path.GetFileName(path)}because it was untrusted by system, please unblock!", "Load Error", 0);
+                        MessageBox((IntPtr)0, $"Failed to load {Path.GetFileName(path)} in mods/{Path.GetDirectoryName(path)} because it was untrusted by system, please unblock!\n" +
+                            $"1)Go to the problematic file\n" +
+                            $"2)Right click on it, go to properties\n" +
+                            $"3)Press the unblock button", "Load Error", 0);
                     else
                         Log($"Failed to load library, Exception type: {ex.ToString()} Stacktrace:\n" + Environment.StackTrace + "\n" + "Message:\n" + ex.Message + "\nInnerException" + ex.InnerException);
                 }

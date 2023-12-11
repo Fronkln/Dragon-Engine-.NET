@@ -20,6 +20,25 @@ namespace DragonEngineLibrary
 
                 DragonEngine.Log("\nDragon Engine Library .NET Thread Start");
 
+#if YLAD
+                /*
+                try
+                {
+                    //Top 10 greatest integrity checks of all time
+                    if (Marshal.PtrToStringAnsi((IntPtr)0x142184498) != "GuardBreakDamage")
+                    {
+                        DragonEngine.MessageBox((IntPtr)0, "Unsupported version! Yakuza 7 Dragon Engine Library only works on the latest Steam version", "Unsupported", 0);
+                        return;
+                    }
+                }
+                catch
+                {
+                    DragonEngine.MessageBox((IntPtr)0, "Unsupported version! Yakuza 7 Dragon Engine Library only works on the latest Steam version", "Unsupported", 0);
+                    return;
+                }
+                */
+#endif
+
                 while(!DragonEngine.IsEngineInitialized())
                 {
                     DragonEngine.RefreshOffsets();
@@ -93,7 +112,7 @@ namespace DragonEngineLibrary
             DragonEngine.Log("DragonEngine Library .Net Main Start");
             DragonEngine.Log("BaseDirectory: " + AppDomain.CurrentDomain.BaseDirectory);
 
-            Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library");
+           // Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library");
             DragonEngine.Initialize();
 
             Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);

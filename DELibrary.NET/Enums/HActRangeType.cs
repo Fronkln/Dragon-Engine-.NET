@@ -1,5 +1,38 @@
 ﻿namespace DragonEngineLibrary
 {
+#if IW_AND_UP
+    public enum HActRangeType
+    {
+        invalid,         // constant 0x0
+        mukou,
+        hit_wall,
+        hit_wall_safety,
+        hit_wall_force,
+        droppd_throw,
+        pole,
+        guardrail,
+        corner,
+        stand,
+        high_range,
+        low_range,
+        stairs_up,
+        stairs_down,
+        oven,
+        stairs,
+        plain,
+        train_throw,
+        special,
+        warp_safety,
+        warp_safety_slope,
+        warp_force,
+        water_side,
+        water_high_side,
+        door_left,
+        door_right,
+        battle_space,
+        battle_result,
+    }
+#else
     public enum HActRangeType
     {
         invalid,         // constant 0x0
@@ -32,4 +65,5 @@
         battle_space,        // constant 0x1B
         battle_result,       // constant 0x1C
     }
+#endif
 }

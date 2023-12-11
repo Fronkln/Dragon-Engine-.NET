@@ -207,6 +207,8 @@
     <Compile Include="Entity\Camera.cs" />
     <Compile Include="Entity\CameraBase.cs" />
     <Compile Include="Entity\CameraStatic.cs" />
+    <Compile Include="Entity\FighterCommandManager.cs" />
+    <Compile Include="Entity\PUID.cs" />
     <Compile Include="Entity\DB.cs" />
     <Compile Include="Entity\EffectEventManager.cs" />
     <Compile Include="Entity\EntityComponentMap.cs" />
@@ -235,7 +237,6 @@
     <Compile Include="Entity\Weapon.cs" />
     <Compile Include="Entity\Yakuza 7\BattleResult.cs" />
     <Compile Include="Entity\Yakuza 7\BattleTurnManager.cs" />
-    <Compile Include="Entity\BulletManager.cs" />
     <Compile Include="Entity\Character.cs" />
     <Compile Include="Entity\CharacterBase.cs" />
     <Compile Include="Components\ECCharaBaseComponent.cs" />
@@ -262,7 +263,6 @@
     <Compile Include="Entity\Services\SceneService.cs" />
     <Compile Include="Entity\SoundManager.cs" />
     <Compile Include="Entity\Yakuza 7\BattleCommandAI.cs" />
-    <Compile Include="Entity\Yakuza 7\DragonKart.cs" />
     <Compile Include="Entity\Yakuza 7\Party.cs" />
     <Compile Include="Entity\Yakuza 7\RPGSkill.cs" />
     <Compile Include="Entity\Yakuza 7\TurnCommandDecideManager.cs" />
@@ -356,7 +356,6 @@
     <Compile Include="Entity\GameObject.cs" />
     <Compile Include="Entity\Player.cs" />
     <Compile Include="MarshallingTests.cs" />
-    <Compile Include="Entity\Yakuza 7\MGHomelessCan.cs" />
     <Compile Include="MathUtils.cs" />
     <Compile Include="PXD.cs" />
     <Compile Include="Screen.cs" />
@@ -374,6 +373,7 @@
     <Compile Include="Structs\FighterRPGCommand.cs" />
     <Compile Include="Structs\GameTick.cs" />
     <Compile Include="Structs\HActRangeInfo.cs" />
+    <Compile Include="Structs\Ini.cs" />
     <Compile Include="Structs\Inventory.cs" />
     <Compile Include="Structs\InventoryItem.cs" />
     <Compile Include="Structs\MotionBehaviorGroupActID.cs" />
@@ -386,6 +386,7 @@
     <Compile Include="Structs\Matrix4x4.cs" />
     <Compile Include="Structs\MotionTimingStatus.cs" />
     <Compile Include="Structs\PlayerPoint.cs" />
+    <Compile Include="Structs\PXD\PXDString.cs" />
     <Compile Include="Structs\PXD\PXDVector.cs" />
     <Compile Include="Structs\RequestRagdollOptions.cs" />
     <Compile Include="Structs\Shapes.cs" />
