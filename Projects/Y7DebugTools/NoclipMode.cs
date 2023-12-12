@@ -35,8 +35,8 @@ namespace Y7DebugTools
 
         private static void Update()
         {
-           // if (GameVarManager.GetValueBool(GameVarID.is_pause))
-              //  return;
+            if (GameVarManager.GetValueBool(GameVarID.is_pause))
+                 return;
 
             Character player = DragonEngine.GetHumanPlayer();
 

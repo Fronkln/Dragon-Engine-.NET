@@ -23,8 +23,13 @@ namespace DragonEngineLibrary
         {
             get
             {
-               // Quaternion quat = new Quaternion();
-                return EntityBase.DELibrary_EntityBase_Getter_Orient(_owner.Pointer);
+                // Quaternion quat = new Quaternion();
+                IntPtr orient = EntityBase.DELibrary_EntityBase_Getter_Orient(_owner.Pointer);
+
+                if (orient != IntPtr.Zero)
+                    return Marshal.PtrToStructure<Quaternion>(orient);
+                else
+                    return new Quaternion();
             }
             set
             {
@@ -59,7 +64,7 @@ namespace DragonEngineLibrary
         internal static extern uint DELibrary_EntityBase_Getter_SceneRoot(IntPtr entity);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern Quaternion DELibrary_EntityBase_Getter_Orient(IntPtr entity);
+        internal static extern IntPtr DELibrary_EntityBase_Getter_Orient(IntPtr entity);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_SET_ORIENT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_EntityBase_Setter_Orient(IntPtr entity, IntPtr res);
 

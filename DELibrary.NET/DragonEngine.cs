@@ -37,6 +37,12 @@ namespace DragonEngineLibrary
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_READ_RELATIVE_ADDRESS", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr ResolveRelativeAddress(IntPtr addr, int instructionLen);
 
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_READ_CALL", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr ReadCall(IntPtr addr);
+
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_INJECT_HOOK", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void InjectHook(IntPtr addr, IntPtr func);
+
             public static void PatchMemory(IntPtr addr, params byte[] bytes)
             {
                 IntPtr byteArr = Marshal.AllocHGlobal(bytes.Length);
@@ -153,7 +159,13 @@ namespace DragonEngineLibrary
             DragonEngine.Log("Pre Y7Internal.dll import");
 #endif
 
-            LoadLibrary(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library", "Y7Internal.dll"));
+            string libPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library", "Y7Internal.dll");
+            Log("Y7Internal path: " + libPath);
+
+            if (LoadLibrary(libPath) == IntPtr.Zero)
+                DragonEngine.Log("Failed to load the library! " + "GetLastWinError32:" + Marshal.GetLastWin32Error());
+
+
             DELib_Init();
             Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
 
