@@ -12,9 +12,6 @@ namespace DragonEngineLibrary
 #endif
     public struct HActRequestOptions
     {
-
-        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTREQUESTOPTIONS_INIT", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void DELib_HActRequestOptions_INIT(ref HActRequestOptions opt);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTREQUESTOPTIONS_REGISTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HActRequestOptions_Register(ref HActRequestOptions opt, HActReplaceID id, uint charid);
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTREQUESTOPTIONS_REGISTERFIGHTER", CallingConvention = CallingConvention.Cdecl)]
@@ -76,7 +73,6 @@ namespace DragonEngineLibrary
 
         public void Init()
         {
-            DELib_HActRequestOptions_INIT(ref this);
         }
 
         public void Register(HActReplaceID id, EntityHandle<CharacterBase> chara)
