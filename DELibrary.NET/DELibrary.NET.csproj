@@ -392,7 +392,6 @@
     <Compile Include="Structs\Shapes.cs" />
     <Compile Include="Structs\TimingInfoDamage.cs" />
     <Compile Include="Structs\Vector2.cs" />
-    <Compile Include="Third Party\RMM.cs" />
     <Compile Include="Structs\AIUtil.cs" />
     <Compile Include="Structs\CharacterAttributes.cs" />
     <Compile Include="Structs\EntityUID.cs" />
