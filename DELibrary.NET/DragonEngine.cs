@@ -10,6 +10,7 @@ using System.Reflection;
 using static System.Collections.Specialized.BitVector32;
 using System.Security.Cryptography;
 using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
 
 namespace DragonEngineLibrary
 {
@@ -159,6 +160,8 @@ namespace DragonEngineLibrary
             DragonEngine.Log("Pre Y7Internal.dll import");
 #endif
 
+            Stopwatch initTime = Stopwatch.StartNew();
+
             string libPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library", "Y7Internal.dll");
             Log("Y7Internal path: " + libPath);
 
@@ -167,6 +170,9 @@ namespace DragonEngineLibrary
 
 
             DELib_Init();
+
+            DragonEngine.Log("DELib load and init time: " + initTime.Elapsed.TotalSeconds);
+
             Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
 
 #if TURN_BASED_GAME

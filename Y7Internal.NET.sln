@@ -12,6 +12,7 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Gaiden Debug|x64 = Gaiden Debug|x64
 		Infinite Wealth Debug|x64 = Infinite Wealth Debug|x64
 		Infinite Wealth Release|x64 = Infinite Wealth Release|x64
 		Kiwami 2 Debug|x64 = Kiwami 2 Debug|x64
@@ -24,6 +25,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Debug|x64.Build.0 = Debug|Any CPU
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Gaiden Debug|x64.ActiveCfg = Gaiden Debug|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Gaiden Debug|x64.Build.0 = Gaiden Debug|x64
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Infinite Wealth Debug|x64.ActiveCfg = Infinite Wealth Debug|x64
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Infinite Wealth Debug|x64.Build.0 = Infinite Wealth Debug|x64
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Infinite Wealth Release|x64.ActiveCfg = Infinite Wealth Release|x64
@@ -42,6 +45,8 @@ Global
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Release|x64.Build.0 = YLAD Release|x64
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Debug|x64.Build.0 = Debug|Any CPU
+		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Gaiden Debug|x64.ActiveCfg = Gaiden Debug|Any CPU
+		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Gaiden Debug|x64.Build.0 = Gaiden Debug|Any CPU
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Infinite Wealth Debug|x64.ActiveCfg = Infinite Wealth Debug|Any CPU
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Infinite Wealth Debug|x64.Build.0 = Infinite Wealth Debug|Any CPU
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.Infinite Wealth Release|x64.ActiveCfg = Infinite Wealth Release|Any CPU
@@ -60,6 +65,8 @@ Global
 		{A99195D9-AE49-41F5-8FF0-C7D9EEF9C3AB}.YLAD Release|x64.Build.0 = YLAD Release|Any CPU
 		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.Debug|x64.Build.0 = Debug|Any CPU
+		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.Gaiden Debug|x64.ActiveCfg = Gaiden Debug|x64
+		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.Gaiden Debug|x64.Build.0 = Gaiden Debug|x64
 		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.Infinite Wealth Debug|x64.ActiveCfg = Infinite Wealth Debug|x64
 		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.Infinite Wealth Debug|x64.Build.0 = Infinite Wealth Debug|x64
 		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.Infinite Wealth Release|x64.ActiveCfg = Infinite Wealth Release|x64

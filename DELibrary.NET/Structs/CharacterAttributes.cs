@@ -106,7 +106,7 @@ namespace DragonEngineLibrary
     }
 #endif
 
-#if IW_AND_UP
+#if GAIDEN_AND_UP
     [StructLayout(LayoutKind.Explicit)]
     public unsafe struct CharacterAttributes
     {
