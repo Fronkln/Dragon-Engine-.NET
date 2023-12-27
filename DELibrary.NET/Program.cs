@@ -12,45 +12,26 @@ namespace DragonEngineLibrary
 {
     public class MyClass
     {
+
+        protected static bool m_initOnce = false;
+
         //Do whatever you want here
         static void ThreadTest()
         {
+            DragonEngine.Initialize();
+
             try
             {
 
                 DragonEngine.Log("\nDragon Engine Library .NET Thread Start");
+                File.WriteAllText("de_log.txt", "");
 
-#if YLAD
-                /*
-                try
-                {
-                    //Top 10 greatest integrity checks of all time
-                    if (Marshal.PtrToStringAnsi((IntPtr)0x142184498) != "GuardBreakDamage")
-                    {
-                        DragonEngine.MessageBox((IntPtr)0, "Unsupported version! Yakuza 7 Dragon Engine Library only works on the latest Steam version", "Unsupported", 0);
-                        return;
-                    }
-                }
-                catch
-                {
-                    DragonEngine.MessageBox((IntPtr)0, "Unsupported version! Yakuza 7 Dragon Engine Library only works on the latest Steam version", "Unsupported", 0);
-                    return;
-                }
-                */
-#endif
+                DragonEngine.RefreshOffsets();
 
-                while(!DragonEngine.IsEngineInitialized())
-                {
-                    DragonEngine.RefreshOffsets();
-                    continue;
-                }
-
-                DragonEngine.RegisterJob(DragonEngine.LibUpdate, DEJob.Update);
                 DragonEngine.Log("Dragon Engine initialized, initializing the library.\n");
-
                 StartEngine();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 DragonEngine.Log("\n\n\nFailed to initialize\nError:" + ex.Message + "\n\nStacktrace:\n" + ex.StackTrace);
             }
@@ -76,7 +57,7 @@ namespace DragonEngineLibrary
 
                 if (assemblyName == "DELibrary.NET")
                     return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "DELibrary.NET");
-                
+
                 return null;
             };
 
@@ -95,9 +76,6 @@ namespace DragonEngineLibrary
             }
 
             DragonEngine.Log("\n\nAll mods have been initialized.");
-
-            //dont let the thread die
-            while (true) { }
         }
 
         // This method will be called by native code inside the target process…
@@ -112,7 +90,10 @@ namespace DragonEngineLibrary
             DragonEngine.Log("DragonEngine Library .Net Main Start");
             DragonEngine.Log("BaseDirectory: " + AppDomain.CurrentDomain.BaseDirectory);
 
-           // Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library");
+
+            DragonEngine.Log(Environment.StackTrace);
+
+            // Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library");
             DragonEngine.Initialize();
 
             Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);

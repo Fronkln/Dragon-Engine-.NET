@@ -68,7 +68,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_GETTER_SPEECH", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Character_Getter_Speech(IntPtr chara);
 
-#if YLAD
+#if TURN_BASED_GAME
         ///<summary>Target select module of the character.</summary>
         public ECBattleTargetDecide TargetDecide
         {

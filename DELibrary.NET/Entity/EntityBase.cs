@@ -72,6 +72,8 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_GLOBAL_ENTITY_FROM_UID", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_EntityBase_GetGlobalEntityFromUID(ulong uid);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_GET_ONLY_ONE_ENTITY", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_EntityBase_GetOnlyOneEntity(ulong uid);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GET_POS_CENTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern Vector4 DELibrary_EntityBase_GetPosCenter(IntPtr entity);
@@ -168,6 +170,11 @@ namespace DragonEngineLibrary
         public static EntityHandle<EntityBase> GetGlobalEntityFromUID(EntityUID uid)
         {
             return DELibrary_EntityBase_GetGlobalEntityFromUID(uid.UID);
+        }
+
+        public static EntityHandle<EntityBase> GetOnlyOneEntity(uint ID)
+        {
+            return DELibrary_EntityBase_GetOnlyOneEntity(ID);
         }
 
         public Matrix4x4 GetMatrix()

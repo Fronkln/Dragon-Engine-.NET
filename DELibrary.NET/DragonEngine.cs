@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Reflection;
-using static System.Collections.Specialized.BitVector32;
-using System.Security.Cryptography;
-using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
 
 namespace DragonEngineLibrary
@@ -156,18 +153,23 @@ namespace DragonEngineLibrary
 
         public static void Initialize()
         {
-#if DEBUG
-            DragonEngine.Log("Pre Y7Internal.dll import");
-#endif
-
             Stopwatch initTime = Stopwatch.StartNew();
 
             string libPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library", "Y7Internal.dll");
             Log("Y7Internal path: " + libPath);
 
+            DragonEngine.Log("Pre Y7Internal.dll import");
+
+            if(!File.Exists(libPath))
+            {
+                DragonEngine.Log("Y7Internal could not be found!");
+                return;
+            }    
+
             if (LoadLibrary(libPath) == IntPtr.Zero)
                 DragonEngine.Log("Failed to load the library! " + "GetLastWinError32:" + Marshal.GetLastWin32Error());
 
+            DragonEngine.Log("Y7Internal loaded. Going to initialize");
 
             DELib_Init();
 
@@ -179,10 +181,6 @@ namespace DragonEngineLibrary
             BattleTurnManager.OverrideAttackerSelectionInfo.deleg = new BattleTurnManager.OverrideAttackerSelectionDelegate(BattleTurnManager.ReturnManualAttackerSelectionResult);
             BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr = Marshal.GetFunctionPointerForDelegate(BattleTurnManager.OverrideAttackerSelectionInfo.deleg);
             DELib_RegisterAttackerOverrideFunc(BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr);
-#endif
-
-#if DEBUG
-            DragonEngine.Log("Post Y7Internal.dll import");
 #endif
 
             EngineHooks.Initialize();
