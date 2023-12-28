@@ -90,9 +90,6 @@ namespace DragonEngineLibrary
             DragonEngine.Log("DragonEngine Library .Net Main Start");
             DragonEngine.Log("BaseDirectory: " + AppDomain.CurrentDomain.BaseDirectory);
 
-
-            DragonEngine.Log(Environment.StackTrace);
-
             // Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library");
             DragonEngine.Initialize();
 

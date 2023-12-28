@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
+using System.Security;
 
 namespace DragonEngineLibrary
 {
@@ -151,8 +153,23 @@ namespace DragonEngineLibrary
         /// </summary>
         /// 
 
+        [SecurityCritical, HandleProcessCorruptedStateExceptions]
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception ex = e.ExceptionObject as Exception;
+            DragonEngine.Log("*******************FATAL ERROR***************");
+            DragonEngine.Log("Inner Exception:");
+            DragonEngine.Log(ex.InnerException);
+            DragonEngine.Log("Message:");
+            DragonEngine.Log(ex.Message);
+            MessageBox((IntPtr)0, "Fatal error! More information available on de_log.txt (where game exe is located). The game will now exit", "Fatal DELibrary Error", 0x00000010);
+            Environment.Exit(-1); // exit and avoid WER etc
+        }
+
         public static void Initialize()
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             Stopwatch initTime = Stopwatch.StartNew();
 
             string libPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library", "Y7Internal.dll");
@@ -160,11 +177,11 @@ namespace DragonEngineLibrary
 
             DragonEngine.Log("Pre Y7Internal.dll import");
 
-            if(!File.Exists(libPath))
+            if (!File.Exists(libPath))
             {
                 DragonEngine.Log("Y7Internal could not be found!");
                 return;
-            }    
+            }
 
             if (LoadLibrary(libPath) == IntPtr.Zero)
                 DragonEngine.Log("Failed to load the library! " + "GetLastWinError32:" + Marshal.GetLastWin32Error());

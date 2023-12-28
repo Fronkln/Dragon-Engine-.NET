@@ -187,7 +187,6 @@ namespace Y7DebugTools
         {
             DragonEngine.Log("DebugTools Start");
             
-            DragonEngine.Initialize();
             DragonEngineLibrary.Advanced.ImGui.Init();
             DragonEngineLibrary.Advanced.ImGui.RegisterUIUpdate(ModUI);
 
