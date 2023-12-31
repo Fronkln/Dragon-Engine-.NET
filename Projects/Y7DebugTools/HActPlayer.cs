@@ -66,7 +66,7 @@ namespace Y7DebugTools
             opts.id = (TalkParamID)m_chosenHAct;
 
             if (m_atPlayerPos)
-                opts.base_mtx.matrix = DragonEngine.GetHumanPlayer().GetPosture().GetRootMatrix();
+                opts.base_mtx.matrix = DragonEngine.GetHumanPlayer().GetMatrix();
 
             if(m_chosenHActRange > 0 && FighterManager.GetPlayer().IsValid())
             {

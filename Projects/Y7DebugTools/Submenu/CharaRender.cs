@@ -22,7 +22,7 @@ namespace Y7DebugTools
             ImGui.Text("Orientation: " + chara.Transform.Orient);
             ImGui.Text("Rotation Y: " + chara.GetAngleY());
 
-            Matrix4x4 mtx = chara.GetPosture().GetRootMatrix();
+            Matrix4x4 mtx = chara.GetMatrix();
 
             ImGui.Text("Forward Direction: " + mtx.ForwardDirection);
             ImGui.Text("Up Direction: " + mtx.UpDirection);

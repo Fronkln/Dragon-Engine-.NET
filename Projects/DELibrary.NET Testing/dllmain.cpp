@@ -35,11 +35,16 @@ extern "C"
 
 DWORD WINAPI NetThread(HMODULE hModule)
 {
+    FILE* f = nullptr;
+
     
     //Create Console
-    AllocConsole();
-    FILE* f;
-    freopen_s(&f, "CONOUT$", "w", stdout);
+
+    if (GetPrivateProfileIntW(L"DELib", L"EnableConsole", 0, L"mods/DE Library/config.ini"))
+    {
+        AllocConsole();
+        freopen_s(&f, "CONOUT$", "w", stdout);
+    }
 
     std::cout << "Starting in 5 seconds" << std::endl;
     Sleep(5000);
