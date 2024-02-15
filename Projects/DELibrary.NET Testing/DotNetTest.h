@@ -43,13 +43,6 @@ ICorRuntimeHost* getCorRtHost_byVersion(LPCWSTR sz_runtimeVersion) {
     }
     else printf("[+] pMetaHost->GetRuntime(...) succeeded\n");
 
-    /* Check if the specified runtime can be loaded */
-    if (FAILED(pRuntimeInfo->IsLoadable(&bLoadable)) || !bLoadable) {
-        printf("[!] pRuntimeInfo->IsLoadable(...) failed\n");
-        return NULL;
-    }
-    else printf("[+] pRuntimeInfo->IsLoadable(...) succeeded\n");
-
     /* Get ICorRuntimeHost instance */
     if (FAILED(pRuntimeInfo->GetInterface(CLSID_CorRuntimeHost, IID_ICorRuntimeHost, (VOID**)&pRuntimeHost))) {
         printf("[!] pRuntimeInfo->GetInterface(...) failed\n");
