@@ -73,7 +73,7 @@ namespace DragonEngineLibrary
         internal static extern uint DELib_BattleTurnManager_Getter_RPGCamera();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_UI_ROOT", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern uint DELib_BattleTurnManager_Getter_UI_Root();
+        internal static extern ulong DELib_BattleTurnManager_Getter_UI_Root();
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_RPGBTLMENU_GET_RPG_MENU", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_BattleTurnManager_GetRpgMenu();
 
@@ -85,6 +85,9 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_SELECTED_FIGHTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_BattleTurnManager_Getter_Selected_Fighter();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_PTR", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Pointer();
 
         public enum TurnPhase : uint
         {
@@ -123,7 +126,13 @@ namespace DragonEngineLibrary
             NumType = 0x5,
         };
 
-        public static EntityHandle<CameraBase> RPGCamera { get { return DELib_BattleTurnManager_Getter_RPGCamera(); } }
+        public static EntityHandle<CameraBase> RPGCamera  
+        { 
+            get
+            { 
+                return DELib_BattleTurnManager_Getter_RPGCamera(); 
+            } 
+        }
 
         public static TurnPhase CurrentPhase { get { return DELib_BattleTurnManager_Getter_CurrentPhase(); } }
         public static ActionStep CurrentActionStep { get { return DELib_BattleTurnManager_Getter_CurrentActionStep(); } }

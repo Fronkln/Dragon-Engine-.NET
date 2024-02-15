@@ -2,7 +2,7 @@
 
 namespace DragonEngineLibrary
 {
-#if YLAD
+#if TURN_BASED_GAME
     public enum PartyEquipSlotID
     {
         weapon = 0x1,

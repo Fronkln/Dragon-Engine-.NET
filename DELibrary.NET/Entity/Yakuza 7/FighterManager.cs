@@ -68,7 +68,7 @@ namespace DragonEngineLibrary
             List<Fighter> enemyFighters = new List<Fighter>();
 
             //heuteristic, may not be accurate on extreme cases
-            for (uint i = 3; i < 48; i++)
+            for (uint i = 0; i < 48; i++)
             {
                 Fighter fighter = GetFighter(i);
 
@@ -77,6 +77,19 @@ namespace DragonEngineLibrary
             }
 
             return enemyFighters.ToArray();
+        }
+
+        public static int GetCurrentFighterIdx()
+        {
+            int highestIdx = 0;
+
+            for(uint i = 0; i < 48; i++)
+            {
+                if (GetFighter(i).IsValid())
+                    highestIdx = (int)i;
+            }
+
+            return highestIdx;
         }
 
         /// <summary>

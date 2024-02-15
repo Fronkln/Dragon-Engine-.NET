@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-#if YLAD
+#if TURN_BASED_GAME
 
 namespace DragonEngineLibrary
 {

@@ -393,6 +393,7 @@
     <Compile Include="Structs\CommandSetModel.cs" />
     <Compile Include="Structs\DynamicsPoseInfo.cs" />
     <Compile Include="Structs\FighterCommandID.cs" />
+    <Compile Include="Structs\FighterCommandInfo.cs" />
     <Compile Include="Structs\FighterModeAttack.cs" />
     <Compile Include="Structs\FighterRPGCommand.cs" />
     <Compile Include="Structs\GameTick.cs" />

@@ -104,6 +104,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_REQUEST_DAMAGE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_Fighter_RequestDamage(IntPtr fighterPtr, IntPtr dmgInf);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SMODE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Fighter_HumanMode(IntPtr fighterPtr);
+
         public Character Character { get; set; }
         public IntPtr _ptr;
 
@@ -128,6 +131,12 @@ namespace DragonEngineLibrary
             //do PInvoke once. i doubt the character pointer of a fighter will ever change.
             Character = new Character();
             Character._objectAddress = DELib_Fighter_Getter_Character(_ptr);
+        }
+
+
+        public HumanMode HumanMode()
+        {
+            return new HumanMode() { m_pointer = DELib_Fighter_HumanMode(_ptr) };
         }
 
         public void PlayVoice(uint label)

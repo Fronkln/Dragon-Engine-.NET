@@ -40,6 +40,9 @@ namespace DragonEngineLibrary
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_READ_CALL", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr ReadCall(IntPtr addr);
 
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_WRITE_CALL", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void WriteCall(IntPtr addr, IntPtr func);
+
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_INJECT_HOOK", CallingConvention = CallingConvention.Cdecl)]
             public static extern void InjectHook(IntPtr addr, IntPtr func);
 
@@ -158,10 +161,9 @@ namespace DragonEngineLibrary
         {
             Exception ex = e.ExceptionObject as Exception;
             DragonEngine.Log("*******************FATAL ERROR***************");
-            DragonEngine.Log("Inner Exception:");
-            DragonEngine.Log(ex.InnerException);
-            DragonEngine.Log("Message:");
-            DragonEngine.Log(ex.Message);
+            DragonEngine.Log("Inner Exception:\n" + ex.InnerException);
+            DragonEngine.Log("Message:\n" + ex.Message);
+            DragonEngine.Log("Stacktrace: \n" + ex.StackTrace);
             MessageBox((IntPtr)0, "Fatal error! More information available on de_log.txt (where game exe is located). The game will now exit", "Fatal DELibrary Error", 0x00000010);
             Environment.Exit(-1); // exit and avoid WER etc
         }

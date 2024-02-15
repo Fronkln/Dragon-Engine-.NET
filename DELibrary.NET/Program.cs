@@ -18,8 +18,6 @@ namespace DragonEngineLibrary
         //Do whatever you want here
         static void ThreadTest()
         {
-            DragonEngine.Initialize();
-
             try
             {
 

@@ -4,6 +4,7 @@ namespace DragonEngineLibrary
 {
     public enum ItemID
     {
+        invalid = 0x0,
         dummy0 = 0x1,
         dummy1 = 0x2,
         dummy2 = 0x3,

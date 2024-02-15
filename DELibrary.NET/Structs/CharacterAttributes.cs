@@ -117,10 +117,11 @@ namespace DragonEngineLibrary
         [FieldOffset(0x228)] public CharacterBoneType bone_type;
         [FieldOffset(0x22C)] public CharacterAnimalKind animal_kind;
         [FieldOffset(0x230)] public CharacterBagType bag_type;
-        [FieldOffset(0x234)] public BattleControlType ctrl_type;
-        [FieldOffset(0x238)] public BattleRPGEnemyID enemy_id;
+        [FieldOffset(0x260)] public Player.ID player_id;
+        [FieldOffset(0x268)] public BattleControlType ctrl_type;
+        [FieldOffset(0x26C)] public BattleRPGEnemyID enemy_id;
         [FieldOffset(0x280)] public BattleCommandSetID command_set_id;
-        [FieldOffset(0x284)] public CharacterNPCSetup npc_setup;
+        [FieldOffset(0x284)] public CharacterNPCSoldierPersonalDataID soldier_data_id;
         [FieldOffset(0x288)] public BehaviorSetID behavior_set;
         [FieldOffset(0x28C)] public SujimonID sujimon_id;
         [FieldOffset(0x290)] public BehaviorGroupID behavior_group;
@@ -131,9 +132,6 @@ namespace DragonEngineLibrary
         [FieldOffset(0x304)] public float scale_rate;
         [FieldOffset(0x208)] public float scale_rate_face;
         [FieldOffset(0x30C)] public float auto_wrinkle_scale;
-
-        [FieldOffset(0x26C)] public CharacterNPCListID npc_list_id;
-        [FieldOffset(0x270)] public CharacterNPCSoldierPersonalDataID soldier_data_id;
         [FieldOffset(0x2E4)] public CharacterVoicerID voicer_id;
         /// <summary> https://youtu.be/OQYb-3n0tBk?t=10 </summary>
         [FieldOffset(0x2E8)] public SoundShoeKind shoes_kind;
@@ -169,7 +167,6 @@ namespace DragonEngineLibrary
         [FieldOffset(0x308)][MarshalAs(UnmanagedType.U1)] public bool is_use_human_sensor;
         [FieldOffset(0x309)][MarshalAs(UnmanagedType.U1)] public bool is_keep_dead;
         [FieldOffset(0x30A)][MarshalAs(UnmanagedType.U1)] public bool is_wish_auto_invisible;
-        [FieldOffset(0x30C)] public Player.ID player_id;
         [FieldOffset(0x310)] public Player.ID dmy_player_id;
         [FieldOffset(0x314)] public FilePortCategory file_port;
     }

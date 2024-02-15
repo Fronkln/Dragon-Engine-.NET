@@ -9,6 +9,33 @@ namespace DragonEngineLibrary
 {
     public static class Player
     {
+#if IW_AND_UP
+        public enum ID
+        {
+            invalid,         // constant 0x0
+            kiryu = 1,
+            yagami = 2,
+            majima = 3,
+            kasuga = 4,
+            sakaida = 5,
+            adachi = 6,
+            hoshino = 7,
+            test_player = 8,
+            saeko = 9,
+            nanba = 10,
+            ayaka = 11,
+            chou = 12,
+            jyungi = 13,
+            woman_a = 14,
+            coyote_kasuga = 15,
+            saori = 16,
+            kaito = 17,
+            saori_dress = 18,
+            chitose = 19,
+            tomizawa = 20,
+            sonhi = 21,
+        }
+#else
         public enum ID
         {
             invalid,         // constant 0x0
@@ -27,6 +54,8 @@ namespace DragonEngineLibrary
             jyungi,      // constant 0xD
             woman_a,		 // constant 0xE
         }
+#endif
+
 
         [DllImport("Y7Internal.dll", EntryPoint = "PLAYER_GET_HP_NOW", CallingConvention = CallingConvention.Cdecl)]
         internal extern static long DELib_Player_GetHPNow(ID player);

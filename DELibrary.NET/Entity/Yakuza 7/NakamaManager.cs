@@ -16,9 +16,9 @@ namespace DragonEngineLibrary
         /// <summary>
         /// Change party member at specified index to the player ID specified.
         /// </summary>
-        public static void Change(uint index, Player.ID playerID)
+        public static void Change(int index, Player.ID playerID)
         {
-            DELib_NakamaManager_Change(index, playerID);
+            DELib_NakamaManager_Change((uint)index, playerID);
         }
 
         public static int FindIndex(Player.ID id)
@@ -33,7 +33,7 @@ namespace DragonEngineLibrary
 
         public static void RemoveAllPartyMembers()
         {
-            for (uint i = 1; i < 4; i++)
+            for (int i = 1; i < 4; i++)
                 Change(i, Player.ID.invalid);
         }
     }
