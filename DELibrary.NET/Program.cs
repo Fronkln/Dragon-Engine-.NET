@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Input;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Security.AccessControl;
 
 namespace DragonEngineLibrary
 {
@@ -63,13 +66,22 @@ namespace DragonEngineLibrary
             {
                 foreach (string directory in Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods")))
                 {
-                    foreach (string dllFile in Directory.GetFiles(directory, "*.dll"))
-                    {
-                        bool loadRes = DragonEngine.InitializeModLibrary(dllFile);
+                    string configFile = Path.Combine(directory, "de_mod.cfg");
 
-                        if (loadRes)
-                            DragonEngine.Log("Successfully loaded DLL library in " + new DirectoryInfo(directory).Name);
-                    }
+                    if (!File.Exists(configFile))
+                        continue;
+
+                    JObject cfg = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(configFile));
+                    string dllFile = (string)cfg["InitDll"];
+
+                    Path.Combine(directory, dllFile);
+
+                    bool loadRes = DragonEngine.InitializeModLibrary(dllFile);
+
+                    if (loadRes)
+                        DragonEngine.Log("Successfully loaded DLL library in " + new DirectoryInfo(directory).Name);
+                    else
+                        DragonEngine.Log("Failed to load DLL library in " + new DirectoryInfo(directory).Name);
                 }
             }
 

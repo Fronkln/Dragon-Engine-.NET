@@ -187,6 +187,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\Like a Brawler 8\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -411,6 +414,7 @@
     <Compile Include="Structs\Matrix4x4.cs" />
     <Compile Include="Structs\MotionTimingStatus.cs" />
     <Compile Include="Structs\PlayerPoint.cs" />
+    <Compile Include="Structs\PXD\PXDStaticVector.cs" />
     <Compile Include="Structs\PXD\PXDString.cs" />
     <Compile Include="Structs\PXD\PXDVector.cs" />
     <Compile Include="Structs\RequestRagdollOptions.cs" />

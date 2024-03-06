@@ -83,6 +83,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_ENTITY_COMPONENT_MAP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELibrary_EntityBase_Getter_EntityComponentMap(IntPtr entity);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_PARENT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_EntityBase_Getter_Parent(IntPtr entity);
+
         public Transform Transform;
 
         ///<summary>Entity component map of this entity.</summary>
@@ -105,6 +109,16 @@ namespace DragonEngineLibrary
             get
             {
                 return DELibrary_EntityBase_Getter_EntityUID(_objectAddress);
+            }
+        }
+
+
+        /// <summary>Get the parent of this entity.</summary>
+        public EntityHandle<EntityBase> Parent
+        {
+            get
+            {
+                return DELibrary_EntityBase_Getter_Parent(Pointer);
             }
         }
 

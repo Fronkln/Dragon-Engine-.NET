@@ -240,7 +240,7 @@ namespace Y7DebugTools
 
                     if(!kasugaFighter.IsValid())
                     {
-                        for (int i = 0; i < m_enumNames_HactRange.Length; i++)
+                        for (int i = 1; i < m_enumNames_HactRange.Length; i++)
                         {
                             HActRangeInfo inf = new HActRangeInfo();
                             ImGui.Text(m_enumNames_HactRange[i] + " " + HActManager.FindRange(DragonEngine.GetHumanPlayer().Transform.Position, (HActRangeType)i, ref inf));

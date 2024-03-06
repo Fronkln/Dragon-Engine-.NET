@@ -107,7 +107,8 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SMODE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_HumanMode(IntPtr fighterPtr);
 
-        public Character Character { get; set; }
+        public Character Character { get { return new EntityHandle<Character>(CharacterUID); } }
+        public uint CharacterUID;
         public IntPtr _ptr;
 
         public bool IsValid()
@@ -127,10 +128,7 @@ namespace DragonEngineLibrary
         public Fighter(IntPtr pointer)
         {
             _ptr = pointer;
-
-            //do PInvoke once. i doubt the character pointer of a fighter will ever change.
-            Character = new Character();
-            Character._objectAddress = DELib_Fighter_Getter_Character(_ptr);
+            CharacterUID = new Character() { Pointer = DELib_Fighter_Getter_Character(_ptr) }.UID;
         }
 
 

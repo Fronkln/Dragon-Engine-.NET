@@ -15,6 +15,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CASSET_MANAGER_FIND_NEAREST_ASSET_FROM_ALL", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_AssetManager_FindNearestAssetFromAll(Vector4 position, uint search_type);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CASSET_MANAGER_FIND_NEAREST_ASSET_FROM_COLLECTION", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_AssetManager_FindNearestAssetFromCollection(Vector4 position, IntPtr vector, uint search_type);
+
         /// <summary>
         /// Immediately create an asset. (wow)
         /// </summary>
@@ -37,6 +40,14 @@ namespace DragonEngineLibrary
         public static EntityHandle<AssetUnit> FindNearestAssetFromAll(Vector3 position, uint searchType)
         {
             return DELibrary_AssetManager_FindNearestAssetFromAll(position, searchType);
+        }
+
+        /// <summary>
+        /// Creates an asset.
+        /// </summary>
+        public static EntityHandle<AssetUnit> FindNearestAssetFromCollection(Vector3 position, IntPtr vector, uint searchType)
+        {
+            return DELibrary_AssetManager_FindNearestAssetFromCollection(position, vector, searchType);
         }
     }
 }

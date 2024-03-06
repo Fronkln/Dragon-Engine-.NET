@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using static System.Net.Mime.MediaTypeNames;
 #if TURN_BASED_GAME
 
 namespace DragonEngineLibrary
@@ -142,7 +143,7 @@ namespace DragonEngineLibrary
 
         public static uint BattleConfigID { get { return DELib_BattleTurnManager_Getter_BattleConfigID(); } }
 
-        internal delegate IntPtr OverrideAttackerSelectionDelegate(IntPtr battleTurnManager, bool readOnly, bool getNextFighter);
+        public delegate IntPtr OverrideAttackerSelectionDelegate(IntPtr battleTurnManager, bool readOnly, bool getNextFighter);
 
 
         public static UIHandleBase UIRoot
@@ -185,11 +186,11 @@ namespace DragonEngineLibrary
             }
         }
 
-        internal static class OverrideAttackerSelectionInfo
+        public static class OverrideAttackerSelectionInfo
         {
-            internal static Func<bool, bool, Fighter> overrideFunc;
-            internal static OverrideAttackerSelectionDelegate deleg;
-            internal static IntPtr delegPtr;
+            public static Func<bool, bool, Fighter> overrideFunc;
+            public static OverrideAttackerSelectionDelegate deleg;
+            public static IntPtr delegPtr;
         }
 
 
@@ -218,6 +219,22 @@ namespace DragonEngineLibrary
         public static void OverrideAttackerSelection(Func<bool, bool, Fighter> function)
         {
             OverrideAttackerSelectionInfo.overrideFunc = function;
+        }
+
+        public static void OverrideAttackerSelection2(Func<IntPtr, bool, bool, IntPtr> function)
+        {
+            if(function == null)
+            {
+                BattleTurnManager.OverrideAttackerSelectionInfo.deleg = null;
+                BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr = IntPtr.Zero;
+            }
+            else
+            {
+                BattleTurnManager.OverrideAttackerSelectionInfo.deleg = new BattleTurnManager.OverrideAttackerSelectionDelegate(function);
+                BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr = Marshal.GetFunctionPointerForDelegate(BattleTurnManager.OverrideAttackerSelectionInfo.deleg);
+            }
+
+            DragonEngine.DELib_RegisterAttackerOverrideFunc(BattleTurnManager.OverrideAttackerSelectionInfo.delegPtr);
         }
 
         /// <summary>

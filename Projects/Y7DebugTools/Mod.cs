@@ -49,8 +49,6 @@ namespace Y7DebugTools
                 ImGui.Checkbox("DB", ref DBMenu.Open);
                 ImGui.Checkbox("Screen Effect", ref ScreenEffectMenu.Open);
 
-
-
                 if (ImGui.Checkbox("DE Job Count", ref m_jobMenuEnabled))
                     JobCounter.Toggle(m_jobMenuEnabled);
 
@@ -186,8 +184,8 @@ namespace Y7DebugTools
         public override void OnModInit()
         {
             DragonEngine.Log("DebugTools Start");
-            
-            DragonEngineLibrary.Advanced.ImGui.Init();
+
+            DragonEngineLibrary.Advanced.DXHook.Init();
             DragonEngineLibrary.Advanced.ImGui.RegisterUIUpdate(ModUI);
 
             DragonEngine.Log("DebugTools Imgui Update Registered");

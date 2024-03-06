@@ -33,6 +33,7 @@ namespace Y7DebugTools
 
         private static float m_controlX;
         private static float m_controlY;
+        private static float m_controlZ;
 
         private static int m_color;
 
@@ -90,8 +91,9 @@ namespace Y7DebugTools
 
                 ImGui.InputFloat("X Pos", ref m_controlX);
                 ImGui.InputFloat("Y Pos", ref m_controlY);
+                ImGui.InputFloat("Z Pos", ref m_controlZ);
 
-               if(ImGui.InputInt("Color", ref m_color))
+                if (ImGui.InputInt("Color", ref m_color))
                 m_selectedUI.SetMaterialColor((uint)m_color);
 
                 if (ImGui.Button("Apply"))
@@ -99,9 +101,9 @@ namespace Y7DebugTools
                     Vector4 vec = new Vector4();
                     vec.x = m_controlX;
                     vec.y = m_controlY;
+                    vec.z = m_controlZ;
 
                     m_selectedUI.SetPosition(vec);
-                    m_selectedUI.SetMaterialColor((uint)m_color);
                 }
 
                 if (ImGui.InputFloat("Width", ref m_setWidth))
@@ -163,9 +165,9 @@ namespace Y7DebugTools
                     m_selectedUI.Handle = ui.Handle;
                     m_controlX = m_selectedUI.GetPosition().x;
                     m_controlY = m_selectedUI.GetPosition().y;
-                    m_scaleX = m_selectedUI.GetControlBase().GetPlayer().Scale.x;
-                    m_scaleY = m_selectedUI.GetControlBase().GetPlayer().Scale.y;
-                    m_visibilityID = (int)m_selectedUI.GetVisibilityID();
+                  //  m_scaleX = m_selectedUI.GetControlBase().GetPlayer().Scale.x;
+                  //  m_scaleY = m_selectedUI.GetControlBase().GetPlayer().Scale.y;
+                  //  m_visibilityID = (int)m_selectedUI.GetVisibilityID();
                 }
 
                 if (ImGui.TreeNode("Children"))

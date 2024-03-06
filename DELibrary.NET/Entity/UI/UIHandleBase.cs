@@ -32,6 +32,8 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_SET_FRAME", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_UIHandleBase_SetFrame(ulong handle, float frame);
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_SET_TIME", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_UIHandleBase_SetTime(ulong handle, float time);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_SET_TEXTURE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_UIHandleBase_SetTexture(ulong handle, uint texture);
@@ -131,6 +133,11 @@ namespace DragonEngineLibrary
         public void SetFrame(float frame)
         {
             DELib_UIHandleBase_SetFrame(Handle, frame);   
+        }
+
+        public void SetTime(float frame)
+        {
+            DELib_UIHandleBase_SetTime(Handle, frame);
         }
 
         public void SetVisible(bool visible)

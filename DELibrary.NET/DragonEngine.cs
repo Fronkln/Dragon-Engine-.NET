@@ -91,7 +91,7 @@ namespace DragonEngineLibrary
         private static extern uint DELib_Init();
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_REGISTER_ATTACKER_OVERRIDE_FUNCTION", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void DELib_RegisterAttackerOverrideFunc(IntPtr deleg);
+        public static extern void DELib_RegisterAttackerOverrideFunc(IntPtr deleg);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_DRAGONENGINE_IS_ENGINE_INITIALIZED", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
