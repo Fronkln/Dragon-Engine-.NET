@@ -2,7 +2,8 @@
 
 namespace DragonEngineLibrary
 {
-    public enum ItemID
+#if !IW_AND_UP
+    public enum ItemID : uint
     {
         invalid = 0x0,
         dummy0 = 0x1,
@@ -5053,4 +5054,5 @@ namespace DragonEngineLibrary
         yazawa_dlc_53 = 0x1643,
         yazawa_dlc_54 = 0x1644,
     };
+#endif
 }

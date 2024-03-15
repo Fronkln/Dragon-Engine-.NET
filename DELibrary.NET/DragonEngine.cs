@@ -159,6 +159,8 @@ namespace DragonEngineLibrary
         [SecurityCritical, HandleProcessCorruptedStateExceptions]
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;  // this is important. Any exception occuring in the logging mechanism can cause a stack overflow exception which triggers the window's own JIT message/App crash message if Win JIT is not available.
+
             Exception ex = e.ExceptionObject as Exception;
             DragonEngine.Log("*******************FATAL ERROR***************");
             DragonEngine.Log("Inner Exception:\n" + ex.InnerException);

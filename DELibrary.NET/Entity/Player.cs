@@ -10,7 +10,7 @@ namespace DragonEngineLibrary
     public static class Player
     {
 #if IW_AND_UP
-        public enum ID
+        public enum ID : uint
         {
             invalid,         // constant 0x0
             kiryu = 1,

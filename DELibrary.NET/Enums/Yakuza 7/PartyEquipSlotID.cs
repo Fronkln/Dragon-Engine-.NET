@@ -3,7 +3,7 @@
 namespace DragonEngineLibrary
 {
 #if TURN_BASED_GAME
-    public enum PartyEquipSlotID
+    public enum PartyEquipSlotID : uint
     {
         weapon = 0x1,
         head = 0x2,

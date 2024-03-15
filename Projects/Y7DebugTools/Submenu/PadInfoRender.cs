@@ -21,7 +21,7 @@ namespace Y7DebugTools
         {
             for(int i = 0; i < m_buttonNames.Length; i++)
             {
-                ImGui.Text($" Timing Push: {m_buttonNames[i]} {input.IsTimingPush((BattleButtonID)i, 2000)}");
+                ImGui.Text($" Pushing: {m_buttonNames[i]} {input.CheckCommand((BattleButtonID)i, 1, 2000)}");
             }
         }
     }

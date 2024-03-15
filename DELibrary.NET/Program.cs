@@ -73,10 +73,8 @@ namespace DragonEngineLibrary
 
                     JObject cfg = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(configFile));
                     string dllFile = (string)cfg["InitDll"];
-
-                    Path.Combine(directory, dllFile);
-
-                    bool loadRes = DragonEngine.InitializeModLibrary(dllFile);
+    
+                    bool loadRes = DragonEngine.InitializeModLibrary(Path.Combine(directory, dllFile));
 
                     if (loadRes)
                         DragonEngine.Log("Successfully loaded DLL library in " + new DirectoryInfo(directory).Name);
