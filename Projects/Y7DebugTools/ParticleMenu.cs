@@ -23,7 +23,7 @@ namespace Y7DebugTools
 
                 if (ImGui.Button("Apply"))
                 {
-                    Matrix4x4 playPos = DragonEngine.GetHumanPlayer().GetPosture().GetRootMatrix();
+                    Matrix4x4 playPos = DragonEngine.GetHumanPlayer().GetMatrix();
                     playPos.Position = new Vector4(playPos.Position.x, playPos.Position.y + 1.5f, playPos.Position.z, 0);
                     ParticleManager.Play((ParticleID)m_particleID, playPos, ParticleType.None);
                 }

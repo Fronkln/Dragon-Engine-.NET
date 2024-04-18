@@ -35,6 +35,7 @@ namespace Y7DebugTools
                 ImGui.Checkbox("Scene Info", ref SceneInfo.Open);
                 ImGui.Checkbox("Entity", ref EntityMenu.Open);
                 ImGui.Checkbox("World", ref WorldMenu.Open);
+                ImGui.Checkbox("Asset", ref AssetMenu.Enabled);
                 ImGui.Checkbox("Game Var Manager", ref GameVarMenu.Open);
                 ImGui.Checkbox("Particle", ref ParticleMenu.Open);
                 ImGui.Checkbox("Scenario", ref ScenarioMenu.Open);
@@ -108,6 +109,9 @@ namespace Y7DebugTools
                 if (WorldMenu.Open)
                     WorldMenu.Draw();
 
+                if (AssetMenu.Enabled)
+                    AssetMenu.Draw();
+
                 if (m_jobMenuEnabled)
                 {
                     ImGui.Text("Average execution per second:");
@@ -121,6 +125,13 @@ namespace Y7DebugTools
                 {
                     PlayerMenu.m_toEquip = false;
                     FighterManager.GetFighter(0).Equip((ItemID)PlayerMenu.equipItem, AttachmentCombinationID.right_weapon);
+                }
+
+                if(AssetMenu.CreateNext)
+                {
+                    Character plr = DragonEngine.GetHumanPlayer();
+                    EntityHandle<AssetUnit> asset = AssetManager.CreateAsset((AssetID)AssetMenu.CreateID, plr.GetPosCenter(), plr.Transform.Orient);
+                    AssetMenu.CreateNext = false;
                 }
             }
         }

@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimPlayer.cs" />
+    <Compile Include="AssetMenu.cs" />
     <Compile Include="BattleTurnManagerMenu.cs" />
     <Compile Include="CameraMenu.cs" />
     <Compile Include="DBMenu.cs" />

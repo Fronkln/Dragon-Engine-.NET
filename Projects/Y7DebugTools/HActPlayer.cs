@@ -62,7 +62,6 @@ namespace Y7DebugTools
             m_createdHActChara.Clear();
 
             HActRequestOptions opts = new HActRequestOptions();
-            opts.Init();
             opts.id = (TalkParamID)m_chosenHAct;
 
             if (m_atPlayerPos)
@@ -77,9 +76,9 @@ namespace Y7DebugTools
             }
 
             //opts.is_warp_return = true;
-            opts.is_player_action = m_isPlayerAction;
+            //opts.is_player_action = m_isPlayerAction;
             opts.is_force_play = m_forcePlay;
-            opts.can_skip = m_canSkip;
+            //opts.can_skip = m_canSkip;
 
             if (!m_simple)
             {

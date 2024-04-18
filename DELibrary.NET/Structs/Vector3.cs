@@ -11,6 +11,14 @@ namespace DragonEngineLibrary
         public float y;
         public float z;
 
+        public float sqrMagnitude
+        {
+            get
+            {
+                return x * x + y * y + z * z;
+            }
+        }
+
         public Vector3(float x, float y, float z)
         {
             this.x = x;

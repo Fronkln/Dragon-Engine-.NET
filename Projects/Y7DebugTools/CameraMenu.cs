@@ -27,12 +27,12 @@ namespace Y7DebugTools
 
         static CameraMenu()
         {
-            /*
+            
             _setInfDeleg = new CameraSetInfo(SetInfo);
 
             MinHookHelper.createHook((IntPtr)0x1402A4BF0, _setInfDeleg, out _setInfTrampoline);
             MinHookHelper.enableAllHook();
-            */
+            
         }
 
         private static void SetInfo(IntPtr camPtr, IntPtr inf)
@@ -93,6 +93,7 @@ namespace Y7DebugTools
             {
                 Vector4* pos =  (Vector4*)(camPtr.ToInt64() + 0x80);
                 Vector4* focusPos = (Vector4*)(camPtr.ToInt64() + 0x90);
+                Quaternion* rot = (Quaternion*)(camPtr.ToInt64() + 0xA0);
                 uint* lookatEnt = (uint*)(camPtr.ToInt64() + 0xC0);
 
                 DragonEngine.Log(*lookatEnt);
@@ -104,6 +105,7 @@ namespace Y7DebugTools
                 }
 
                 *pos = m_pos;
+                *rot = Quaternion.identity;
                 *focusPos = m_pos + cam.Transform.forwardDirection + new Vector3(m_rotRight, m_rotUp, 0); 
             }
         }
@@ -117,12 +119,11 @@ namespace Y7DebugTools
 
             if(ImGui.Checkbox("Freecam", ref Freecam))
             {
-                /*
+                
                 m_pos = SceneService.CurrentScene.Get().GetSceneEntity<CameraBase>(SceneEntity.camera_free).Get().GetPosCenter();
 
                 if (Freecam)
                     getPosDoOnce = true;
-                */
             }
 
             ImGui.End();

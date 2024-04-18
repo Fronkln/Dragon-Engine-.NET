@@ -189,6 +189,30 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Release|AnyCPU'">
+    <OutputPath>bin\Gaiden Release\</OutputPath>
+    <DefineConstants>TRACE;YLAD</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Release|x64'">
+    <OutputPath>bin\x64\Gaiden Release\</OutputPath>
+    <DefineConstants>TRACE;GAIDEN;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;GAIDEN_AND_UP;</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Like a Brawler 8\packages\Costura.Fody.5.7.0\lib\netstandard1.0\Costura.dll</HintPath>
@@ -282,6 +306,7 @@
     <Compile Include="Components\UIEntityComponentEnemyLifeGauge.cs" />
     <Compile Include="Components\UIEntityComponentLifeGauge.cs" />
     <Compile Include="EngineHooks.cs" />
+    <Compile Include="Entity\AIPackBase.cs" />
     <Compile Include="Entity\Asset.cs" />
     <Compile Include="Entity\AssetManager.cs" />
     <Compile Include="Entity\AssetUnit.cs" />
@@ -315,6 +340,7 @@
     <Compile Include="Entity\Services\ScenePhaseBase.cs" />
     <Compile Include="Entity\SyncManager.cs" />
     <Compile Include="Entity\TalkTextManager.cs" />
+    <Compile Include="Entity\TimelineManager.cs" />
     <Compile Include="Entity\UI\UI.cs" />
     <Compile Include="Entity\UI\UIControlBase.cs" />
     <Compile Include="Entity\UI\UIControlContainer.cs" />

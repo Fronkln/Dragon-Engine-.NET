@@ -82,6 +82,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_GET_CONTROL_BASE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_UIHandleBase_GetControlBase(ulong handle);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_UI_HANDLE_CBASE_IS_VISIBLE", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_UIHandleBase_IsVisible(ulong handle);
+
         public ulong Handle;
 
 
@@ -103,6 +107,11 @@ namespace DragonEngineLibrary
         public Vector4 GetPosition()
         {
             return DELib_UIHandleBase_GetPositionV(Handle);
+        }
+
+        public bool IsVisible()
+        {
+            return DELib_UIHandleBase_IsVisible(Handle);
         }
 
         public void SetPosition(Vector4 pos)

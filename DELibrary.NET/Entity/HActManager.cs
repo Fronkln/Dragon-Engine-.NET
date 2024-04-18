@@ -32,6 +32,10 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HActManager_FindRange(Vector4 pos, HActRangeType type, ref HActRangeInfo outInf);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_ISREQUESTORPLAYING", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool IsRequestOrPlaying();
+
 
         /// <summary>
         /// Request HAct.

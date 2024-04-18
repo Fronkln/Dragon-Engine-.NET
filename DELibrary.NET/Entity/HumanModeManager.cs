@@ -87,6 +87,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISPICKUP", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HumanModeManager_IsPickup(IntPtr manager);
+        
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISSYNC", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsSync(IntPtr manager);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_COMMANDSETMODEL", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_HumanModeManager_Getter_CommandsetModel(IntPtr manager);
@@ -212,6 +216,12 @@ namespace DragonEngineLibrary
         public bool IsGuarding() { return DELib_HumanModeManager_IsGuarding(Pointer); }
         public bool IsPickup() { return DELib_HumanModeManager_IsPickup(Pointer); }
 
+        /// <summary>
+        /// Are we in a sync?
+        /// </summary>
+        /// <returns></returns>
+        public bool IsSync() { return DELib_HumanModeManager_IsSync(Pointer); }
+
         public bool IsMove() { return DELib_HumanModeManager_IsMove(Pointer); }
 
         public bool IsAttack() { return DELib_HumanModeManager_IsAttack(Pointer); }
@@ -226,6 +236,11 @@ namespace DragonEngineLibrary
             uint flag = *flags;
 
             *flags = flag &= 0x1000;
+        }
+
+        public string GetCommandName()
+        {
+            return CurrentMode.GetCommandID().GetInfo().Id;
         }
     }
 }

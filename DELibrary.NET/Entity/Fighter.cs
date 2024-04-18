@@ -200,8 +200,7 @@ namespace DragonEngineLibrary
         ///<summary>Is the fighter in a sync move?</summary>
         public bool IsSync()
         {
-            BattleFighterInfo inf = GetInfo();
-            return inf.is_sync_;
+            return Character.HumanModeManager.IsSync();
         }
 
         ///<summary>Is the fighter dead?</summary>

@@ -20,6 +20,10 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool DELib_ECRenderCharacter_BattleTransformOff(IntPtr renderCharacter);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_RENDER_CHARACTER_READY_BATTLE_TRANSFORM", CallingConvention = CallingConvention.Cdecl)]
+        private static extern bool DELib_ECRenderCharacter_ReadyBattleTransform(IntPtr renderCharacter, bool ready);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_RENDER_CHARACTER_GETTER_CHARACTER_ID", CallingConvention = CallingConvention.Cdecl)]
         private static extern CharacterID DELib_ECRenderCharacter_Getter_CharacterID(IntPtr renderCharacter);
 
@@ -61,6 +65,11 @@ namespace DragonEngineLibrary
         public bool BattleTransformationOff()
         {
             return DELib_ECRenderCharacter_BattleTransformOff(_objectAddress);
+        }
+
+        public void ReadyBattleTransform(bool ready)
+        {
+            DELib_ECRenderCharacter_ReadyBattleTransform(_objectAddress, ready);
         }
 #endif
     }
