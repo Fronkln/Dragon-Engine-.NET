@@ -30,7 +30,7 @@ namespace Y7DebugTools
 
                     ImGui.Dummy(new System.Numerics.Vector2(0, 20));
 
-                    ImGui.Text("Loaded?: " + SoundManager.IsCuesheetLoaded((SoundCuesheetID)m_ChosenSheet));
+                    //ImGui.Text("Loaded?: " + SoundManager.IsCuesheetLoaded((SoundCuesheetID)m_ChosenSheet));
 
 
                     if(ImGui.Button("Load"))

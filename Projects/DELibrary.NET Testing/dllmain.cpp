@@ -3,51 +3,23 @@
 #include <iostream>
 #include "DotNetTest.h"
 
-extern "C"
-{
-    __declspec(dllexport) inline void InitializeASI() 
-    {
-        /**
-        AllocConsole();
-        FILE* f;
-        freopen_s(&f, "CONOUT$", "w", stdout);
-
-        Test();
-
-        std::cout << "Loader Finished" << std::endl;
-
-        while (true)
-        {
-            Sleep(1);
-
-            if (GetAsyncKeyState(VK_END))
-                break;
-        }
-
-        fclose(f);
-        FreeConsole();
-       // FreeLibraryAndExitThread(hModule, 0);
-       */
-    }
-}
-
-
-
 DWORD WINAPI NetThread(HMODULE hModule)
 {
     FILE* f = nullptr;
+  
+    bool createConsole = GetPrivateProfileIntW(L"DELib", L"EnableConsole", 0, L"mods/DE Library/config.ini");
 
-    
     //Create Console
-
-    if (GetPrivateProfileIntW(L"DELib", L"EnableConsole", 0, L"mods/DE Library/config.ini"))
+    if (createConsole)
     {
         AllocConsole();
         freopen_s(&f, "CONOUT$", "w", stdout);
     }
 
+#if DEBUG
     std::cout << "Starting in 5 seconds" << std::endl;
     Sleep(5000);
+#endif
 
     Test();
 
@@ -56,13 +28,13 @@ DWORD WINAPI NetThread(HMODULE hModule)
     while (true)
     {
         Sleep(1);
-
-        if (GetAsyncKeyState(VK_END))
-            break;
     }
 
-    fclose(f);
-    FreeConsole();
+    if (createConsole)
+    {
+        fclose(f);
+        FreeConsole();
+    }
     FreeLibraryAndExitThread(hModule, 0);
     
 

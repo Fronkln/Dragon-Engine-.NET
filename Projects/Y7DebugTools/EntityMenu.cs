@@ -9,7 +9,7 @@ using DragonEngineLibrary.Service;
 
 namespace Y7DebugTools
 {
-    internal static class EntityMenu
+    internal unsafe static class EntityMenu
     {
         public static bool Open = false;
 
@@ -23,7 +23,7 @@ namespace Y7DebugTools
 
         public static void Draw()
         {
-            if(ImGui.Begin("Entity"))
+            if (ImGui.Begin("Entity"))
             {
 
                 ImGui.InputText("UID", m_uidBuf, (uint)m_uidBuf.Length);
@@ -49,17 +49,55 @@ namespace Y7DebugTools
                     m_foundEnt = EntityBase.GetGlobalEntityFromUID(new EntityUID() { UID = uid });
                 }
 
-                if(m_foundEnt.IsValid())
-                if(ImGui.CollapsingHeader("Found Entity"))
+                if (m_foundEnt.IsValid())
+                    if (ImGui.CollapsingHeader("Found Entity"))
                     {
                         EntityRender.Draw(m_foundEnt.Get());
                     }
+
+
+                if (ImGui.TreeNode("Nearby Assets"))
+                {
+                    PXDStaticVector* collected = DragonEngine.GetHumanPlayer().Components.OctCollectAsset.Get().Collected;
+
+                    for (int i = 0; i < collected->ElementSize; i++)
+                    {
+                        EntityHandle<EntityBase> foundEnt = collected->ElementAtU32(i);
+
+                        if (ImGui.TreeNode(foundEnt.Get().EntityUID.UID.ToString("x")))
+                        {
+                            EntityRender.Draw(foundEnt.Get());
+                            ImGui.TreePop();
+                        }
+                    }
+
+                    ImGui.TreePop();
+                }
+
+                if (ImGui.TreeNode("Nearby Characters"))
+                {
+                    PXDStaticVector* collected = DragonEngine.GetHumanPlayer().Components.OctCollectCharacter.Get().Collected;
+
+                    for (int i = 0; i < collected->ElementSize; i++)
+                    {
+                        EntityHandle<EntityBase> foundEnt = collected->ElementAtU32(i);
+
+                        if(ImGui.TreeNode(foundEnt.Get().EntityUID.UID.ToString("x")))
+                        {
+                            EntityRender.Draw(foundEnt.Get());
+                            ImGui.TreePop();
+                        }
+                    }
+
+                    ImGui.TreePop();
+                }
+
 
                 ImGui.Text("Scene Entities");
 
                 SceneBase scene = SceneService.CurrentScene;
 
-                for(int i = 1; i < (int)SceneEntity.num; i++)
+                for (int i = 1; i < (int)SceneEntity.num; i++)
                 {
                     EntityHandle<EntityBase> ent = scene.GetSceneEntity<EntityBase>((SceneEntity)i);
 

@@ -7,6 +7,8 @@ namespace DragonEngineLibrary
     {
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_COMPONENTS_GETTER_EFFECTEVENT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_CharacterComponents_Getter_EffectEvent(IntPtr component);
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_COMPONENTS_GETTER_OCTCOLLECTCHARACTER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_CharacterComponents_Getter_OctCollectCharacter(IntPtr component);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CCHARACTER_COMPONENTS_GETTER_OCTCOLLECTASSET", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_CharacterComponents_Getter_OctCollectAsset(IntPtr component);
@@ -34,19 +36,27 @@ namespace DragonEngineLibrary
             }
         }
 
-        public EntityComponentHandle<EntityComponent> OctCollectAsset
+        public EntityComponentHandle<ECOctTreeCollect> OctCollectCharacter
         {
             get
             {
-                return new EntityComponentHandle<EntityComponent>(DELibrary_CharacterComponents_Getter_OctCollectAsset(_objectAddress));
+                return new EntityComponentHandle<ECOctTreeCollect>(DELibrary_CharacterComponents_Getter_OctCollectCharacter(_objectAddress));
             }
         }
 
-        public EntityComponentHandle<EntityComponent> OctCollectAssetPickup
+        public EntityComponentHandle<ECOctTreeCollect> OctCollectAsset
         {
             get
             {
-                return new EntityComponentHandle<EntityComponent>(DELibrary_CharacterComponents_Getter_OctCollectAssetPickup(_objectAddress));
+                return new EntityComponentHandle<ECOctTreeCollect>(DELibrary_CharacterComponents_Getter_OctCollectAsset(_objectAddress));
+            }
+        }
+
+        public EntityComponentHandle<ECOctTreeCollect> OctCollectAssetPickup
+        {
+            get
+            {
+                return new EntityComponentHandle<ECOctTreeCollect>(DELibrary_CharacterComponents_Getter_OctCollectAssetPickup(_objectAddress));
             }
         }
     }

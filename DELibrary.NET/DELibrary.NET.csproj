@@ -300,6 +300,7 @@
     <Compile Include="Components\ECConstructor.cs" />
     <Compile Include="Components\ECConstructorCharacter.cs" />
     <Compile Include="Components\ECHAct.cs" />
+    <Compile Include="Components\ECOctCollect.cs" />
     <Compile Include="Components\ECPosture.cs" />
     <Compile Include="Components\ECSoldierInfo.cs" />
     <Compile Include="Components\ECSuper.cs" />

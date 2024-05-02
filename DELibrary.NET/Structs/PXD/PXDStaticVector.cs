@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DragonEngineLibrary
 {
     /// <summary>
-    /// Unsafe.
+    /// Unsafe. Use with caution or risk a crash!
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = 16)]
     public unsafe struct PXDStaticVector

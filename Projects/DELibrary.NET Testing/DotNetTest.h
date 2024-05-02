@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdio.h>
-#include <windows.h>
 #include <mscoree.h>
 #include <metahost.h>
 #pragma comment(lib, "MSCorEE.lib")
@@ -150,8 +148,8 @@ ICorRuntimeHost* bruteforce_CLRhost() {
 
 int Test()
 {
-    PCHAR ptrBinary; DWORD lenBinary;
-
+    PCHAR ptrBinary; 
+    DWORD lenBinary;
 
     //Change exe path to yours
     //I made this an absolute path because i didnt want to copy files around for each change to my own code tests
@@ -173,7 +171,8 @@ int Test()
     std::cout << "\n Is RuntimeHost null: " << pRuntimeHost << std::endl;
 
     printf("\n --- Enumerate Available CLR Runtime ---\n");
-    if (!pRuntimeHost) if ((pRuntimeHost = bruteforce_CLRhost()) == 0)
+    if (!pRuntimeHost) 
+        if ((pRuntimeHost = bruteforce_CLRhost()) == 0)
         return -1;
 
     printf("\n --- Execute .NET Module ---\n");
@@ -183,20 +182,24 @@ int Test()
         // load .net module into CLR (PE binary)
         if (_AssemblyPtr pAssembly = getAssembly_fromBinary(pDefaultAppDomain, LPBYTE(ptrBinary), (lenBinary)))
             //A ssembly.EntryPoint Property
-            if (FAILED(pAssembly->get_EntryPoint(&pMethodInfo))) {
+            if (FAILED(pAssembly->get_EntryPoint(&pMethodInfo))) 
+            {
                 printf("[!] pAssembly->get_EntryPoint(...) failed\n");
                 return -1;
             }
-            else printf("[+] pAssembly->get_EntryPoint(...) succeeded\n");
+            else 
+                printf("[+] pAssembly->get_EntryPoint(...) succeeded\n");
 
 
     VARIANT var = VARIANT();
 
-    /* EntryPoint.Invoke(new string[] { argv_1, argv_2, argv_3, ... } ) */
-    if (HRESULT hr = pMethodInfo->raw_Invoke_3(VARIANT(), newArguments(0, 0), &var) < 0) {
+    if (HRESULT hr = pMethodInfo->raw_Invoke_3(VARIANT(), newArguments(0, 0), &var) < 0) 
+    {
         printf("[!] pMethodInfo->Invoke_3(...) failed, hr = %X\n", hr);
         return -1;
     }
-    else printf("[+] pMethodInfo->Invoke_3(...) succeeded\n");
+    else 
+        printf("[+] pMethodInfo->Invoke_3(...) succeeded\n");
+
     return 0;
 }

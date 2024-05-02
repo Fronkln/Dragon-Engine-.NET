@@ -194,7 +194,7 @@ namespace DragonEngineLibrary
         {
             uint reactionType = GetReactionType();
 
-            return IsDown() && (reactionType == 7 || reactionType == 49);
+            return (reactionType == 7 || reactionType == 49);
         }
 
         ///<summary>Is the fighter in a sync move?</summary>
