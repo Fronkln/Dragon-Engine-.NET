@@ -5,6 +5,9 @@ namespace DragonEngineLibrary
 {
     public static class HActManager
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_GETTER_POINTER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_HActManager_Getter_Pointer();
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HACTMANAGER_REQUESTHACTPROC", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HActManager_RequestHActProc(ref HActRequestOptions opt);
@@ -36,6 +39,8 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool IsRequestOrPlaying();
 
+
+        public static IntPtr Pointer { get { return DELib_HActManager_Getter_Pointer() ; } }
 
         /// <summary>
         /// Request HAct.

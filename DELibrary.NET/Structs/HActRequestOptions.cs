@@ -7,7 +7,7 @@ namespace DragonEngineLibrary
 #if YLAD
     [StructLayout(LayoutKind.Explicit, Pack = 16, Size = 0x1120)]
 #endif
-#if IW_AND_UP
+#if GAIDEN_AND_UP
     [StructLayout(LayoutKind.Explicit, Size = 0x14B0)]
 #endif
     public struct HActRequestOptions
@@ -47,7 +47,7 @@ namespace DragonEngineLibrary
         [FieldOffset(0x1117)] [MarshalAs(UnmanagedType.U1)] public bool is_last_frame_draw_stop;
 #endif
 
-#if IW_AND_UP
+#if GAIDEN_AND_UP
         [FieldOffset(0x0)] public DynamicsMatrix base_mtx;
         [FieldOffset(0x70)] public DynamicsMatrix base_mtx_sub;
         [FieldOffset(0xE0)] public TalkParamID id;
@@ -73,6 +73,15 @@ namespace DragonEngineLibrary
 
         public void Init()
         {
+        }
+
+        public static HActRequestOptions Simple(TalkParamID id)
+        {
+            HActRequestOptions opts = new HActRequestOptions();
+            opts.is_force_play = true;
+            opts.id = id;
+
+            return opts;
         }
 
         public void Register(HActReplaceID id, EntityHandle<CharacterBase> chara)

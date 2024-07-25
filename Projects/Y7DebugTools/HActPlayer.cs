@@ -33,6 +33,8 @@ namespace Y7DebugTools
         private static bool m_allyIsEnemy = false;
         private static bool m_Reverse = false;
 
+        public static bool hactTimeLine = false;
+
         static HActPlayer()
         {
             m_enumNames_HactReplace = Enum.GetNames(typeof(HActReplaceID));
@@ -161,15 +163,102 @@ namespace Y7DebugTools
         {
             bool result;
 
+#if TURN_BASED
             if (m_battleMode)
                 result = BattleTurnManager.RequestHActEvent(inf);
             else
                 result = HActManager.RequestHAct(inf);
+#else
+            result = HActManager.RequestHAct(inf);
+#endif
 
 
             if (!result)
                 DragonEngine.Log("HAct fail");
         }
+
+        public static void DrawInputThread()
+        {
+            if (!GameVarManager.GetValueBool(GameVarID.is_hact))
+                return;
+
+            if (!hactTimeLine)
+                return;
+
+            AuthPlay currentHAct = AuthManager.PlayingScene;
+
+            if (m_pause)
+                currentHAct.SetGameFrame(m_pauseFrame);
+        }
+
+        private static bool m_pause = false;
+        private static float m_pauseFrame = 0;
+        public static void DrawTimeline()
+        {
+            if (!GameVarManager.GetValueBool(GameVarID.is_hact))
+            {
+                m_pause = false;
+                m_pauseFrame = 0;
+                return;
+            }
+
+            if (!hactTimeLine)
+                return;
+
+
+            if (ImGui.Begin("HAct Timeline"))
+            {
+                AuthPlay currentHAct = AuthManager.PlayingScene;
+
+                DragonEngine.Log(currentHAct.Pointer.ToString("X"));
+
+                if (ImGui.Button("Stop"))
+                    HActManager.Skip();
+
+                float test = currentHAct.GetGameFrame();
+
+                ImGui.Text("HAct: " + currentHAct.TalkParamID);
+                ImGui.Text("Current Page ID: " + currentHAct.GetCurrentPageIndex());
+
+                if (ImGui.SliderFloat("Frame", ref test, 0, currentHAct.GetEndFrame()))
+                {
+                    m_pauseFrame = test;
+                    currentHAct.SetGameFrame(test);
+                }
+
+                if(!m_pause)
+                {
+                    if (ImGui.Button("Pause"))
+                    {
+                        m_pause = !m_pause;
+
+                        if (m_pause)
+                            m_pauseFrame = currentHAct.GetGameFrame();
+
+                        //currentHAct.SetSpeed(0);
+                    }
+                }
+                else
+                {
+                    if (ImGui.Button("Play"))
+                    {
+                        m_pause = false;
+                    }
+                }
+
+                ImGui.SameLine(0, 30);
+
+
+                ImGui.SameLine(0, 45);
+
+                if (ImGui.Button("Reset"))
+                    currentHAct.Restart();
+
+                ImGui.End();
+            }
+
+        }
+
         public static void Draw()
         {
 
@@ -177,6 +266,8 @@ namespace Y7DebugTools
             {
                 ImGui.InputInt("HAct ID", ref m_chosenHAct);
                 ImGui.InputInt("Range ID", ref m_chosenHActRange);
+
+                ImGui.Checkbox("HAct Timeline", ref hactTimeLine);
 
                 ImGui.Dummy(new System.Numerics.Vector2(0, 10));
 

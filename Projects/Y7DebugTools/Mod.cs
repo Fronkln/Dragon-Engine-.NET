@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DragonEngineLibrary;
 using ImGuiNET;
 using MinHook.NET;
+using System.Diagnostics;
 
 namespace Y7DebugTools
 {
@@ -24,8 +25,12 @@ namespace Y7DebugTools
         private bool m_jobMenuEnabled = false;
 
 
+        private bool m_initOnce = false;
+
         public void ModUI()
         {
+            HActPlayer.DrawTimeline();
+
             if (Visible)
             {
                 ImGui.Begin("Debug");
@@ -66,8 +71,11 @@ namespace Y7DebugTools
                     NPCMenu.Draw();
                 if (m_fighterManagerMenuEnabled)
                     FighterManagerMenu.Draw();
+
+#if TURN_BASED
                 if (m_battleTurnManagerMenuEnabled)
                     BattleTurnManagerMenu.Draw();
+#endif
                 if (m_effectMenuEnabled)
                     EffectEventMenu.Draw();
                 if (m_hactPlayerMenuEnabled)
@@ -155,12 +163,22 @@ namespace Y7DebugTools
 
                 if (DragonEngine.IsKeyDown(VirtualKey.F3))
                     DragonEngine.ForceSetCursorVisible(!DragonEngine.IsCursorForcedVisible());
+
+                HActPlayer.DrawInputThread();
+                PIBEditorMainWindow.InputThread();
                     
             }
         }
 
         public void Update()
         {
+            if(!m_initOnce)
+                if(DragonEngine.GetHumanPlayer().IsValid())
+                {
+                    m_initOnce = true;
+                }
+
+
             //We have NPCs to spawn
             if (NPCMenu.CreationQueue.Count > 0)
             {
@@ -190,15 +208,15 @@ namespace Y7DebugTools
                 UIPlayer.ToCreate = false;
                 UIPlayer.ToPlay = false;
             }
+
+            DragonEngine.AllowAltTabPause(!ParticleMenu.OpenPIBEditor);
+
+            PIBEditorMainWindow.GameUpdate();
         }
 
         public override void OnModInit()
         {
             DragonEngine.Log("DebugTools Start");
-
-            DragonEngineLibrary.Advanced.DXHook.Init();
-            DragonEngineLibrary.Advanced.ImGui.RegisterUIUpdate(ModUI);
-
             DragonEngine.Log("DebugTools Imgui Update Registered");
 
             m_enumNames_VirtualKey = Enum.GetNames(typeof(VirtualKey));
@@ -208,14 +226,20 @@ namespace Y7DebugTools
 
             Thread inputThread = new Thread(InputThread);
             inputThread.Start();
+
+
+            DragonEngine.Log("Testy " + DragonEngine.TestFunc());
             try
             {
+                DragonEngineLibrary.Advanced.DXHook.Init();
+                DragonEngineLibrary.Advanced.ImGui.RegisterUIUpdate(ModUI);
                 MinHookHelper.initialize();
             }
             catch
             {
 
             }
+
         }
     }
 }

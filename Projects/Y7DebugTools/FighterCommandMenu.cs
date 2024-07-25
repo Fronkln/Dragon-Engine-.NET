@@ -30,10 +30,10 @@ namespace Y7DebugTools
                 if (ImGui.InputInt("Command ID:", ref m_chosenCmdID))
                     if (m_chosenCmdID < ushort.MinValue || m_chosenSetID > ushort.MaxValue)
                         m_chosenCmdID = 0;
-
+#if TURN_BASED
                 ImGui.InputInt("RPG Skill:", ref m_chosenRPGSkillID);
-
                 ImGui.Dummy(new System.Numerics.Vector2(0, 5));
+#endif
 
                 ImGui.Checkbox("Incremental", ref m_incremental);
 
@@ -46,7 +46,11 @@ namespace Y7DebugTools
                 if (ImGui.Button("Execute") || DragonEngine.IsKeyDown(VirtualKey.J))
                 {
                     if (m_chosenRPGSkillID != 0)
+                    {
+#if TURN_BASED
                         BattleTurnManager.ForceCounterCommand(FighterManager.GetFighter(0), FighterManager.GetAllEnemies()[0], (RPGSkillID)m_chosenRPGSkillID);
+#endif
+                    }
                     else
                     {
                         if (m_incremental)
@@ -66,10 +70,12 @@ namespace Y7DebugTools
                         m_chosenCmdID++;
                 }
 
+#if TURN_BASED
                 if (ImGui.Button("Execute RPG Skill"))
                 {
                     BattleTurnManager.ForceCounterCommand(FighterManager.GetFighter(0), FighterManager.GetAllEnemies()[0], (RPGSkillID)m_chosenRPGSkillID);
                 }
+#endif
             }
         }
     }

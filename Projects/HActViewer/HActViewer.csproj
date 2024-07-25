@@ -86,6 +86,12 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DELibrary.NET">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Yakuza Like a Dragon\runtime\media\mods\DE Library\DELibrary.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Yakuza Like a Dragon\runtime\media\mods\DE Library\ImGui.NET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -102,16 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Like a Brawler\Dependencies\Dragon-Engine-.NET\DELibrary.NET\DELibrary.NET.csproj">
-      <Project>{9900112c-25d6-427d-846a-a90e31cf8fe3}</Project>
-      <Name>DELibrary.NET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Like a Brawler\Dependencies\Dragon-Engine-.NET\ImGui.NET-master\ImGui.NET-master\src\ImGui.NET\ImGui.NET.csproj">
-      <Project>{b67f0ba9-cade-4308-b90b-61955027b813}</Project>
-      <Name>ImGui.NET</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

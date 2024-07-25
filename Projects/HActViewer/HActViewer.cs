@@ -10,6 +10,7 @@ namespace HActViewer
 
         static volatile AuthPlay currentHAct;
         static bool m_advanced = true;
+        static bool m_open = true;
 
         public void InputThread()
         {
@@ -50,7 +51,6 @@ namespace HActViewer
             DragonEngine.Initialize();
             DragonEngine.RegisterJob(ModUpdate, DEJob.Update);
 
-            DragonEngineLibrary.Advanced.ImGui.Init();
             DragonEngineLibrary.Advanced.ImGui.RegisterUIUpdate(ModDrawUI);
 
             Thread thread = new Thread(InputThread);
@@ -65,11 +65,10 @@ namespace HActViewer
 
             //doesnt seem to change anything
             bool open = AuthManager.PlayingScene.IsValid();
-            ImGui.SetNextWindowSize(new System.Numerics.Vector2(300, 300), ImGuiCond.FirstUseEver);
 
-            if (open && currentHAct.IsValid())
+            if (GameVarManager.GetValueBool(GameVarID.is_hact))
             {
-                if (ImGui.Begin("HAct Timeline", ref open, ImGuiWindowFlags.MenuBar))
+                if (ImGui.Begin("HAct Timeline"))
                 {
                     if (ImGui.Button("Stop"))
                         HActManager.Skip();

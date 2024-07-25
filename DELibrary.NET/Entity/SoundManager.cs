@@ -5,6 +5,9 @@ namespace DragonEngineLibrary
 {
     public static class SoundManager
     {
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSOUND_MANAGER_GETTER_POINTER", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Pointer();
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSOUND_MANAGER_IS_CUESHEET_LOADED", CallingConvention = CallingConvention.Cdecl)]
         [return:MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_SoundManager_IsCuesheetLoaded(SoundCuesheetID cuesheetID);
@@ -28,11 +31,18 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSOUND_MANAGER_PLAY_BGM2", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_SoundManager_PlayBGM2(uint id, uint start_msec);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSOUND_MANAGER_PLAY_BGM3", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_SoundManager_PlayBGM3(uint port, ushort cuesheetID, ushort cueID, uint start_msec);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSOUND_MANAGER_GET_BGM_SEID", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_SoundManager_GetBGMSeID(uint bgmSlot);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSOUND_MANAGER_GET_BGM_PLAYTIME_SEC", CallingConvention = CallingConvention.Cdecl)]
         internal static extern float DELib_SoundManager_GetBGMPlaytimeSec(uint bgmSlot);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CSOUND_MANAGER_PAUSE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_SoundManager_Pause(int soundHandle, bool pause);
 
         [DECompatibility(DEGames.YLAD)]
         public static bool IsCuesheetLoaded(SoundCuesheetID cuesheetID)
@@ -119,9 +129,19 @@ namespace DragonEngineLibrary
             DELib_SoundManager_PlayBGM(cuesheetID, cueID, start_msec);
         }
 
+        public static void PlayBGM(uint port, ushort cuesheetID, ushort cueID, uint start_msec = 0)
+        {
+            DELib_SoundManager_PlayBGM3(port,cuesheetID, cueID, start_msec);
+        }
+
         public static void PlayBGM(uint id, uint start_msec = 0)
         {
             DELib_SoundManager_PlayBGM2(id, start_msec);
+        }
+
+        public static void Pause(int soundHandle, bool pause)
+        {
+            DELib_SoundManager_Pause(soundHandle, pause);
         }
     }
 }

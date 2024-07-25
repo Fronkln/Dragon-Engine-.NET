@@ -95,6 +95,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_COMMANDSETMODEL", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_HumanModeManager_Getter_CommandsetModel(IntPtr manager);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_TRANSITCOMMANDMODEL", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_HumanModeManager_Getter_TransitCommandModel(IntPtr manager);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETTER_MODENAME", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_HumanModeManager_Getter_ModeName(IntPtr manager);
 
@@ -106,6 +109,11 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_CHANGEMODE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HumanModeManager_ChangeMode(IntPtr manager);
 
+
+#if IW_AND_UP
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOSTYLECHANGE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_HumanModeManager_ToStyleChange(IntPtr manager, int style);
+#endif
         public enum RequireType
         {
             Normal = 0x0,
@@ -132,6 +140,20 @@ namespace DragonEngineLibrary
                 {
                     _ptr = DELib_HumanModeManager_Getter_CommandsetModel(Pointer)
 
+                };
+            }
+        }
+
+        /// <summary>
+        /// TransitCommand model responsible for checking fighter command commands.
+        /// </summary>
+        public TransitCommandModel TransitCommandModel
+        {
+            get
+            {
+                return new TransitCommandModel()
+                {
+                    _ptr = DELib_HumanModeManager_Getter_TransitCommandModel(Pointer)
                 };
             }
         }
@@ -167,7 +189,7 @@ namespace DragonEngineLibrary
         ///<summary>Execute a Fighter Command attack.</summary>
         public void ToAttackMode(FighterCommandID inf)
         {
-#if YLAD
+#if YLAD_AND_UP
             DELib_HumanModeManager_ToActionCommand(Pointer, inf);
 #else
             DELib_HumanModeManager_ToAttackMode(Pointer, inf);
@@ -242,5 +264,12 @@ namespace DragonEngineLibrary
         {
             return CurrentMode.GetCommandID().GetInfo().Id;
         }
+
+#if IW
+        public void ToStyleChange(int style)
+        {
+            DELib_HumanModeManager_ToStyleChange(Pointer, style);
+        }
+#endif
     }
 }

@@ -7,23 +7,24 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Input;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Security.AccessControl;
+using System.Diagnostics;
 
 namespace DragonEngineLibrary
 {
     public class MyClass
     {
+        [DllImport("kernel32")]
+        static extern bool AllocConsole();
 
         protected static bool m_initOnce = false;
+        private static HashSet<string> m_modsList = new HashSet<string>();
 
         //Do whatever you want here
         static void ThreadTest()
         {
             try
             {
-
                 DragonEngine.Log("\nDragon Engine Library .NET Thread Start");
                 File.WriteAllText("de_log.txt", "");
 
@@ -64,15 +65,40 @@ namespace DragonEngineLibrary
 
             if (Directory.Exists("mods"))
             {
+                int modCount = Parless.GetModCount();
+
+                for (int i = 0; i < modCount; i++)
+                {
+                    IntPtr str = Parless.GetModName(i);
+                    m_modsList.Add(Marshal.PtrToStringAnsi(str));
+                }
+
+                /*
+                if (File.Exists("ModList.txt"))
+                {
+                    string[] mods = File.ReadAllText("ModList.txt").Split('|');
+                    foreach (string mod in mods)
+                        m_modsList.Add(mod.Substring(1));
+
+                    foreach (var kv in m_modsList)
+                        DragonEngine.Log(kv);
+                }
+                */
+
                 foreach (string directory in Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods")))
                 {
-                    string configFile = Path.Combine(directory, "de_mod.cfg");
+                    string dirName = new DirectoryInfo(directory).Name;
+
+                    if (!m_modsList.Contains(dirName))
+                        continue;
+
+                    string configFile = Path.Combine(directory, "de_mod.ini");
 
                     if (!File.Exists(configFile))
                         continue;
 
-                    JObject cfg = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(configFile));
-                    string dllFile = (string)cfg["InitDll"];
+                    Ini ini = new Ini(configFile);
+                    string dllFile = ini.GetValue("InitDll");
     
                     bool loadRes = DragonEngine.InitializeModLibrary(Path.Combine(directory, dllFile));
 

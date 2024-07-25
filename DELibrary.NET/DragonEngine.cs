@@ -46,6 +46,9 @@ namespace DragonEngineLibrary
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_INJECT_HOOK", CallingConvention = CallingConvention.Cdecl)]
             public static extern void InjectHook(IntPtr addr, IntPtr func);
 
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_TEST_FUNC", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int TestFunc();
+
             public static void PatchMemory(IntPtr addr, params byte[] bytes)
             {
                 IntPtr byteArr = Marshal.AllocHGlobal(bytes.Length);
@@ -143,6 +146,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_TEMP_CPP_COUT", CallingConvention = CallingConvention.Cdecl)]
         private static extern void DELib_TEMP_CPP_COUT(string text);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_TEST_FUNC", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int TestFunc();
+
         public static IntPtr BaseAddress { get { return GetModuleHandle(); } }
 
         [DllImport("User32.dll", CharSet = CharSet.Unicode)]
@@ -224,9 +230,9 @@ namespace DragonEngineLibrary
         public static void Log(object value)
         {
             string valueStr = value.ToString();
+            File.AppendAllText("de_log.txt", value + "\n");
 
             Console.WriteLine(valueStr);
-            File.AppendAllText("de_log.txt", value + "\n");
             // DELib_TEMP_CPP_COUT(valueStr + "\n");
             // File.AppendAllText("dotnetlog.txt", valueStr + "\n");
         }

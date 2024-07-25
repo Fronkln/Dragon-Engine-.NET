@@ -83,11 +83,28 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_ENTITY_COMPONENT_MAP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELibrary_EntityBase_Getter_EntityComponentMap(IntPtr entity);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_ENTITY_COMPONENT_MAP_ROOT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELibrary_EntityBase_Getter_EntityComponentMapRoot(IntPtr entity);
+
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_PARENT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_EntityBase_Getter_Parent(IntPtr entity);
 
         public Transform Transform;
+
+        ///<summary>Entity component root of this entity.</summary>
+        public EntityComponentMapRoot EntityComponentMapRoot
+        {
+            get
+            {
+                IntPtr address = DELibrary_EntityBase_Getter_EntityComponentMapRoot(Pointer);
+
+                EntityComponentMapRoot componentMap = new EntityComponentMapRoot();
+                componentMap.Pointer = address;
+
+                return componentMap;
+            }
+        }
 
         ///<summary>Entity component map of this entity.</summary>
         public EntityComponentMapSync EntityComponentMap

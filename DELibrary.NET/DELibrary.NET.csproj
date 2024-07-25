@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DragonEngineLibrary</RootNamespace>
     <AssemblyName>DELibrary.NET</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -214,15 +214,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Like a Brawler 8\packages\Costura.Fody.5.7.0\lib\netstandard1.0\Costura.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\Like a Brawler 8\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\Like a Brawler 8\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -252,8 +245,9 @@
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\Like a Brawler 8\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Like a Brawler 8\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\Yakuza 7 Revised\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -322,6 +316,7 @@
     <Compile Include="Entity\Camera.cs" />
     <Compile Include="Entity\CameraBase.cs" />
     <Compile Include="Entity\CameraStatic.cs" />
+    <Compile Include="Entity\EntityComponentMapRoot.cs" />
     <Compile Include="Entity\FighterCommandManager.cs" />
     <Compile Include="Entity\PUID.cs" />
     <Compile Include="Entity\DB.cs" />
@@ -363,7 +358,7 @@
     <Compile Include="Components\EntityComponent.cs" />
     <Compile Include="Entity\CharacterManager.cs" />
     <Compile Include="Entity\CTask.cs" />
-    <Compile Include="DEHandles.cs" />
+    <Compile Include="Entity\DEHandles.cs" />
     <Compile Include="DragonEngine.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Entity\Fighter.cs" />
@@ -469,14 +464,14 @@
     <Compile Include="Enums\VirtualKey.cs" />
     <Compile Include="Enums\Yakuza 7\MinigameDragonKartCourseID.cs" />
     <Compile Include="Enums\Yakuza 7\MinigameDragonKartDriverID.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Entity\Yakuza 7\FighterManager.cs" />
     <Compile Include="Entity\GameObject.cs" />
     <Compile Include="Entity\Player.cs" />
-    <Compile Include="MarshallingTests.cs" />
-    <Compile Include="MathUtils.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Parless.cs" />
     <Compile Include="PXD.cs" />
-    <Compile Include="Screen.cs" />
+    <Compile Include="Utils\Screen.cs" />
     <Compile Include="Structs\AuthNodeInfo.cs" />
     <Compile Include="Structs\BattleDamageInfo.cs" />
     <Compile Include="Structs\BattleDamageInfoSafe.cs" />
@@ -484,10 +479,12 @@
     <Compile Include="Structs\BattleSelectCommandInfo.cs" />
     <Compile Include="Structs\CalcDamageEventArgs.cs" />
     <Compile Include="Structs\CharacterStatus.cs" />
+    <Compile Include="Structs\TransitCommandModel.cs" />
     <Compile Include="Structs\CommandSetModel.cs" />
     <Compile Include="Structs\DynamicsPoseInfo.cs" />
     <Compile Include="Structs\FighterCommandID.cs" />
     <Compile Include="Structs\FighterCommandInfo.cs" />
+    <Compile Include="Structs\FighterCommandSet.cs" />
     <Compile Include="Structs\FighterModeAttack.cs" />
     <Compile Include="Structs\FighterRPGCommand.cs" />
     <Compile Include="Structs\GameTick.cs" />

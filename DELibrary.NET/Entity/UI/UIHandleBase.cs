@@ -96,7 +96,7 @@ namespace DragonEngineLibrary
 
         public override string ToString()
         {
-            return Handle.ToString();
+            return Handle.ToString("X");
         }
 
         public UIControlBase GetControlBase()

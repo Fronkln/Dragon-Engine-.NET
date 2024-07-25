@@ -32,6 +32,12 @@ namespace DragonEngineLibrary
             }
         }
 
+        public bool IsHold(BattleButtonID battleButton)
+        {
+            return CheckCommand(battleButton, 1, 1000, 0)
+                && !CheckCommand(battleButton, 2, 1000, 0);
+        }
+
         public bool IsTimingPush(BattleButtonID battleButton, float time)
         {
             return DELib_PadInputInfo_IsTimingPush(Pointer, (uint)battleButton, new GameTick(time).Tick);

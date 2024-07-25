@@ -8,7 +8,7 @@
         hit_wall,
         hit_wall_safety,
         hit_wall_force,
-        droppd_throw,
+        dropped_throw,
         pole,
         guardrail,
         corner,

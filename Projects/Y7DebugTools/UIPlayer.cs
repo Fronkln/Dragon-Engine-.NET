@@ -137,6 +137,9 @@ namespace Y7DebugTools
                 if (ImGui.Button("Play Anim"))
                     m_selectedUI.PlayAnimationSet((uint)m_animation_set);
 
+                if (ImGui.Button("Pause"))
+                    m_selectedUI.Pause();
+
                 ImGui.End();
             }
         }

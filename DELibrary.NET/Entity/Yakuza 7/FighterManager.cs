@@ -27,6 +27,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_GET_FIGHTER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_FighterManager_GetFighter(uint index);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_GET_FIGHTER2", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_FighterManager_GetFighter2(uint handle);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_GETNEARESTENEMY", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_FighterManager_GetNearestEnemy(IntPtr fighterID);
 
@@ -37,6 +40,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_Y7_EXCLUSIVE_FIGHTER_MANAGER_IS_BRAWLER", CallingConvention = CallingConvention.Cdecl)]
         [return:MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_FighterManager_Y7_IsBrawlerMode();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_MANAGER_POINTER", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr Pointer();
 
         /// <summary>
         /// Create an "enemy" fighter, appearance may only work after transformation is enabled, needs testing.
@@ -53,6 +59,11 @@ namespace DragonEngineLibrary
         public static Fighter GetFighter(uint index)
         {
             return new Fighter(DELib_FighterManager_GetFighter(index));
+        }
+
+        public static Fighter GetFighterFromUID(uint handle)
+        {
+            return new Fighter(DELib_FighterManager_GetFighter2(handle));
         }
 
         /// <summary>

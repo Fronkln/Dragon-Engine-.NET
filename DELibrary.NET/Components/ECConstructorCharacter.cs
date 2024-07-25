@@ -17,7 +17,7 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEC_CONSTRUCTOR_CHARACTER_STOP_AGENT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_ECConstructorCharacter_StopAgent(IntPtr constructor);
 
-        public Character Owner
+        public new Character Owner
         {
             get
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if TURN_BASED
+using System;
 using DragonEngineLibrary;
 using ImGuiNET;
 
@@ -52,3 +53,4 @@ namespace Y7DebugTools
         }
     }
 }
+#endif

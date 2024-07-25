@@ -20,6 +20,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_MAXHP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern long DELibrary_ECBattleStatus_Getter_MaxHp(IntPtr battlestatus);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_HPLOCK", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long DELibrary_ECBattleStatus_Getter_HpLock(IntPtr battlestatus);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SETTER_HPLOCK", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_Setter_HpLock(IntPtr battlestatus, long val);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_CURRENTHP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern long DELibrary_ECBattleStatus_Getter_CurrentHp(IntPtr battlestatus);
 
@@ -72,6 +78,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_CLEAR_COMMAND", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_ECBattleStatus_ClearCommand(IntPtr battlestatus);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SET_CURRENT_COMMAND", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_SetCurrentCommand(IntPtr battlestatus, IntPtr command);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_SET_SUPER_ARMOR", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELibrary_ECBattleStatus_SetSuperArmor(IntPtr battlestatus, bool armor, bool isSuperHard = false);
 
@@ -95,6 +104,18 @@ namespace DragonEngineLibrary
             set
             {
                 SetHPMax(value);
+            }
+        }
+
+        public long HPLock
+        {
+            get
+            {
+                return DELibrary_ECBattleStatus_Getter_HpLock(_objectAddress);
+            }
+            set
+            {
+                DELibrary_ECBattleStatus_Setter_HpLock(_objectAddress, value);
             }
         }
 
@@ -215,6 +236,11 @@ namespace DragonEngineLibrary
         public void ClearCommand()
         {
             DELibrary_ECBattleStatus_ClearCommand(Pointer);
+        }
+
+        public void SetCurrentCommand(IntPtr fighterCommand)
+        {
+            DELibrary_ECBattleStatus_SetCurrentCommand(Pointer, fighterCommand);
         }
 
         ///<summary>Get the battle AI of the character.</summary>

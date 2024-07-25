@@ -26,5 +26,10 @@ namespace DragonEngineLibrary
         {
             return new Vector4(vec.x, vec.y, 0, 0);
         }
+
+        public override string ToString()
+        {
+            return $"({x.ToString("0.00")} {y.ToString("0.00")})";
+        }
     }
 }

@@ -12,7 +12,6 @@ namespace Y7DebugTools
         private static int m_setLevel = 1;
         private static int m_setJob = 0;
 
-
         private static string[] m_enum_names_PlayerID;
         private static string[] m_enum_names_RPGJob;
 
@@ -29,9 +28,11 @@ namespace Y7DebugTools
 
         private static void Reload()
         {
+#if TURN_BASED
             m_setLevel = (int)Player.GetLevel((Player.ID)m_chosenPlayer);
             m_setJobLevel = (int)Player.GetJobLevel((Player.ID)m_chosenPlayer);
             m_setJob = (int)Player.GetCurrentJob((Player.ID)m_chosenPlayer);
+#endif
         }
 
         public static void Draw()
@@ -58,7 +59,7 @@ namespace Y7DebugTools
                     m_toEquip = true;
 
                 ImGui.Dummy(new System.Numerics.Vector2(0, 20));
-
+#if TURN_BASED
                 if (ImGui.CollapsingHeader("Player Stats Edit"))
                 {
                     if (ImGui.Combo("Player:", ref m_chosenPlayer, m_enum_names_PlayerID, m_enum_names_PlayerID.Length))
@@ -99,9 +100,9 @@ namespace Y7DebugTools
 
                             return;
                         }
-                    }
                 }
-
+            }
+#endif
                 ImGui.End();
             }
         }
