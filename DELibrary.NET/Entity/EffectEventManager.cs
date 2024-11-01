@@ -17,5 +17,9 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEFFECT_EVENT_MANAGER_STOP_SCREEN", CallingConvention = CallingConvention.Cdecl)]
         public static extern void StopScreen(uint id, bool immediate = true);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEFFECT_EVENT_MANAGER_IS_PLAYING_SCREEN", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        public static extern bool IsPlayingScreen(uint id);
     }
 }

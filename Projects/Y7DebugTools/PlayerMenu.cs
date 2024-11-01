@@ -41,6 +41,9 @@ namespace Y7DebugTools
 
             if (ImGui.Begin("Player"))
             {
+                ImGui.Text("Address " + player.Pointer.ToString("x"));
+                ImGui.Text("UID " + player.UID.ToString());
+
                 if (ImGui.Checkbox("Noclip", ref m_noclipEnabled))
                     NoclipMode.Toggle(m_noclipEnabled);
 

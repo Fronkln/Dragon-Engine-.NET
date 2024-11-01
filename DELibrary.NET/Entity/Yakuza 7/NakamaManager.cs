@@ -31,6 +31,16 @@ namespace DragonEngineLibrary
             return DELib_NakamaManager_GetCharacterHandle(index);
         }
 
+        public static EntityHandle<Character> GetCharacterHandle(Player.ID playerID)
+        {
+            int idx = FindIndex(playerID);
+
+            if(idx >= 0)
+                return DELib_NakamaManager_GetCharacterHandle((uint)idx);
+
+            return 0;
+        }
+
         public static void RemoveAllPartyMembers()
         {
             for (int i = 1; i < 4; i++)

@@ -88,8 +88,8 @@ Global
 		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.Yakuza 7 Release|x64.Build.0 = Release|Any CPU
 		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.YLAD Debug|x64.ActiveCfg = YLAD Debug|x64
 		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.YLAD Debug|x64.Build.0 = YLAD Debug|x64
-		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.YLAD Release|x64.ActiveCfg = Release|Any CPU
-		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.YLAD Release|x64.Build.0 = Release|Any CPU
+		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.YLAD Release|x64.ActiveCfg = YLAD Debug|x64
+		{920EF6CA-743B-4784-8BBE-42BD9115FD4D}.YLAD Release|x64.Build.0 = YLAD Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

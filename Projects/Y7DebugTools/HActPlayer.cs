@@ -19,6 +19,7 @@ namespace Y7DebugTools
         private static bool m_canSkip = true;
         private static bool m_forcePlay = true;
         private static bool m_simple = true;
+        private static bool m_rpgPlayer = false;
 
         private static int[] m_chosenIDs = new int[(int)HActReplaceID.num];
 
@@ -28,6 +29,7 @@ namespace Y7DebugTools
         private static List<EntityHandle<Character>> m_createdHActChara = new List<EntityHandle<Character>>();
         private static bool m_cleanDoOnce = false;
 
+        private static bool m_allyIsPlayer = false;
         private static bool m_allyIsAlly = true;
         private static bool m_allyIsNPC = false;
         private static bool m_allyIsEnemy = false;
@@ -38,7 +40,7 @@ namespace Y7DebugTools
         static HActPlayer()
         {
             m_enumNames_HactReplace = Enum.GetNames(typeof(HActReplaceID));
-            m_enumNames_HactRange= Enum.GetNames(typeof(HActRangeType));
+            m_enumNames_HactRange = Enum.GetNames(typeof(HActRangeType));
         }
 
         private static EntityHandle<Character> CreateHActChara(CharacterID id)
@@ -69,7 +71,7 @@ namespace Y7DebugTools
             if (m_atPlayerPos)
                 opts.base_mtx.matrix = DragonEngine.GetHumanPlayer().GetMatrix();
 
-            if(m_chosenHActRange > 0 && FighterManager.GetPlayer().IsValid())
+            if (m_chosenHActRange > 0 && FighterManager.GetPlayer().IsValid())
             {
                 HActRangeInfo inf = new HActRangeInfo();
 
@@ -104,7 +106,18 @@ namespace Y7DebugTools
             else
             {
                 if (!inFight)
-                    opts.Register(HActReplaceID.hu_player, DragonEngine.GetHumanPlayer().UID);
+                {
+                    if (!m_allyIsPlayer)
+                    {
+                        opts.Register(HActReplaceID.hu_player, DragonEngine.GetHumanPlayer().UID);
+                        opts.Register(HActReplaceID.hu_player1, DragonEngine.GetHumanPlayer().UID);
+                    }
+                    else
+                    {
+                        opts.Register(HActReplaceID.hu_player, NakamaManager.GetCharacterHandle(1).UID);
+                        opts.Register(HActReplaceID.hu_player1, NakamaManager.GetCharacterHandle(1).UID);
+                    }
+                }
                 else
                 {
                     // opts.Register(HActReplaceID.hu_player1, FighterManager.GetFighter(0).Character);
@@ -147,7 +160,13 @@ namespace Y7DebugTools
 
                 for (int i = 1; i < 4; i++)
                 {
-                    opts.Register(curAllyRegister, FighterManager.GetFighter((uint)i).Character);
+                    if (i == 1 && m_allyIsPlayer)
+                        i++;
+
+                    if (inFight)
+                        opts.Register(curAllyRegister, FighterManager.GetFighter((uint)i).Character);
+                    else
+                        opts.Register(curAllyRegister, NakamaManager.GetCharacterHandle((uint)i).UID);
 
                     if (!m_Reverse)
                         curAllyRegister = (HActReplaceID)((uint)curAllyRegister + 1);
@@ -217,7 +236,7 @@ namespace Y7DebugTools
 
                 float test = currentHAct.GetGameFrame();
 
-                ImGui.Text("HAct: " + currentHAct.TalkParamID);
+                ImGui.Text("HAct: " + currentHAct.TalkParamID + $"({(uint)currentHAct.TalkParamID})");
                 ImGui.Text("Current Page ID: " + currentHAct.GetCurrentPageIndex());
 
                 if (ImGui.SliderFloat("Frame", ref test, 0, currentHAct.GetEndFrame()))
@@ -226,7 +245,7 @@ namespace Y7DebugTools
                     currentHAct.SetGameFrame(test);
                 }
 
-                if(!m_pause)
+                if (!m_pause)
                 {
                     if (ImGui.Button("Pause"))
                     {
@@ -281,6 +300,10 @@ namespace Y7DebugTools
                 ImGui.Checkbox("Force Play", ref m_forcePlay);
                 ImGui.Checkbox("Simple", ref m_simple);
 
+#if TURN_BASED
+                ImGui.Checkbox("Turn Based Player", ref m_rpgPlayer);
+#endif
+
                 ImGui.Dummy(new System.Numerics.Vector2(0, 20));
 
                 if (ImGui.Button("Play"))
@@ -299,6 +322,8 @@ namespace Y7DebugTools
                     ImGui.Checkbox("Reverse Order", ref m_Reverse);
 
                     ImGui.Text("Ally is:");
+
+                    ImGui.Checkbox("Player", ref m_allyIsPlayer);
 
                     if (ImGui.Checkbox("Ally", ref m_allyIsAlly))
                         if (m_allyIsEnemy)
@@ -328,7 +353,7 @@ namespace Y7DebugTools
 
                     Fighter kasugaFighter = FighterManager.GetPlayer();
 
-                    if(!kasugaFighter.IsValid())
+                    if (!kasugaFighter.IsValid())
                     {
                         for (int i = 1; i < m_enumNames_HactRange.Length; i++)
                         {

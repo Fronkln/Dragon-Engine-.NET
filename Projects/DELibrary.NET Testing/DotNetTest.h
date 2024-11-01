@@ -1,6 +1,6 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
 
-#include <mscoree.h>
 #include <metahost.h>
 #pragma comment(lib, "MSCorEE.lib")
 #pragma warning( disable:4996 )
@@ -24,54 +24,21 @@ ICorRuntimeHost* getCorRtHost_byVersion(LPCWSTR sz_runtimeVersion) {
     ICLRRuntimeInfo* pRuntimeInfo = NULL;
     ICorRuntimeHost* pRuntimeHost = NULL;
     ICLRMetaHost* pMetaHost = NULL;
-    BOOL bLoadable;
 
-    /* Get ICLRMetaHost instance */
-    if (FAILED(CLRCreateInstance(CLSID_CLRMetaHost, IID_ICLRMetaHost, (VOID**)&pMetaHost)))
-    {
-        printf("[!] CLRCreateInstance(...) failed\n");
-        return NULL;
-    }
-    else printf("[+] CLRCreateInstance(...) succeeded\n");
+    CLRCreateInstance(CLSID_CLRMetaHost, IID_ICLRMetaHost, (VOID**)&pMetaHost);
+    pMetaHost->GetRuntime(sz_runtimeVersion, IID_ICLRRuntimeInfo, (VOID**)&pRuntimeInfo);
+    pRuntimeInfo->GetInterface(CLSID_CorRuntimeHost, IID_ICorRuntimeHost, (VOID**)&pRuntimeHost);
+    pRuntimeHost->Start();
 
-    /* Get ICLRRuntimeInfo instance */
-    if (FAILED(pMetaHost->GetRuntime(sz_runtimeVersion, IID_ICLRRuntimeInfo, (VOID**)&pRuntimeInfo))) {
-        printf("[!] pMetaHost->GetRuntime(...) failed\n");
-        return NULL;
-    }
-    else printf("[+] pMetaHost->GetRuntime(...) succeeded\n");
-
-    /* Get ICorRuntimeHost instance */
-    if (FAILED(pRuntimeInfo->GetInterface(CLSID_CorRuntimeHost, IID_ICorRuntimeHost, (VOID**)&pRuntimeHost))) {
-        printf("[!] pRuntimeInfo->GetInterface(...) failed\n");
-        return NULL;
-    }
-    else printf("[+] pRuntimeInfo->GetInterface(...) succeeded\n");
-
-    /* Start the CLR */
-    if (FAILED(pRuntimeHost->Start())) {
-        printf("[!] pRuntimeHost->Start() failed\n");
-        return NULL;
-    }
-    else printf("[+] pRuntimeHost->Start() succeeded\n");
     return pRuntimeHost;
 }
 
 _AppDomainPtr getDefaultDomain(ICorRuntimeHost* pRuntimeHost) {
     IUnknownPtr pAppDomainThunk = NULL;
-    if (FAILED(pRuntimeHost->GetDefaultDomain(&pAppDomainThunk))) {
-        printf("[!] pRuntimeHost->GetDefaultDomain(...) failed\n");
-        return NULL;
-    }
-    else printf("[+] pRuntimeHost->GetDefaultDomain(...) succeeded\n");
-
-    /* Equivalent of System.AppDomain.CurrentDomain in C# */
     _AppDomainPtr pDefaultAppDomain = NULL;
-    if (FAILED(pAppDomainThunk->QueryInterface(__uuidof(_AppDomain), (LPVOID*)&pDefaultAppDomain))) {
-        printf("[!] pAppDomainThunk->QueryInterface(...) failed\n");
-        return NULL;
-    }
-    else printf("[+] pAppDomainThunk->QueryInterface(...) succeeded\n");
+
+    pRuntimeHost->GetDefaultDomain(&pAppDomainThunk);
+    pAppDomainThunk->QueryInterface(__uuidof(_AppDomain), (LPVOID*)&pDefaultAppDomain);
     return pDefaultAppDomain;
 }
 
@@ -80,25 +47,13 @@ _AssemblyPtr getAssembly_fromBinary(_AppDomainPtr pDefaultAppDomain, LPBYTE rawD
     SAFEARRAY* pSafeArray = SafeArrayCreate(VT_UI1, 1, new SAFEARRAYBOUND{ lenRawData , 0 });
 
     void* pvData = NULL;
-    if (FAILED(SafeArrayAccessData(pSafeArray, &pvData))) {
-        printf("[!] SafeArrayAccessData(...) failed\n");
-        return -1;
-    }
-    else printf("[+] SafeArrayAccessData(...) succeeded\n");
 
+    SafeArrayAccessData(pSafeArray, &pvData);
+    SafeArrayUnaccessData(pSafeArray);
     memcpy(pvData, rawData, lenRawData);
-    if (FAILED(SafeArrayUnaccessData(pSafeArray))) {
-        printf("[!] SafeArrayUnaccessData(...) failed\n");
-        return NULL;
-    }
-    else printf("[+] SafeArrayUnaccessData(...) succeeded\n");
+    pDefaultAppDomain->raw_Load_3(pSafeArray, &pAssembly);
 
-    /* Equivalent of System.AppDomain.CurrentDomain.Load(byte[] rawAssembly) */
-    if (FAILED(pDefaultAppDomain->raw_Load_3(pSafeArray, &pAssembly))) {
-        printf("[!] pDefaultAppDomain->Load_3(...) failed\n");
-        return NULL;
-    }
-    else printf("[+] pDefaultAppDomain->Load_3(...) succeeded\n");
+
     return pAssembly;
 }
 
@@ -121,12 +76,11 @@ ICorRuntimeHost* bruteforce_CLRhost() {
     ICLRRuntimeInfo* runtimeInfo = nullptr;
     DWORD bytes;
     if (CLRCreateInstance(CLSID_CLRMetaHost, IID_ICLRMetaHost, (LPVOID*)&metaHost) != S_OK) {
-        printf("[x] Error: CLRCreateInstance(..)\n");
         return NULL;
     }
 
-    if (metaHost->EnumerateInstalledRuntimes(&runtime) != S_OK) {
-        printf("[x] Error: EnumerateInstalledRuntimes(..)\n");
+    if (metaHost->EnumerateInstalledRuntimes(&runtime) != S_OK) 
+    {
         return NULL;
     }
     auto frameworkName = (LPWSTR)LocalAlloc(LPTR, 2048);
@@ -136,46 +90,36 @@ ICorRuntimeHost* bruteforce_CLRhost() {
         if (enumRuntime->QueryInterface<ICLRRuntimeInfo>(&runtimeInfo) == S_OK) {
             if (runtimeInfo != NULL) {
                 runtimeInfo->GetVersionString(frameworkName, &bytes);
-                wprintf(L"[*] Supported Framework: %s\n", frameworkName);
-
             }
         }
     }
-    wprintf(L"[*] Current Used Framework: %s\n", frameworkName);
     return getCorRtHost_byVersion(frameworkName);
 }
 
 
 int Test()
 {
-    PCHAR ptrBinary; 
-    DWORD lenBinary;
+    const char* path = "mods/DE Library/DELibrary.NET.dll";
 
+    PCHAR ptrBinary = 0;
+    DWORD lenBinary = 1337;
+    
     //Change exe path to yours
     //I made this an absolute path because i didnt want to copy files around for each change to my own code tests
-    if (!readBinFile("mods/DE Library/DELibrary.NET.dll", ptrBinary, lenBinary))
-    {
-        std::cout << "DELibrary Loader does not exist!" << std::endl;
-        return -1;
-    }
+    if (!readBinFile(path, ptrBinary, lenBinary))
+        return 0;
 
-    printf(" --- Try to Fetch .NET Framework v4.6.1 ---\n");
     ICorRuntimeHost* pRuntimeHost = getCorRtHost_byVersion(L"v4.0.30319");
 
     if (!pRuntimeHost)
     {
-        printf(" --- Fetching v4.6.1 failed, trying to fetch v4.0 ---\n");
         ICorRuntimeHost* pRuntimeHost = getCorRtHost_byVersion(L"v4.0");
     }
 
-    std::cout << "\n Is RuntimeHost null: " << pRuntimeHost << std::endl;
-
-    printf("\n --- Enumerate Available CLR Runtime ---\n");
     if (!pRuntimeHost) 
         if ((pRuntimeHost = bruteforce_CLRhost()) == 0)
         return -1;
 
-    printf("\n --- Execute .NET Module ---\n");
     _MethodInfoPtr pMethodInfo = NULL;
     // fetch the default domain
     if (auto pDefaultAppDomain = getDefaultDomain(pRuntimeHost))
@@ -183,23 +127,14 @@ int Test()
         if (_AssemblyPtr pAssembly = getAssembly_fromBinary(pDefaultAppDomain, LPBYTE(ptrBinary), (lenBinary)))
             //A ssembly.EntryPoint Property
             if (FAILED(pAssembly->get_EntryPoint(&pMethodInfo))) 
-            {
-                printf("[!] pAssembly->get_EntryPoint(...) failed\n");
                 return -1;
-            }
-            else 
-                printf("[+] pAssembly->get_EntryPoint(...) succeeded\n");
 
 
     VARIANT var = VARIANT();
 
     if (HRESULT hr = pMethodInfo->raw_Invoke_3(VARIANT(), newArguments(0, 0), &var) < 0) 
-    {
-        printf("[!] pMethodInfo->Invoke_3(...) failed, hr = %X\n", hr);
         return -1;
-    }
-    else 
-        printf("[+] pMethodInfo->Invoke_3(...) succeeded\n");
+    
 
     return 0;
 }

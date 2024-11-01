@@ -15,6 +15,7 @@ Global
 		Gaiden Release|x64 = Gaiden Release|x64
 		Infinite Wealth Debug|x64 = Infinite Wealth Debug|x64
 		Release|x64 = Release|x64
+		Yakuza 6 Release|x64 = Yakuza 6 Release|x64
 		YLAD Debug|x64 = YLAD Debug|x64
 		YLAD Release|x64 = YLAD Release|x64
 	EndGlobalSection
@@ -27,6 +28,8 @@ Global
 		{4161B440-05F3-4409-96BC-242A69BCBE01}.Infinite Wealth Debug|x64.Build.0 = Infinite Wealth Debug|x64
 		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|x64.ActiveCfg = Release|Any CPU
 		{4161B440-05F3-4409-96BC-242A69BCBE01}.Release|x64.Build.0 = Release|Any CPU
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Yakuza 6 Release|x64.ActiveCfg = Yakuza 6 Release|x64
+		{4161B440-05F3-4409-96BC-242A69BCBE01}.Yakuza 6 Release|x64.Build.0 = Yakuza 6 Release|x64
 		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Debug|x64.ActiveCfg = YLAD Debug|Any CPU
 		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Debug|x64.Build.0 = YLAD Debug|Any CPU
 		{4161B440-05F3-4409-96BC-242A69BCBE01}.YLAD Release|x64.ActiveCfg = YLAD Release|x64
@@ -39,6 +42,8 @@ Global
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Infinite Wealth Debug|x64.Build.0 = Infinite Wealth Debug|x64
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Release|x64.ActiveCfg = Release|x64
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Release|x64.Build.0 = Release|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Yakuza 6 Release|x64.ActiveCfg = Yakuza 6 Release|x64
+		{9900112C-25D6-427D-846A-A90E31CF8FE3}.Yakuza 6 Release|x64.Build.0 = Yakuza 6 Release|x64
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Debug|x64.ActiveCfg = YLAD Debug|x64
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Debug|x64.Build.0 = YLAD Debug|x64
 		{9900112C-25D6-427D-846A-A90E31CF8FE3}.YLAD Release|x64.ActiveCfg = YLAD Release|x64
@@ -51,6 +56,8 @@ Global
 		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Infinite Wealth Debug|x64.Build.0 = Infinite Wealth Debug|Any CPU
 		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Release|x64.ActiveCfg = Release|Any CPU
 		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Release|x64.Build.0 = Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Yakuza 6 Release|x64.ActiveCfg = Yakuza 6 Release|Any CPU
+		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.Yakuza 6 Release|x64.Build.0 = Yakuza 6 Release|Any CPU
 		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Debug|x64.ActiveCfg = YLAD Debug|Any CPU
 		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Debug|x64.Build.0 = YLAD Debug|Any CPU
 		{952D698E-B930-4CF4-AFE7-DA1B487CB11D}.YLAD Release|x64.ActiveCfg = YLAD Release|Any CPU

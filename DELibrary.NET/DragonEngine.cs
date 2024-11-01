@@ -230,7 +230,14 @@ namespace DragonEngineLibrary
         public static void Log(object value)
         {
             string valueStr = value.ToString();
-            File.AppendAllText("de_log.txt", value + "\n");
+            try
+            {
+                File.AppendAllText("de_log.txt", value + "\n");
+            }
+            catch
+            {
+                //lol
+            }
 
             Console.WriteLine(valueStr);
             // DELib_TEMP_CPP_COUT(valueStr + "\n");
@@ -379,7 +386,10 @@ namespace DragonEngineLibrary
                             $"2)Right click on it, go to properties\n" +
                             $"3)Press the unblock button", "Load Error", 0);
                     else
+                    {
                         Log($"Failed to load library, Exception type: {ex.ToString()} Stacktrace:\n" + Environment.StackTrace + "\n" + "Message:\n" + ex.Message + "\nInnerException" + ex.InnerException);
+                        MessageBox(IntPtr.Zero, "Failed to load mod. Information has been logged to de_log.txt (where the exe is)", "Load Error", 0);
+                    }
                 }
 
                 return false;

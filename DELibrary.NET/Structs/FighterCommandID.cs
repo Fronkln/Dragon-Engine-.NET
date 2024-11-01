@@ -20,6 +20,12 @@ namespace DragonEngineLibrary
             this.cmd = cmd;
         }
 
+        public FighterCommandID(ushort set, short cmd)
+        {
+            set_ = set;
+            this.cmd = (ushort)cmd;
+        }
+
         public FighterCommandID(BattleCommandSetID set, ushort cmd)
         {
             set_ = (ushort)set;

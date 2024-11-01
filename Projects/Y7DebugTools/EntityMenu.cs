@@ -102,7 +102,7 @@ namespace Y7DebugTools
                     EntityHandle<EntityBase> ent = scene.GetSceneEntity<EntityBase>((SceneEntity)i);
 
                     if (ent.IsValid())
-                        ImGui.Text(i + " " + ((SceneEntity)i).ToString());
+                        ImGui.Text(i + " " + ent.Get().Pointer.ToString("x") + ((SceneEntity)i).ToString());
                 }
             }
         }

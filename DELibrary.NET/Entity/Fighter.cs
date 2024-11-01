@@ -107,6 +107,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SMODE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_HumanMode(IntPtr fighterPtr);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_HAS_EX_EFFECT", CallingConvention = CallingConvention.Cdecl)]
+        [return:MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Fighter_HasExEffect(IntPtr fighterPtr, int id);
+
         public Character Character { get { return new EntityHandle<Character>(CharacterUID); } }
         public uint CharacterUID;
         public IntPtr _ptr;
@@ -165,6 +169,11 @@ namespace DragonEngineLibrary
         public string GetName(uint id)
         {
             return Marshal.PtrToStringAnsi(DELib_Fighter_GetName(_ptr, id));
+        }
+
+        public IntPtr GetName2(uint id)
+        {
+            return DELib_Fighter_GetName(_ptr, id);
         }
 
 
@@ -331,6 +340,11 @@ namespace DragonEngineLibrary
             return DELib_Fighter_GetSyncPair(_ptr);
         }
 
+
+        public bool HasExEffect(int effectID)
+        {
+            return DELib_Fighter_HasExEffect(_ptr, effectID);
+        }
         ///<summary>Get the root matrix of this fighter.</summary>
         public Matrix4x4 CalcRootMatrix()
         {

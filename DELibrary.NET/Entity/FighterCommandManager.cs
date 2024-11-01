@@ -13,7 +13,7 @@ namespace DragonEngineLibrary
         public static extern uint FindSetID(string name);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTERCOMMANDMANAGER_GETSET", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr DELib_FighterCommandManager_GetSet(uint setID);
+        private static extern IntPtr DELib_FighterCommandManager_GetSet(uint setID);
 
         public static FighterCommandSet GetSet(uint setID)
         {

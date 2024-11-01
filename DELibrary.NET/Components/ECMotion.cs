@@ -258,7 +258,7 @@ namespace DragonEngineLibrary
             if (!timing.IsValid())
                 return false;
 
-            return inf.tick_now_ >= timing.Start && inf.tick_now_ <= timing.End;
+            return Frame >= timing.Start / 100 && Frame <= timing.End / 100;
         }
 
         public bool InTimingRange(uint nodeID, uint tick)

@@ -28,11 +28,6 @@ namespace Y7DebugTools
             ImGui.Text("Up Direction: " + mtx.UpDirection);
             ImGui.Text("Left Direction: " + mtx.LeftDirection);
 
-            ImGui.Text("Character ID: " + chara.GetRender().CharacterID);
-            ImGui.Text("HumanMode: " + chara.HumanModeManager.CurrentMode.ModeName);
-            ImGui.Text("Next HumanMode: " + chara.HumanModeManager.NextMode.ModeName);
-
-
             ImGui.InputFloat("X", ref m_X);
             ImGui.InputFloat("Y", ref m_Y);
             ImGui.InputFloat("Z", ref m_Z);
@@ -44,25 +39,37 @@ namespace Y7DebugTools
             {
                 OrBox bounds = chara.GetRender().LocalBoundingBox;
 
+                ImGui.Text("Character ID: " + chara.GetRender().CharacterID);
                 ImGui.Text("Bounds Center: " + bounds.Center);
                 ImGui.Text("Bounds Extent: " + bounds.Extent);
             }
 
-            ECConstructorCharacter constructor = chara.GetConstructor();
+            if (ImGui.CollapsingHeader("HumanMode"))
 
-            if (constructor.IsValid() && ImGui.CollapsingHeader("Constructor"))
             {
-                ECAgentCharacter agent = constructor.GetAgentComponent();
+                //ImGui.Text("HumanMode: " + chara.HumanModeManager.CurrentMode.ModeName);
+                //ImGui.Text("Next HumanMode: " + chara.HumanModeManager.NextMode.ModeName);
+            }
 
-                if (agent.IsValid() && ImGui.CollapsingHeader("Agent"))
+            if (ImGui.CollapsingHeader("Constructor"))
+            {
+                ECConstructorCharacter constructor = chara.GetConstructor();
+
+                if (constructor.IsValid())
                 {
 
-                    AgentCharacterRender.Draw(agent);
+                    ECAgentCharacter agent = constructor.GetAgentComponent();
+
+                    if (agent.IsValid() && ImGui.CollapsingHeader("Agent"))
+                    {
+
+                        AgentCharacterRender.Draw(agent);
+                    }
                 }
 
             }
 
-            if(ImGui.CollapsingHeader("Motion"))
+            if (ImGui.CollapsingHeader("Motion"))
             {
                 ECMotion motion = chara.GetMotion();
 

@@ -30,6 +30,11 @@ namespace DragonEngineLibrary
 
                 DragonEngine.RefreshOffsets();
 
+                while (!DragonEngine.IsEngineInitialized())
+                {
+                    DragonEngine.RefreshOffsets();
+                }
+
                 DragonEngine.Log("Dragon Engine initialized, initializing the library.\n");
                 StartEngine();
             }

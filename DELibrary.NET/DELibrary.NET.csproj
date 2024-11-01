@@ -213,6 +213,30 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Yakuza 6 Release|AnyCPU'">
+    <OutputPath>bin\Yakuza 6 Release\</OutputPath>
+    <DefineConstants>TRACE;YLAD</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Yakuza 6 Release|x64'">
+    <OutputPath>bin\x64\Yakuza 6 Release\</OutputPath>
+    <DefineConstants>TRACE;GAIDEN;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;GAIDEN_AND_UP;</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\Like a Brawler 8\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
@@ -306,6 +330,7 @@
     <Compile Include="Entity\AssetManager.cs" />
     <Compile Include="Entity\AssetUnit.cs" />
     <Compile Include="Entity\AuthManager.cs" />
+    <Compile Include="Entity\AuthNode.cs" />
     <Compile Include="Entity\AuthPlay.cs" />
     <Compile Include="Entity\AuthPlayBase.cs" />
     <Compile Include="Entity\Battle.cs" />
@@ -464,6 +489,7 @@
     <Compile Include="Enums\VirtualKey.cs" />
     <Compile Include="Enums\Yakuza 7\MinigameDragonKartCourseID.cs" />
     <Compile Include="Enums\Yakuza 7\MinigameDragonKartDriverID.cs" />
+    <Compile Include="Structs\ExEffectInfo.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Entity\Yakuza 7\FighterManager.cs" />
     <Compile Include="Entity\GameObject.cs" />

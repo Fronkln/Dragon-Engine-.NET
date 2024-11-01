@@ -12,14 +12,16 @@ namespace Y7DebugTools
         public static bool Open = false;
         public static bool OpenPIBEditor = false;
 
-        private static int m_particleID;
+        public static int ParticleID;
+
+        private static bool m_loadRaw = false;
 
 
         public static void Draw()
         {
             if(ImGui.Begin("Particle"))
             {
-                ImGui.InputInt("Particle ID", ref m_particleID);
+                ImGui.InputInt("Particle ID", ref ParticleID);
                 ImGui.Checkbox("Open PIB Editor", ref OpenPIBEditor);
 
                 if (OpenPIBEditor)
@@ -29,17 +31,19 @@ namespace Y7DebugTools
                 {
                     Matrix4x4 playPos = DragonEngine.GetHumanPlayer().GetMatrix();
                     playPos.Position = new Vector4(playPos.Position.x, playPos.Position.y + 1.5f, playPos.Position.z, 0);
-                    DragonEngine.Log("PTC " +  ParticleManager.Play((ParticleID)m_particleID, playPos, ParticleType.None));
+                    DragonEngine.Log("PTC " +  ParticleManager.Play((ParticleID)ParticleID, playPos, ParticleType.None));
                 }
+                ImGui.Checkbox("Load Raw Event", ref m_loadRaw);
 
-                if(ImGui.Button("Load"))
+
+                if (ImGui.Button("Load"))
                 {
-                    ParticleManager.LoadRaw((ParticleID)m_particleID, true);
+                    ParticleManager.LoadRaw((ParticleID)ParticleID, m_loadRaw);
                 }
 
                 if (ImGui.Button("Unload"))
                 {
-                    ParticleManager.UnloadRaw((ParticleID)m_particleID);
+                    ParticleManager.UnloadRaw((ParticleID)ParticleID);
                 }
 
                 ImGui.End();

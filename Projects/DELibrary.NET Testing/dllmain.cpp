@@ -1,42 +1,27 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
+#define WIN32_LEAN_AND_MEAN
 #include "pch.h"
-#include <iostream>
 #include "DotNetTest.h"
+#include <math.h>
 
 DWORD WINAPI NetThread(HMODULE hModule)
 {
-    FILE* f = nullptr;
-  
-    bool createConsole = GetPrivateProfileIntW(L"DELib", L"EnableConsole", 0, L"mods/DE Library/config.ini");
+    int i = 0;
+    float myfloat = 3.17500;
+    const char* weber = "myweber";
 
-    //Create Console
-    if (createConsole)
+    for (int i = 0; i < 363; i++)
     {
-        AllocConsole();
-        freopen_s(&f, "CONOUT$", "w", stdout);
+        cos(myfloat);
+        i++;
     }
 
-#if DEBUG
-    std::cout << "Starting in 5 seconds" << std::endl;
-    Sleep(5000);
-#endif
+    i = 0;
 
+    printf("Starting DE Library.NET");
+    Sleep(1000);
     Test();
-
-    std::cout << "Loader Finished" << std::endl;
-
-    while (true)
-    {
-        Sleep(1);
-    }
-
-    if (createConsole)
-    {
-        fclose(f);
-        FreeConsole();
-    }
-    FreeLibraryAndExitThread(hModule, 0);
-    
+    FreeLibraryAndExitThread(hModule, 0);  
 
     return 0;
 }

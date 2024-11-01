@@ -92,7 +92,11 @@ namespace DragonEngineLibrary
         public static implicit operator EntityHandle<T>(T ent)
         {
             EntityHandle<T> handle = new EntityHandle<T>();
-            handle.UID = ent.UID;
+
+            if (ent == null)
+                handle.UID = 0;
+            else
+                handle.UID = ent.UID;
 
             return handle;
         }

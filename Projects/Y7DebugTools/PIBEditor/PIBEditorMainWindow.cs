@@ -16,7 +16,9 @@ namespace Y7DebugTools
 
         public static string TestSavePath = "mods/Pib/particle/yazawa/raw_event/yjh0014.pib";
         public static string TestWorkFile = "mods/Pib/particle/yazawa/raw_event/yjh0014.pib";
-        public const ParticleID TestID = (ParticleID)8671;
+        public static ParticleID TestID = (ParticleID)8671;
+
+        public static string CurrentPibPath = "";
 
         public static EntityHandle<ParticleInterface> PlayingPib = new EntityHandle<ParticleInterface>();
 
@@ -107,21 +109,32 @@ namespace Y7DebugTools
         {
             ClearPib();
 
-            PIB.Write(Pib, TestSavePath);
+            PIB.Write(Pib, CurrentPibPath);
 
+#if !Y6
             if(ParticleManager.IsLoadedRaw(TestID))
                 ParticleManager.UnloadRaw(TestID);
+#else
+            ParticleManager.UnloadRaw(TestID);
+#endif
 
+#if !Y6
             WaitingUnload = true;
+#endif
         }
 
         public static void OpenPIB(string path)
         {
             Pib = PIB.Read(path);
+            TestID = (ParticleID)Pib.ParticleID;
+            ParticleMenu.ParticleID = (int)TestID;
 
             PibRoot = new PIBEditorNodePib(Pib);
             PIBEditorPibWindow.OnLoad();
+#if !Y6
             WaitingLoad = true;
+#endif
+            CurrentPibPath = path;
             ParticleManager.LoadRaw(TestID, true);
         }
 

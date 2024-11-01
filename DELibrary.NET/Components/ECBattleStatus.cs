@@ -95,6 +95,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_GETTER_HACT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_ECBattleStatus_Getter_Hact(IntPtr battlestatus);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_REMOVE_EX_EFFECT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELibrary_ECBattleStatus_RemoveExEffect(IntPtr battlestatus, uint effectID, bool dontShowMsg, bool preExec);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ECBATTLESTATUS_ADD_EX_EFFECT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELibrary_ECBattleStatus_AddExEffect(IntPtr battlestatus, IntPtr in_dat, bool dontShowMsg, bool preExec);
+
         public long HPLimit
         {
             get
@@ -275,6 +281,18 @@ namespace DragonEngineLibrary
             DELibrary_ECBattleStatus_AddDamageInfo(Pointer, ref inf);
         }
 
-        
+
+#if TURN_BASED_GAME
+        public void RemoveExEffect(uint effectID, bool dontShowMsg, bool preExec)
+        {
+            DELibrary_ECBattleStatus_RemoveExEffect(Pointer, effectID, dontShowMsg, preExec);
+        }
+
+        public void AddExEffect(IntPtr data, bool dontShowMsg, bool preExec)
+        {
+            DELibrary_ECBattleStatus_AddExEffect(Pointer, data, dontShowMsg, preExec);
+        }
+#endif
+
     }
 }

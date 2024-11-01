@@ -140,6 +140,9 @@ namespace Y7DebugTools
                 if (ImGui.Button("Pause"))
                     m_selectedUI.Pause();
 
+                if (ImGui.Button("Release"))
+                    m_selectedUI.Release();
+
                 ImGui.End();
             }
         }
