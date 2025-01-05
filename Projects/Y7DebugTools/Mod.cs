@@ -10,7 +10,7 @@ namespace Y7DebugTools
 {
     public class Mod : DragonEngineMod
     {
-        private static bool Visible = true;
+        public static bool Visible = true;
 
         public static Array m_enumValues_VirtualKey;
         public static string[] m_enumNames_VirtualKey;
@@ -211,6 +211,7 @@ namespace Y7DebugTools
 
             DragonEngine.AllowAltTabPause(!ParticleMenu.OpenPIBEditor);
 
+            HActPlayer.Update();
             PIBEditorMainWindow.GameUpdate();
         }
 

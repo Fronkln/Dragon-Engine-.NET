@@ -34,8 +34,12 @@ namespace Y7DebugTools
         private static bool m_allyIsNPC = false;
         private static bool m_allyIsEnemy = false;
         private static bool m_Reverse = false;
+        private static bool m_closeOnPlay = false;
 
         public static bool hactTimeLine = false;
+
+
+        private static bool m_wantPlay = false;
 
         static HActPlayer()
         {
@@ -109,7 +113,7 @@ namespace Y7DebugTools
                 {
                     if (!m_allyIsPlayer)
                     {
-                        opts.Register(HActReplaceID.hu_player, DragonEngine.GetHumanPlayer().UID);
+                       // opts.Register(HActReplaceID.hu_player, DragonEngine.GetHumanPlayer().UID);
                         opts.Register(HActReplaceID.hu_player1, DragonEngine.GetHumanPlayer().UID);
                     }
                     else
@@ -123,9 +127,9 @@ namespace Y7DebugTools
                     // opts.Register(HActReplaceID.hu_player1, FighterManager.GetFighter(0).Character);
                     // opts.RegisterWeapon(AuthAssetReplaceID.we_player_r, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.right_weapon).Unit.Get().AssetID);
 
-                    opts.RegisterFighter(HActReplaceID.hu_player1, FighterManager.GetFighter(0).GetID());
-                    opts.RegisterWeapon(AuthAssetReplaceID.we_player_r, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.right_weapon));
-                    opts.RegisterWeapon(AuthAssetReplaceID.we_player_l, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.left_weapon));
+                    opts.Register(HActReplaceID.hu_player1, FighterManager.GetFighter(0).CharacterUID);
+                    opts.RegisterWeapon(AuthAssetReplaceID.we_player1_r, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.right_weapon));
+                    opts.RegisterWeapon(AuthAssetReplaceID.we_player1_l, FighterManager.GetFighter(0).GetWeapon(AttachmentCombinationID.left_weapon));
                 }
 
                 Fighter[] enemies = FighterManager.GetAllEnemies();
@@ -176,6 +180,12 @@ namespace Y7DebugTools
             }
 
             PlayHAct(opts);
+
+            if(m_closeOnPlay)
+            {
+                Mod.Visible = false;
+                m_closeOnPlay = false;
+            }
         }
 
         private static void PlayHAct(HActRequestOptions inf)
@@ -304,10 +314,12 @@ namespace Y7DebugTools
                 ImGui.Checkbox("Turn Based Player", ref m_rpgPlayer);
 #endif
 
+                ImGui.Checkbox("Close On Play", ref m_closeOnPlay);
+
                 ImGui.Dummy(new System.Numerics.Vector2(0, 20));
 
                 if (ImGui.Button("Play"))
-                    Play();
+                    m_wantPlay = true;
 
 
                 if (!m_simple)
@@ -374,6 +386,15 @@ namespace Y7DebugTools
                 }
 
                 ImGui.End();
+            }
+        }
+        
+        public static void Update()
+        {
+            if(m_wantPlay)
+            {
+                Play();
+                m_wantPlay = false;
             }
         }
     }
