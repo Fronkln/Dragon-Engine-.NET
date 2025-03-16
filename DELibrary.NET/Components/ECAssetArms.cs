@@ -11,7 +11,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_EC_ASSET_ARMS_GETTER_ARMS_TYPE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern ArmsType DELib_AssetUnit_Getter_ArmsType(IntPtr armsPtr);
 
-        public AssetUnit Unit { get { return new EntityHandle<AssetUnit>(DELib_AssetUnit_Getter_Unit(Pointer)); } }
+        //public AssetUnit Unit { get { return new EntityHandle<AssetUnit>(DELib_AssetUnit_Getter_Unit(Pointer)); } }
+
+        public AssetUnit Unit { get { return new EntityHandle<AssetUnit>(Owner.UID); } }
 
         public ArmsType ArmsType { get { return DELib_AssetUnit_Getter_ArmsType(Pointer); } }
 

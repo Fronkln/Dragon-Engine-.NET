@@ -45,10 +45,9 @@ namespace Y7DebugTools
             }
 
             if (ImGui.CollapsingHeader("HumanMode"))
-
             {
-                //ImGui.Text("HumanMode: " + chara.HumanModeManager.CurrentMode.ModeName);
-                //ImGui.Text("Next HumanMode: " + chara.HumanModeManager.NextMode.ModeName);
+                ImGui.Text("HumanMode: " + chara.HumanModeManager.CurrentMode.ModeName);
+                ImGui.Text("Next HumanMode: " + chara.HumanModeManager.NextMode.ModeName);
             }
 
             if (ImGui.CollapsingHeader("Constructor"))

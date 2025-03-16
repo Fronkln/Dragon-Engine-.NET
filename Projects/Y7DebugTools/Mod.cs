@@ -132,7 +132,11 @@ namespace Y7DebugTools
                 if (PlayerMenu.m_toEquip)
                 {
                     PlayerMenu.m_toEquip = false;
-                    FighterManager.GetFighter(0).Equip((ItemID)PlayerMenu.equipItem, AttachmentCombinationID.right_weapon);
+
+                    if(PlayerMenu.equipItem > 0)
+                        FighterManager.GetFighter(0).Equip((ItemID)PlayerMenu.equipItem, AttachmentCombinationID.right_weapon);
+                    else
+                        FighterManager.GetFighter(0).Equip((AssetID)PlayerMenu.equipAsset, AttachmentCombinationID.right_weapon, ItemID.invalid, RPGSkillID.invalid);
                 }
 
                 if(AssetMenu.CreateNext)

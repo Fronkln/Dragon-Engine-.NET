@@ -34,6 +34,7 @@ namespace DragonEngineLibrary
             chitose = 19,
             tomizawa = 20,
             sonhi = 21,
+            num = 22,
         }
 #else
         public enum ID
@@ -53,6 +54,7 @@ namespace DragonEngineLibrary
             chou,        // constant 0xC
             jyungi,      // constant 0xD
             woman_a,		 // constant 0xE
+            num = 0xF
         }
 #endif
 

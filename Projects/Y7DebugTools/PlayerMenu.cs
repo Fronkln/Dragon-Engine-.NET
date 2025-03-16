@@ -19,6 +19,7 @@ namespace Y7DebugTools
 
         public static bool m_toEquip = false;
         public static int equipItem = 0;
+        public static int equipAsset = 0;
 
         static PlayerMenu()
         {
@@ -57,6 +58,7 @@ namespace Y7DebugTools
                 ImGui.Dummy(new System.Numerics.Vector2(0, 20));
 
                 ImGui.InputInt("Equip", ref equipItem);
+                ImGui.InputInt("Equip (Asset)", ref equipAsset);
 
                 if (ImGui.Button("Equip"))
                     m_toEquip = true;

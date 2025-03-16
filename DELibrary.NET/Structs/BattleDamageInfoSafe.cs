@@ -15,6 +15,8 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLEDAMAGEINFO_GETTER_ATTACKER", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_BattleDamageInfo_Getter_Attacker(IntPtr dmgInf);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLEDAMAGEINFO_GETTER_WEAPON", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleDamageInfo_Getter_Weapon(IntPtr dmgInf);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLEDAMAGEINFO_GETTER_BASE_DAMAGE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int DELib_BattleDamageInfo_Getter_BaseDamage(IntPtr dmgInf);
@@ -55,6 +57,8 @@ namespace DragonEngineLibrary
         internal static extern bool DELib_BattleDamageInfo_Getter_IsJustGuard(IntPtr dmgInf);
 
         public EntityHandle<Character> Attacker { get { return new EntityHandle<Character>(DELib_BattleDamageInfo_Getter_Attacker(_ptr)); } }
+
+        public EntityHandle<AssetUnit> Weapon { get { return DELib_BattleDamageInfo_Getter_Weapon(_ptr); } }
 
         public int BaseDamage { get { return DELib_BattleDamageInfo_Getter_BaseDamage(_ptr); } set { DELib_BattleDamageInfo_Setter_BaseDamage(_ptr, value); } }
         public int Damage { get { return DELib_BattleDamageInfo_Getter_Damage(_ptr); } set { DELib_BattleDamageInfo_Setter_Damage(_ptr, value); } }

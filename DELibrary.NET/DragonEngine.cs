@@ -182,7 +182,7 @@ namespace DragonEngineLibrary
 
             Stopwatch initTime = Stopwatch.StartNew();
 
-            string libPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library", "Y7Internal.dll");
+            string libPath = Path.Combine(Library.Root, "Y7Internal.dll");
             Log("Y7Internal path: " + libPath);
 
             DragonEngine.Log("Pre Y7Internal.dll import");

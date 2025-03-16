@@ -12,13 +12,16 @@ using System.Diagnostics;
 
 namespace DragonEngineLibrary
 {
-    public class MyClass
+    public class Library
     {
         [DllImport("kernel32")]
         static extern bool AllocConsole();
 
         protected static bool m_initOnce = false;
         private static HashSet<string> m_modsList = new HashSet<string>();
+
+        public static string BaseDirectory;
+        public static string Root;
 
         //Do whatever you want here
         static void ThreadTest()
@@ -117,6 +120,39 @@ namespace DragonEngineLibrary
             DragonEngine.Log("\n\nAll mods have been initialized.");
         }
 
+
+        public static string GetModsDirectory()
+        {
+            return Path.Combine(BaseDirectory, "mods");
+        }
+
+        private static bool ShouldInitialize()
+        {
+            string modsDir = GetModsDirectory();
+
+            if (!Directory.Exists(modsDir))
+                return false;
+
+            int modCount = Parless.GetModCount();
+
+            if (modCount <= 0)
+                return false;
+
+
+            for(int i = 0; i < modCount; i++)
+            {
+                string modDir = Path.Combine(modsDir, Marshal.PtrToStringAnsi(Parless.GetModName(i)));
+
+                if (!Directory.Exists(modDir))
+                    continue;
+
+                if (File.Exists(Path.Combine(modDir, "de_mod.ini")))
+                    return true;
+            }
+
+            return false;
+        }
+
         // This method will be called by native code inside the target process…
         public static void Main(string[] args)
         {
@@ -125,9 +161,19 @@ namespace DragonEngineLibrary
             // DragonEngine._logStream = new MemoryStream();
             // DragonEngine._logWriter = new StreamWriter(DragonEngine._logStream);
 
+            BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            Root = args[0];
+
             //Create seperate thread for our C# library
             DragonEngine.Log("DragonEngine Library .Net Main Start");
-            DragonEngine.Log("BaseDirectory: " + AppDomain.CurrentDomain.BaseDirectory);
+            DragonEngine.Log("BaseDirectory: " + BaseDirectory);
+            DragonEngine.Log("RootDirectory: " + Root);
+
+            if(!ShouldInitialize())
+            {
+                DragonEngine.Log("There is no need to initialize the library. No compatible mods detected. Aborting.");
+                return;
+            }
 
             // Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mods", "DE Library");
             DragonEngine.Initialize();

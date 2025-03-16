@@ -107,6 +107,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SMODE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr DELib_Fighter_HumanMode(IntPtr fighterPtr);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_SWEAPONMANAGER", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELib_Fighter_WeaponManager(IntPtr fighterPtr);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_HAS_EX_EFFECT", CallingConvention = CallingConvention.Cdecl)]
         [return:MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_HasExEffect(IntPtr fighterPtr, int id);
@@ -139,6 +142,11 @@ namespace DragonEngineLibrary
         public HumanMode HumanMode()
         {
             return new HumanMode() { m_pointer = DELib_Fighter_HumanMode(_ptr) };
+        }
+
+        public WeaponManager WeaponManager()
+        {
+            return new WeaponManager() { Pointer = DELib_Fighter_WeaponManager(_ptr) };
         }
 
         public void PlayVoice(uint label)

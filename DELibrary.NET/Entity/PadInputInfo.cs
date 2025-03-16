@@ -18,10 +18,33 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_PadInputInfo_CheckButton(IntPtr pad, uint battleButton, uint kind, uint coma, int clear_history);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_PADINPUTINFO_GETTER_LEVER_FORCE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern float DELib_PadInputInfo_Getter_Lever_Force(IntPtr pad);
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_PADINPUTINFO_GETTER_LEVER_ANG", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern float DELib_PadInputInfo_Getter_Lever_Ang(IntPtr pad);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_PADINPUTINFO_GETTER_LEVER_WORLD_ANG", CallingConvention = CallingConvention.Cdecl)]
         internal static extern float DELib_PadInputInfo_Getter_Lever_World_Ang(IntPtr pad);
 
         public IntPtr Pointer;
+
+        public float LeverForce
+        {
+            get
+            {
+                return DELib_PadInputInfo_Getter_Lever_Force(Pointer);
+            }
+        }
+
+        public float LeverAng
+        {
+            get
+            {
+                return DELib_PadInputInfo_Getter_Lever_Ang(Pointer);
+            }
+        }
 
 
         public float LeverWorldAng

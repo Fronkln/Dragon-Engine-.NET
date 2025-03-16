@@ -17,7 +17,7 @@ namespace DragonEngineLibrary
         [FieldOffset(0x40)] public AIActGroupID ai_act_group_id_;
         [FieldOffset(0x44)] public AIActKindID ai_act_kind_id_;
         [FieldOffset(0x48)] public AIDisposeID ai_dispose_id_;
-        [FieldOffset(0x4C)] public AIParamID ai_param_id_;
+        [FieldOffset(0x4C)] public uint ai_param_id_;
         [FieldOffset(0x50)] public float speed_;
         [FieldOffset(0x54)] public float behavior_speed_;
         /// <summary> EntityHandle cauth_play </summary>

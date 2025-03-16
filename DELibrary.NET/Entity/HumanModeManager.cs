@@ -44,6 +44,12 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOPICKUP", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HumanModeManager_ToPickup(IntPtr manager, IntPtr asset);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOSTANDUP", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void DELib_HumanModeManager_ToStandup(IntPtr manager, uint type);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_GETSTANDUPTYPE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_HumanModeManager_GetStandupType(IntPtr manager);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_TOBATTOU", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_HumanModeManager_ToBattou(IntPtr manager, AssetID id);
 
@@ -194,6 +200,16 @@ namespace DragonEngineLibrary
 #else
             DELib_HumanModeManager_ToAttackMode(Pointer, inf);
 #endif
+        }
+
+        public void ToStandup(uint type)
+        {
+            DELib_HumanModeManager_ToStandup(Pointer, type);
+        }
+
+        public uint GetStandupType()
+        {
+            return DELib_HumanModeManager_GetStandupType(Pointer);
         }
 
         public bool IsInputMove()

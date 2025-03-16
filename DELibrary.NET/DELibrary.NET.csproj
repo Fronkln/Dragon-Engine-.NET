@@ -371,6 +371,7 @@
     <Compile Include="Entity\UI\UIPlayerBase.cs" />
     <Compile Include="Entity\UnsafeObject.cs" />
     <Compile Include="Entity\Weapon.cs" />
+    <Compile Include="Entity\WeaponManager.cs" />
     <Compile Include="Entity\Yakuza 7\BattleResult.cs" />
     <Compile Include="Entity\Yakuza 7\BattleTurnManager.cs" />
     <Compile Include="Entity\Character.cs" />
@@ -408,7 +409,6 @@
     <Compile Include="Enums\AICommandID.cs" />
     <Compile Include="Enums\AIDisposeID.cs" />
     <Compile Include="Enums\AIPackID.cs" />
-    <Compile Include="Enums\AIParamID.cs" />
     <Compile Include="Enums\ArmsID.cs" />
     <Compile Include="Enums\ArmsType.cs" />
     <Compile Include="Enums\AssetArmsCategoryID.cs" />
