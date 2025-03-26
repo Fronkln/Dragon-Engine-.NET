@@ -32,7 +32,14 @@ namespace DragonEngineLibrary
             private static extern void Unsafe_NopMemory(IntPtr memory, IntPtr buf, int len);
 
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_PATTERN_SEARCH", CallingConvention = CallingConvention.Cdecl)]
-            public static extern IntPtr PatternSearch(string pattern);
+            private static extern IntPtr _PatternSearch(string pattern);
+
+            public static IntPtr PatternSearch(string pattern)
+            {
+                IntPtr patternAddr = _PatternSearch(pattern);
+
+                return patternAddr;
+            }
 
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_READ_RELATIVE_ADDRESS", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr ResolveRelativeAddress(IntPtr addr, int instructionLen);
@@ -193,8 +200,17 @@ namespace DragonEngineLibrary
                 return;
             }
 
+            Stopwatch loadTime = Stopwatch.StartNew();
+
             if (LoadLibrary(libPath) == IntPtr.Zero)
                 DragonEngine.Log("Failed to load the library! " + "GetLastWinError32:" + Marshal.GetLastWin32Error());
+
+            DragonEngine.Log("Library load time: " + initTime.Elapsed.TotalSeconds);
+
+            string cimguiPath = Path.Combine(new FileInfo(libPath).Directory.FullName, "cimgui.dll");
+
+            if (File.Exists(cimguiPath))
+                LoadLibrary(cimguiPath);
 
             DragonEngine.Log("Y7Internal loaded. Going to initialize");
 
