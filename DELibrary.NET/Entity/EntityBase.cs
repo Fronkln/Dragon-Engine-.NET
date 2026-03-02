@@ -48,7 +48,7 @@ namespace DragonEngineLibrary
         public Vector3 rightDirection { get { return Orient * Vector3.right; } }
     }
 
-    public class EntityBase : CTask
+    public unsafe class EntityBase : CTask
     {
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_RELEASE_ENTITY", CallingConvention = CallingConvention.Cdecl)]
@@ -89,6 +89,10 @@ namespace DragonEngineLibrary
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_PARENT", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELibrary_EntityBase_Getter_Parent(IntPtr entity);
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_ENTITY_GETTER_CHILD_LIST", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern IntPtr DELibrary_EntityBase_Getter_Child_List(IntPtr entity);
 
         public Transform Transform;
 
@@ -147,6 +151,14 @@ namespace DragonEngineLibrary
             get
             {
                 return DELibrary_EntityBase_Getter_SceneRoot(_objectAddress);
+            }
+        }
+        
+        public PXDNodeList* ChildList
+        {
+            get
+            {
+                return (PXDNodeList*)DELibrary_EntityBase_Getter_Child_List(Pointer); 
             }
         }
 

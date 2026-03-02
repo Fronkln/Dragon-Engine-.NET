@@ -44,7 +44,17 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CAUTH_PLAY_GET_CUR_PAGE_INDEX", CallingConvention = CallingConvention.Cdecl)]
         internal static extern int DELib_AuthPlay_GetCurrentPageIndex(IntPtr authPlay);
 
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CAUTH_PLAY_GETTER_ROOT_NODE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_AuthPlay_Getter_RootNode(IntPtr authPlay);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CAUTH_PLAY_FIND_NODE", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_AuthPlay_Find_Node(IntPtr authPlay, Guid guid);
+
+
         public TalkParamID TalkParamID { get { return DELib_AuthPlay_Getter_TalkParamID(Pointer); } }
+
+        public EntityHandle<AuthNode> RootNode { get { return new EntityHandle<AuthNode>(DELib_AuthPlay_Getter_RootNode(Pointer)); } }
 
         ///<summary>Is pause requested for this auth. </summary>
         public bool PauseRequested
@@ -129,6 +139,11 @@ namespace DragonEngineLibrary
         public int GetCurrentPageIndex()
         {
             return DELib_AuthPlay_GetCurrentPageIndex(Pointer);
+        }
+
+        public EntityHandle<AuthNode> FindNode(Guid guid)
+        {
+            return new EntityHandle<AuthNode>(DELib_AuthPlay_Find_Node(Pointer, guid));
         }
     }
 }

@@ -15,6 +15,35 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "CAUTH_NODE_GET_AUTH_NODE", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_AuthNode_GetAuthNode(IntPtr node, int nodeType);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "CAUTH_NODE_CREATE", CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint DELib_AuthNode_Create(IntPtr node, IntPtr buffer);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "CAUTH_NODE_MODIFY", CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint DELib_AuthNode_Modify(IntPtr node, IntPtr buffer);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "CAUTH_NODE_GETTER_NODE_TYPE", CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint DELib_AuthNode_Getter_NodeType(IntPtr node);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "CAUTH_NODE_GETTER_ELEMENT", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr DELib_AuthNode_Getter_Element(IntPtr node);
+
+        public uint NodeType
+        {
+            get
+            {
+                return DELib_AuthNode_Getter_NodeType(Pointer);
+            }
+        }
+
+        public ElementBase Element
+        {
+            get
+            {
+                return new ElementBase() { Pointer = DELib_AuthNode_Getter_Element(Pointer) };
+            }
+        }
+
+
         public EntityHandle<AuthNode> GetSelf()
         {
             return DELib_AuthNode_GetSelf(Pointer);
@@ -28,6 +57,11 @@ namespace DragonEngineLibrary
         public AuthNode GetAuthNode(int nodeType)
         {
             return new EntityHandle<AuthNode>(DELib_AuthNode_GetAuthNode(Pointer, nodeType)).Get();
+        }
+
+        public void Create(IntPtr dataBuffer)
+        {
+            DELib_AuthNode_Create(Pointer, dataBuffer);
         }
     }
 }

@@ -460,6 +460,7 @@
     <Compile Include="Entity\Camera.cs" />
     <Compile Include="Entity\CameraBase.cs" />
     <Compile Include="Entity\CameraStatic.cs" />
+    <Compile Include="Entity\ElementBase.cs" />
     <Compile Include="Entity\EntityComponentMapRoot.cs" />
     <Compile Include="Entity\FighterCommandManager.cs" />
     <Compile Include="Entity\PUID.cs" />
@@ -610,6 +611,7 @@
     <Compile Include="Enums\Yakuza 7\MinigameDragonKartDriverID.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Structs\ExEffectInfo.cs" />
+    <Compile Include="Structs\PXD\PXDInstanceList.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Entity\Yakuza 7\FighterManager.cs" />
     <Compile Include="Entity\GameObject.cs" />
