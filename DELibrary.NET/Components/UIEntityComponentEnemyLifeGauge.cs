@@ -16,27 +16,11 @@ namespace DragonEngineLibrary
         ///<summary>Set name on the UI gauge.</summary>
         public void SetCategoryName(string name)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                IntPtr emptyPtr = Marshal.AllocHGlobal(1);
-                Marshal.WriteByte(emptyPtr, 0);
-                try { DELib_UIEntityComponentEnemyLifeGauge_SetCategoryName(Pointer, emptyPtr); }
-                finally { Marshal.FreeHGlobal(emptyPtr); }
-                return;
-            }
-
-            byte[] encoded = Encoding.UTF8.GetBytes(name + "0");
-
+            byte[] encoded = Encoding.UTF8.GetBytes((name ?? "") + "\0");
             IntPtr ptr = Marshal.AllocHGlobal(encoded.Length);
-            try
-            {
-                Marshal.Copy(encoded, 0, ptr, encoded.Length);
-                DELib_UIEntityComponentEnemyLifeGauge_SetCategoryName(Pointer, ptr);
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(ptr);
-            }
+            Marshal.Copy(encoded, 0, ptr, encoded.Length);
+            DELib_UIEntityComponentEnemyLifeGauge_SetCategoryName(Pointer, ptr);
+            Marshal.FreeHGlobal(ptr);
         }
 
         public static EntityComponentHandle<UIEntityComponentEnemyLifeGauge> Attach(Character chara)
