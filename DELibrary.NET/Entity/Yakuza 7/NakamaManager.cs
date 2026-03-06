@@ -31,6 +31,11 @@ namespace DragonEngineLibrary
             return DELib_NakamaManager_GetCharacterHandle(index);
         }
 
+        public static EntityHandle<Character> GetCharacterHandle(int index)
+        {
+            return DELib_NakamaManager_GetCharacterHandle((uint)index);
+        }
+
         public static EntityHandle<Character> GetCharacterHandle(Player.ID playerID)
         {
             int idx = FindIndex(playerID);

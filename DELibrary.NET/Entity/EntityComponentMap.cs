@@ -20,6 +20,13 @@ namespace DragonEngineLibrary
             return DELib_EntityComponentMap_GetComponent(Pointer, slot);
         }
 
+        public T GetComponent<T>(ECSlotID slot) where T : EntityComponent, new()
+        {
+            EntityComponentHandle<T> component = new EntityComponentHandle<T>();
+            component.UID = DELib_EntityComponentMap_GetComponent(Pointer, slot);
+            return component;
+        }
+
         public bool Erase(ECSlotID slot)
         {
             return DELib_EntityComponentMap_Erase(Pointer, slot);

@@ -20,5 +20,10 @@ namespace DragonEngineLibrary
         {
             return DELib_Service_GetServicePointer(id);
         }
+
+        public static IntPtr GetServicePointer(ServiceID id)
+        {
+            return DELib_Service_GetServicePointer((uint)id);
+        }
     }
 }

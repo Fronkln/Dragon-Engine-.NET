@@ -424,6 +424,8 @@
     <Compile Include="Advanced\DXHook.cs" />
     <Compile Include="Advanced\ImGui.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="Class\PadListener.cs" />
+    <Compile Include="Class\UnmanagedObject.cs" />
     <Compile Include="Components\ECAgent.cs" />
     <Compile Include="Components\ECAI.cs" />
     <Compile Include="Components\ECAssetArms.cs" />
@@ -436,6 +438,7 @@
     <Compile Include="Components\ECCharacterEffectEvent.cs" />
     <Compile Include="Components\ECConstructor.cs" />
     <Compile Include="Components\ECConstructorCharacter.cs" />
+    <Compile Include="Components\ECControllerPadViewLocal.cs" />
     <Compile Include="Components\ECHAct.cs" />
     <Compile Include="Components\ECOctCollect.cs" />
     <Compile Include="Components\ECPosture.cs" />
@@ -550,6 +553,7 @@
     <Compile Include="Enums\MotionBehaviorType.cs" />
     <Compile Include="Enums\ParticleInterface.cs" />
     <Compile Include="Enums\SceneConfigID.cs" />
+    <Compile Include="Enums\ServiceID.cs" />
     <Compile Include="Enums\UIControlID.cs" />
     <Compile Include="Enums\Yakuza 7\BattleRPGEnemyID.cs" />
     <Compile Include="Enums\BehaviorActionID.cs" />

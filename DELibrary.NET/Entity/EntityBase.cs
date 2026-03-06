@@ -235,5 +235,10 @@ namespace DragonEngineLibrary
 
             return mtx;
         }
+
+        public T GetComponent<T>(ECSlotID slot) where T : EntityComponent, new()
+        {
+            return EntityComponentMap.GetComponent<T>(slot);
+        }
     }
 }

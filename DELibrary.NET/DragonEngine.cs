@@ -17,6 +17,9 @@ namespace DragonEngineLibrary
     {
         public static class CPP
         {
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_UNSAFE_ALLOC_BUFFER", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr AllocBuffer(IntPtr origin);
+
             /// <summary>
             /// Very dangerous to use, doesnt call constructors on deletion.
             /// </summary>
@@ -43,6 +46,9 @@ namespace DragonEngineLibrary
 
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_READ_RELATIVE_ADDRESS", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr ResolveRelativeAddress(IntPtr addr, int instructionLen);
+
+            [DllImport("Y7Internal.dll", EntryPoint = "LIB_WRITE_RELATIVE_ADDRESS", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void WriteRelativeAddress(IntPtr addr, IntPtr target, int instructionLen);
 
             [DllImport("Y7Internal.dll", EntryPoint = "LIB_READ_CALL", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr ReadCall(IntPtr addr);
