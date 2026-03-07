@@ -206,7 +206,9 @@ namespace DragonEngineLibrary
                 return zero;
         }
 
-
-
+        public static Vector3 Cross(Vector3 vector1, Vector3 vector2)
+        {
+            return new Vector3(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
+        }
     }
 }
