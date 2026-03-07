@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DragonEngineLibrary
 {
+    /// <summary>
+    /// Not to be confused with PXDHash, the checksum string type used
+    /// </summary>
     public class PXDString
     {
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_PXD_STRING_GET", CallingConvention = CallingConvention.Cdecl)]

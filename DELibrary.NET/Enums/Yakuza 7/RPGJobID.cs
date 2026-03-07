@@ -42,7 +42,8 @@ namespace DragonEngineLibrary
         chitose_01,
         tomizawa_01,
         sonhi_01,
-        kasuga_sujimon
+        kasuga_sujimon,
 #endif
+        num,
     };
 }

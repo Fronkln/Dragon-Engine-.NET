@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace DragonEngineLibrary
 {
     //https://stackoverflow.com/a/52103996/14569631
-    public static class ObjectHandleExtensions
+    internal static class ObjectHandleExtensions
     {
         public static IntPtr ToIntPtr(this object target)
         {
@@ -37,5 +37,21 @@ namespace DragonEngineLibrary
 
             return array;
         }
+
+        public static string ToNullTerminatedString(this char[] letters)
+        {
+            System.Text.StringBuilder builder = new System.Text.StringBuilder();
+
+            int i = 0;
+
+            while (letters[i] != 0 && i < letters.Length)
+            {
+                builder.Append(letters[i]);
+                i++;
+            }
+
+            return builder.ToString();
+        }
+
     }
 }
