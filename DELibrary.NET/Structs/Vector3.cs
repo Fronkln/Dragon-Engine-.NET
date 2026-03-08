@@ -210,5 +210,17 @@ namespace DragonEngineLibrary
         {
             return new Vector3(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
         }
+
+        public static Vector3 Transform(Vector3 value, Quaternion rotation)
+        {
+            // This implementation is based on the DirectX Math Library XMVector3Rotate method
+            // https://github.com/microsoft/DirectXMath/blob/master/Inc/DirectXMathVector.inl
+
+            Quaternion conjuagate = Quaternion.Conjugate(rotation);
+            Quaternion temp = Quaternion.Concatenate(conjuagate, new Quaternion(value.x, value.y, value.z, 1.0f));
+
+            Quaternion result = Quaternion.Concatenate(temp, rotation);
+            return (Vector3)(new Vector4(result.x, result.y, result.z, result.w));
+        }
     }
 }

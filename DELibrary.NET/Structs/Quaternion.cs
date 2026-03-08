@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace DragonEngineLibrary
@@ -26,6 +28,15 @@ namespace DragonEngineLibrary
             this.z = z;
             this.w = w;
         }
+        public static Quaternion operator *(Quaternion lhs, Quaternion rhs)
+        {
+            return new Quaternion(
+                lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
+                lhs.w * rhs.y + lhs.y * rhs.w + lhs.z * rhs.x - lhs.x * rhs.z,
+                lhs.w * rhs.z + lhs.z * rhs.w + lhs.x * rhs.y - lhs.y * rhs.x,
+                lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z);
+        }
+
         public static Vector3 operator *(Quaternion rotation, Vector3 point)
         {
             float x = rotation.x * 2F;
@@ -88,6 +99,24 @@ namespace DragonEngineLibrary
 
             return euler;
         }
+
+        /// <summary>Returns the conjugate of a specified quaternion.</summary>
+        /// <param name="value">The quaternion.</param>
+        /// <returns>A new quaternion that is the conjugate of <see langword="value" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion Conjugate(Quaternion value)
+        {
+            // This implementation is based on the DirectX Math Library XMQuaternionConjugate method
+            // https://github.com/microsoft/DirectXMath/blob/master/Inc/DirectXMathMisc.inl
+
+            return (value * new Quaternion(-1.0f, -1.0f, -1.0f, 1.0f));
+        }
+
+        /// <summary>Concatenates two quaternions.</summary>
+        /// <param name="value1">The first quaternion rotation in the series.</param>
+        /// <param name="value2">The second quaternion rotation in the series.</param>
+        /// <returns>A new quaternion representing the concatenation of the <paramref name="value1" /> rotation followed by the <paramref name="value2" /> rotation.</returns>
+        public static Quaternion Concatenate(Quaternion value1, Quaternion value2) => value2 * value1;
 
 
         public override string ToString()
