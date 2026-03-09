@@ -213,14 +213,19 @@ namespace DragonEngineLibrary
 
         public static Vector3 Transform(Vector3 value, Quaternion rotation)
         {
-            // This implementation is based on the DirectX Math Library XMVector3Rotate method
-            // https://github.com/microsoft/DirectXMath/blob/master/Inc/DirectXMathVector.inl
-
-            Quaternion conjuagate = Quaternion.Conjugate(rotation);
-            Quaternion temp = Quaternion.Concatenate(conjuagate, new Quaternion(value.x, value.y, value.z, 1.0f));
-
-            Quaternion result = Quaternion.Concatenate(temp, rotation);
-            return (Vector3)(new Vector4(result.x, result.y, result.z, result.w));
+            float num = rotation.x + rotation.x;
+            float num2 = rotation.y + rotation.y;
+            float num3 = rotation.z + rotation.z;
+            float num4 = rotation.w * num;
+            float num5 = rotation.w * num2;
+            float num6 = rotation.w * num3;
+            float num7 = rotation.x * num;
+            float num8 = rotation.x * num2;
+            float num9 = rotation.x * num3;
+            float num10 = rotation.y * num2;
+            float num11 = rotation.y * num3;
+            float num12 = rotation.z * num3;
+            return new Vector3(value.x * (1f - num10 - num12) + value.y * (num8 - num6) + value.z * (num9 + num5), value.x * (num8 + num6) + value.y * (1f - num7 - num12) + value.z * (num11 - num4), value.x * (num9 - num5) + value.y * (num11 + num4) + value.z * (1f - num7 - num10));
         }
     }
 }
