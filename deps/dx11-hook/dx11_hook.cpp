@@ -9,6 +9,7 @@
 #include "imgui_impl_dx12.h"
 #include "imgui_impl_win32.h"
 #include "MinHook.h"
+#include "ImGuizmo.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3d12.lib")
@@ -314,6 +315,7 @@ static HRESULT WINAPI HookedPresent(IDXGISwapChain* swapChain, UINT syncInterval
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
+        ImGuizmo::BeginFrame();
 
         for (int i = 0; i < g_PresentCallbackCount; i++) {
             if (g_PresentCallbacks[i])
@@ -349,6 +351,7 @@ static HRESULT WINAPI HookedPresent(IDXGISwapChain* swapChain, UINT syncInterval
         ImGui_ImplDX12_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
+        ImGuizmo::BeginFrame();
 
         for (int i = 0; i < g_PresentCallbackCount; i++) {
             if (g_PresentCallbacks[i])
