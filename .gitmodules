@@ -1,0 +1,15 @@
+[submodule "deps/ImGui.NET-nativebuild"]
+	path = deps/ImGui.NET-nativebuild
+	url = https://github.com/ImGuiNET/ImGui.NET-nativebuild.git
+[submodule "deps/minhook"]
+	path = deps/minhook
+	url = https://github.com/TsudaKageyu/minhook.git
+[submodule "deps/cimplot"]
+	path = deps/cimplot
+	url = https://github.com/cimgui/cimplot.git
+[submodule "deps/cimguizmo"]
+	path = deps/cimguizmo
+	url = https://github.com/cimgui/cimguizmo.git
+[submodule "deps/cimnodes"]
+	path = deps/cimnodes
+	url = https://github.com/cimgui/cimnodes.git
