@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace DragonEngineLibrary.Advanced
+namespace DragonEngineLibrary.ImGuizmoNET
 {
     public enum OPERATION
     {
