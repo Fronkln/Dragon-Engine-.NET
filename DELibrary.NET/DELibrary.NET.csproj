@@ -1,691 +1,171 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\Yakuza Stuff\YK2Coop\packages\Costura.Fody.5.7.0\build\Costura.Fody.props" Condition="Exists('..\..\Yakuza Stuff\YK2Coop\packages\Costura.Fody.5.7.0\build\Costura.Fody.props')" />
-  <Import Project="..\..\Like a Brawler 8\packages\Costura.Fody.5.7.0\build\Costura.Fody.props" Condition="Exists('..\..\Like a Brawler 8\packages\Costura.Fody.5.7.0\build\Costura.Fody.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9900112C-25D6-427D-846A-A90E31CF8FE3}</ProjectGuid>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
+    <TargetExt>.dll</TargetExt>
     <RootNamespace>DragonEngineLibrary</RootNamespace>
     <AssemblyName>DELibrary.NET</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <LangVersion>7.3</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;YLAD Debug;YLAD Release;Infinite Wealth Debug;Infinite Wealth Release;Gaiden Debug;Gaiden Release;Lost Judgment Debug;Lost Judgment Release;Yakuza 6 Release</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;YLAD</DefineConstants>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;YLAD</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
-  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG;YK2</DefineConstants>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>bin\x64\Debug\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;YK2</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>bin\x64\Release\</OutputPath>
     <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Release|AnyCPU'">
-    <OutputPath>bin\YLAD Release\</OutputPath>
-    <DefineConstants>TRACE;YLAD</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Release|x64'">
-    <OutputPath>bin\x64\YLAD Release\</OutputPath>
-    <DefineConstants>TRACE;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;TURN_BASED_GAME</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\YLAD Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\YLAD Debug\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;TURN_BASED_GAME</DefineConstants>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>bin\x64\YLAD Debug\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Infinite Wealth Debug\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <OutputPath>bin\YLAD Debug\</OutputPath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;YLAD;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;TURN_BASED_GAME</DefineConstants>
+    <OutputPath>bin\x64\YLAD Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'YLAD Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;YLAD</DefineConstants>
+    <OutputPath>bin\YLAD Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Infinite Wealth Debug\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;DEBUG;IW;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;GAIDEN_AND_UP;IW_AND_UP;TURN_BASED_GAME</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <OutputPath>bin\x64\Infinite Wealth Debug\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Release|AnyCPU'">
-    <OutputPath>bin\Infinite Wealth Release\</OutputPath>
-    <DefineConstants>TRACE;IW;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;IW_AND_UP;TURN_BASED_GAME</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
+    <OutputPath>bin\Infinite Wealth Debug\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Release|x64'">
-    <OutputPath>bin\x64\Infinite Wealth Release\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>TRACE;IW;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;GAIDEN_AND_UP;IW_AND_UP;TURN_BASED_GAME</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>bin\x64\Infinite Wealth Release\</OutputPath>
     <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Gaiden Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Infinite Wealth Release|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <DefineConstants>TRACE;IW;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;IW_AND_UP;TURN_BASED_GAME</DefineConstants>
+    <OutputPath>bin\Infinite Wealth Release\</OutputPath>
+    <Optimize>true</Optimize>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG;GAIDEN;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;LJ_AND_UP;GAIDEN_AND_UP</DefineConstants>
     <OutputPath>bin\x64\Gaiden Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;GAIDEN;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;LJ_AND_UP;GAIDEN_AND_UP;</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Release|AnyCPU'">
-    <OutputPath>bin\Gaiden Release\</OutputPath>
-    <DefineConstants>TRACE;YLAD</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Release|x64'">
-    <OutputPath>bin\x64\Gaiden Release\</OutputPath>
-    <DefineConstants>TRACE;GAIDEN;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;GAIDEN_AND_UP;</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Yakuza 6 Release|AnyCPU'">
-    <OutputPath>bin\Yakuza 6 Release\</OutputPath>
-    <DefineConstants>TRACE;YLAD</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Yakuza 6 Release|x64'">
-    <OutputPath>bin\x64\Yakuza 6 Release\</OutputPath>
-    <DefineConstants>TRACE;GAIDEN;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;GAIDEN_AND_UP;</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lost Judgment Release|AnyCPU'">
-    <OutputPath>bin\Lost Judgment Release\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lost Judgment Release|x64'">
-    <OutputPath>bin\x64\Lost Judgment Release\</OutputPath>
-    <DefineConstants>LJ;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;LJ_AND_UP</DefineConstants>
-    <PlatformTarget>x64</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lost Judgment Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Lost Judgment Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <OutputPath>bin\Gaiden Debug\</OutputPath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;GAIDEN;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;GAIDEN_AND_UP</DefineConstants>
+    <OutputPath>bin\x64\Gaiden Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Gaiden Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;YLAD</DefineConstants>
+    <OutputPath>bin\Gaiden Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lost Judgment Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Lost Judgment Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;LJ;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;LJ_AND_UP</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG;LJ;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;LJ_AND_UP</DefineConstants>
+    <OutputPath>bin\x64\Lost Judgment Debug\</OutputPath>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Costura, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\Costura.Fody.5.7.0\lib\netstandard1.0\Costura.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MinHook.NET, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\MinHook.NET.1.1.1\lib\net45\MinHook.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.Tracing, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Linq.Expressions.4.3.0\lib\net463\System.Linq.Expressions.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Runtime.InteropServices.4.3.0\lib\net463\System.Runtime.InteropServices.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Text.RegularExpressions.4.3.0\lib\net463\System.Text.RegularExpressions.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\Yakuza Stuff\YK2Coop\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Advanced\DXHook.cs" />
-    <Compile Include="Advanced\ImGui.cs" />
-    <Compile Include="Attributes.cs" />
-    <Compile Include="Class\PadListener.cs" />
-    <Compile Include="Class\UnmanagedObject.cs" />
-    <Compile Include="Components\ECAgent.cs" />
-    <Compile Include="Components\ECAI.cs" />
-    <Compile Include="Components\ECAssetArms.cs" />
-    <Compile Include="Components\ECAssetArmsSingle.cs" />
-    <Compile Include="Components\ECBattleCollision.cs" />
-    <Compile Include="Components\ECBattleStatus.cs" />
-    <Compile Include="Components\ECBattleTargetDecide.cs" />
-    <Compile Include="Components\ECCharaComponent.cs" />
-    <Compile Include="Components\ECAgentCharacter.cs" />
-    <Compile Include="Components\ECCharacterEffectEvent.cs" />
-    <Compile Include="Components\ECConstructor.cs" />
-    <Compile Include="Components\ECConstructorCharacter.cs" />
-    <Compile Include="Components\ECControllerPadViewLocal.cs" />
-    <Compile Include="Components\ECHAct.cs" />
-    <Compile Include="Components\ECOctCollect.cs" />
-    <Compile Include="Components\ECPosture.cs" />
-    <Compile Include="Components\ECSoldierInfo.cs" />
-    <Compile Include="Components\ECSuper.cs" />
-    <Compile Include="Components\UIEntityComponentEnemyLifeGauge.cs" />
-    <Compile Include="Components\UIEntityComponentLifeGauge.cs" />
-    <Compile Include="EngineHooks.cs" />
-    <Compile Include="Entity\AIPackBase.cs" />
-    <Compile Include="Entity\Asset.cs" />
-    <Compile Include="Entity\AssetManager.cs" />
-    <Compile Include="Entity\AssetUnit.cs" />
-    <Compile Include="Entity\AuthManager.cs" />
-    <Compile Include="Entity\AuthNode.cs" />
-    <Compile Include="Entity\AuthPlay.cs" />
-    <Compile Include="Entity\AuthPlayBase.cs" />
-    <Compile Include="Entity\Battle.cs" />
-    <Compile Include="Entity\BattleCommandAI.cs" />
-    <Compile Include="Entity\BattleManager.cs" />
-    <Compile Include="Entity\BattleProperty.cs" />
-    <Compile Include="Entity\BattleResourceManager.cs" />
-    <Compile Include="Entity\Camera.cs" />
-    <Compile Include="Entity\CameraBase.cs" />
-    <Compile Include="Entity\CameraStatic.cs" />
-    <Compile Include="Entity\ElementBase.cs" />
-    <Compile Include="Entity\EntityComponentMapRoot.cs" />
-    <Compile Include="Entity\FighterCommandManager.cs" />
-    <Compile Include="Entity\PUID.cs" />
-    <Compile Include="Entity\DB.cs" />
-    <Compile Include="Entity\EffectEventManager.cs" />
-    <Compile Include="Entity\EntityComponentMap.cs" />
-    <Compile Include="Entity\EntityComponentMapSync.cs" />
-    <Compile Include="Entity\GameVarManager.cs" />
-    <Compile Include="Entity\HumanMode.cs" />
-    <Compile Include="Entity\HumanModeManager.cs" />
-    <Compile Include="Entity\InputGameStateManager.cs" />
-    <Compile Include="Entity\InputInterface.cs" />
-    <Compile Include="Entity\Item.cs" />
-    <Compile Include="Entity\PadInputInfo.cs" />
-    <Compile Include="Entity\RPG.cs" />
-    <Compile Include="Entity\SaveData.cs" />
-    <Compile Include="Entity\Services\Scene.cs" />
-    <Compile Include="Entity\Services\ScenePhaseBase.cs" />
-    <Compile Include="Entity\SyncManager.cs" />
-    <Compile Include="Entity\TalkTextManager.cs" />
-    <Compile Include="Entity\TimelineManager.cs" />
-    <Compile Include="Entity\UI\UI.cs" />
-    <Compile Include="Entity\UI\UIControlBase.cs" />
-    <Compile Include="Entity\UI\UIControlContainer.cs" />
-    <Compile Include="Entity\UI\UIControlList.cs" />
-    <Compile Include="Entity\UI\UIEntityPlayerGauge.cs" />
-    <Compile Include="Entity\UI\UIHandleBase.cs" />
-    <Compile Include="Entity\UI\UIPlayerBase.cs" />
-    <Compile Include="Entity\UnsafeObject.cs" />
-    <Compile Include="Entity\Weapon.cs" />
-    <Compile Include="Entity\WeaponManager.cs" />
-    <Compile Include="Entity\Yakuza 7\BattleResult.cs" />
-    <Compile Include="Entity\Yakuza 7\BattleTurnManager.cs" />
-    <Compile Include="Entity\Character.cs" />
-    <Compile Include="Entity\CharacterBase.cs" />
-    <Compile Include="Components\ECCharaBaseComponent.cs" />
-    <Compile Include="Components\ECGameComponent.cs" />
-    <Compile Include="Components\ECMotion.cs" />
-    <Compile Include="Components\ECRenderCharacter.cs" />
-    <Compile Include="Components\ECRenderMesh.cs" />
-    <Compile Include="Components\EntityComponent.cs" />
-    <Compile Include="Entity\CharacterManager.cs" />
-    <Compile Include="Entity\CTask.cs" />
-    <Compile Include="Entity\DEHandles.cs" />
-    <Compile Include="DragonEngine.cs" />
-    <Compile Include="Entity\EntityBase.cs" />
-    <Compile Include="Entity\Fighter.cs" />
-    <Compile Include="Entity\HActManager.cs" />
-    <Compile Include="Entity\Yakuza 7\NakamaManager.cs" />
-    <Compile Include="Entity\NPCFactory.cs" />
-    <Compile Include="Entity\ObjectiveManager.cs" />
-    <Compile Include="Entity\ObjectiveManagerEntityBase.cs" />
-    <Compile Include="Entity\ParticleManager.cs" />
-    <Compile Include="Entity\SceneBase.cs" />
-    <Compile Include="Entity\Services\DEService.cs" />
-    <Compile Include="Entity\Services\MotionService.cs" />
-    <Compile Include="Entity\Services\SceneService.cs" />
-    <Compile Include="Entity\SoundManager.cs" />
-    <Compile Include="Entity\Yakuza 7\BattleCommandAI.cs" />
-    <Compile Include="Entity\Yakuza 7\Party.cs" />
-    <Compile Include="Entity\Yakuza 7\RPGSkill.cs" />
-    <Compile Include="Entity\Yakuza 7\TurnCommandDecideManager.cs" />
-    <Compile Include="Enums\AIActGroupID.cs" />
-    <Compile Include="Enums\AIActKindID.cs" />
-    <Compile Include="Enums\AIBtlReactionPatternID.cs" />
-    <Compile Include="Enums\AICommandID.cs" />
-    <Compile Include="Enums\AIDisposeID.cs" />
-    <Compile Include="Enums\AIPackID.cs" />
-    <Compile Include="Enums\ArmsID.cs" />
-    <Compile Include="Enums\ArmsType.cs" />
-    <Compile Include="Enums\AssetArmsCategoryID.cs" />
-    <Compile Include="Enums\AssetID.cs" />
-    <Compile Include="Enums\AttachmentCombinationID.cs" />
-    <Compile Include="Enums\AttachmentEquipTemplateID.cs" />
-    <Compile Include="Enums\AttachmentNodeID.cs" />
-    <Compile Include="Enums\AuthAssetReplaceID.cs" />
-    <Compile Include="Enums\BattleButtonID.cs" />
-    <Compile Include="Enums\BattleCommandSetID.cs" />
-    <Compile Include="Enums\BattleControlType.cs" />
-    <Compile Include="Enums\BattleGroupID.cs" />
-    <Compile Include="Enums\DbID.cs" />
-    <Compile Include="Enums\DEGames.cs" />
-    <Compile Include="Enums\GameVarID.cs" />
-    <Compile Include="Enums\HActRangeType.cs" />
-    <Compile Include="Enums\ItemIDIW.cs" />
-    <Compile Include="Enums\Kiwami 2\ECSlotIDYK2.cs" />
-    <Compile Include="Enums\MotionBehaviorType.cs" />
-    <Compile Include="Enums\ParticleInterface.cs" />
-    <Compile Include="Enums\SceneConfigID.cs" />
-    <Compile Include="Enums\ServiceID.cs" />
-    <Compile Include="Enums\UIControlID.cs" />
-    <Compile Include="Enums\Yakuza 7\BattleRPGEnemyID.cs" />
-    <Compile Include="Enums\BehaviorActionID.cs" />
-    <Compile Include="Enums\BehaviorGroupID.cs" />
-    <Compile Include="Enums\BehaviorSetID.cs" />
-    <Compile Include="Enums\CabaretIslandCastID.cs" />
-    <Compile Include="Enums\CharacterAnimalKind.cs" />
-    <Compile Include="Enums\CharacterBagType.cs" />
-    <Compile Include="Enums\CharacterBoneType.cs" />
-    <Compile Include="Enums\CharacterClassID.cs" />
-    <Compile Include="Enums\CharacterDeleteFactorID.cs" />
-    <Compile Include="Enums\CharacterExistLevelID.cs" />
-    <Compile Include="Enums\CharacterHeightID.cs" />
-    <Compile Include="Enums\CharacterID.cs" />
-    <Compile Include="Enums\CharacterModelD.cs" />
-    <Compile Include="Enums\CharacterNPCBehaviorTurnActionID.cs" />
-    <Compile Include="Enums\CharacterNPCFirstDisplayType.cs" />
-    <Compile Include="Enums\CharacterNPCListID.cs" />
-    <Compile Include="Enums\CharacterNPCLookParamID.cs" />
-    <Compile Include="Enums\CharacterNPCSetup.cs" />
-    <Compile Include="Enums\CharacterNPCSoldierPersonalDataGroupID.cs" />
-    <Compile Include="Enums\CharacterNPCSoldierPersonalDataID.cs" />
-    <Compile Include="Enums\CharacterNPCSpecialTypeID.cs" />
-    <Compile Include="Enums\CharacterNPCTagID.cs" />
-    <Compile Include="Enums\CharacterVoicerID.cs" />
-    <Compile Include="Enums\DEJob.cs" />
-    <Compile Include="Enums\DESpeedType.cs" />
-    <Compile Include="Enums\EffectEventCharaID.cs" />
-    <Compile Include="Enums\EUIDKind.cs" />
-    <Compile Include="Enums\FilePortCategory.cs" />
-    <Compile Include="Enums\HActReplaceID.cs" />
-    <Compile Include="Enums\ItemIDYLAD.cs" />
-    <Compile Include="Enums\MapIconID.cs" />
-    <Compile Include="Enums\MissionKindID.cs" />
-    <Compile Include="Enums\MotionFacePattern.cs" />
-    <Compile Include="Enums\MotionID.cs" />
-    <Compile Include="Enums\ParticleID.cs" />
-    <Compile Include="Enums\ParticleType.cs" />
-    <Compile Include="Enums\Yakuza 7\ECSlotIDY7.cs" />
-    <Compile Include="Enums\Yakuza 7\PartyEquipSlotID.cs" />
-    <Compile Include="Enums\Yakuza 7\RPGJobID.cs" />
-    <Compile Include="Enums\Yakuza 7\RPGSkillID.cs" />
-    <Compile Include="Enums\SceneEntity.cs" />
-    <Compile Include="Enums\SceneID.cs" />
-    <Compile Include="Enums\SoundCategoryLabelGVCmnID.cs" />
-    <Compile Include="Enums\SoundCategoryLabelGVTalkID.cs" />
-    <Compile Include="Enums\SoundCuesheetID.cs" />
-    <Compile Include="Enums\SoundShoeKind.cs" />
-    <Compile Include="Enums\StageID.cs" />
-    <Compile Include="Enums\SujimonID.cs" />
-    <Compile Include="Enums\TalkParamID.cs" />
-    <Compile Include="Enums\TalkSoundBGMTriggerID.cs" />
-    <Compile Include="Enums\TalkTextSkipTypeID.cs" />
-    <Compile Include="Enums\TalkTextWindowTypeID.cs" />
-    <Compile Include="Enums\TriggerID.cs" />
-    <Compile Include="Enums\UITextureID.cs" />
-    <Compile Include="Enums\VirtualKey.cs" />
-    <Compile Include="Enums\Yakuza 7\MinigameDragonKartCourseID.cs" />
-    <Compile Include="Enums\Yakuza 7\MinigameDragonKartDriverID.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Structs\ExEffectInfo.cs" />
-    <Compile Include="Structs\Posture.cs" />
-    <Compile Include="Structs\PXD\PXDHash.cs" />
-    <Compile Include="Structs\PXD\PXDInstanceList.cs" />
-    <Compile Include="Utils\Extensions.cs" />
-    <Compile Include="Entity\Yakuza 7\FighterManager.cs" />
-    <Compile Include="Entity\GameObject.cs" />
-    <Compile Include="Entity\Player.cs" />
-    <Compile Include="Utils\MathUtils.cs" />
-    <Compile Include="Parless.cs" />
-    <Compile Include="PXD.cs" />
-    <Compile Include="Utils\Screen.cs" />
-    <Compile Include="Structs\AuthNodeInfo.cs" />
-    <Compile Include="Structs\BattleDamageInfo.cs" />
-    <Compile Include="Structs\BattleDamageInfoSafe.cs" />
-    <Compile Include="Structs\BattleFighterInfo.cs" />
-    <Compile Include="Structs\BattleSelectCommandInfo.cs" />
-    <Compile Include="Structs\CalcDamageEventArgs.cs" />
-    <Compile Include="Structs\CharacterStatus.cs" />
-    <Compile Include="Structs\TransitCommandModel.cs" />
-    <Compile Include="Structs\CommandSetModel.cs" />
-    <Compile Include="Structs\DynamicsPoseInfo.cs" />
-    <Compile Include="Structs\FighterCommandID.cs" />
-    <Compile Include="Structs\FighterCommandInfo.cs" />
-    <Compile Include="Structs\FighterCommandSet.cs" />
-    <Compile Include="Structs\FighterModeAttack.cs" />
-    <Compile Include="Structs\FighterRPGCommand.cs" />
-    <Compile Include="Structs\GameTick.cs" />
-    <Compile Include="Structs\HActRangeInfo.cs" />
-    <Compile Include="Structs\Ini.cs" />
-    <Compile Include="Structs\Inventory.cs" />
-    <Compile Include="Structs\InventoryItem.cs" />
-    <Compile Include="Structs\MotionBehaviorGroupActID.cs" />
-    <Compile Include="Structs\MotionPlayInfo.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structs\CharacterComponents.cs" />
-    <Compile Include="Structs\DynamicsMatrix.cs" />
-    <Compile Include="Structs\HActRequestOptions.cs" />
-    <Compile Include="Structs\Matrix4x4.cs" />
-    <Compile Include="Structs\MotionTimingStatus.cs" />
-    <Compile Include="Structs\PlayerPoint.cs" />
-    <Compile Include="Structs\PXD\PXDStaticVector.cs" />
-    <Compile Include="Structs\PXD\PXDString.cs" />
-    <Compile Include="Structs\PXD\PXDVector.cs" />
-    <Compile Include="Structs\RequestRagdollOptions.cs" />
-    <Compile Include="Structs\Shapes.cs" />
-    <Compile Include="Structs\TimingInfoDamage.cs" />
-    <Compile Include="Structs\Vector2.cs" />
-    <Compile Include="Structs\AIUtil.cs" />
-    <Compile Include="Structs\CharacterAttributes.cs" />
-    <Compile Include="Structs\EntityUID.cs" />
-    <Compile Include="Structs\NPCMaterial.cs" />
-    <Compile Include="Structs\NPCRequestMaterial.cs" />
-    <Compile Include="Structs\PoseInfo.cs" />
-    <Compile Include="Structs\PXD.cs" />
-    <Compile Include="Structs\Quaternion.cs" />
-    <Compile Include="Structs\SceneHolder.cs" />
-    <Compile Include="Structs\Vector3.cs" />
-    <Compile Include="Structs\Vector4.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Binary\Retail\Y7Internal.dll" />
-    <Content Include="Binary\Special Build\Y7Internal.dll" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lost Judgment Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG;YLAD</DefineConstants>
+    <OutputPath>bin\Lost Judgment Debug\</OutputPath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lost Judgment Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>LJ;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;LJ_AND_UP</DefineConstants>
+    <OutputPath>bin\x64\Lost Judgment Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lost Judgment Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\Lost Judgment Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Yakuza 6 Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;GAIDEN;K2_AND_UP;JE_AND_UP;YLAD_AND_UP;GAIDEN_AND_UP</DefineConstants>
+    <OutputPath>bin\x64\Yakuza 6 Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Yakuza 6 Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE;YLAD</DefineConstants>
+    <OutputPath>bin\Yakuza 6 Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Costura.Fody" Version="6.0.0" PrivateAssets="all" />
+    <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
 </Project>
