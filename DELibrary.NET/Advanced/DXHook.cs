@@ -5,6 +5,12 @@ namespace DragonEngineLibrary.Advanced
 {
     public static class DXHook
     {
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
+        internal static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
         [DllImport("cimgui.dll", EntryPoint = "InitDX11Hook", CallingConvention = CallingConvention.Cdecl)]
         public static extern void Init();
 
