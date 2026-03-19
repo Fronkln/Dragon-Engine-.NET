@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFrameworks>net48</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <LangVersion>12</LangVersion>
+
+    <AssemblyVersion>1.92.3</AssemblyVersion>
+    <Description>A .NET wrapper for the Dear ImGui library. (1.92.4)</Description>
+    <Authors>Juna Meinhold</Authors>
+    <Copyright>Copyright (c) 2023 Juna Meinhold</Copyright>
+    <RepositoryUrl>https://github.com/HexaEngine/Hexa.NET.ImGui</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HexaGen.Runtime" Version="1.1.24" />
+  </ItemGroup>
+
+</Project>
