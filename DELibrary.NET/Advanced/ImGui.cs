@@ -18,7 +18,7 @@ namespace DragonEngineLibrary.Advanced
 
         public static void RegisterUIUpdate(Action func)
         {
-            DragonEngine.Log($"[ImGui] RegisterUIUpdate: {func.Method.Name}");
+            DragonEngine.Log($"[ImGui] RegisterUIUpdate: {func.Method.Name}", Logger.Event.DEBUG);
             // Wrap in try/catch so exceptions don't propagate into native SEH
             // (which swallows them with no diagnostic info on DX12)
             string funcName = func.Method.Name;
@@ -30,7 +30,7 @@ namespace DragonEngineLibrary.Advanced
             try { System.Runtime.CompilerServices.RuntimeHelpers.PrepareDelegate(del); } catch { }
 
             DXHook.DELibrary_DXHook_RegisterPresentFunc(Marshal.GetFunctionPointerForDelegate(del));
-            DragonEngine.Log("[ImGui] RegisterUIUpdate done");
+            DragonEngine.Log("[ImGui] RegisterUIUpdate done", Logger.Event.DEBUG);
         }
 
         /// <summary>
@@ -39,14 +39,14 @@ namespace DragonEngineLibrary.Advanced
         /// </summary>
         public static void RegisterPreFirstFrame(Action func)
         {
-            DragonEngine.Log($"[ImGui] RegisterPreFirstFrame: {func.Method.Name}");
+            DragonEngine.Log($"[ImGui] RegisterPreFirstFrame: {func.Method.Name}", Logger.Event.DEBUG);
             DX11Present del = new DX11Present(func);
             _dx11Delegates.Add(del);
             // Same JIT pre-warm for pre-first-frame callbacks.
             try { System.Runtime.CompilerServices.RuntimeHelpers.PrepareDelegate(del); } catch { }
 
             DXHook.DELibrary_DXHook_RegisterPreFirstFrameFunc(Marshal.GetFunctionPointerForDelegate(del));
-            DragonEngine.Log("[ImGui] RegisterPreFirstFrame done");
+            DragonEngine.Log("[ImGui] RegisterPreFirstFrame done", Logger.Event.DEBUG);
         }
 
         internal delegate void WndProcDelegate(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
@@ -67,23 +67,23 @@ namespace DragonEngineLibrary.Advanced
 
         public static void Init()
         {
-            DragonEngine.Log("[ImGui] Init() called");
+            DragonEngine.Log("[ImGui] Init() called", Logger.Event.DEBUG);
             string libPath = Path.Combine(Library.Root, "Y7Internal.dll");
             string cimguiPath = Path.Combine(new FileInfo(libPath).Directory.FullName, "cimgui.dll");
 
-            DragonEngine.Log($"[ImGui] cimgui path: {cimguiPath} exists={File.Exists(cimguiPath)}");
+            DragonEngine.Log($"[ImGui] cimgui path: {cimguiPath} exists={File.Exists(cimguiPath)}", Logger.Event.DEBUG);
 
             if (File.Exists(cimguiPath))
             {
-                DragonEngine.Log("[ImGui] Loading cimgui.dll");
+                DragonEngine.Log("[ImGui] Loading cimgui.dll", Logger.Event.DEBUG);
                 IntPtr h = DragonEngine.LoadLibrary(cimguiPath);
-                DragonEngine.Log($"[ImGui] cimgui.dll handle: {h}");
+                DragonEngine.Log($"[ImGui] cimgui.dll handle: {h}", Logger.Event.DEBUG);
                 VerifyModules(h);
             }
 
-            DragonEngine.Log("[ImGui] Calling DXHook.Init()");
+            DragonEngine.Log("[ImGui] Calling DXHook.Init()", Logger.Event.DEBUG);
             DXHook.Init();
-            DragonEngine.Log("[ImGui] DXHook.Init() returned");
+            DragonEngine.Log("[ImGui] DXHook.Init() returned", Logger.Event.DEBUG);
 
             // Fix Hexa.NET-style bindings that loaded a wrong cimgui.dll copy
             FixupBindings();
@@ -92,11 +92,12 @@ namespace DragonEngineLibrary.Advanced
         // Check that each compiled-in module exported at least one known symbol
         private static void VerifyModules(IntPtr hCimgui)
         {
-            Check(hCimgui, "core",     "igBegin");
-            Check(hCimgui, "hook",     "InitDX11Hook");
+            Check(hCimgui, "Core",     "igBegin");
+            Check(hCimgui, "Hook",     "InitDX11Hook");
             Check(hCimgui, "ImGuizmo", "ImGuizmo_BeginFrame");
-            Check(hCimgui, "implot",   "ImPlot_BeginPlot");
-            Check(hCimgui, "imnodes",  "ImNodes_BeginNodeEditor");
+            Check(hCimgui, "ImNodes",  "ImNodes_BeginNodeEditor");
+            Check(hCimgui, "ImPlot",   "ImPlot_BeginPlot");
+            Check(hCimgui, "ImPlot3D", "ImPlot3D_BeginPlot");
         }
 
         private static Action CreateSafeCallback(Action func, string name)
@@ -122,7 +123,7 @@ namespace DragonEngineLibrary.Advanced
             try { func(); }
             catch (Exception ex)
             {
-                DragonEngine.Log($"[ImGui] Callback '{name}' exception: {ex}");
+                DragonEngine.Log($"[ImGui] Callback '{name}' exception: {ex}", Logger.Event.ERROR);
             }
         }
 
@@ -132,7 +133,7 @@ namespace DragonEngineLibrary.Advanced
         private static void Check(IntPtr hModule, string label, string symbol)
         {
             bool ok = DXHook.GetProcAddress(hModule, symbol) != IntPtr.Zero;
-            DragonEngine.Log($"[ImGui] {(ok ? "✓" : "✗")} {label} ({symbol})");
+            DragonEngine.Log($"[ImGui] {(ok ? "✓" : "x")} {label} ({symbol})", Logger.Event.DEBUG);
         }
 
         // Hexa.NET-style bindings (ImGui, ImPlot, ImNodes, ImGuizmo, ImPlot3D) load
@@ -174,18 +175,18 @@ namespace DragonEngineLibrary.Advanced
                         {
                             var hexaAsm = System.Reflection.Assembly.LoadFrom(hexaPath);
                             ctxType = hexaAsm.GetType("HexaGen.Runtime.NativeLibraryContext");
-                            DragonEngine.Log("[ImGui] FixupBindings: loaded HexaGen.Runtime from " + hexaPath);
+                            DragonEngine.Log("[ImGui] FixupBindings: loaded HexaGen.Runtime from " + hexaPath, Logger.Event.DEBUG);
                         }
                         catch (Exception loadEx)
                         {
-                            DragonEngine.Log("[ImGui] FixupBindings: failed to load HexaGen.Runtime: " + loadEx.Message);
+                            DragonEngine.Log("[ImGui] FixupBindings: failed to load HexaGen.Runtime: " + loadEx.Message, Logger.Event.ERROR);
                         }
                     }
                 }
 
                 if (ctxType == null)
                 {
-                    DragonEngine.Log("[ImGui] FixupBindings: HexaGen.Runtime not available, skipping");
+                    DragonEngine.Log("[ImGui] FixupBindings: HexaGen.Runtime not available, skipping", Logger.Event.WARNING);
                     return;
                 }
 
@@ -194,7 +195,7 @@ namespace DragonEngineLibrary.Advanced
                 var ctxCtor = ctxType.GetConstructor(new[] { typeof(string) });
                 if (ctxCtor == null)
                 {
-                    DragonEngine.Log("[ImGui] FixupBindings: NativeLibraryContext(string) ctor not found");
+                    DragonEngine.Log("[ImGui] FixupBindings: NativeLibraryContext(string) ctor not found", Logger.Event.WARNING);
                     return;
                 }
 
@@ -250,23 +251,23 @@ namespace DragonEngineLibrary.Advanced
                             try
                             {
                                 initApi.Invoke(null, new[] { cimguiCtx });
-                                DragonEngine.Log($"[ImGui] FixupBindings: {t.FullName} re-initialized");
+                                DragonEngine.Log($"[ImGui] FixupBindings: {t.FullName} re-initialized", Logger.Event.DEBUG);
                             }
                             catch (Exception invokeEx)
                             {
-                                DragonEngine.Log($"[ImGui] FixupBindings: {t.FullName} InitApi failed: {invokeEx.InnerException?.Message ?? invokeEx.Message}");
+                                DragonEngine.Log($"[ImGui] FixupBindings: {t.FullName} InitApi failed: {invokeEx.InnerException?.Message ?? invokeEx.Message}", Logger.Event.ERROR);
                             }
                         }
                     }
                     catch (Exception asmEx)
                     {
-                        DragonEngine.Log($"[ImGui] FixupBindings: {asm.GetName().Name} scan failed: {asmEx.GetType().Name}: {asmEx.Message}");
+                        DragonEngine.Log($"[ImGui] FixupBindings: {asm.GetName().Name} scan failed: {asmEx.GetType().Name}: {asmEx.Message}", Logger.Event.ERROR);
                     }
                 }
             }
             catch (Exception ex)
             {
-                DragonEngine.Log($"[ImGui] FixupBindings error: {ex.Message}");
+                DragonEngine.Log($"[ImGui] FixupBindings error: {ex.Message}", Logger.Event.ERROR);
             }
         }
     }
