@@ -348,3 +348,12 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# CMake build output
+/build/
+deps/dxhook/build/
+
+# Linker artifacts
+deps/prebuilt-libs/*.lib
+deps/hexa-native/*.exp
+deps/hexa-native/*.lib
