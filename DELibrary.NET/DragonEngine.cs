@@ -301,9 +301,6 @@ namespace DragonEngineLibrary
             _jobDelegates.Add(inf);
 
             DELib_RegisterJob(inf.delPointer, jobID, after);
-
-
-            DragonEngine.Log($"Job for phase {jobID} registered.");
         }
 
         public static void RegisterWndProc(Action<IntPtr, int, IntPtr, IntPtr> func)
