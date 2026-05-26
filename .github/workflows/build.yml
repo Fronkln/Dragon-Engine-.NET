@@ -1,0 +1,98 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [main]
+    tags: ['*']
+
+jobs:
+  build-cimgui:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake
+        shell: bash
+        run: |
+          cd deps/dxhook
+          mkdir -p build/x64
+          cd build/x64
+          cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded ../..
+
+      - name: Build cimgui.dll
+        run: cmake --build deps/dxhook/build/x64 --config Release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cimgui
+          path: deps/dxhook/build/x64/Release/cimgui.dll
+
+  build-delib:
+    runs-on: windows-latest
+    needs: build-cimgui
+    strategy:
+      matrix:
+        include:
+          - config: "YLAD Release"
+            artifact: DELibrary.YLAD
+          - config: "Infinite Wealth Release"
+            artifact: DELibrary.IW
+          - config: "Lost Judgment Release"
+            artifact: DELibrary.LJ
+          - config: "Gaiden Release"
+            artifact: DELibrary.Gaiden
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Build DELibrary.NET
+        run: dotnet build DELibrary.NET/DELibrary.NET.csproj -c "${{ matrix.config }}" -p:Platform=x64
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: cimgui
+          path: staging
+
+      - name: Stage release files
+        shell: bash
+        run: |
+          cfg="${{ matrix.config }}"
+          outdir="DELibrary.NET/bin/x64/${cfg}"
+          # DELibrary.NET outputs .dll directly (OutputType=WinExe + TargetExt=.dll)
+          cp "${outdir}/DELibrary.NET.dll" staging/
+          cp "${outdir}/Newtonsoft.Json.dll" staging/ 2>/dev/null || true
+          cp "${outdir}/MinHook.NET.dll" staging/ 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: staging/*
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    needs: build-delib
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create release zips
+        run: |
+          for dir in artifacts/DELibrary.*; do
+            name=$(basename "$dir")
+            (cd "$dir" && zip -r "../../${name}.zip" .)
+          done
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --repo "${{ github.repository }}" \
+            --title "${{ github.ref_name }}" \
+            --generate-notes \
+            DELibrary.*.zip
