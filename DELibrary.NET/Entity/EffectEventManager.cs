@@ -21,5 +21,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEFFECT_EVENT_MANAGER_IS_PLAYING_SCREEN", CallingConvention = CallingConvention.Cdecl)]
         [return:MarshalAs(UnmanagedType.U1)]
         public static extern bool IsPlayingScreen(uint id);
+
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CEFFECT_EVENT_MANAGER_IS_LOADED_SCREEN", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool IsLoadedScreen(uint id);
     }
 }

@@ -53,6 +53,14 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_BATTLECONFIGID", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_BattleTurnManager_Getter_BattleConfigID();
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_BATTLEENDHACT", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_BattleTurnManager_Getter_BattleEndHAct();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_GETTER_STEPWAITTIME", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern float DELib_BattleTurnManager_Getter_StepWaitTime();
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_SETTER_STEPWAITTIME", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern float DELib_BattleTurnManager_Setter_StepWaitTime(float value);
 
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_BATTLETURNMANAGER_REQ_PLAY_START_HACT", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
@@ -146,6 +154,11 @@ namespace DragonEngineLibrary
         public static uint EndState { get { return DELib_BattleTurnManager_Getter_EndState(); } }
 
         public static uint BattleConfigID { get { return DELib_BattleTurnManager_Getter_BattleConfigID(); } }
+
+        public static float StepWaitTime { get { return DELib_BattleTurnManager_Getter_StepWaitTime(); } set { DELib_BattleTurnManager_Setter_StepWaitTime(value); } }
+
+        public static EntityHandle<AuthPlay> BattleEndHAct { get { return DELib_BattleTurnManager_Getter_BattleEndHAct(); } }
+
 
         public delegate IntPtr OverrideAttackerSelectionDelegate(IntPtr battleTurnManager, bool readOnly, bool getNextFighter);
 

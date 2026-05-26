@@ -15,6 +15,8 @@ namespace DragonEngineLibrary
         //Yes... This is very bad
         //But it works, damn it!
         public IntPtr AnimationTableStart { get {  return IdPtr + Id.Length + 1; } }
-        public string Animation { get { return Marshal.PtrToStringAnsi (AnimationTableStart); } } 
+        public string Animation { get { return Marshal.PtrToStringAnsi (AnimationTableStart); } }
+
+        public uint GmtID;
     }
 }

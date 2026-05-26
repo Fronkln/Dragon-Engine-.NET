@@ -90,6 +90,11 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HumanModeManager_IsRunning(IntPtr manager);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISFLYDAMAGE", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_HumanModeManager_IsFlyDamage(IntPtr manager);
+
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_HUMANMODEMANAGER_ISGUARDING", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_HumanModeManager_IsGuarding(IntPtr manager);
@@ -271,6 +276,8 @@ namespace DragonEngineLibrary
         public bool IsAttack() { return DELib_HumanModeManager_IsAttack(Pointer); }
 
         public bool IsDamage() { return DELib_HumanModeManager_IsDamage(Pointer); }
+
+        public bool IsFlyDamage() { return DELib_HumanModeManager_IsFlyDamage(Pointer); }
 
         public unsafe void ToNormalStand()
         {

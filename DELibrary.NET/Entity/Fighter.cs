@@ -52,6 +52,10 @@ namespace DragonEngineLibrary
         [return: MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_Fighter_Equip2(IntPtr fighterPtr, ItemID itemid, AttachmentCombinationID combinationid);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_EQUIP3", CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool DELib_Fighter_Equip3(IntPtr fighterPtr, uint weapon);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_FIGHTER_GETWEAPON", CallingConvention = CallingConvention.Cdecl)]
         internal static extern uint DELib_Fighter_GetWeapon(IntPtr fighterPtr, AttachmentCombinationID attachment);
 
@@ -318,6 +322,14 @@ namespace DragonEngineLibrary
         public bool Equip(ItemID itemid, AttachmentCombinationID combinationid)
         {
             return DELib_Fighter_Equip2(_ptr, itemid, combinationid);
+        }
+
+        /// <summary>
+        /// Equip the specified weapon.
+        /// </summary>
+        public bool Equip(Weapon weapon)
+        {
+            return DELib_Fighter_Equip3(_ptr, weapon.Unit.UID);
         }
 
         /// <summary>

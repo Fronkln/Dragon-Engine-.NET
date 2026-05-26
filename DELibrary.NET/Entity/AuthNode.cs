@@ -15,6 +15,9 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "CAUTH_NODE_GET_AUTH_NODE", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_AuthNode_GetAuthNode(IntPtr node, int nodeType);
 
+        [DllImport("Y7Internal.dll", EntryPoint = "CAUTH_NODE_GET_PLAYER", CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint DELib_AuthNode_GetPlayer(IntPtr node);
+
         [DllImport("Y7Internal.dll", EntryPoint = "CAUTH_NODE_CREATE", CallingConvention = CallingConvention.Cdecl)]
         private static extern uint DELib_AuthNode_Create(IntPtr node, IntPtr buffer);
 
@@ -52,6 +55,11 @@ namespace DragonEngineLibrary
         public EntityHandle<Character> GetCharacter()
         {
             return DELib_AuthNode_GetCharacterBase(Pointer);
+        }
+
+        public AuthPlay GetPlayer()
+        {
+            return new EntityHandle<AuthPlay>(DELib_AuthNode_GetPlayer(Pointer));
         }
 
         public AuthNode GetAuthNode(int nodeType)

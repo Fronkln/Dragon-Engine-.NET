@@ -14,6 +14,10 @@ namespace DragonEngineLibrary
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CAUTH_PLAY_GETTER_REQUESTPAUSE", CallingConvention = CallingConvention.Cdecl)]
         [return:MarshalAs(UnmanagedType.U1)]
         internal static extern bool DELib_AuthPlay_Getter_RequestPause(IntPtr authPlay);
+
+        [DllImport("Y7Internal.dll", EntryPoint = "LIB_CAUTH_PLAY_GETTER_ACTIVE_CAMERA", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern uint DELib_AuthPlay_Getter_ActiveCamera(IntPtr authPlay);
+
         [DllImport("Y7Internal.dll", EntryPoint = "LIB_CAUTH_PLAY_REQUESTPAUSE", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void DELib_AuthPlay_RequestPause(IntPtr authPlay, bool pause);
 
@@ -66,6 +70,14 @@ namespace DragonEngineLibrary
             set
             {
                 RequestPause(value);
+            }
+        }
+
+        public EntityHandle<AuthNode> ActiveCamera
+        {
+            get
+            {
+                return DELib_AuthPlay_Getter_ActiveCamera(_objectAddress);
             }
         }
 
